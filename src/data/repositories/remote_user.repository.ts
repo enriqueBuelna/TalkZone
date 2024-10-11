@@ -1,5 +1,5 @@
 // src/app/data/repositories/remote-user.repository.ts
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../domain/models/user.model';
@@ -10,11 +10,9 @@ import { UserRepository } from '../../domain/repositories/user.repository';
   providedIn: 'root',
 })
 export class RemoteUserRepository extends UserRepository {
-  private readonly API_URL = 'https://api.talkzone.com/users';
-
-  constructor(private http: HttpClient) {
-    super();
-  }
+  private readonly API_URL = 'http://localhost:3000/users';
+  private _http = inject(HttpClient);
+  
 
   register(user: User): Observable<User> {
     const payload = {
@@ -25,7 +23,7 @@ export class RemoteUserRepository extends UserRepository {
       gender: user.gender,
     };
 
-    return this.http
+    return this._http
       .post<User>(`${this.API_URL}/register`, payload)
       .pipe(
         map(
@@ -51,8 +49,8 @@ export class RemoteUserRepository extends UserRepository {
       gender: user.gender,
     };
 
-    return this.http
-      .post<User>(`${this.API_URL}/register`, payload)
+    return this._http
+      .post<User>(`${this.API_URL}/login`, payload)
       .pipe(
         map(
           (response: any) =>
@@ -66,5 +64,23 @@ export class RemoteUserRepository extends UserRepository {
             )
         )
       );
+  }
+
+  checkAvailability(username:string, email:string): Observable<boolean> {
+    let payload = {
+      username, 
+      email
+    }
+    return this._http.post<boolean>(`${this.API_URL}/validateEU`, payload);
+  }
+
+  sendVerificationCode(email:string): Observable<void>{
+    const payload = {email};
+    return this._http.post<void>(`${this.API_URL}/emailVerification`,payload);
+  }
+
+  verifyCode(code:string): Observable<boolean>{
+    const payload = {code};
+    return this._http.post<boolean>(`${this.API_URL}/emailVerification/verify`, payload);
   }
 }
