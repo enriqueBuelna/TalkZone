@@ -5,21 +5,36 @@ import { Observable } from 'rxjs';
 import { User } from '../../domain/models/user.model';
 import { map } from 'rxjs/operators';
 import { UserRepository } from '../../domain/repositories/user.repository';
+import { HttpHeaders } from '@angular/common/http';
+import { MessageResponse } from '../../domain/entities/users/MessageResponse.entitie';
+import { LoginResponse } from '../../domain/entities/users/LoginResponse.entitie';
+import { UserPreference } from '../../domain/models/user_preference.model';
 
+const headers = new HttpHeaders({
+  'Content-Type': 'application/json',
+});
 @Injectable({
   providedIn: 'root',
 })
 export class RemoteUserRepository extends UserRepository {
+  override verifyChangePasswordCode(
+    code: string,
+    email: string
+  ): Observable<MessageResponse> {
+    throw new Error('Method not implemented.');
+  }
+  override changePassword(password: string): Observable<void> {
+    throw new Error('Method not implemented.');
+  }
   private readonly API_URL = 'http://localhost:3000/users';
   private _http = inject(HttpClient);
-  
 
   register(user: User): Observable<User> {
     const payload = {
       username: user.username,
       email: user.email,
       password: user.password,
-      dateOfBirth: user.dateOfBirth,
+      date_of_birth: user.date_of_birth,
       gender: user.gender,
     };
 
@@ -33,54 +48,75 @@ export class RemoteUserRepository extends UserRepository {
               response.username,
               response.email,
               response.password,
-              response.dateOfBirth,
-              response.gender
+              response.date_of_birth,
+              response.gender,
+              response.is_profile_complete
             )
         )
       );
   }
 
-  login(user: User): Observable<User> {
+  login(username: string, password: string): Observable<LoginResponse> {
     const payload = {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-      dateOfBirth: user.dateOfBirth,
-      gender: user.gender,
+      username,
+      password,
     };
 
     return this._http
-      .post<User>(`${this.API_URL}/login`, payload)
+      .post<LoginResponse>(`${this.API_URL}/login`, payload)
       .pipe(
-        map(
-          (response: any) =>
-            new User(
-              response.id,
-              response.username,
-              response.email,
-              response.password,
-              response.dateOfBirth,
-              response.gender
-            )
-        )
+        map((response) => {
+          // Aquí podrías realizar cualquier operación antes de retornar la respuesta.
+          return response; // Retorna la respuesta tal cual o manipula si lo necesitas.
+        })
       );
   }
 
-  checkAvailability(username:string, email:string): Observable<boolean> {
+  checkAvailability(
+    username: string,
+    email: string
+  ): Observable<MessageResponse> {
     let payload = {
-      username, 
-      email
-    }
-    return this._http.post<boolean>(`${this.API_URL}/validateEU`, payload);
+      username,
+      email,
+    };
+    return this._http.post<MessageResponse>(
+      `${this.API_URL}/validateEU`,
+      payload,
+      {
+        headers,
+      }
+    );
   }
 
-  sendVerificationCode(email:string): Observable<void>{
-    const payload = {email};
-    return this._http.post<void>(`${this.API_URL}/emailVerification`,payload);
+  sendVerificationCode(email: string): Observable<void> {
+    const payload = { email };
+    return this._http.post<void>(`${this.API_URL}/emailVerification`, payload);
   }
 
-  verifyCode(code:string): Observable<boolean>{
-    const payload = {code};
-    return this._http.post<boolean>(`${this.API_URL}/emailVerification/verify`, payload);
+  verifyCode(code: string, email: string): Observable<MessageResponse> {
+    const payload = { codigo_verificacion: code, email };
+    return this._http.post<MessageResponse>(
+      `${this.API_URL}/emailVerification/verify`,
+      payload
+    );
+  }
+
+  sendChangePasswordCode(email: string): Observable<MessageResponse> {
+    const payload = { email };
+    return this._http.post<MessageResponse>(
+      `${this.API_URL}/passwordChanges/validateEmail`,
+      payload
+    );
+  }
+
+  finishProfile(
+    user_id: string,
+    about_me: string,
+    profile_picture: string,
+    user_preferences: UserPreference[]
+  ): Observable<void> {
+    const payload = { user_id, about_me, profile_picture, user_preferences };
+    return this._http.post<void>(`${this.API_URL}/finishProfile`, payload);
   }
 }

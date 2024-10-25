@@ -7,21 +7,17 @@
             <h2>Aprende algo nuevo, <span class="block">enseña algo valioso</span></h2>
         </div>
         <div class="buttons">
-            <!-- <div class="button"><p class="texto">Crear cuenta</p></div>
-            <div class="button"><p class="texto">Iniciar sesion</p></div> -->
-            <app-button text="Crear cuenta" (clickEvent)="onRegister()" />
-            <app-button text="Iniciar sesión" (clickEvent)="onLogin()" />
+            <app-button buttonClass="small-button" text="Crear cuenta" (clickEvent)="onRegister()" />
+            <app-button buttonClass="small-button" text="Iniciar sesión" (clickEvent)="onLogin()" />
         </div>
     </div>
-    <!-- 
-    @if(stepTwo){
-    <app-modal (close)="closeModal()">
-        <app-second-step />
-    </app-modal>
-    } -->
-    @if(stepOne){
-    <app-modal (close)="closeModal()">
-        <app-first-step />
-    </app-modal>
+    
+    @if(register){
+    <!-- <app-modal (close)="closeModal()"> -->
+        <app-register (close)="closeModal()"></app-register>
+    <!-- </app-modal> -->
+    }@else if (login) {
+        <app-login (close)="closeModal()"></app-login>
     }
+    
 </div>

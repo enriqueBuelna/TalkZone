@@ -1,0 +1,42 @@
+.custom-date-input {
+  background-color: #f8f9fa; /* Fondo claro */
+  border: 2px solid #007bff; /* Color del borde */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 12px 14px; /* Espaciado interno */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+  font-size: 16px; /* Tamaño de fuente */
+}
+
+.custom-date-input:focus {
+  border-color: #0056b3; /* Color del borde al enfocar */
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Sombra más pronunciada al enfocar */
+  outline: none; /* Sin contorno */
+}
+
+.custom-date-input::-webkit-calendar-picker-indicator {
+  background: #007bff; /* Color del botón del selector */
+  border-radius: 50%; /* Bordes redondeados para el botón */
+  width: 30px; /* Ancho del botón */
+  height: 30px; /* Alto del botón */
+  cursor: pointer; /* Cambia el cursor */
+}
+
+/* Efecto en el botón del selector */
+.custom-date-input::-webkit-calendar-picker-indicator:hover {
+  background: #0056b3; /* Color al pasar el mouse */
+}
+
+.p-stepper {
+  height: 30rem;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hola {
+  max-width: 1rem;
+}
+

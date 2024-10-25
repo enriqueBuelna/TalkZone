@@ -1,0 +1,30 @@
+.navbar-left {
+  position: fixed; /* Fijo en la pantalla */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Toda la altura disponible */
+  width: 300px; /* Ancho fijo para el navbar */
+  border-right: 0.1rem solid #d3d3d3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.navbar-left ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  transition: color 0.3s;
+}

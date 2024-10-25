@@ -1,15 +1,28 @@
 button {
-  padding: 1rem 2rem; /* Espaciado interno */
   font-size: 1.5rem; /* Tamaño de fuente */
   border: none; /* Sin borde */
-  border-radius: 2rem; /* Bordes redondeados */
+  border-radius: 10rem; /* Bordes redondeados */
   background: rgba(35, 181, 211, 1);
   color: white; /* Color del texto */
   cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
   transition: background-color 0.3s; /* Transición suave para el cambio de color */
+  display: block;
+  width: 100%;
 }
 
 /* Estilo para el hover */
 button:hover {
-    background: rgb(15, 189, 224);
+  background: rgb(15, 189, 224);
+}
+
+.small-button {
+  padding: 0.1rem 1.5rem; /* Espaciado interno */
+}
+
+.big-button {
+  padding: 0.7rem 5rem; /* Espaciado interno */
+}
+
+.medium-button{
+  padding: .5rem 3rem;
 }

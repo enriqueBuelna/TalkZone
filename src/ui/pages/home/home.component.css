@@ -1,0 +1,30 @@
+/* Estilos generales para el layout */
+.layout {
+  display: flex; /* Hace que el navbar y el contenido estén en línea */
+  height: 100vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Evita que se desborde el contenido */
+}
+
+/* Estilos para el contenido principal */
+.main-content {
+  position: absolute; /* Usa posición absoluta */
+  top: 0;
+  left: 300px; /* Se ajusta al ancho del navbar */
+  width: calc(
+    100% - 300px
+  ); /* El ancho es el resto del espacio después del navbar */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  overflow-y: auto; /* Scroll si el contenido es largo */
+  z-index: 1; /* Se asegura de estar encima del aside */
+}
+
+/* Estilos opcionales para el contenido dentro del navbar */
+.navbar-left a {
+  color: white; /* Color de los enlaces en el navbar */
+  text-decoration: none; /* Eliminar subrayado de los enlaces */
+  margin: 10px 0; /* Margen entre los enlaces */
+}
+
+.navbar-left a:hover {
+  text-decoration: underline; /* Subrayado al pasar sobre los enlaces */
+}

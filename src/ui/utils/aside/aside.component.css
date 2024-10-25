@@ -1,0 +1,15 @@
+.aside {
+    position: fixed; /* Fijo en la pantalla */
+    top: 0;
+    right: 0;
+    height: 100vh; /* Toda la altura disponible */
+    width: 300px; /* Ancho fijo para el navbar */
+    /* background-color: #1DA1F2; Color similar a Twitter */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); Sombra para destacar */
+    border-left: .1rem solid #d3d3d3;
+    z-index: 0; /* Deja el aside debajo del contenido */
+  }
+  

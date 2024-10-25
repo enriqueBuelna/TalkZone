@@ -1,0 +1,31 @@
+.main-content {
+  width: 58.6rem;
+}
+
+.btn {
+  width: 40%;
+}
+
+.header {
+  border-bottom: solid #d3d3d3 .1rem;
+  border-right: solid #d3d3d3 .1rem;
+  height: 5rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container {
+  width: 150px;  /* Ajusta el tamaño del contenedor */
+  height: 150px; /* Igual al ancho para que sea un cuadrado */
+  border-radius: 50%; /* Hace que el contenedor tenga forma de círculo */
+  overflow: hidden; /* Asegura que cualquier parte extra de la imagen se corte */
+  display: inline-block; /* Centra el contenedor si es necesario */
+}
+
+.profile-image {
+  width: 100%;  /* La imagen se ajusta al tamaño del contenedor */
+  height: 100%; /* Para que la imagen llene completamente el contenedor */
+  object-fit: cover; /* Recorta la imagen si es necesario para mantener las proporciones */
+}

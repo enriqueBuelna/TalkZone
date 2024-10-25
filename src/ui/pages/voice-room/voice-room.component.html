@@ -1,0 +1,99 @@
+<div class="main-content">
+    <app-header>
+        <h2>Salas de voz</h2>
+    </app-header>
+
+    <div class="btnFiltros">
+        <app-button buttonClass="small-button" text="Filtros"></app-button>
+    </div>
+
+    <div class="cards">
+        <!-- <app-card [nameCard]="'Hola'">
+            <div class="voice-room-info">
+                <div class="info-user">
+                    <div class="img-user">
+                        <img src="images/images.jpeg" alt="">
+                    </div>
+                    <div class="username">
+                        <p>enriqueBuelna</p>
+                    </div>
+                </div>
+                <div class="topic">
+                    <p-chip label="Action" />
+                </div>
+            </div>
+        </app-card> -->
+        <!-- @if(responseAllVoiceRoom$ | async; as allVoiceRooms){ -->
+        @for (item of allVoiceRooms; track item.getVoiceRoomId()) {
+        @defer () {
+        <div (click)="siFunciona(item)">
+            <app-card [nameCard]="item.getVoiceRoomName()">
+                <div class="voice-room-info">
+                    <div class="info-user">
+                        <div class="img-user">
+                            <img [src]="item.getPictureHost()">
+                        </div>
+                        <div class="username">
+                            <p>{{item.getNameHost()}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic">
+                    <p-chip [label]="item.getTopicName()"></p-chip>
+                </div>
+            </app-card>
+        </div>
+        }
+        }
+
+        <!-- <h2>{{allVoiceRooms}}</h2> -->
+        <!-- } -->
+    </div>
+
+</div>
+<div class="aside">
+    <app-aside>
+        <app-header>
+            <app-button buttonClass="big-button" text="Crear sala"></app-button>
+        </app-header>
+        @if(vrChoosen && integrantsVr){
+        <div class="">
+            <h2>{{vrChoosen.getVoiceRoomName()}}</h2>
+            <p>{{vrChoosen.getNameHost()}}</p>
+            <p-chip [label]="vrChoosen.getTopicName()"></p-chip>
+            <h3>Participantes</h3>
+            <p-scroller [items]="integrantsVr" [itemSize]="50" scrollHeight="100px"
+                [style]="{'width': '200px', 'height': '50px', 'margin-bottom':'.5rem'}">
+                <ng-template pTemplate="item" let-integrant let-options="options">
+                    <div class="flex align-items-center p-2" [ngClass]="{ 'surface-ground': options.odd }"
+                        style="height: 50px;">
+                        <p>{{integrant.getUsername()}}</p>
+                    </div>
+                </ng-template>
+            </p-scroller>
+
+
+            @if (vrChoosen.getVoiceRoomTags().length > 0) {
+            <h4>Etiquetas</h4>
+            <!-- <div class="tags">
+                @for (item of vrChoosen.getVoiceRoomTags(); track $index) {
+                <p-chip [label]="item.getTagName()"></p-chip>
+                }
+            </div> -->
+            <p-scroller [items]="vrChoosen.getVoiceRoomTags()" [itemSize]="50" scrollHeight="100px"
+                [style]="{'width': '200px', 'height': '50px', 'margin-bottom':'.1rem'}">
+                <ng-template pTemplate="item" let-item let-options="options">
+                    <div class="flex align-items-center p-2" [ngClass]="{ 'surface-ground': options.odd }">
+                        <p-chip [label]="item.getTagName()"></p-chip>
+                    </div>
+                </ng-template>
+            </p-scroller>
+            }
+
+        </div>
+        <div class="btnDown">
+            <app-button buttonClass="medium-button" text="Unirse a sala"></app-button>
+        </div>
+        }
+    </app-aside>
+</div>
