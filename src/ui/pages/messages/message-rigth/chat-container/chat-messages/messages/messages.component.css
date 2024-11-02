@@ -1,0 +1,27 @@
+.message.received {
+  background-color: #e6e6e6;
+  color: #333;
+  align-self: flex-start;
+}
+
+.message.sent {
+  background-color: #007bff;
+  color: #fff;
+  margin-left: auto; /* Alinea el mensaje a la derecha */
+}
+
+.timestamp {
+  font-size: 10px;
+  color: #999;
+  margin-top: 5px;
+  align-self: flex-end;
+}
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}

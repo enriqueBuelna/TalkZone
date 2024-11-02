@@ -1,9 +1,9 @@
-import { UserResponseVoiceRoom } from './IHostUser.entitie';
+import { UserResponseInformation } from './IHostUser.entitie';
 
 export class UserOfVoiceRoom {
   constructor(
     private id: number,
-    private user_information_voice_room: UserResponseVoiceRoom
+    private user_information_voice_room: UserResponseInformation
   ) {}
 
   getUsername(): string {

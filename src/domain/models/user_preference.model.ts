@@ -3,15 +3,15 @@ import { Tag } from './tag.model';
 export class UserPreference {
   private topic_id: number;
   private type: string;
-  private tag: Tag[];
+  private tag?: Tag[];
   private topic_name: string;
-  private index: number;
+  private index?: number;
   constructor(
     topic_id: number,
     type: string,
-    tag: Tag[],
     topic_name: string,
-    index: number
+    index?: number,
+    tag?: Tag[]
   ) {
     this.topic_id = topic_id;
     this.type = type;
@@ -28,7 +28,15 @@ export class UserPreference {
     return this.topic_name;
   }
 
-  getIndex(): number {
+  getIndex(): number | undefined {
     return this.index;
+  }
+
+  getTopicId(): number {
+    return this.topic_id;
+  }
+
+  getTags(): Tag[] | undefined {
+    return this.tag;
   }
 }

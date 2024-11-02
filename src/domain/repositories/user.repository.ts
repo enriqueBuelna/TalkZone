@@ -4,6 +4,7 @@ import { User } from '../models/user.model';
 import { MessageResponse } from '../entities/users/MessageResponse.entitie';
 import { LoginResponse } from '../entities/users/LoginResponse.entitie';
 import { UserPreference } from '../models/user_preference.model';
+import { UserDemo } from '../models/user-demo.model';
 
 export abstract class UserRepository {
   abstract register(user: User): Observable<User>;
@@ -26,4 +27,6 @@ export abstract class UserRepository {
     profile_picture: string,
     user_preferences: UserPreference[]
   ): Observable<void>;
+  abstract getFollowersFollowed(user_id: string): Observable<User[]>; //
+  abstract getBasicInfo(user_id: string): Observable<UserDemo>;
 }

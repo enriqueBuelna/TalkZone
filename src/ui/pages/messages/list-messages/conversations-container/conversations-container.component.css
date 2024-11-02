@@ -1,0 +1,5 @@
+.inbox-container {
+    border: 1px solid #ddd;
+    overflow-y: auto; /* Activa el scroll vertical solo cuando el contenido excede la altura */
+    max-height: 538px; /* Define la altura máxima del contenedor */
+}

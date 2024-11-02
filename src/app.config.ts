@@ -12,6 +12,10 @@ import { TagRepository } from './domain/repositories/tag.repository';
 import { RemoteTagRespository } from './data/repositories/remote_tag.repository';
 import { VoiceRoomRepository } from './domain/repositories/voice_room.repository';
 import { RemoteVoiceRoomRepository } from './data/repositories/remote_voice_room.repository';
+import { UserPreferenceRepository } from './domain/repositories/user_preferences.repository';
+import { RemoteUserPreferenceRespository } from './data/repositories/remote_user_preference.repository';
+import { MessageRepository } from './domain/repositories/message.repository';
+import { RemoteMessageRepository } from './data/repositories/remote_message.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +26,11 @@ export const appConfig: ApplicationConfig = {
     { provide: TopicRepository, useClass: RemoteTopicRepository },
     { provide: TagRepository, useClass: RemoteTagRespository },
     { provide: VoiceRoomRepository, useClass: RemoteVoiceRoomRepository },
+    {
+      provide: UserPreferenceRepository,
+      useClass: RemoteUserPreferenceRespository,
+    },
+    { provide: MessageRepository, useClass: RemoteMessageRepository },
     provideAnimationsAsync(),
   ],
 };

@@ -11,11 +11,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ButtonComponent {
   @Input() text: string = 'Botón'; // Texto del botón
   @Input() type: 'button' | 'submit' = 'button'; // Tipo de botón
-  @Input() buttonClass: string = ''; // Nueva propiedad para la clase
+  @Input() buttonClass: string = ''; // Clase adicional para el botón
+  @Input() isDisabled: boolean = false; // Cambiado a booleano
   @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
 
   // Método para manejar el clic
   onClick() {
-    this.clickEvent.emit(); // Emitir el evento
+    if (!this.isDisabled) {
+      // Previene el clic si el botón está deshabilitado
+      this.clickEvent.emit();
+    }
   }
 }

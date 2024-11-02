@@ -4,16 +4,130 @@
     </app-header>
 
     <div class="btnFiltros">
-        <app-button buttonClass="small-button" text="Filtros"></app-button>
+        <app-button buttonClass="small-button" text="Filtros" (clickEvent)="showDialog()"></app-button>
     </div>
 
-    
-        
-    
+
+    <div class="cards">
+        @for (item of allUserPreferences; track $index) {
+        <app-card (click)="selectCard(item)">
+            <div class="info-user">
+                <div class="img-user">
+                    <img [src]="item.userInformation?.profile_picture" alt="">
+                </div>
+                <div class="username">
+                    <p>{{item.userInformation?.username}}</p>
+                </div>
+            </div>
+            <div class="user_topics">
+                <div class="learn">
+                    <div class="chip">
+                        @for (item of item.userPreference; track $index) {
+                        @if (item.getType() === 'learn') {
+                        <p-chip [label]="item.getTopicName()"></p-chip>
+                        }
+                        }
+                    </div>
+                </div>
+                <div class="know">
+                    <div class="chip">
+                        @for (item of item.userPreference; track $index) {
+                        @if (item.getType() === 'know') {
+                        <p-chip [label]="item.getTopicName()"></p-chip>
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="matchPercentage">
+                <p>Match: {{item.matchPercentage | number:'1.0-0'}}%</p>
+            </div>
+        </app-card>
+        }
+        <!--tooltip para mostrar cual enseña y cual no , en donde dice topics-->
+
+
+    </div>
+
 
 </div>
 <div class="aside">
     <app-aside>
-        
+        <app-header></app-header>
+        @if (showInfo()) {
+        <div class="information-user">
+            <div class="image-container">
+                <img [src]="userPreferenceInformation?.userInformation?.profile_picture" alt="" class="profile-image">
+            </div>
+            <div class="username">
+                <h3>{{userPreferenceInformation?.userInformation?.username}}</h3>
+            </div>
+            <div class="topics">
+                <div class="know">
+                    <h4>Lo que puedo enseñar: </h4>
+                    <div class="chip">
+                        @for (item of userPreferenceInformation?.userPreference; track $index) {
+                        @if (item.getType() === 'know') {
+                        <p-chip [label]="item.getTopicName()"></p-chip>
+                        }
+                        }
+                    </div>
+                </div>
+                <div class="learn">
+                    <h4>Lo que quiero aprender: </h4>
+                    <div class="chip">
+                        @for (item of userPreferenceInformation?.userPreference; track $index) {
+                        @if (item.getType() === 'learn') {
+                        <p-chip [label]="item.getTopicName()"></p-chip>
+                        }
+                        }
+                        <p-chip [label]="'prueba'"></p-chip>
+                        <p-chip [label]="'prueba'"></p-chip>
+                        <p-chip [label]="'prueba'"></p-chip>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <app-button text="Seguir" buttonClass="tiny-button"></app-button>
+                <app-button text="Ver perfil" buttonClass="tiny-button"></app-button>
+                <app-button text="Enviar mensaje" buttonClass="tiny-button"></app-button>
+            </div>
+        </div>
+        }
     </app-aside>
 </div>
+
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
+    <h2 class="text-center mt-5">Filtros</h2>
+    <form [formGroup]="filterForm">
+        <div class="form-group mb-3 mt-5">
+            <!-- <p-dropdown [options]="topicsKnow" optionLabel="topic_name" placeholder="Selecciona un tema"
+               /> -->
+            <p-multiSelect [options]="topicsKnow" [filter]="false" optionLabel="topic_name"
+                placeholder="Selecciona temas" [style]='{width:"100%"}' formControlName="topicsKnow" />
+        </div>
+
+        <div class="form-group mt-5">
+            <p-multiSelect [options]="topicsLearn" [filter]="false" optionLabel="topic_name"
+                placeholder="Selecciona temas" [style]='{width:"100%"}' formControlName="topicsLearn" />
+        </div>
+
+
+        <div class="input-group mb-5 mt-5">
+            <div class="input">
+                <label for="genero">Genero</label>
+                <p-dropdown id="genero" [options]="genders" optionLabel="name" placeholder="Selecciona "
+                    formControlName="gender" />
+            </div>
+            <div class="input">
+                <label for="conectado">Mostrar solo usuarios conectados</label>
+                <p-checkbox label="Si" id="conectado" value="si" formControlName="connect" />
+            </div>
+        </div>
+
+        <app-button text="Aplicar" (clickEvent)="filterApply()" class="mt-5" buttonClass="smallButton">
+        </app-button>
+        <!-- [isDisabled]="!filterForm.valid" -->
+    </form>
+</p-dialog>

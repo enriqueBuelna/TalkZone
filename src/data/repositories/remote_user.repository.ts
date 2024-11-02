@@ -1,6 +1,6 @@
 // src/app/data/repositories/remote-user.repository.ts
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../domain/models/user.model';
 import { map } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { MessageResponse } from '../../domain/entities/users/MessageResponse.entitie';
 import { LoginResponse } from '../../domain/entities/users/LoginResponse.entitie';
 import { UserPreference } from '../../domain/models/user_preference.model';
+import { UserDemo } from '../../domain/models/user-demo.model';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -50,7 +51,8 @@ export class RemoteUserRepository extends UserRepository {
               response.password,
               response.date_of_birth,
               response.gender,
-              response.is_profile_complete
+              response.is_profile_complete,
+              response.profile_picture
             )
         )
       );
@@ -118,5 +120,17 @@ export class RemoteUserRepository extends UserRepository {
   ): Observable<void> {
     const payload = { user_id, about_me, profile_picture, user_preferences };
     return this._http.post<void>(`${this.API_URL}/finishProfile`, payload);
+  }
+
+  getFollowersFollowed(user_id: string): Observable<User[]> {
+    const params = new HttpParams().set('user_id', user_id.toString()); // Convierte el ID a string
+    return this._http.get<User[]>(`${this.API_URL}/getFollowersFollowed`, {
+      params,
+    });
+  }
+
+  getBasicInfo(user_id: string): Observable<UserDemo> {
+    const params = new HttpParams().set('user_id', user_id.toString());
+    return this._http.get<UserDemo>(`${this.API_URL}/getBasicInfo`, { params });
   }
 }

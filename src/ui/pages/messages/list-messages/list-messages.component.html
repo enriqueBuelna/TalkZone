@@ -1,0 +1,94 @@
+<div class="content-messages">
+    @if (emptyBucket()) {
+    <div class="title">
+        <h2>¡Bienvenido a tu buzón de mensajes!</h2>
+    </div>
+    <div class="content">
+        <p>
+            Comparte frases, publica actualizaciones y disfruta de conversaciones privadas con otros usuarios
+        </p>
+    </div>
+
+    <div class="button">
+        <app-button text="Escribir un mensaje" buttonClass="big-button" (clickEvent)="showDialog()"></app-button>
+    </div>
+    }@else {
+    <div class="search">
+        <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-search" />
+            <input type="text" pInputText placeholder="Buscar compañeros" [style]='{width:"100%"}' />
+        </p-iconField>
+        <div class="add-message">
+            <i class="pi pi-send" style="color: slateblue" style="font-size: 1.3rem"></i>
+        </div>
+    </div>
+
+    <!-- <div class="conversations">
+        <div class="conversation">
+            
+        </div>
+    </div> -->
+    <app-conversations-container></app-conversations-container>
+    
+        <!-- Chat individual -->
+        
+    
+        
+    
+        <!-- Agrega más chats si lo necesitas -->
+        <!-- <div class="inbox-container">
+            <div class="chat-item">
+                <div class="profile-pic"></div>
+                <div class="chat-info">
+                    <div class="chat-name">Juan Pérez</div>
+                    <div class="last-message">¡Hola! Este es el último mensaje que se envió en este chat.</div>
+                </div>
+                <div class="message-time">12:45 PM</div>
+            </div>
+        
+            <div class="chat-item">
+                <div class="profile-pic"></div>
+                <div class="chat-info">
+                    <div class="chat-name">María García</div>
+                    <div class="last-message">Perfecto, entonces nos vemos a las 5.</div>
+                </div>
+                <div class="message-time">Ayer</div>
+            </div>
+        
+            <div class="chat-item">
+                <div class="profile-pic"></div>
+                <div class="chat-info">
+                    <div class="chat-name">Carlos López</div>
+                    <div class="last-message">Revisé el documento, y te envié algunas observaciones.</div>
+                </div>
+                <div class="message-time">Martes</div>
+            </div>
+        
+        </div> -->
+        
+    
+    }
+
+</div>
+
+<p-dialog [header]="'Nuevo mensaje'" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }"
+    [closable]="false" [dismissableMask]="true" [draggable]="false">
+    <!--Los que te siguen y a los que sigues-->
+
+    <form [formGroup]="formFindUser">
+        <p-autoComplete formControlName="selectedUser" optionLabel="username" [style]='{width:"100%"}'
+            [inputStyle]="{width:'100%'}" (completeMethod)="filterUsers($event)" [suggestions]="filteredUsers"
+            [showEmptyMessage]="false">
+            <ng-template let-user pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <img [src]="user.profile_picture" style="width: 18px" />
+                    <div>{{ user.username }}</div>
+                </div>
+            </ng-template>
+        </p-autoComplete>
+    </form>
+
+    <div class="mt-5">
+        <app-button text="Siguiente" buttonClass="medium-button" (clickEvent)="sendMessageUser()"></app-button>
+    </div>
+</p-dialog>

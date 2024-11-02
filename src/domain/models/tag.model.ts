@@ -1,13 +1,24 @@
 export class Tag {
-  constructor(
-    public tag_name: string,
-    public topic_id: number,
-    public id: number
-  ) {}
+  private tag_name: string;
+  private id: number;
+  private topic_id: number;
+  constructor(tag_name: string, id: number, topic_id: number) {
+    this.tag_name = tag_name;
+    this.id = id;
+    this.topic_id = topic_id;
+  }
 
-  // public getTagName() {
-  //   return this.tag_name;
-  // }
+  getTagName(): string {
+    return this.tag_name;
+  }
+
+  getId(): number {
+    return this.id;
+  }
+
+  getTopicId():number {
+    return this.topic_id;
+  }
 
   // public getTopicId() {
   //   return this.topic_id;

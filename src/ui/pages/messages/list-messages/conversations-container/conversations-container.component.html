@@ -1,0 +1,6 @@
+<div class="inbox-container">
+    @for (conversation of myConversations(); track $index) {
+    <app-conversation [last_message]="conversation.getLastMessage()"
+        [userDemo]="conversation.getUserInfo()"></app-conversation>
+    }
+</div>

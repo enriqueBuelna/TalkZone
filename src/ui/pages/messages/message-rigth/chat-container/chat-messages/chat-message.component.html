@@ -1,0 +1,4 @@
+@for (message of allMessages(); track $index) {
+<app-message [content]="message.getContent()"
+    [whosMessage]="message.getSenderId() === idOtherUser ? 'received' : 'sent'"></app-message>
+}

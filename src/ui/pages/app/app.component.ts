@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -10,6 +10,8 @@ import { User } from '../../../domain/models/user.model';
 import { AuthService } from '../../../domain/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from '../auth/auth.component';
+import { SocketService } from '../../../socket_service/socket.service';
+import { UserService } from '../auth/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +20,8 @@ import { AuthComponent } from '../auth/auth.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent{
   title = 'TalkZoneCA';
+
+  
 }

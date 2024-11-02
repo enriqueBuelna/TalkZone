@@ -32,17 +32,12 @@
 
 .info-user{
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: .5rem;
 }
 
 .info-user .username p{
   margin: 0;
-}
-
-.voice-room-info {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr 2fr);
 }
 
 .topic {
@@ -51,13 +46,68 @@
   align-items: center;
 }
 
-.btnDown {
-  height: 5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.topics .learn, .know{
+  max-width: 300px;
 }
 
-.tags {
+.user_topics {
+  margin-left: 5rem;
+}
+
+.chip {
+  display: flex;
+  gap: 1rem;
+}
+
+.learn {
+  margin-bottom: 1rem;
+}
+
+.matchPercentage {
+  display: flex;
+  justify-content: end;
   
+}
+
+.image-container {
+  width: 150px;  /* Ajusta el tamaño del contenedor */
+  height: 150px; /* Igual al ancho para que sea un cuadrado */
+  border-radius: 50%; /* Hace que el contenedor tenga forma de círculo */
+  overflow: hidden; /* Asegura que cualquier parte extra de la imagen se corte */
+  display: inline-block; /* Centra el contenedor si es necesario */
+}
+
+.profile-image {
+  width: 100%;  /* La imagen se ajusta al tamaño del contenedor */
+  height: 100%; /* Para que la imagen llene completamente el contenedor */
+  object-fit: cover; /* Recorta la imagen si es necesario para mantener las proporciones */
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
+  gap: 1rem; /* Espacio entre los botones */
+  justify-items: center; /* Centra los elementos en sus columnas */
+  margin-bottom: 1rem;
+}
+
+/* Estilos para el tercer botón en una fila centrada */
+.buttons app-button:nth-child(3) {
+  grid-column: 1 / -1; /* Hace que el tercer botón ocupe ambas columnas */
+  justify-self: center; /* Centra el botón en la fila */
+}
+
+.input-group{
+  display: grid;
+  grid-template-columns: repeat(1, 2fr 1fr);
+  gap: 1rem;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+.disabled-class{
+  background: #e3d;
 }

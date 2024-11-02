@@ -97,7 +97,8 @@ export class RegisterApp {
         date_of_birth: this.formatDate(date_of_birth),
         gender: selectedGenre.typeBD,
         password,
-        is_profile_complete: false
+        is_profile_complete: false,
+        profile_pic: null
       };
       this._authService.register(user).subscribe(response => {
         console.log(response);

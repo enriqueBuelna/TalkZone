@@ -11,6 +11,9 @@ import { SendChangePasswordCode } from '../use_cases/user/sendPasswordCode_user.
 import { LoginResponse } from '../entities/users/LoginResponse.entitie';
 import { FinishProfile } from '../use_cases/user/finishProfile.use_case';
 import { UserPreference } from '../models/user_preference.model';
+import { GetFollowersFollowed } from '../use_cases/user/getFollowersFollowed.use_case';
+import { GetBasicInfo } from '../use_cases/user/getBasicInfo.use_case';
+import { UserDemo } from '../models/user-demo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +26,9 @@ export class AuthService {
     private _verifyCode: VerifyCode,
     private _sendVerificationCode: SendVerificationCode,
     private _sendChangePasswordCode: SendChangePasswordCode,
-    private _finishProfile: FinishProfile
+    private _finishProfile: FinishProfile,
+    private _getFollowersFollowed: GetFollowersFollowed,
+    private _getBasicInfo: GetBasicInfo
   ) {}
 
   register(user: User): Observable<User> {
@@ -65,5 +70,13 @@ export class AuthService {
       profile_picture,
       user_preferences
     );
+  }
+
+  getFollowersFollowed(user_id: string): Observable<User[]> {
+    return this._getFollowersFollowed.execute(user_id);
+  }
+
+  getBasicInfo(user_id: string): Observable<UserDemo> {
+    return this._getBasicInfo.execute(user_id);
   }
 }

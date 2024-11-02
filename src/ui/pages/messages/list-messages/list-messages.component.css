@@ -1,0 +1,83 @@
+.title {
+    margin-top: 7rem;
+    margin-left: 2rem;
+}
+
+.content {
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+.button {
+    margin: 2rem;
+}
+
+.search {
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+    border-bottom: .1rem solid #d3d3d3;
+}
+
+.add-message {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* aqi */
+
+/* Contenedor de la bandeja de entrada */
+
+
+/* Estilos para cada chat individual */
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.chat-item:hover {
+    background-color: #f9f9f9;
+}
+
+/* Foto de perfil */
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 15px;
+}
+
+/* Información de texto del chat */
+.chat-info {
+    flex-grow: 1;
+}
+
+/* Nombre del contacto */
+.chat-name {
+    font-weight: bold;
+    font-size: 1em;
+    color: #333;
+}
+
+/* Último mensaje */
+.last-message {
+    font-size: 0.9em;
+    color: #666;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
+
+/* Hora del último mensaje */
+.message-time {
+    font-size: 0.8em;
+    color: #999;
+    margin-left: auto;
+}

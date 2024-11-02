@@ -6,6 +6,8 @@ import { HomeComponent } from './ui/pages/home/home.component';
 import { VoiceRoomComponent } from './ui/pages/voice-room/voice-room.component';
 import { authGuard } from './guards/auth-guard.guard';
 import { ConnectComponent } from './ui/pages/connect/connect.component';
+import { MessagesComponent } from './ui/pages/messages/messages.component';
+import { MessageRigthComponent } from './ui/pages/messages/message-rigth/message-rigth.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -22,8 +24,13 @@ export const routes: Routes = [
       },
       {
         path: 'connect',
-        component: ConnectComponent
-      }
+        component: ConnectComponent,
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+        children: [{ path: ':user_id', component: MessageRigthComponent }],
+      },
     ],
     canActivate: [authGuard]
   },

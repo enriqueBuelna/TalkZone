@@ -9,7 +9,7 @@
 //   private host_user: IHostUser;
 //   private id: number;
 
-import { UserResponseVoiceRoom } from '../entities/voice_rooms/IHostUser.entitie';
+import { UserResponseInformation } from '../entities/voice_rooms/IHostUser.entitie';
 import { UserOfVoiceRoom } from '../entities/voice_rooms/UserOfVoiceRoom.entitie';
 import { VoiceRoomToVoiceRoomTag } from '../entities/voice_rooms/VoiceRoomToVoiceRoomTag.entitie';
 
@@ -101,7 +101,7 @@ export class VoiceRoom {
   private users_of_voice_room: UserOfVoiceRoom[];
   private topic_name: string;
   private voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[];
-  private host_user: UserResponseVoiceRoom;
+  private host_user: UserResponseInformation;
 
   constructor(
     id: number,
@@ -110,7 +110,7 @@ export class VoiceRoom {
     topic_id: number,
     topic_name: string,
     voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[],
-    host_user: UserResponseVoiceRoom
+    host_user: UserResponseInformation
   ) {
     this.id = id;
     this.room_name = room_name;

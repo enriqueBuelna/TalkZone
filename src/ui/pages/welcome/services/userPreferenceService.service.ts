@@ -19,7 +19,7 @@ export class UserPreferencesServices {
     index: number
   ) {
     this.userPreferences.push(
-      new UserPreference(topic_id, type, tags, topic_name, index)
+      // new UserPreference(topic_id, type, tags, topic_name, index)
     );
   }
 

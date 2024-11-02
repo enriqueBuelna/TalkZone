@@ -125,9 +125,9 @@
                         </div>
 
                         <div class="flex align-items-center gap-2 flex-wrap">
-                            @for (item of getTopicTags().getTagAdded(); track item.id) {
-                            <p-chip [label]="item.tag_name" [removable]="true"
-                                (onRemove)="getTopicTags().tagRemove(item.id)" />
+                            @for (item of getTopicTags().getTagAdded(); track item.getId()) {
+                            <p-chip [label]="item.getTagName()" [removable]="true"
+                                (onRemove)="getTopicTags().tagRemove(item.getId())" />
                             }
                         </div>
 

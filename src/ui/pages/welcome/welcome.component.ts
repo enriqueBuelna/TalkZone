@@ -182,7 +182,7 @@ export class WelcomeComponent implements OnInit {
     let tagList = this._TopicTagsService.getTagList();
     for (let i = 0; i < tagList.length; i++) {
       let tag = tagList[i];
-      if (tag.tag_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+      if (tag.getTagName().toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(tag);
       }
     }
@@ -197,16 +197,15 @@ export class WelcomeComponent implements OnInit {
     );
     if (allFieldsValid) {
       let { tag, secondTopic, firstTopic } = this.formTopics.value;
-      
+
       let topicId = secondTopic?.id || firstTopic.id;
       let existingTag = false;
       if (!(tag instanceof Object) && tag != '' && tag != null) {
-        
         existingTag = this._TopicTagsService.findTag(tag);
       }
       if (tag != '' && tag != null) {
         if (!existingTag && !(tag instanceof Object)) {
-          let newTag: Tag = { tag_name: tag, topic_id: topicId, id: 0 };
+          let newTag: Tag = new Tag(tag, topicId, 0);
           this.responseAddTag$ = this._tagService.addTag(newTag);
           this.responseAddTag$
             .pipe(takeUntil(this.destroy$))
@@ -274,7 +273,7 @@ export class WelcomeComponent implements OnInit {
     let { about_me } = this.formDescription.value;
     //llamar al servicio para que haga esta cosa
     console.log(this._userService.getUser());
-    
+
     let { id } = this._userService.getUser();
     this.responseFinishProfile$ = this._authService.finishProfile(
       id,

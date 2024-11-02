@@ -31,16 +31,15 @@ export class TopicsTagsService {
 
   findTag(tag_name: string): boolean {
     return this.tagList.some(
-      (el) => el.tag_name.toLowerCase() === tag_name.toLowerCase()
+      (el) => el.getTagName().toLowerCase() === tag_name.toLowerCase()
     );
   }
 
-  cleanAll(){
+  cleanAll() {
     this.topicSecondList = [];
     this.tagList = [];
     this.tagAdded = [];
   }
-  
 
   getTagAdded(): Tag[] {
     return this.tagAdded;
@@ -54,15 +53,15 @@ export class TopicsTagsService {
     this.tagAdded.push(tag);
   }
 
-  findTagAdded(tag:Tag):boolean{
+  findTagAdded(tag: Tag): boolean {
     console.log(this.tagAdded);
-    return this.tagAdded.some((el) => el.tag_name.toLowerCase() === tag.tag_name.toLowerCase());
+    return this.tagAdded.some(
+      (el) => el.getTagName().toLowerCase() === tag.getTagName().toLowerCase()
+    );
   }
 
-  tagRemove(tag_id:number){
-    this.tagAdded = this.tagAdded.filter((el) => el.id !== tag_id);
+  tagRemove(tag_id: number) {
+    this.tagAdded = this.tagAdded.filter((el) => el.getId() !== tag_id);
     console.log(this.tagAdded);
   }
-
-  
 }

@@ -21,8 +21,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     // if (!this._authService.isNewUser()) {
     //   this._router.navigate(['home','welcome']); // Redirigir a la página de bienvenida
     // }
-    this._socketService.emitEvent("connection", null);
-    this._router.navigate(['home', 'welcome']); // Redirigir a la página de bienvenida
+    this._socketService.emitEvent('connection', null);
+    this._socketService.emitEvent('getUsers', this._authService.getUserId());
+    // this._router.navigate(['home', 'welcome']); // Redirigir a la página de bienvenida
   }
 
   ngOnDestroy(): void {

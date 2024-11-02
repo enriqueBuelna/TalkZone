@@ -10,6 +10,11 @@ button {
   width: 100%;
 }
 
+.buttonDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* Estilo para el hover */
 button:hover {
   background: rgb(15, 189, 224);
@@ -25,4 +30,8 @@ button:hover {
 
 .medium-button{
   padding: .5rem 3rem;
+}
+
+.tiny-button {
+  padding: .1rem .5rem;
 }

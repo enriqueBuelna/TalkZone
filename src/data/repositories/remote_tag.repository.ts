@@ -18,8 +18,8 @@ export class RemoteTagRespository extends TagRepository {
 
   addTag(tag: Tag): Observable<Tag> {
     const payload = {
-      topic_id: tag.topic_id,
-      tag_name: tag.tag_name,
+      topic_id: tag.getTopicId(),
+      tag_name: tag.getTagName(),
     };
 
     return this._http.post<Tag>(`${this.API_URL}/addTag`, payload);
