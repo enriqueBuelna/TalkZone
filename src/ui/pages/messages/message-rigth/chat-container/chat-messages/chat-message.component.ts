@@ -30,19 +30,19 @@ export class ChatMessageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.observable = this._socketService
-      .listenEvent('chatMessage')
-      .subscribe((el) => {
-        this.messages.addNewMessage(
-          new Message(
-            el.id,
-            el.sender_id,
-            el.receiver_id,
-            el.content,
-            el.media_url
-          )
-        );
-      });
+    // this.observable = this._socketService
+    //   .listenEvent('chatMessage')
+    //   .subscribe((el) => {
+    //     this.messages.addNewMessage(
+    //       new Message(
+    //         el.id,
+    //         el.sender_id,
+    //         el.receiver_id,
+    //         el.content,
+    //         el.media_url
+    //       )
+    //     );
+    //   });
 
     this.route.paramMap.subscribe((params) => {
       this.idOtherUser = params.get('user_id') + '';
@@ -60,7 +60,8 @@ export class ChatMessageComponent implements OnInit {
                   message.sender_id,
                   message.receiver_id,
                   message.content,
-                  message.media_url
+                  message.media_url,
+                  message.sent_at
                 )
             )
           )

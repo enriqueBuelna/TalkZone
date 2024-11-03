@@ -1,4 +1,12 @@
-import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import { ButtonComponent } from '../../../utils/button/button.component';
 import { DialogModule } from 'primeng/dialog';
 import {
@@ -42,8 +50,9 @@ import { ConversationCService } from './services/conversation.service';
   styleUrl: './list-messages.component.css',
 })
 export class ListMessagesComponent implements OnInit {
-  emptyBucket = signal(true); //esto me va funcionar por si no tengo algun mensaje
+  emptyBucket = signal(false); //esto me va funcionar por si no tengo algun mensaje
   visible = signal(false);
+  conversations = signal<Conversation[]>([]);
   responseFollowersFollowed!: Observable<User[]>;
   resposnseGetConversations$!: Observable<Conversation[]>;
   followersFollowed: User[] = [];
@@ -91,8 +100,8 @@ export class ListMessagesComponent implements OnInit {
   }
 
   //
-  ngOnInit() {
-    console.log(this._userService.getUserId());
+  ngOnInit() { 
+    
     this.resposnseGetConversations$ = this._messageService
       .getMyConversation(this._userService.getUserId())
       .pipe(
@@ -105,12 +114,14 @@ export class ListMessagesComponent implements OnInit {
           return conversations.map(
             (conversation: any) =>
               new Conversation(
+                conversation.id,
                 new Message(
                   conversation.last_message_id.id,
                   conversation.last_message_id.sender_id,
                   conversation.last_message_id.receiver_id,
                   conversation.last_message_id.content,
-                  conversation.last_message_id.media_url
+                  conversation.last_message_id.media_url,
+                  conversation.last_message_id.sent_at
                 ),
                 new UserDemo(
                   conversation.other_user.id,
@@ -124,12 +135,10 @@ export class ListMessagesComponent implements OnInit {
       );
 
     this.resposnseGetConversations$.subscribe((el) => {
-      if (el.length > 0) {
-        this._conversationService.setMyConversations(el);
-        this.emptyBucket.set(false);
-      } else {
-        this.emptyBucket.set(true);
-      }
+      this._conversationService.setMyConversations(el);
+      this.conversations = this._conversationService.getMyConversations();
+    this.emptyBucket = this._conversationService.hasConversations();
+
     });
   }
 
@@ -169,5 +178,9 @@ export class ListMessagesComponent implements OnInit {
       this._router.navigate(['home/messages', user.id]); // Redirigir a la página de bienvenida
       this.visible.set(false);
     }
+  }
+
+  verCosas(){
+    console.log(this.emptyBucket());
   }
 }

@@ -3,6 +3,7 @@ export class Message {
   private sender_id: string;
   private receiver_id: string;
   private content: string;
+  private sent_at: Date;
   private media_url?: string;
 
   constructor(
@@ -10,13 +11,15 @@ export class Message {
     sender_id: string,
     receiver_id: string,
     content: string,
-    media_url: string
+    media_url: string,
+    sent_at: Date
   ) {
     this.id = id;
     this.sender_id = sender_id;
     this.receiver_id = receiver_id;
     this.content = content;
     this.media_url = media_url;
+    this.sent_at = sent_at;
   }
 
   getId() {
@@ -37,5 +40,9 @@ export class Message {
 
   getMediaUrl() {
     return this.media_url;
+  }
+
+  getSentAt() {
+    return this.sent_at;
   }
 }
