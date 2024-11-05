@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   OnChanges,
   OnInit,
   signal,
@@ -9,10 +10,10 @@ import { HeaderComponent } from '../../../utils/header/header.component';
 import { ChatContainerComponent } from './chat-container/chat-container.component';
 import { ActivatedRoute } from '@angular/router';
 import { MessageComponentService } from './services/message-component.service';
-import { map, Observable } from 'rxjs';
+import { map, Observable, takeUntil } from 'rxjs';
 import { UserDemo } from '../../../../domain/models/user-demo.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../../domain/services/auth.service';
-
 @Component({
   selector: 'app-message-rigth',
   standalone: true,
@@ -27,7 +28,8 @@ export class MessageRigthComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private _messageCService: MessageComponentService,
-    private _userService: AuthService
+    private _userService: AuthService,
+    private _destroyRef: DestroyRef
   ) {}
   //ocupo encontrar el user_information
   ngOnInit(): void {
@@ -35,25 +37,15 @@ export class MessageRigthComponent implements OnInit {
       const userId = params.get('user_id') || '';
       if (userId) {
         // Realiza la solicitud cada vez que cambie el parámetro 'user_id'
-        this.responseGetBasicInfo = this._userService
-          .getBasicInfo(userId)
-          .pipe(
-            map(
-              (user: any) =>
-                new UserDemo(
-                  user.id,
-                  user.username,
-                  user.gender,
-                  user.profile_picture
-                )
-            )
-          );
+        this.responseGetBasicInfo = this._userService.getBasicInfo(userId);
 
         // Suscríbete para actualizar la información del usuario
-        this.responseGetBasicInfo.subscribe((el) => {
-          this._messageCService.setUser(el);
-          this.userDemoInfo = this._messageCService.getUser();
-        });
+        this.responseGetBasicInfo
+          .pipe(takeUntilDestroyed(this._destroyRef))
+          .subscribe((el) => {
+            this._messageCService.setUser(el);
+            this.userDemoInfo = this._messageCService.getUser();
+          });
       }
     });
   }

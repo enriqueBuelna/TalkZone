@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DestroyRef,
   effect,
   EventEmitter,
   OnInit,
@@ -17,7 +18,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { UserService } from '../../auth/services/user.service';
-import { filter, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../../../../domain/models/user.model';
 import { AuthService } from '../../../../domain/services/auth.service';
 import {
@@ -30,8 +31,7 @@ import { Router } from '@angular/router';
 import { ConversationsContainerComponent } from './conversations-container/conversations-container.component';
 import { Conversation } from '../../../../domain/models/conversation.model';
 import { MessageService } from '../../../../domain/services/message.service';
-import { Message } from '../../../../domain/models/message.model';
-import { UserDemo } from '../../../../domain/models/user-demo.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConversationCService } from './services/conversation.service';
 @Component({
   selector: 'app-list-messages',
@@ -61,29 +61,15 @@ export class ListMessagesComponent implements OnInit {
   @Output() newMessageToUser = new EventEmitter<any>(); // Evento de clic
   showDialog() {
     this.visible.set(true);
-    this.responseFollowersFollowed = this._userServiceA
-      .getFollowersFollowed(this._userService.getUserId())
-      .pipe(
-        map((us: any[]) =>
-          us.map(
-            (user: any) =>
-              new User(
-                user.id,
-                user.username,
-                null,
-                null,
-                null,
-                null,
-                false,
-                user.profile_picture
-              )
-          )
-        )
-      );
+    this.responseFollowersFollowed = this._userServiceA.getFollowersFollowed(
+      this._userService.getUserId()
+    );
 
-    this.responseFollowersFollowed.subscribe((el) => {
-      this.followersFollowed = el;
-    });
+    this.responseFollowersFollowed
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((el) => {
+        this.followersFollowed = el;
+      });
   }
 
   constructor(
@@ -92,7 +78,8 @@ export class ListMessagesComponent implements OnInit {
     private _userService: UserService,
     private _router: Router,
     private _messageService: MessageService,
-    private _conversationService: ConversationCService
+    private _conversationService: ConversationCService,
+    private _destroyRef: DestroyRef
   ) {
     this.formFindUser = this.formBuilder.group({
       selectedUser: ['', [Validators.required]],
@@ -100,46 +87,18 @@ export class ListMessagesComponent implements OnInit {
   }
 
   //
-  ngOnInit() { 
-    
-    this.resposnseGetConversations$ = this._messageService
-      .getMyConversation(this._userService.getUserId())
-      .pipe(
-        map((conversations: any[]) => {
-          // Verifica si conversations es un array vacío
-          if (!Array.isArray(conversations) || conversations.length === 0) {
-            return []; // Devuelve un array vacío si no hay conversaciones
-          }
-          // Mapea los elementos de conversations si contiene datos
-          return conversations.map(
-            (conversation: any) =>
-              new Conversation(
-                conversation.id,
-                new Message(
-                  conversation.last_message_id.id,
-                  conversation.last_message_id.sender_id,
-                  conversation.last_message_id.receiver_id,
-                  conversation.last_message_id.content,
-                  conversation.last_message_id.media_url,
-                  conversation.last_message_id.sent_at
-                ),
-                new UserDemo(
-                  conversation.other_user.id,
-                  conversation.other_user.username,
-                  '',
-                  conversation.other_user.profile_picture
-                )
-              )
-          );
-        })
-      );
+  ngOnInit() {
+    this.resposnseGetConversations$ = this._messageService.getMyConversation(
+      this._userService.getUserId()
+    );
 
-    this.resposnseGetConversations$.subscribe((el) => {
-      this._conversationService.setMyConversations(el);
-      this.conversations = this._conversationService.getMyConversations();
-    this.emptyBucket = this._conversationService.hasConversations();
-
-    });
+    this.resposnseGetConversations$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((el) => {
+        this._conversationService.setMyConversations(el);
+        this.conversations = this._conversationService.getMyConversations();
+        this.emptyBucket = this._conversationService.hasConversations();
+      });
   }
 
   filterUsers(event: AutoCompleteCompleteEvent) {
@@ -180,7 +139,7 @@ export class ListMessagesComponent implements OnInit {
     }
   }
 
-  verCosas(){
+  verCosas() {
     console.log(this.emptyBucket());
   }
 }

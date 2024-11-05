@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../utils/header/header.component';
 import { AsideComponent } from '../../utils/aside/aside.component';
 import { ButtonComponent } from '../../utils/button/button.component';
@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 import { VoiceRoom } from '../../../domain/models/voice_room.model';
 import { CommonModule } from '@angular/common';
 import { OrderListModule } from 'primeng/orderlist';
-import { map } from 'rxjs';
 import { UserOfVoiceRoom } from '../../../domain/entities/voice_rooms/UserOfVoiceRoom.entitie';
-import { VoiceRoomToVoiceRoomTag } from '../../../domain/entities/voice_rooms/VoiceRoomToVoiceRoomTag.entitie';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { ScrollerModule } from 'primeng/scroller';
 @Component({
   selector: 'app-voice-room',
@@ -39,49 +39,20 @@ export class VoiceRoomComponent implements OnInit {
 
   constructor(
     private _userService: UserService,
-    private _voiceRoomService: VoiceRoomService
+    private _voiceRoomService: VoiceRoomService,
+    private _destroyRef: DestroyRef
   ) {}
 
   ngOnInit() {
-    this.responseAllVoiceRoom$ = this._voiceRoomService
-      .getVoiceRoom(this._userService.getUserId())
-      .pipe(
-        map((rooms: any[]) =>
-          rooms.map(
-            (room) =>
-              new VoiceRoom(
-                room.id,
-                room.room_name,
-                room.users_of_voice_room.map(
-                  (user: any) =>
-                    new UserOfVoiceRoom(
-                      user.id, // El ID de la sala de voz
-                      {
-                        username: user.user_information_voice_room.username,
-                        profile_picture:
-                          user.user_information_voice_room.profile_picture,
-                        id: user.user_information_voice_room.id,
-                      }
-                    )
-                ),
-                room.topic_id,
-                room.topic.topic_name,
-                room.voice_room_to_voice_room_tag.map(
-                  (tag: any) =>
-                    new VoiceRoomToVoiceRoomTag(
-                      tag.id,
-                      tag.voice_room_tag_to_tag.tag_name
-                    )
-                ),
-                room.host_user
-              )
-          )
-        )
-      );
+    this.responseAllVoiceRoom$ = this._voiceRoomService.getVoiceRoom(
+      this._userService.getUserId()
+    );
 
-    this.responseAllVoiceRoom$.subscribe((el) => {
-      this.allVoiceRooms = el;
-    });
+    this.responseAllVoiceRoom$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((el) => {
+        this.allVoiceRooms = el;
+      });
   }
 
   siFunciona(vr: VoiceRoom) {

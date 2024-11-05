@@ -124,13 +124,46 @@ export class RemoteUserRepository extends UserRepository {
 
   getFollowersFollowed(user_id: string): Observable<User[]> {
     const params = new HttpParams().set('user_id', user_id.toString()); // Convierte el ID a string
-    return this._http.get<User[]>(`${this.API_URL}/getFollowersFollowed`, {
-      params,
-    });
+    return this._http
+      .get<User[]>(`${this.API_URL}/getFollowersFollowed`, {
+        params,
+      })
+      .pipe(
+        map((us: any[]) => {
+          if (!Array.isArray(us) || us.length === 0) {
+            return []; // Devuelve un array vacío si no hay conversaciones
+          }
+          return us.map(
+            (user: any) =>
+              new User(
+                user.id,
+                user.username,
+                null,
+                null,
+                null,
+                null,
+                false,
+                user.profile_picture
+              )
+          );
+        })
+      );
   }
 
   getBasicInfo(user_id: string): Observable<UserDemo> {
     const params = new HttpParams().set('user_id', user_id.toString());
-    return this._http.get<UserDemo>(`${this.API_URL}/getBasicInfo`, { params });
+    return this._http
+      .get<UserDemo>(`${this.API_URL}/getBasicInfo`, { params })
+      .pipe(
+        map(
+          (user: any) =>
+            new UserDemo(
+              user.id,
+              user.username,
+              user.gender,
+              user.profile_picture
+            )
+        )
+      );
   }
 }

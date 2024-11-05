@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +15,7 @@ import { AuthService } from '../../../../domain/services/auth.service';
 import { ValidationPassword } from '../register/validators/password.validator';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -41,7 +42,8 @@ export class LoginApp {
     private formBuilder: FormBuilder,
     private _authService: AuthService,
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    private _destroyRef: DestroyRef
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(8)]],
@@ -75,7 +77,7 @@ export class LoginApp {
     if (allFieldsValid) {
       //api prendida
       let { username, password } = this.loginForm.value;
-      this._authService.login(username, password).subscribe((response) => {
+      this._authService.login(username, password).pipe().subscribe((response) => {
         this._userService.setToken(response.token);
         this._userService.setUser(response.user);
         this._router.navigate(['/home']); // Redirigir a la página de bienvenida

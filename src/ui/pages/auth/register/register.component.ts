@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Output } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -19,6 +19,7 @@ import { DialogModule } from 'primeng/dialog';
 import { MessageResponse } from '../../../../domain/entities/users/MessageResponse.entitie';
 import { ValidationPassword } from './validators/password.validator';
 import { User } from '../../../../domain/models/user.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 interface Genre {
   text: string;
   typeBD: string;
@@ -56,7 +57,8 @@ export class RegisterApp {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _destroyRef: DestroyRef
   ) {
     this.today = new Date();
     this.maxDate = new Date(
@@ -98,16 +100,19 @@ export class RegisterApp {
         gender: selectedGenre.typeBD,
         password,
         is_profile_complete: false,
-        profile_pic: null
+        profile_pic: null,
       };
-      this._authService.register(user).subscribe(response => {
-        console.log(response);
-      });
+      this._authService
+        .register(user)
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe((response) => {
+          console.log(response);
+        });
     } else {
       alert('invalido');
     }
     this.visible = false;
-    console.log("putos")
+    console.log('putos');
   }
 
   hasErrors(field: string, typeError: string) {
@@ -147,6 +152,7 @@ export class RegisterApp {
         const { username, email } = this.registerForm.value;
         this._authService
           .checkAvailability(username, email)
+          .pipe(takeUntilDestroyed(this._destroyRef))
           .subscribe((response: MessageResponse) => {
             let { message } = response;
             if (message === 'Todo bien') {
@@ -173,6 +179,7 @@ export class RegisterApp {
         const { code, email } = this.registerForm.value;
         this._authService
           .verifyCode(code, email)
+          .pipe(takeUntilDestroyed(this._destroyRef))
           .subscribe((response: MessageResponse) => {
             let { message } = response;
             if (message === 'Verificación exitosa') {
@@ -199,16 +206,15 @@ export class RegisterApp {
 
   formatDate(dateString: string) {
     const date = new Date(dateString);
-  
+
     // Obtenemos el año, mes y día de la fecha
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Sumamos 1 al mes (0-11)
     const day = String(date.getDate()).padStart(2, '0');
-  
+
     // Formateamos la fecha como 'YYYY-MM-DD'
     return `${year}-${month}-${day}`;
   }
-  
 
   showDialog() {
     this.visible = true;
