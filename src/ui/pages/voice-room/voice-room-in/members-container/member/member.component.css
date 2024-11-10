@@ -1,0 +1,9 @@
+.member {
+  margin: 2rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px #fff solid;
+  background-color: #d3d3d3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

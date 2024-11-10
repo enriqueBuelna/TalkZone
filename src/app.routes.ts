@@ -8,6 +8,7 @@ import { authGuard } from './guards/auth-guard.guard';
 import { ConnectComponent } from './ui/pages/connect/connect.component';
 import { MessagesComponent } from './ui/pages/messages/messages.component';
 import { MessageRigthComponent } from './ui/pages/messages/message-rigth/message-rigth.component';
+import { RoomContainerComponent } from './ui/pages/voice-room/voice-room-in/room-container/room-container.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -19,7 +20,7 @@ export const routes: Routes = [
       // { path: '', component: VoiceRoomComponent },
       { path: 'welcome', component: WelcomeComponent },
       {
-        path: 'voice_chats',
+        path: 'voice_room',
         component: VoiceRoomComponent,
       },
       {
@@ -32,9 +33,9 @@ export const routes: Routes = [
         children: [{ path: ':user_id', component: MessageRigthComponent }],
       },
     ],
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
-
+  { path: 'voice_room/:room_id', component: RoomContainerComponent },
   // Ruta wildcard para redirigir
   // { path: '**', redirectTo: '' }
 ];

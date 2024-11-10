@@ -1,0 +1,53 @@
+.member {
+  display: flex;
+  align-items: center;
+  background-color: #29b6d1; /* Color de fondo similar al de la imagen */
+  padding: 10px 20px;
+  border-radius: 25px;
+  width: 100%; /* Ajusta el ancho según sea necesario */
+}
+
+/* Estilo de la imagen */
+.img img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Hace que la imagen sea redonda */
+  background-color: black; /* Color de fondo de la imagen */
+}
+
+/* Estilo del nombre de usuario */
+.username p {
+  margin: 0;
+  padding-left: 15px;
+  font-size: 18px;
+  color: white;
+}
+
+/* Controles de los botones */
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-left: auto; /* Empuja los controles hacia el final del contenedor */
+}
+
+/* Botón redondo */
+.button {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+.check-button {
+  background-color: #4CAF50; /* Color verde */
+}
+
+.cross-button {
+  background-color: #F44336; /* Color rojo */
+}

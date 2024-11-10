@@ -11,7 +11,7 @@ import { List_itemApp } from "./list_item/list_item.component";
 export class NavbarApp {
   options = [
     { name: 'Inicio', where: '/home/welcome', icon: 'pi pi-home', badge: false },
-    { name: 'Salas de voz', where: '/home/voice_chats', icon: 'pi pi-microphone', badge: false },
+    { name: 'Salas de voz', where: '/home/voice_room', icon: 'pi pi-microphone', badge: false },
     { name: 'Mensajes', where: '/home/messages', icon: 'pi pi-envelope', badge: true },
     { name: 'Conectar', where: '/home/connect', icon: 'pi pi-user-plus', badge: false },
     { name: 'Grupos', where: '/groups', icon: 'pi pi-users', badge: false },

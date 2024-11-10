@@ -6,13 +6,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { User } from '../../../domain/models/user.model';
-import { AuthService } from '../../../domain/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from '../auth/auth.component';
-import { SocketService } from '../../../socket_service/socket.service';
-import { UserService } from '../auth/services/user.service';
 import { NavbarApp } from "../../utils/navbar/navbar.component";
+import AgoraRTC from 'agora-rtc-sdk-ng';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +20,10 @@ import { NavbarApp } from "../../utils/navbar/navbar.component";
 })
 export class AppComponent{
   title = 'TalkZoneCA';
+
+  constructor(){
+    AgoraRTC.setLogLevel(4); // Opciones: "none", "error", "warning", "info", "debug
+  }
 
   
 }

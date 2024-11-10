@@ -1,0 +1,14 @@
+.containerr {
+  width: 100%;
+  position: relative;
+}
+
+#room__container {
+  position: relative;
+  display: flex;
+  gap: 3rem;
+}
+
+.nombre {
+  color: #fff;
+}

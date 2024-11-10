@@ -5,22 +5,28 @@ import { VoiceRoomRepository } from '../../domain/repositories/voice_room.reposi
 import { VoiceRoom } from '../../domain/models/voice_room.model';
 import { UserOfVoiceRoom } from '../../domain/entities/voice_rooms/UserOfVoiceRoom.entitie';
 import { VoiceRoomToVoiceRoomTag } from '../../domain/entities/voice_rooms/VoiceRoomToVoiceRoomTag.entitie';
+import { UserDemo } from '../../domain/models/user-demo.model';
+import { UserInVoiceRoom } from '../../domain/models/user_in_voice_room.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
-  private readonly API_URL = 'http://localhost:3000/voice_rooms';
+  override getInVoiceRoom(user_id: string): Observable<void> {
+    throw new Error('Method not implemented.');
+  }
+  private readonly API_URL = 'http://localhost:3000';
   private _http = inject(HttpClient);
 
   getVoiceRoom(user_id: string): Observable<VoiceRoom[]> {
     const params = new HttpParams().set('user_id', user_id);
     return this._http
-      .get<VoiceRoom[]>(`${this.API_URL}/getVoiceRooms`, {
+      .get<VoiceRoom[]>(`${this.API_URL}/voice_rooms/getVoiceRooms`, {
         params,
       })
       .pipe(
         map((rooms: any[]) => {
+          console.log(rooms);
           if (!Array.isArray(rooms) || rooms.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }
@@ -55,5 +61,55 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
           );
         })
       );
+  }
+
+  createVoiceRoom(
+    room_name: string,
+    host_user_id: string,
+    topic_id: number
+  ): Observable<any> {
+    const payload = {
+      room_name,
+      host_user_id,
+      topic_id,
+    };
+    return this._http.post<any>(
+      `${this.API_URL}/voice_rooms/createVoiceRoom`,
+      payload
+    );
+  }
+
+  getAllVoiceRoomMembers(room_id: string): Observable<UserInVoiceRoom[]> {
+    const params = new HttpParams().set('room_id', room_id);
+    return this._http
+      .get<UserInVoiceRoom[]>(
+        `${this.API_URL}/voice_rooms_members/getAllVoiceRoomMembers`,
+        { params }
+      )
+      .pipe(
+        map((users: any[]) => {
+          if (!Array.isArray(users) || users.length === 0) {
+            return []; // Devuelve un array vacío si no hay conversaciones
+          }
+
+          return users.map(
+            (user: any) =>
+              new UserInVoiceRoom(
+                user.id,
+                user.username,
+                user.profile_picture,
+                user.type,
+                user.in_stage
+              )
+          );
+        })
+      );
+  }
+
+  closeVoiceRoom(room_id:string):Observable<any>{
+    const payload = {
+      room_id
+    }
+    return this._http.post<any>(`${this.API_URL}/voice_rooms/closeVoiceRoom`, payload);
   }
 }

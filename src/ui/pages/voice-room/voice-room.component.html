@@ -54,7 +54,7 @@
 <div class="aside">
     <app-aside>
         <app-header>
-            <app-button buttonClass="big-button" text="Crear sala"></app-button>
+            <app-button buttonClass="big-button" text="Crear sala" (clickEvent)="openDialog()"></app-button>
         </app-header>
         @if(vrChoosen && integrantsVr){
         <div class="">
@@ -92,8 +92,25 @@
 
         </div>
         <div class="btnDown">
-            <app-button buttonClass="medium-button" text="Unirse a sala"></app-button>
+            <app-button buttonClass="medium-button" text="Unirse a sala" (clickEvent)="joinRoom(vrChoosen.getVoiceRoomId())"></app-button>
         </div>
         }
     </app-aside>
 </div>
+
+
+<p-dialog [header]="'Nuevo mensaje'" [modal]="true" [(visible)]="modalCreate" [style]="{ width: '40rem', height:'40rem' }"
+    [closable]="false" [dismissableMask]="true" [draggable]="false">
+    <!--Los que te siguen y a los que sigues-->
+
+    <form [formGroup]="formCreateVR">
+        <label for="">Nombre de sala</label>
+        <input type="text" formControlName="room_name">
+        <label for="">Tema a elegir</label>
+        <input type="text" formControlName="topic_id">
+    </form>
+
+    <div class="mt-5">
+        <app-button text="Siguiente" buttonClass="medium-button" (clickEvent)="createVoiceRoom()"></app-button>
+    </div>
+</p-dialog>

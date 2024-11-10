@@ -1,0 +1,14 @@
+<button (click)="goToHome()">Go to home</button>
+<main class="containerr">
+    <div id="room__container">
+        <app-members-container></app-members-container>
+        <app-stream-container></app-stream-container>
+        <app-messages-container></app-messages-container>
+    </div>
+</main>
+<p-dialog [modal]="true" [(visible)]="voiceRoomClosedModal" [style]="{ width: '40rem', height:'40rem' }"
+    [closable]="false" [dismissableMask]="true" [draggable]="false">
+    <h2>La sala de voz ha sido cerrada, gracias por acompañar a tus compañeros :D</h2>
+    
+    <app-button text="Ir al inicio" (clickEvent)="goToHome()"></app-button>
+</p-dialog>

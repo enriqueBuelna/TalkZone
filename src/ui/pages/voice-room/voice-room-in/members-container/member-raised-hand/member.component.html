@@ -1,0 +1,16 @@
+<div class="member">
+    <div class="img">
+        <img [src]="userInVoiceRoom.getProfilePic()" alt="">
+    </div>
+    <div class="username">
+        <p>{{userInVoiceRoom.getUsername()}}</p>
+    </div>
+    <div class="controls">
+        <div class="accept">
+            <button class="button check-button" (click)="answerRaiseHand('yes')">&#10004;</button>
+        </div>
+        <div class="ignore">
+            <button class="button cross-button" (click)="answerRaiseHand('no')">&#10005;</button>
+        </div>
+    </div>
+</div>

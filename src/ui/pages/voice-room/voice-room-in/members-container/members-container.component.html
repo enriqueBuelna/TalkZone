@@ -1,0 +1,38 @@
+<section id="members__container">
+    <div id="members__header">
+        <p>Participants</p>
+        <strong id="members__count">{{usersInVoiceRoom().length}}</strong>
+    </div>
+    <div id="member__list">
+        @for (item of usersInVoiceRoom(); track $index) {
+        <app-member [userInVoiceRoom]="item"></app-member>
+        }
+    </div>
+
+    @if (myUserVoiceRoom().getType() === 'host') {
+    <div class="fixed">
+        <div class="raised-hands">
+            <div class="siu" (click)="showModal()">
+                <p>Solicitudes de acceso {{handRaised().length}}</p>
+            </div>
+        </div>
+    </div>
+    }
+
+</section>
+<p-dialog [modal]="true" [(visible)]="modalCreate" [style]="{ width: '40rem', height:'40rem' }" [closable]="true"
+    [dismissableMask]="true" [draggable]="false">
+    <!--Los que te siguen y a los que sigues-->
+    <div class="text-center mb-5">
+        <h2>Solicitudes de acceso</h2>
+    </div>
+
+    <div class="member-raised-hand">
+        @if (handRaised().length > 0) {
+        @for (item of handRaised(); track $index) {
+        <app-member-raised-hand [userInVoiceRoom]="item"></app-member-raised-hand>
+        }
+        }
+    </div>
+
+</p-dialog>

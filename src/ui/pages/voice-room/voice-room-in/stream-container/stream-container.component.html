@@ -1,0 +1,23 @@
+<section id="stream__container">
+    <div id="stream__box"></div>
+    <div id="streams__container">
+        @for (item of usersInVoiceRoom(); track $index) {
+        @if (item.getInStage()) {
+        <app-member-voice-chat [userInVoiceRoom]="item"></app-member-voice-chat>
+        }
+        }
+    </div>
+    @if (myUserInVoiceRoom().getInStage()) {
+    <div class="stream__actions">
+        <button (click)="joinCall()">Entrar</button>
+        <button id="mic-btn" class="active" (click)="toggleMicrophone()">Microfono</button>
+        @if (myUserInVoiceRoom().getType() !== 'host') {
+        <button id="leave-btn" style="background-color: #FF5050;" (click)="leaveChanel()">Bajar del escenario</button>
+        }
+    </div>
+    }
+    @else {
+    <button id="join-btn" (click)="raiseHand()">Levantar la mano</button>
+    }
+
+</section>

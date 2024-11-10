@@ -54,7 +54,6 @@ class TopicDOM {
   standalone: true,
   imports: [
     CommonModule,
-    NavbarApp,
     AsideComponent,
     HeaderComponent,
     ButtonComponent,
@@ -64,7 +63,6 @@ class TopicDOM {
     AvatarModule,
     FileUploadModule,
     ReactiveFormsModule,
-    InputGroupModule,
     AutoCompleteModule,
     ChipModule,
   ],
