@@ -1,0 +1,23 @@
+.contenedor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.main-content {
+  width: 70%;
+  height: 100%;
+}
+
+#aside {
+  width: 30%;
+  height: 100%;
+}
+
+.option {
+  border-bottom: 1px solid #d3d3d3;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

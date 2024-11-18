@@ -16,6 +16,7 @@ import { GetBasicInfo } from '../use_cases/user/getBasicInfo.use_case';
 import { UserDemo } from '../models/user-demo.model';
 import { GetCompleteInformation } from '../use_cases/user/getCompleteInformation.use_case';
 import { UserComplete } from '../models/user_complete_information.model';
+import { EditProfile } from '../use_cases/user/editProfile.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,8 @@ export class AuthService {
     private _finishProfile: FinishProfile,
     private _getFollowersFollowed: GetFollowersFollowed,
     private _getBasicInfo: GetBasicInfo,
-    private _getCompleteInformation:GetCompleteInformation
+    private _getCompleteInformation:GetCompleteInformation,
+    private _editProfile:EditProfile
   ) {}
 
   register(user: User): Observable<User> {
@@ -86,4 +88,12 @@ export class AuthService {
   getCompleteInformation(user_id:string):Observable<UserComplete>{
     return this._getCompleteInformation.execute(user_id);
   }
+
+  editProfile(user_id: string,
+    username?: string,
+    about_me?: string,
+    profile_picture?: string,
+    cover_picture?: string):Observable<any>{
+      return this._editProfile.execute(user_id, username, about_me, profile_picture, cover_picture);
+    }
 }

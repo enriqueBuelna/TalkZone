@@ -10,19 +10,21 @@
           <!-- Foto de Portada -->
           <div class="cover-photo-section">
             <label for="coverPhotoInput" class="cover-photo-label">
-              <img [src]="user.getCoverPicture()" alt="Foto de Portada" class="cover-photo">
+              <img [src]="coverPhotoPreview" alt="Foto de Portada" class="cover-photo">
               <div class="camera-icon larger-icon"></div>
             </label>
-            <input id="coverPhotoInput" type="file" hidden (change)="onImageSelected($event, 'cover')">
+            <input id="coverPhotoInput" type="file" hidden (change)="onImageSelected($event, 'cover')"
+              formControlName="cover_picture">
           </div>
 
           <!-- Foto de Perfil -->
           <div class="profile-photo-section">
             <label for="profilePhotoInput" class="profile-photo-label">
-              <img [src]="user.getUserDemo().getProfilePic()" alt="Foto de Perfil" class="profile-photo">
+              <img [src]="profilePhotoPreview" alt="Foto de Perfil" class="profile-photo">
               <div class="camera-icon larger-icon"></div>
             </label>
-            <input id="profilePhotoInput" type="file" hidden (change)="onImageSelected($event, 'profile')">
+            <input id="profilePhotoInput" type="file" hidden (change)="onImageSelected($event, 'profile')"
+              formControlName="profile_picture">
           </div>
         </div>
 
@@ -30,13 +32,15 @@
         <!-- Username -->
         <div class="form-group">
           <label for="usernameInput">Nombre de Usuario</label>
-          <input id="usernameInput" type="text" class="form-control" [placeholder]="user.getUserDemo().getUsername()" formControlName="username">
+          <input id="usernameInput" type="text" class="form-control" [placeholder]="user.getUserDemo().getUsername()"
+            formControlName="username">
         </div>
 
         <!-- Descripción -->
         <div class="form-group">
           <label for="descriptionInput">Descripción</label>
-          <textarea id="descriptionInput" class="form-control" [placeholder]="user.getAboutMe()" formControlName="about_me"></textarea>
+          <textarea id="descriptionInput" class="form-control" [placeholder]="user.getAboutMe()"
+            formControlName="about_me"></textarea>
         </div>
       </form>
       <!-- Preferencias -->

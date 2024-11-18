@@ -14,6 +14,12 @@ import { Component } from '@angular/core';
 import { DetailPostComponent } from './ui/pages/my-feed/detail-post/detail-post.component';
 import { ForYouComponent } from './ui/pages/my-feed/for-you/for-you.component';
 import { MyProfileComponent } from './ui/pages/my-profile/my-profile.component';
+import { GroupComponent } from './ui/pages/group/group.component';
+import { WelcomeGroupComponent } from './ui/pages/group/welcome-group/welcome-group.component';
+import { DiscoverGroupsComponent } from './ui/pages/group/discover-groups/discover-groups.component';
+import { GroupSkeletonComponent } from './ui/pages/group/group-skeleton/group-skeleton.component';
+import { MyGroupsComponent } from './ui/pages/group/my-groups/my-groups.component';
+import { MyFeedGroupComponent } from './ui/pages/group/my-feed/my-feed.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -31,9 +37,9 @@ export const routes: Routes = [
             component: ForYouComponent,
           },
           {
-            path:'detail_post/:id',
-            component: DetailPostComponent
-          }
+            path: 'detail_post/:id',
+            component: DetailPostComponent,
+          },
         ],
       },
       // { path: '', component: VoiceRoomComponent },
@@ -53,8 +59,24 @@ export const routes: Routes = [
       },
       {
         path: 'profile/:user_id',
-        component: MyProfileComponent
-      }
+        component: MyProfileComponent,
+      },
+      {
+        path: 'groups',
+        component: GroupComponent,
+        children: [
+          { path: 'welcome', component: WelcomeGroupComponent },
+          {
+            path: '',
+            component: GroupSkeletonComponent,
+            children: [
+              { path: '', component: DiscoverGroupsComponent },
+              { path: 'my-feed', component: MyFeedGroupComponent },
+              { path: 'my-groups', component: MyGroupsComponent },
+            ],
+          },
+        ],
+      },
     ],
     canActivate: [authGuard],
   },

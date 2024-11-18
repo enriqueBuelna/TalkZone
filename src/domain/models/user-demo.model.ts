@@ -34,4 +34,12 @@ export class UserDemo {
   getType(){
     return this.type;
   }
+
+  setUsername(username:string){
+    this.username = username;
+  }
+
+  setProfilePic(profile_picture:string){
+    this.profile_pic = profile_picture;
+  }
 }

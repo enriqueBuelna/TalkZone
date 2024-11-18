@@ -26,7 +26,11 @@
             </div>
             <div class="post-footer">
                 <div class="post-actions">
-                    <button class="action-btn">📷</button>
+                    <label for="imageInput" class="action-btn">
+                        📷
+                        <input type="file" (change)="onImageSelected($event)" />
+                    </label>
+                    
                     <button class="action-btn">😊</button>
                 </div>
                 <button class="post-button" (click)="addPost()">Postear</button>

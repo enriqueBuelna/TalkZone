@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
 import { PostService } from '../../../../../domain/services/post.service';
 import { IPost } from '../../../../../domain/entities/post/post.entitie';
 import { PostCService } from '../../services/post.service';
+import { uploadFile } from '../../../../../firestore/firestore';
 
 @Component({
   selector: 'app-modal-post',
@@ -50,7 +51,8 @@ export class ModalPostComponent implements OnInit {
     { name: 'Solo amigos', value: 'friends' },
     { name: 'Privado', value: 'private' },
   ];
-  //
+  //foto
+  photoFile: File | null = null;
   constructor(
     private _userPreferences: UserPreferenceService,
     private _postService: PostService,
@@ -80,22 +82,44 @@ export class ModalPostComponent implements OnInit {
     this.clickEvent.emit();
   }
 
-  addPost() {
+  async addPost() {
     if (this.formPost.valid) {
       let { content, visibility, topic_id } = this.formPost.value;
       let aux = topic_id.id;
       let aux2 = visibility.value;
+      let downloadURL;
+      if(this.photoFile){
+        downloadURL = await uploadFile(this.photoFile);
+      }
       let payload: IPost = {
         user_id: this.myUser.getUserId(),
         content,
         visibility: aux2,
         user_preference_id: aux,
+        media_url: downloadURL
       };
 
       this._postService.newPost(payload).subscribe((el) => {
         this._postCService.addNewPost(el);
         this.onClick();
       });
+    }
+  }
+
+  onImageSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+  
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      this.photoFile = file; // Guardar el archivo en la propiedad
+      const reader = new FileReader();
+  
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const previewUrl = e.target?.result as string;
+        console.log('Vista previa de la imagen:', previewUrl); // Para mostrar una previsualización si lo deseas
+      };
+  
+      reader.readAsDataURL(file); // Convierte el archivo a Base64 para la previsualización (opcional)
     }
   }
 }

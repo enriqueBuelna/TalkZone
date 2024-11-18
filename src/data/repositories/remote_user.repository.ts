@@ -174,38 +174,52 @@ export class RemoteUserRepository extends UserRepository {
     return this._http
       .get<UserComplete>(`${this.API_URL}/getCompleteProfile`, { params })
       .pipe(
-        map(
-          (user: any) => 
-          {
-            return new UserComplete(
-              new UserDemo(
-                user.id,
-                user.username,
-                user.gender,
-                user.profile_picture
-              ),
-              user.user_to_user_preference.map(
-                (user_preference: any) =>
-                  new UserPreference(
-                    user_preference.id,
-                    user_preference.topic_id,
-                    user_preference.type,
-                    user_preference.topic.topic_name,
-                    user_preference.userPreferenceTags.map(
-                      (tag: any) =>
-                        new Tag(
-                          tag.tag.tag_name,
-                          tag.tag_id,
-                          user_preference.topic_id
-                        )
-                    )
+        map((user: any) => {
+          return new UserComplete(
+            new UserDemo(
+              user.id,
+              user.username,
+              user.gender,
+              user.profile_picture
+            ),
+            user.user_to_user_preference.map(
+              (user_preference: any) =>
+                new UserPreference(
+                  user_preference.id,
+                  user_preference.topic_id,
+                  user_preference.type,
+                  user_preference.topic.topic_name,
+                  user_preference.userPreferenceTags.map(
+                    (tag: any) =>
+                      new Tag(
+                        tag.tag.tag_name,
+                        tag.tag_id,
+                        user_preference.topic_id
+                      )
                   )
-              ),
-              user.about_me,
-              user.cover_picture
-            )
-          }
-        )
+                )
+            ),
+            user.about_me,
+            user.cover_picture
+          );
+        })
       );
+  }
+
+  editProfile(
+    user_id: string,
+    username?: string,
+    about_me?: string,
+    profile_picture?: string,
+    cover_picture?: string
+  ): Observable<any> {
+    const payload = {
+      user_id,
+      username,
+      about_me,
+      profile_picture,
+      cover_picture,
+    };
+    return this._http.post<any>(`${this.API_URL}/editProfile`, payload);
   }
 }

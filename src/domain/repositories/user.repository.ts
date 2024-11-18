@@ -31,4 +31,11 @@ export abstract class UserRepository {
   abstract getFollowersFollowed(user_id: string): Observable<User[]>; //
   abstract getBasicInfo(user_id: string): Observable<UserDemo>;
   abstract getCompleteInformation(user_id: string): Observable<UserComplete>;
+  abstract editProfile(
+    user_id: string,
+    username?: string,
+    about_me?: string,
+    profile_picture?: string,
+    cover_picture?: string
+  ): Observable<any>;
 }

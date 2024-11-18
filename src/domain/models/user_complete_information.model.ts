@@ -29,4 +29,12 @@ export class UserComplete {
     getCoverPicture(){
         return this.cover_picture;
     }
+
+    setCoverPicture(cover_picture: string){
+        this.cover_picture = cover_picture;
+    }
+
+    setAboutMe(about_me:string){
+        this.about_me = about_me;
+    }
   }

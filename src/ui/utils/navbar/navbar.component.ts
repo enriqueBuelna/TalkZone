@@ -38,7 +38,12 @@ export class NavbarApp {
         icon: 'pi pi-user-plus',
         badge: false,
       },
-      { name: 'Grupos', where: '/groups', icon: 'pi pi-users', badge: false },
+      {
+        name: 'Grupos',
+        where: '/home/groups',
+        icon: 'pi pi-users',
+        badge: false,
+      },
       {
         name: 'Notificaciones',
         where: '/notifications',

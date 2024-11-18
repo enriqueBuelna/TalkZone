@@ -19,7 +19,7 @@ interface FirebaseConfig {
 }
 
 // Tu configuración de Firebase
-const firebaseConfig: FirebaseConfig = {
+const firebaseConfig = {
   apiKey: 'AIzaSyDwkhwJW0W63BLCik72IRqAL9EOhIsmoko',
   authDomain: 'fir-df1ec.firebaseapp.com',
   projectId: 'fir-df1ec',
@@ -38,7 +38,7 @@ const storage = getStorage(app);
 export const uploadFile = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     // Crear una referencia a la ubicación en Storage
-    const storageRef = ref(storage, `uploads/${file.name}`);
+    const storageRef = ref(storage, `posts/${file.name}`);
 
     // Subir el archivo
     const uploadTask = uploadBytesResumable(storageRef, file);

@@ -16,7 +16,7 @@
         </div>
         @if (postContent.getMediaUrl()) {
         <div class="post-content">
-            <img class="foto_post" src="images/images.jpeg" alt="Imagen del post">
+            <img class="foto_post" [src]="postContent.getMediaUrl()" alt="Imagen del post">
         </div>
         }
         <div class="post-actions">

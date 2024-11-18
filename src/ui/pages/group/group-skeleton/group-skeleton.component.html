@@ -1,0 +1,25 @@
+<div class="contenedor">
+    <div class="main-content">
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div id="aside">
+        <app-aside>
+            <app-header>
+
+            </app-header>
+            <div class="container">
+                <div class="option" (click)="goToFeed()">
+                    <h3>Tu feed</h3>
+                </div>
+                <div class="option" (click)="goToDiscover()">
+                    <h3>Descubrir grupos</h3>
+                </div>
+                <div class="option" (click)="goToMyGroups()">
+                    <h3>Tus grupos</h3>
+                </div>
+            </div>
+        </app-aside>
+    </div>
+</div>
