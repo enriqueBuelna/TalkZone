@@ -16,6 +16,8 @@ import { UserPreferenceRepository } from './domain/repositories/user_preferences
 import { RemoteUserPreferenceRespository } from './data/repositories/remote_user_preference.repository';
 import { MessageRepository } from './domain/repositories/message.repository';
 import { RemoteMessageRepository } from './data/repositories/remote_message.repository';
+import { PostRepository } from './domain/repositories/post.repository';
+import { RemotePostRespository } from './data/repositories/remote_post.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +33,7 @@ export const appConfig: ApplicationConfig = {
       useClass: RemoteUserPreferenceRespository,
     },
     { provide: MessageRepository, useClass: RemoteMessageRepository },
+    { provide: PostRepository, useClass: RemotePostRespository },
     provideAnimationsAsync(),
   ],
 };

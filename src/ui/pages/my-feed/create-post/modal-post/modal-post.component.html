@@ -1,0 +1,36 @@
+<div id="modal-background" class="modal-background">
+    <form [formGroup]="formPost">
+        <div class="post-modal">
+            <div class="post-header">
+                <span>Crear publicación</span>
+                <button class="close-btn" (click)="onClick()">&times;</button>
+            </div>
+            <div class="post-content">
+                <div class="user-info">
+                    <div class="info">
+                        <img [src]="myUser.getProfilePic()" alt="User Photo" class="user-photo">
+                        <div class="user-name">{{myUser.getUsername()}}</div>
+                    </div>
+                    <div class="privacy">
+                        <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
+                            formControlName="topic_id" />
+                        <div class="privacy">
+                            <!-- aqui -->
+                            <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
+                            <!-- aqui -->
+                        </div>
+                    </div>
+                </div>
+                <!-- aqui -->
+                <textarea placeholder="¿Qué estás pensando?" class="post-textarea" formControlName="content"></textarea>
+            </div>
+            <div class="post-footer">
+                <div class="post-actions">
+                    <button class="action-btn">📷</button>
+                    <button class="action-btn">😊</button>
+                </div>
+                <button class="post-button" (click)="addPost()">Postear</button>
+            </div>
+        </div>
+    </form>
+</div>

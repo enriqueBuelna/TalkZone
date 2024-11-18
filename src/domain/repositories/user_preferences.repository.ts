@@ -9,10 +9,19 @@ export abstract class UserPreferenceRepository {
   ): Observable<UserPreferences[]>;
   abstract getMyUserPreferences(user_id: string): Observable<UserPreference[]>;
   abstract getUserByPreferencesFiltered(
-    user_id:string,
-    topicsKnow?: ITopic[],
-    topicsLearn?: ITopic[],
+    user_id: string,
+    topicsMentores?: ITopic[],
+    topicsExploradores?: ITopic[],
+    topicsEntusiastas?: ITopic[],
     gender?: string,
-    connect?: string
+    connect?: string,
+    onlyMentores?: string,
+    onlyExploradores?: string,
+    onlyEntusiastas?: string
   ): Observable<UserPreferences[]>;
+  abstract addUserPreferences(
+    user_id:string,
+    userPreferences: UserPreference
+  ): Observable<UserPreference>;
+  abstract deleteUserPreference(user_preference_id:number):Observable<any>;
 }

@@ -14,7 +14,7 @@ import AgoraRTC from 'agora-rtc-sdk-ng';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, AuthComponent, NavbarApp],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

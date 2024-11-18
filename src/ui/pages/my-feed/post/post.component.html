@@ -1,0 +1,41 @@
+@if (postContent) {
+<div class="contenedor_principal">
+    <div class="post"  [routerLink]="['detail_post', postContent.getId()]">
+        <div class="post-header">
+            <div class="profile-pic">
+                <img [src]="postContent.getUserInfo().getProfilePic()" alt="">
+            </div>
+            <div class="post-info">
+                <a class="username">{{postContent.getUserInfo().getUsername()}}</a>
+                <span class="post-time">30 minutos · 🌎</span>
+            </div>
+            <div class="post-options">•••</div>
+        </div>
+        <div class="contenedor_texto_post">
+            <p>{{postContent.getContent()}}</p>
+        </div>
+        @if (postContent.getMediaUrl()) {
+        <div class="post-content">
+            <img class="foto_post" src="images/images.jpeg" alt="Imagen del post">
+        </div>
+        }
+        <div class="post-actions">
+            <span class="action">
+                <i class="pi pi-comment icon"></i>
+                @if (postContent.getCantComments() > 0) {
+                <p>{{postContent.getCantComments()}}</p>
+                }
+            </span>
+            <span class="action">
+                <i class="pi pi-heart icon"></i>
+                @if (postContent.getCantLikes() > 0) {
+                <p>{{postContent.getCantLikes()}}</p>
+                }
+            </span>
+            <span class="action">
+                <i class="pi pi-share-alt icon"></i>
+            </span>
+        </div>
+    </div>
+</div>
+}

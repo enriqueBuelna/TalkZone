@@ -1,0 +1,23 @@
+<div class="contenedor">
+    <div class="options">
+        <div class="option">
+            <p>Publicaciones</p>
+        </div>
+        <div class="option">
+            <p>Me gusta</p>
+        </div>
+        <div class="option">
+            <p>Multimedia</p>
+        </div>
+    </div>
+    <div class="posts">
+        <div class="all-post">
+            @for (post of allPost(); track post.getId()) {
+            <app-post [postContent]="post"></app-post>
+            }
+        </div>
+        @if (hasMorePosts) {
+        <button (click)="loadMore()">Cargar más</button>
+        }
+    </div>
+</div>

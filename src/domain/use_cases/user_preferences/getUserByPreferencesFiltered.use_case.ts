@@ -12,17 +12,25 @@ export class GetMyUserPreferencesFiltered {
 
   execute(
     user_id:string,
-    topicsKnow?: ITopic[],
-    topicsLearn?: ITopic[],
+    topicsMentores?: ITopic[],
+    topicsExploradores?: ITopic[],
+    topicsEntusiastas?:ITopic[],
     gender?: string,
-    connect?: string
+    connect?: string,
+    onlyMentores?:string,
+    onlyExploradores?:string,
+    onlyEntusiastas?:string
   ): Observable<UserPreferences[]> {
     return this.UserPreferenceRepository.getUserByPreferencesFiltered(
       user_id,
-      topicsKnow,
-      topicsLearn,
+      topicsMentores, 
+      topicsExploradores,
+      topicsEntusiastas,
       gender,
-      connect
+      connect,
+      onlyMentores,
+      onlyEntusiastas, 
+      onlyExploradores
     );
   }
 }

@@ -13,7 +13,13 @@ export class RemoteTagRespository extends TagRepository {
 
   getAllTag(id: number): Observable<Tag[]> {
     const params = new HttpParams().set('topic_id', id.toString()); // Convierte el ID a string
-    return this._http.get<Tag[]>(`${this.API_URL}/getAllTag`, { params });
+    return this._http
+      .get<Tag[]>(`${this.API_URL}/getAllTag`, { params })
+      .pipe(
+        map((tags: any) =>
+          tags.map((tag: any) => new Tag(tag.tag_name, tag.id, tag.topic_id))
+        )
+      );
   }
 
   addTag(tag: Tag): Observable<Tag> {
@@ -22,6 +28,8 @@ export class RemoteTagRespository extends TagRepository {
       tag_name: tag.getTagName(),
     };
 
-    return this._http.post<Tag>(`${this.API_URL}/addTag`, payload);
+    return this._http
+      .post<Tag>(`${this.API_URL}/addTag`, payload)
+      .pipe(map((tag: any) => new Tag(tag.tag_name, tag.id, tag.topic_id)));
   }
 }

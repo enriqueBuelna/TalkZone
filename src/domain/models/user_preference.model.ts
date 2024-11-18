@@ -5,19 +5,19 @@ export class UserPreference {
   private type: string;
   private tag?: Tag[];
   private topic_name: string;
-  private index?: number;
+  private id: number;
   constructor(
+    id:number,
     topic_id: number,
     type: string,
     topic_name: string,
-    index?: number,
-    tag?: Tag[]
+    tag?: Tag[],
   ) {
     this.topic_id = topic_id;
     this.type = type;
     this.tag = tag;
     this.topic_name = topic_name;
-    this.index = index;
+    this.id = id;
   }
 
   getType(): string {
@@ -28,9 +28,9 @@ export class UserPreference {
     return this.topic_name;
   }
 
-  getIndex(): number | undefined {
-    return this.index;
-  }
+  // getIndex(): number | undefined {
+  //   return this.index;
+  // }
 
   getTopicId(): number {
     return this.topic_id;
@@ -38,5 +38,9 @@ export class UserPreference {
 
   getTags(): Tag[] | undefined {
     return this.tag;
+  }
+
+  getId(){
+    return this.id;
   }
 }

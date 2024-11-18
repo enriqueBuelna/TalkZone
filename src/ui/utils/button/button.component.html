@@ -1,6 +1,6 @@
 <button [ngClass]="{
-    buttonClass,
+    
     'buttonDisabled': isDisabled 
-}" type="{{ type }}" (click)="onClick()">
+}" [class]="buttonClass" type="{{ type }}" (click)="onClick()">
     {{ text }}
 </button>

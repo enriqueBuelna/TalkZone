@@ -6,6 +6,9 @@ import { GetMyUserPreferences } from '../use_cases/user_preferences/getMyUserPre
 import { UserPreference } from '../models/user_preference.model';
 import { GetMyUserPreferencesFiltered } from '../use_cases/user_preferences/getUserByPreferencesFiltered.use_case';
 import { ITopic } from '../entities/topics/topic.interface';
+import { Topic } from '../models/topic.model';
+import { AddUserPreferences } from '../use_cases/user_preferences/addUserPreferences.use_case';
+import { DeleteUserPreferences } from '../use_cases/user_preferences/deleteUserPreference.use_case';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +16,9 @@ export class UserPreferenceService {
   constructor(
     private _getUsersByPreferences: GetUsersByPreferences,
     private _getMyUserPreference: GetMyUserPreferences,
-    private _getUserByPreferencesFiltered: GetMyUserPreferencesFiltered
+    private _getUserByPreferencesFiltered: GetMyUserPreferencesFiltered,
+    private _addUserPreference: AddUserPreferences,
+    private _deleteUserPreference: DeleteUserPreferences
   ) {}
 
   getUsersByPreferences(user_id: string): Observable<UserPreferences[]> {
@@ -25,18 +30,37 @@ export class UserPreferenceService {
   }
 
   getUserByPreferencesFiltered(
-    user_id:string,
-    topicsKnow?: ITopic[],
-    topicsLearn?: ITopic[],
+    user_id: string,
+    topicsMentores?: ITopic[],
+    topicsExploradores?: ITopic[],
+    topicsEntusiastas?: ITopic[],
     gender?: string,
-    connect?: string
+    connect?: string,
+    onlyMentores?: string,
+    onlyExploradores?: string,
+    onlyEntusiastas?: string
   ): Observable<UserPreferences[]> {
     return this._getUserByPreferencesFiltered.execute(
       user_id,
-      topicsKnow,
-      topicsLearn,
+      topicsMentores,
+      topicsExploradores,
+      topicsEntusiastas,
       gender,
-      connect
+      connect,
+      onlyMentores,
+      onlyEntusiastas,
+      onlyExploradores
     );
+  }
+
+  addUserPreferences(
+    user_id: string,
+    userPreference: UserPreference
+  ): Observable<UserPreference> {
+    return this._addUserPreference.execute(user_id, userPreference);
+  }
+
+  deleteUserPreference(user_preference_id: number): Observable<any> {
+    return this._deleteUserPreference.execute(user_preference_id);
   }
 }

@@ -12,14 +12,14 @@ export class UserPreferencesServices {
   //las llamadas hacia mis servicio, como el
 
   createUserPreference(
+    id:number, 
     topic_id: number,
     tags: Tag[],
     type: string,
     topic_name: string,
-    index: number
   ) {
     this.userPreferences.push(
-      // new UserPreference(topic_id, type, tags, topic_name, index)
+      new UserPreference(id, topic_id, type, topic_name, tags)
     );
   }
 
@@ -31,6 +31,10 @@ export class UserPreferencesServices {
 
   getUserPreferences(type: string) {
     return this.userPreferences.filter((el) => el.getType() === type);
+  }
+
+  verifyNotExist(id:number){
+    return this.userPreferences.some((el) => el.getTopicId() === id);
   }
 
   getUserPreferencesAll() {

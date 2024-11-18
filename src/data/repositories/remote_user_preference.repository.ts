@@ -32,7 +32,6 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
                       user_preference.topic_id,
                       user_preference.type,
                       user_preference.topic.topic_name,
-                      undefined,
                       user_preference.userPreferenceTags.map(
                         (tag: any) =>
                           new Tag(
@@ -66,10 +65,10 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
           return preferences.map(
             (pref) =>
               new UserPreference(
+                pref.id,
                 pref.topic.id,
                 pref.type,
-                pref.topic.topic_name,
-                pref.id
+                pref.topic.topic_name
               )
           );
         })
@@ -78,17 +77,25 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
 
   getUserByPreferencesFiltered(
     user_id: string,
-    topicsKnow?: ITopic[],
-    topicsLearn?: ITopic[],
+    topicsMentores?: ITopic[],
+    topicsExploradores?: ITopic[],
+    topicsEntusiastas?: ITopic[],
     gender?: string,
-    connect?: string
+    connect?: string,
+    onlyMentores?: string,
+    onlyExploradores?: string,
+    onlyEntusiastas?: string
   ): Observable<UserPreferences[]> {
     const payload = {
       user_id,
-      topicsKnow,
-      topicsLearn,
+      topicsMentores,
+      topicsExploradores,
+      topicsEntusiastas,
       gender,
       connect,
+      onlyMentores,
+      onlyEntusiastas,
+      onlyExploradores,
     };
 
     return this._http
@@ -107,7 +114,6 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
                       user_preference.topic_id,
                       user_preference.type,
                       user_preference.topic.topic_name,
-                      undefined,
                       user_preference.userPreferenceTags.map(
                         (tag: any) =>
                           new Tag(
@@ -125,5 +131,38 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
           );
         })
       );
+  }
+
+  addUserPreferences(
+    user_id: string,
+    userPreferences: UserPreference
+  ): Observable<UserPreference> {
+    const payload = {
+      user_id,
+      topic_id: userPreferences.getTopicId(),
+      type: userPreferences.getType(),
+      tags: userPreferences.getTags(),
+    };
+
+    return this._http
+      .post<UserPreference>(`${this.API_URL}preferences`, payload)
+      .pipe(
+        map(
+          (el: any) =>
+            new UserPreference(
+              el.id,
+              el.topic_id,
+              el.type,
+              el.topic_name,
+              el.tags
+            )
+        )
+      );
+  }
+
+  deleteUserPreference(user_preference_id: number): Observable<any> {
+    return this._http.delete<any>(
+      `${this.API_URL}preferences?id=${user_preference_id}`
+    );
   }
 }

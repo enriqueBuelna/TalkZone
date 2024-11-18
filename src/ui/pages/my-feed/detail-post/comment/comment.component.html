@@ -1,0 +1,20 @@
+@if (comment) {
+<div class="tweet-container">
+    <div class="profile-pic">
+        <a href=""><img [src]="comment.getUserInfo().getProfilePic()" alt="Profile Picture"></a>
+    </div>
+    <div class="tweet-content">
+        <div>
+            <a href=""><span class="username">{{comment.getUserInfo().getUsername()}}</span></a> · <span
+                class="timestamp">9 min</span>
+        </div>
+        <p><span>{{comment.getContent()}}</span></p>
+        <div class="tweet-actions">
+            <div><span>💬</span> 1</div>
+            <div><span>❤️</span> @if(comment.getCantLikes() > 0){
+                {{comment.getCantLikes()}}
+                }</div>
+        </div>
+    </div>
+</div>
+}

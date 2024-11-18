@@ -80,7 +80,7 @@ export class LoginApp {
       this._authService.login(username, password).pipe().subscribe((response) => {
         this._userService.setToken(response.token);
         this._userService.setUser(response.user);
-        this._router.navigate(['/home']); // Redirigir a la página de bienvenida
+        this._router.navigate(['/home/posts']); // Redirigir a la página de bienvenida
       });
       // me deberia que ir a la parte de pues el inicio, pero ahorita no me voy a poner con eso, ocupo ir al //terminar mi perfil
     }

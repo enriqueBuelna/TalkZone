@@ -1,0 +1,98 @@
+<div id="modal-background" class="modal-background">
+  <div class="post-modal">
+    <div class="post-header">
+      <span>Editar perfil</span>
+      <button class="close-btn" (click)="onClick()">&times;</button>
+    </div>
+    <div class="post-content">
+      <form [formGroup]="formEditProfile">
+        <div class="profile-edit-container">
+          <!-- Foto de Portada -->
+          <div class="cover-photo-section">
+            <label for="coverPhotoInput" class="cover-photo-label">
+              <img [src]="user.getCoverPicture()" alt="Foto de Portada" class="cover-photo">
+              <div class="camera-icon larger-icon"></div>
+            </label>
+            <input id="coverPhotoInput" type="file" hidden (change)="onImageSelected($event, 'cover')">
+          </div>
+
+          <!-- Foto de Perfil -->
+          <div class="profile-photo-section">
+            <label for="profilePhotoInput" class="profile-photo-label">
+              <img [src]="user.getUserDemo().getProfilePic()" alt="Foto de Perfil" class="profile-photo">
+              <div class="camera-icon larger-icon"></div>
+            </label>
+            <input id="profilePhotoInput" type="file" hidden (change)="onImageSelected($event, 'profile')">
+          </div>
+        </div>
+
+
+        <!-- Username -->
+        <div class="form-group">
+          <label for="usernameInput">Nombre de Usuario</label>
+          <input id="usernameInput" type="text" class="form-control" [placeholder]="user.getUserDemo().getUsername()" formControlName="username">
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group">
+          <label for="descriptionInput">Descripción</label>
+          <textarea id="descriptionInput" class="form-control" [placeholder]="user.getAboutMe()" formControlName="about_me"></textarea>
+        </div>
+      </form>
+      <!-- Preferencias -->
+      <div class="topics">
+        <!-- <label for="">Preferencias:</label> -->
+        <div class="mentor">
+          <h4>Mentor:</h4>
+          <div class="topic">
+            @for (userPref of userPreferences(); track $index) {
+            @if (userPref.getType() === "mentor") {
+            <p-chip [label]="userPref.getTopicName()" [removable]="true"
+              (onRemove)="deleteUserPreference(userPref.getId())"></p-chip>
+            }
+            }
+          </div>
+          <div class="button">
+            <app-button text="Agregar" [buttonClass]="'small-button'" (clickEvent)="showModal('mentor')"></app-button>
+          </div>
+        </div>
+        <div class="entusiasta">
+          <h4>Entusiasta:</h4>
+          <div class="topic">
+            @for (userPref of userPreferences(); track $index) {
+            @if (userPref.getType() === "entusiasta") {
+            <p-chip [label]="userPref.getTopicName()" [removable]="true"
+              (onRemove)="deleteUserPreference(userPref.getId())"></p-chip>
+            }
+            }
+          </div>
+          <div class="button">
+            <app-button text="Agregar" [buttonClass]="'small-button'"></app-button>
+          </div>
+        </div>
+        <div class="explorador">
+          <h4>Explorador:</h4>
+          <div class="topic">
+            @for (userPref of userPreferences(); track $index) {
+            @if (userPref.getType() === "explorador") {
+            <p-chip [label]="userPref.getTopicName()" [removable]="true"
+              (onRemove)="deleteUserPreference(userPref.getId())"></p-chip>
+            }
+            }
+          </div>
+          <div class="button">
+            <app-button text="Agregar" [buttonClass]="'small-button'"></app-button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="post-footer">
+      <app-button text="Guardar cambios" (clickEvent)="saveChanges()"></app-button>
+    </div>
+  </div>
+</div>
+
+@if (modalShow()) {
+<app-modal-user-preferences [type]="type" (clickEvent)="quitModal()"></app-modal-user-preferences>
+}

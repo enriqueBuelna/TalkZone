@@ -1,12 +1,35 @@
 <div class="main-content">
     <app-header>
-        <h2>¡Bienvenido, usuario!</h2>
+        <h2>¡Bienvenido a TalkZone!</h2>
     </app-header>
     <div class="main">
         @if (!stepOne) {
-        <h3>Nos alegra tenerte aquí. Antes de empezar, configura tu perfil para que otros usuarios puedan conocerte
-            mejor</h3>
-
+            <div class="containerr">
+                <div class="intro">
+                  <p>En <strong>TalkZone</strong>, puedes aprender, enseñar y conectar con personas que comparten tus intereses. Hemos creado una experiencia flexible para que explores temas, compartas conocimientos y participes en conversaciones enriquecedoras.</p>
+                </div>
+            
+                <div class="roles">
+                  <div class="role">
+                    <h2>Exploradores</h2>
+                    <p>Si deseas aprender, selecciona los temas que te interesan y comienza a descubrir nuevas ideas.</p>
+                  </div>
+            
+                  <div class="role">
+                    <h2>Mentores</h2>
+                    <p>Si eres experto en algún tema, comparte tu conocimiento con los demás y ayuda a los Exploradores a crecer.</p>
+                  </div>
+            
+                  <div class="role">
+                    <h2>Entusiastas</h2>
+                    <p>Si te apasiona participar en conversaciones, pero no te enfocas en enseñar ni aprender formalmente, este rol es para ti.</p>
+                  </div>
+                </div>
+            
+                <div class="footer">
+                  <p>¡Elige tus temas y conecta con otros! Puedes cambiar de rol y explorar lo que más te interese. ¡Disfruta de la experiencia en TalkZone!</p>
+                </div>
+              </div>
         <div class="btn">
             <app-button buttonClass="medium-button" text="Configurar mi perfil" (click)="changeStep()" />
         </div>
@@ -14,10 +37,10 @@
         <form [formGroup]="formDescription">
             <textarea formControlName="about_me"></textarea>
             <div class="teach">
-                <p>Lo que puedo enseñar:</p>
-                <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(0, 'know')" />
+                <p>Explorador:</p>
+                <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(0, 'explorador')" />
                 <div class="topics-teach">
-                    @for (item of getUserPreferences('know'); track item.getIndex()) {
+                    @for (item of getUserPreferences('explorador'); track item) {
                     <!-- Checar lo del tagRemove -->
                     <p-chip [label]="item.getTopicName()" [removable]="true"
                         (onRemove)="deleteUserPreference(item.getTopicName())" />
@@ -26,10 +49,22 @@
             </div>
 
             <div class="learn">
-                Lo que quiero aprender:
-                <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(1, 'learn')" />
+                Mentor:
+                <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(1, 'mentor')" />
                 <div class="topics-learn">
-                    @for (item of getUserPreferences('learn'); track item.getIndex()) {
+                    @for (item of getUserPreferences('mentor'); track item) {
+                    <!-- Checar lo del tagRemove -->
+                    <p-chip [label]="item.getTopicName()" [removable]="true"
+                        (onRemove)="deleteUserPreference(item.getTopicName())" />
+                    }
+                </div>
+            </div>
+
+            <div class="learn">
+                Entusiasta:
+                <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(1, 'entusiasta')" />
+                <div class="topics-learn">
+                    @for (item of getUserPreferences('entusiasta'); track item) {
                     <!-- Checar lo del tagRemove -->
                     <p-chip [label]="item.getTopicName()" [removable]="true"
                         (onRemove)="deleteUserPreference(item.getTopicName())" />
@@ -106,6 +141,10 @@
                         <div class="mt-3">
                             <app-button buttonClass="medium-button" text="Siguiente" (clickEvent)="next()" />
                         </div>
+
+                        @if (topicExiste()) {
+                            <h3>Ese tema, ya esta puesto en alguna de tus otras preferencias, por favor, elige otro :D</h3>
+                        }
                     </ng-template>
                 </p-stepperPanel>
                 <p-stepperPanel>

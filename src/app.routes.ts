@@ -9,6 +9,11 @@ import { ConnectComponent } from './ui/pages/connect/connect.component';
 import { MessagesComponent } from './ui/pages/messages/messages.component';
 import { MessageRigthComponent } from './ui/pages/messages/message-rigth/message-rigth.component';
 import { RoomContainerComponent } from './ui/pages/voice-room/voice-room-in/room-container/room-container.component';
+import { MyFeedComponent } from './ui/pages/my-feed/my-feed.component';
+import { Component } from '@angular/core';
+import { DetailPostComponent } from './ui/pages/my-feed/detail-post/detail-post.component';
+import { ForYouComponent } from './ui/pages/my-feed/for-you/for-you.component';
+import { MyProfileComponent } from './ui/pages/my-profile/my-profile.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -17,6 +22,20 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     children: [
+      {
+        path: 'posts',
+        component: MyFeedComponent,
+        children: [
+          {
+            path: '',
+            component: ForYouComponent,
+          },
+          {
+            path:'detail_post/:id',
+            component: DetailPostComponent
+          }
+        ],
+      },
       // { path: '', component: VoiceRoomComponent },
       { path: 'welcome', component: WelcomeComponent },
       {
@@ -32,6 +51,10 @@ export const routes: Routes = [
         component: MessagesComponent,
         children: [{ path: ':user_id', component: MessageRigthComponent }],
       },
+      {
+        path: 'profile/:user_id',
+        component: MyProfileComponent
+      }
     ],
     canActivate: [authGuard],
   },

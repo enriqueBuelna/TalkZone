@@ -85,6 +85,7 @@ export class WelcomeComponent implements OnInit {
   responseAddTag$?: Observable<Tag>; //aqui
   type: string = '';
   indexUserPreference: number = 0;
+  topicExiste = signal(false);
   constructor(
     private _topicService: TopicService,
     private formBuilder: FormBuilder,
@@ -137,24 +138,37 @@ export class WelcomeComponent implements OnInit {
     } else if (this.activeStep() === 1) {
       let { secondTopic } = this.formTopics.value;
       let id = secondTopic.id ? secondTopic : this.formTopics.value.firstTopic;
-      this.responseTags$ = this._tagService.getAllTag(id.id);
-      this.responseTags$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((data: Tag[]) => {
-          this._TopicTagsService.setTagList(data);
-          this.activeStep.set(2);
-        });
+      //ocupo verificar que no se repitar mi preferencia con otras que ya tenga
+      if (!this._UserPreferenceService.verifyNotExist(id.id)) {
+        this.topicExiste.set(false);
+        this.responseTags$ = this._tagService.getAllTag(id.id);
+        this.responseTags$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data: Tag[]) => {
+            this._TopicTagsService.setTagList(data);
+            this.activeStep.set(2);
+          });
+      } else {
+        this.topicExiste.set(true);
+      }
     } else if (this.activeStep() === 2) {
       let { firstTopic, secondTopic } = this.formTopics.value;
       const chosenTopic = secondTopic || firstTopic;
-
-      this._UserPreferenceService.createUserPreference(
+      console.log(
         chosenTopic.id,
         this._TopicTagsService.getTagAdded(),
         this.type,
-        chosenTopic.topic_name,
-        this.indexUserPreference
+        chosenTopic.topic_name
       );
+      this._UserPreferenceService.createUserPreference(
+        0,
+        chosenTopic.id,
+        this._TopicTagsService.getTagAdded(),
+        this.type,
+        chosenTopic.topic_name
+      );
+
+      console.log(this._UserPreferenceService.getUserPreferences('explorador'));
 
       this.activeStep.set(3);
 
@@ -178,8 +192,10 @@ export class WelcomeComponent implements OnInit {
     let filtered: Tag[] = [];
     let query = event.query;
     let tagList = this._TopicTagsService.getTagList();
+    console.log(tagList);
     for (let i = 0; i < tagList.length; i++) {
       let tag = tagList[i];
+      console.log(tag.getTagName());
       if (tag.getTagName().toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(tag);
       }
@@ -195,15 +211,17 @@ export class WelcomeComponent implements OnInit {
     );
     if (allFieldsValid) {
       let { tag, secondTopic, firstTopic } = this.formTopics.value;
-
       let topicId = secondTopic?.id || firstTopic.id;
       let existingTag = false;
       if (!(tag instanceof Object) && tag != '' && tag != null) {
         existingTag = this._TopicTagsService.findTag(tag);
       }
+      console.log(tag);
       if (tag != '' && tag != null) {
         if (!existingTag && !(tag instanceof Object)) {
-          let newTag: Tag = new Tag(tag, topicId, 0);
+          //aqui es que no este
+          console.log(topicId);
+          let newTag: Tag = new Tag(tag, 0, topicId);
           this.responseAddTag$ = this._tagService.addTag(newTag);
           this.responseAddTag$
             .pipe(takeUntil(this.destroy$))
@@ -212,9 +230,21 @@ export class WelcomeComponent implements OnInit {
               this._TopicTagsService.addTagList(data);
               this.formTopics.get('tag')?.reset();
             });
-        } else if (!this._TopicTagsService.findTagAdded(tag)) {
-          this._TopicTagsService.addTagAdded(tag);
-          this.formTopics.get('tag')?.reset();
+        } else if (tag instanceof Object) {
+          if (!this._TopicTagsService.findTagAdded(tag)) {
+            this._TopicTagsService.addTagAdded(tag);
+            this.formTopics.get('tag')?.reset();
+          } else {
+            this.formTopics.get('tag')?.reset();
+          }
+        } else {
+          let newTag = this._TopicTagsService.tagInList(tag);
+          if (newTag && !this._TopicTagsService.findTagAdded(newTag)) {
+            this._TopicTagsService.addTagAdded(newTag);
+            this.formTopics.get('tag')?.reset();
+          } else {
+            this.formTopics.get('tag')?.reset();
+          }
         }
       }
     }
@@ -270,9 +300,8 @@ export class WelcomeComponent implements OnInit {
     //sin firestore de momento
     let { about_me } = this.formDescription.value;
     //llamar al servicio para que haga esta cosa
-    console.log(this._userService.getUser());
 
-    let { id } = this._userService.getUser();
+    let id  = this._userService.getUserId();
     this.responseFinishProfile$ = this._authService.finishProfile(
       id,
       about_me,
