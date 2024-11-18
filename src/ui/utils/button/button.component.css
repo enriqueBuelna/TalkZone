@@ -7,7 +7,7 @@ button {
   cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
   transition: background-color 0.3s; /* Transición suave para el cambio de color */
   display: block;
-  width: 100%;
+  max-width: 100%;
 }
 
 .buttonDisabled {
@@ -21,7 +21,8 @@ button:hover {
 }
 
 .small-button {
-  padding: 0.1rem 1.5rem; /* Espaciado interno */
+  padding: .5rem .5rem; /* Espaciado interno */
+  font-size: 1.2rem; /* Tamaño de fuente */
 }
 
 .big-button {
@@ -34,4 +35,8 @@ button:hover {
 
 .tiny-button {
   padding: .1rem .5rem;
+}
+
+.p-chip {
+  font-family: monospace
 }

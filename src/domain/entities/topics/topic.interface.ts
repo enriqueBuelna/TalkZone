@@ -1,5 +1,5 @@
-export interface ITopic{
-    id:number;
-    topic_name:string;
-    topic_id:number;
+export interface ITopic {
+  topic_id: number;
+  topic_name: string;
+  type: string;
 }

@@ -1,0 +1,10 @@
+.contenedor {
+    height: 100%;
+    width: 100%;
+}
+
+.topic {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: .5rem;
+}

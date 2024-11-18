@@ -5,6 +5,7 @@ import { MessageResponse } from '../entities/users/MessageResponse.entitie';
 import { LoginResponse } from '../entities/users/LoginResponse.entitie';
 import { UserPreference } from '../models/user_preference.model';
 import { UserDemo } from '../models/user-demo.model';
+import { UserComplete } from '../models/user_complete_information.model';
 
 export abstract class UserRepository {
   abstract register(user: User): Observable<User>;
@@ -29,4 +30,5 @@ export abstract class UserRepository {
   ): Observable<void>;
   abstract getFollowersFollowed(user_id: string): Observable<User[]>; //
   abstract getBasicInfo(user_id: string): Observable<UserDemo>;
+  abstract getCompleteInformation(user_id: string): Observable<UserComplete>;
 }

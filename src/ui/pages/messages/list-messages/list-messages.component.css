@@ -16,7 +16,6 @@
     display: flex;
     padding: 1rem;
     gap: 1rem;
-    border-bottom: .1rem solid #d3d3d3;
 }
 
 .add-message {
@@ -81,3 +80,5 @@
     color: #999;
     margin-left: auto;
 }
+
+/* idea del jaziel */

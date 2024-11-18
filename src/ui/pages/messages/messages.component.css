@@ -1,3 +1,9 @@
 .main-content{
     width: 38%;
+    height: 100%;
+    border-right: 1px solid #d3d3d3;
+}
+
+.title {
+    margin: 0;
 }

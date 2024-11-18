@@ -53,8 +53,12 @@ export class TopicsTagsService {
     this.tagAdded.push(tag);
   }
 
-  findTagAdded(tag: Tag): boolean {
-    console.log(this.tagAdded);
+  tagInList(tag:string){
+    console.log(tag);
+    return this.tagList.find(el => el.getTagName().toLowerCase() === tag.toLowerCase())
+  }
+
+  findTagAdded(tag:Tag): boolean {
     return this.tagAdded.some(
       (el) => el.getTagName().toLowerCase() === tag.getTagName().toLowerCase()
     );

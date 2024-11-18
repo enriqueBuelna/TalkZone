@@ -14,6 +14,8 @@ import { UserPreference } from '../models/user_preference.model';
 import { GetFollowersFollowed } from '../use_cases/user/getFollowersFollowed.use_case';
 import { GetBasicInfo } from '../use_cases/user/getBasicInfo.use_case';
 import { UserDemo } from '../models/user-demo.model';
+import { GetCompleteInformation } from '../use_cases/user/getCompleteInformation.use_case';
+import { UserComplete } from '../models/user_complete_information.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +30,8 @@ export class AuthService {
     private _sendChangePasswordCode: SendChangePasswordCode,
     private _finishProfile: FinishProfile,
     private _getFollowersFollowed: GetFollowersFollowed,
-    private _getBasicInfo: GetBasicInfo
+    private _getBasicInfo: GetBasicInfo,
+    private _getCompleteInformation:GetCompleteInformation
   ) {}
 
   register(user: User): Observable<User> {
@@ -78,5 +81,9 @@ export class AuthService {
 
   getBasicInfo(user_id: string): Observable<UserDemo> {
     return this._getBasicInfo.execute(user_id);
+  }
+
+  getCompleteInformation(user_id:string):Observable<UserComplete>{
+    return this._getCompleteInformation.execute(user_id);
   }
 }

@@ -10,6 +10,8 @@ import { MessageResponse } from '../../domain/entities/users/MessageResponse.ent
 import { LoginResponse } from '../../domain/entities/users/LoginResponse.entitie';
 import { UserPreference } from '../../domain/models/user_preference.model';
 import { UserDemo } from '../../domain/models/user-demo.model';
+import { UserComplete } from '../../domain/models/user_complete_information.model';
+import { Tag } from '../../domain/models/tag.model';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -163,6 +165,46 @@ export class RemoteUserRepository extends UserRepository {
               user.gender,
               user.profile_picture
             )
+        )
+      );
+  }
+
+  getCompleteInformation(user_id: string): Observable<UserComplete> {
+    const params = new HttpParams().set('user_id', user_id.toString());
+    return this._http
+      .get<UserComplete>(`${this.API_URL}/getCompleteProfile`, { params })
+      .pipe(
+        map(
+          (user: any) => 
+          {
+            return new UserComplete(
+              new UserDemo(
+                user.id,
+                user.username,
+                user.gender,
+                user.profile_picture
+              ),
+              user.user_to_user_preference.map(
+                (user_preference: any) =>
+                  new UserPreference(
+                    user_preference.id,
+                    user_preference.topic_id,
+                    user_preference.type,
+                    user_preference.topic.topic_name,
+                    user_preference.userPreferenceTags.map(
+                      (tag: any) =>
+                        new Tag(
+                          tag.tag.tag_name,
+                          tag.tag_id,
+                          user_preference.topic_id
+                        )
+                    )
+                  )
+              ),
+              user.about_me,
+              user.cover_picture
+            )
+          }
         )
       );
   }

@@ -1,0 +1,12 @@
+<app-header>
+    <app-choose-post (clickEvent)="changePost($event)"></app-choose-post>
+</app-header>
+<app-tweet-text [myUser]="myUserInformation()"></app-tweet-text>
+<div class="all-post">
+    @for (post of allPost(); track post.getId()) {
+        <app-post [postContent]="post"></app-post>
+        }
+</div>
+@if (hasMorePosts) {
+    <button (click)="loadMore()">Cargar más</button>
+}

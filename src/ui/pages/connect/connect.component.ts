@@ -25,6 +25,7 @@ import { atLeastOneFieldRequired } from './validators/atLeastOne.validator';
 interface FilterTopic {
   topic_id: number;
   topic_name: string;
+  type:string;
 }
 interface Gender {
   name: string;
@@ -59,8 +60,10 @@ export class ConnectComponent implements OnInit {
   userPreferenceInformation?: UserPreferences;
   visible = signal(false);
   buttonFilter = signal(false);
-  topicsLearn: FilterTopic[] = [];
-  topicsKnow: FilterTopic[] = [];
+  isTopicsMentor = signal(false);
+  topicsMentor: FilterTopic[] = [];
+  topicsExplorador: FilterTopic[] = [];
+  topicsEntusiasta: FilterTopic[] = [];
   genders: Gender[] = [
     {
       name: 'Hombre',
@@ -80,23 +83,32 @@ export class ConnectComponent implements OnInit {
   ) {
     this.filterForm = this.formBuilder.group(
       {
-        topicsKnow: [''],
-        topicsLearn: [''],
+        topicsMentores: [''],
+        topicsExploradores: [''],
+        topicsEntusiastas: [''],
         gender: [''],
         connect: [''],
+        onlyMentores: ['']
       },
-      {
-        validators: atLeastOneFieldRequired([
-          'topicsKnow',
-          'topicsLearn',
-          'gender',
-          'connect',
-        ]),
-      }
+      // {
+      //   validators: atLeastOneFieldRequired([
+      //     'topicsKnow',
+      //     'topicsLearn',
+      //     'gender',
+      //     'connect',
+      //   ]),
+      // }
     );
   }
 
   ngOnInit(): void {
+    this.filterForm.get('topicsMentores')?.valueChanges.subscribe(value => {
+      if(value.length > 0){
+        this.isTopicsMentor.set(true);
+      }else{
+        this.isTopicsMentor.set(false);
+      }
+    });
     this.responseMyUserPreferences$ =
       this._userPreferenceService.getMyUserPreferences(
         this._userService.getUserId()
@@ -117,20 +129,29 @@ export class ConnectComponent implements OnInit {
     this.responseMyUserPreferences$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
+        console.log(el);
         this.myUserPreference = el;
         el.forEach((ele) => {
           const topic: FilterTopic = {
             topic_id: ele.getTopicId(),
             topic_name: ele.getTopicName(),
+            type:''
           };
-          if (ele.getType() === 'know') {
-            this.topicsKnow.push(topic);
-          } else if (ele.getType() === 'learn') {
-            this.topicsKnow.push(topic);
+          if (ele.getType() === 'entusiasta') {
+            topic.type = 'entusiasta';
+            this.topicsEntusiasta.push(topic);
+          } else if (ele.getType() === 'explorador') {
+            topic.type = 'explorador';
+            this.topicsExplorador.push(topic);
+          } else if (ele.getType() === 'mentor') {
+            topic.type = 'mentor';
+            this.topicsMentor.push(topic);
           }
         });
       });
   }
+
+
 
   selectCard(userPreference: UserPreferences) {
     this.showInfo.set(true);
@@ -142,22 +163,31 @@ export class ConnectComponent implements OnInit {
   }
 
   filterApply() {
-    const { topicsKnow, topicsLearn, gender, connect } = this.filterForm.value;
+    const { topicsMentores, topicsEntusiastas, topicsExploradores, onlyMentores,gender, connect } = this.filterForm.value;
 
+    console.log(topicsMentores, topicsEntusiastas, topicsExploradores);
     this.responseUserPreference$ =
       this._userPreferenceService.getUserByPreferencesFiltered(
         this._userService.getUserId(),
-        topicsKnow,
-        topicsLearn,
+        topicsMentores,
+        topicsExploradores, 
+        topicsEntusiastas,
         gender,
-        connect
+        connect,
+        onlyMentores
       );
 
     this.responseUserPreference$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
-        this.visible.set(false);
-        this.allUserPreferences = el;
+        
+        // this.visible.set(false);
+        // this.allUserPreferences = el;
       });
+  }
+
+  onBlur() {
+    console.log('El campo de entrada ha perdido el foco');
+    // Aquí puedes agregar la lógica de validación que necesites
   }
 }

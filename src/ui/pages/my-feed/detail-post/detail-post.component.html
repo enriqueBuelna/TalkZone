@@ -1,0 +1,14 @@
+@if (post) {
+<div class="contenedor">
+    <app-header>
+        <p>4-Post</p>
+    </app-header>
+    <app-post [postContent]="post"></app-post>
+    <app-tweet-text [myUser]="myUserInformation()"></app-tweet-text>
+    @if (post.getCantComments() > 0) {
+    @for (comment of post.getComment(); track $index) {
+    <app-comment [comment]="comment"></app-comment>
+    }
+    }
+</div>
+}

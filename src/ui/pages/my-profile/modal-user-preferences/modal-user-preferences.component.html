@@ -1,0 +1,80 @@
+<p-dialog [modal]="true" [visible]="true" [style]="{ width: '40rem', height:'40rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
+    <form [formGroup]="formTopics">
+        <div class="flex justify-content-center">
+            <p-stepper [linear]="true" [activeStep]="activeStep()">
+                <p-stepperPanel>
+                    <ng-template pTemplate="content">
+                        <div class="container">
+                            <div class="title">
+                                <h2>Selecciona una categoría principal</h2>
+                            </div>
+                            <div>
+
+                                <!--PREGUNTAR PROFE PARA PARPADEAR PANTALLA-->
+                                @if(responseTopicPrincipal$ | async; as topicPrincipalList ){
+                                @defer() {
+                                <p-dropdown optionLabel="name" placeholder="Seleccionar categoria"
+                                    [style]='{width:"100%"}' [options]="topicPrincipalList" optionLabel="topic_name"
+                                    formControlName="firstTopic" />
+                                }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <app-button buttonClass="medium-button" text="Siguiente" (clickEvent)="next()" />
+                        </div>
+                    </ng-template>
+                </p-stepperPanel>
+                <p-stepperPanel>
+                    <ng-template pTemplate="content">
+                        <div class="container text-center">
+                            <h2>Selecciona un subtema dentro de </h2>
+                        </div>
+                        <div>
+                            <p-dropdown optionLabel="name" placeholder="Seleccionar categoria" [style]='{width:"100%"}'
+                                [options]="getTopicTags().getTopicSecondList()" optionLabel="topic_name"
+                                formControlName="secondTopic" />
+                        </div>
+                        <div class="mt-3">
+                            <app-button buttonClass="medium-button" text="Siguiente" (clickEvent)="next()" />
+                        </div>
+
+                        @if (topicExiste()) {
+                            <h3>Ese tema, ya esta puesto en alguna de tus otras preferencias, por favor, elige otro :D</h3>
+                        }
+                    </ng-template>
+                </p-stepperPanel>
+                <p-stepperPanel>
+                    <ng-template pTemplate="content">
+                        <div class="container text-center">
+                            <h2>Personaliza tu selección con palabras clave</h2>
+                        </div>
+
+                        <div class="input-group text-center">
+                            <p-autoComplete [suggestions]="filteredTags" optionLabel="tag_name"
+                                (completeMethod)="filterTags($event)" formControlName="tag"
+                                [showEmptyMessage]="false" />
+
+
+
+                            <app-button buttonClass="medium-button" text="Añadir" (clickEvent)="addTag()"></app-button>
+                        </div>
+
+                        <div class="flex align-items-center gap-2 flex-wrap">
+                            @for (item of getTopicTags().getTagAdded(); track item.getId()) {
+                            <p-chip [label]="item.getTagName()" [removable]="true"
+                                (onRemove)="getTopicTags().tagRemove(item.getId())" />
+                            }
+                        </div>
+
+                        <div class="mt-3">
+                            <app-button buttonClass="medium-button" text="Siguiente" (clickEvent)="next()" />
+                        </div>
+                    </ng-template>
+                </p-stepperPanel>
+            </p-stepper>
+        </div>
+    </form>
+</p-dialog>

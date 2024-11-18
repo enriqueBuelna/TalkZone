@@ -1,0 +1,20 @@
+<div class="profile-container">
+    <div class="cover-photo" [style.background-image]="'url(' + myUser.getCoverPicture() + ')'">
+    </div>
+    <div class="profile-details">
+        <div class="profile-picture">
+            <!-- Foto de perfil -->
+            <img [src]="myUser.getUserDemo().getProfilePic()" alt="Foto de Perfil">
+        </div>
+        <div class="profile-info">
+            <h2 class="username">{{myUser.getUserDemo().getUsername()}}</h2>
+        </div>
+    </div>
+    <div class="profile-stats">
+        <p><strong>67</strong> Siguiendo</p>
+        <p><strong>89</strong> Seguidores</p>
+    </div>
+    <!-- <div class="follow-button-container">
+        <button class="follow-button">Seguir</button>
+    </div> -->
+</div>

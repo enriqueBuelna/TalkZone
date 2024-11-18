@@ -1,0 +1,29 @@
+<!-- <div class="contenedor">
+    <div class="img-user">
+        <img src="images/images.jpeg" alt="">
+    </div>
+    <div class="input-post">
+        <div class="input"><p>¿Qué estas pensando?</p></div>
+    </div>
+</div> -->
+
+<div class="tweet-box" (click)="showModal()">
+    <div class="tweet-input">
+        <div class="profile-pic">
+            <img [src]="myUser.getProfilePic()" alt="Profile Picture">
+        </div>
+        <p class="input-field">¿Qué está pasando!?</p>
+        <!-- <input type="text" class="input-field" placeholder="¿Qué está pasando?!"> -->
+    </div>
+    <div class="tweet-actions">
+        <div class="action-icons">
+            <span>📷</span> <!-- Icono para imagen -->
+            <span>😊</span> <!-- Icono para emojis -->
+        </div>
+        <button class="post-button">Postear</button>
+    </div>
+</div>
+
+@if(modalVisible()){
+    <app-modal-post (clickEvent)="showModal()" [myUser]="myUser"></app-modal-post>
+}
