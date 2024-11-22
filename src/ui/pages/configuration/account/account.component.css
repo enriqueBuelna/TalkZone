@@ -1,0 +1,39 @@
+.contenedor {
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.account-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+  border-bottom: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.option:hover {
+  background-color: #e6e6e6;
+}
+
+.icon {
+  font-size: 20px;
+  color: #666;
+}

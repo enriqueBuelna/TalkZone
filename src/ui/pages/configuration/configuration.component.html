@@ -1,0 +1,34 @@
+<div class="contenedor">
+    <div class="main-content">
+        <div class="container">
+            <app-header>
+                <div class="text-center">
+                    <h2>Configuracion</h2>
+                </div>
+            </app-header>
+            <div class="settings-options">
+                <div class="option" (click)="go('your-account')">
+                    <span>Tu cuenta</span>
+                    <span class="arrow">›</span>
+                </div>
+                <!-- <div class="option">
+                    <span>Privacidad y seguridad</span>
+                    <span class="arrow">›</span>
+                </div> -->
+                <div class="option" (click)="go('access')">
+                    <span>Accesibilidad, pantalla e idiomas</span>
+                    <span class="arrow">›</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="aside">
+        <app-aside>
+            @if(where==='your-account'){
+            <app-account></app-account>
+            }@else if(where==='access'){
+            <app-accesibility></app-accesibility>
+            }
+        </app-aside>
+    </div>
+</div>

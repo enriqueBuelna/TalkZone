@@ -13,7 +13,7 @@ export class GroupComponent implements OnInit{
   }
   ngOnInit(){
     if(true){
-      this._router.navigate(['home', 'groups','welcome']); // Redirigir a la página de bienvenida
+      // this._router.navigate(['home', 'groups','welcome']); // Redirigir a la página de bienvenida
     }
   }
 }

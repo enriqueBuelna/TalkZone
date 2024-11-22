@@ -1,0 +1,9 @@
+<div class="notification">
+    <div class="avatar">
+        <img [src]="notification.getUserDemo().getProfilePic()" alt="">
+    </div>
+    <div class="content">
+        <p><strong>{{notification.getUserDemo().getUsername()}}</strong> {{notification.getMessage()}}</p>
+        <button class="action-btn" (click)="goToRoot()">{{notification.getAction()}}</button>
+    </div>
+</div>

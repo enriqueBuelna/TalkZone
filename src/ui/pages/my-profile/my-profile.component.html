@@ -4,7 +4,7 @@
             <h2 class="title">{{myUser().getUserDemo().getUsername()}}</h2>
         </div>
         <div class="profile-information">
-            <app-profile-information [myUser]="myUser()"></app-profile-information>
+            <app-profile-information [myUser]="myUser()" type="user"></app-profile-information>
         </div>
         <div class="publications">
             <app-post-profile></app-post-profile>
@@ -15,7 +15,7 @@
             <div class="header">
 
             </div>
-            <app-information-profile [user]="myUser()"></app-information-profile>
+            <app-information-profile [user]="myUser()" type="user"></app-information-profile>
         </app-aside>
     </div>
 </div>

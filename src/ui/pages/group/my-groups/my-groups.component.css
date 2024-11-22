@@ -15,3 +15,103 @@
   margin: 0;
   margin-top: 1rem;
 }
+
+.button-create {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  margin: 3rem;
+}
+
+
+/* AQUI */
+/* Contenedor general */
+.group-container {
+  font-family: Arial, sans-serif;
+  max-width: 300px;
+  margin: auto;
+}
+
+/* Dropdown personalizado */
+.dropdown {
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 1.3rem;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  appearance: none;
+  background: #f9f9f9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23666' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  cursor: pointer;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
+}
+
+/* Tarjeta del grupo */
+.group-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #00a8c6;
+  color: white;
+  padding: 10px;
+}
+
+.group-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.group-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.view-group {
+  background-color: white;
+  color: #00a8c6;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-group:hover {
+  background-color: #e6e6e6;
+}
+
+.more-options {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}

@@ -2,7 +2,7 @@
     <h2>TalkZone</h2>
     <ul>
       @for (item of options; track $index) {
-        <app-navbar_list-item [label]="item.name" [link]="item.where" [icon]="item.icon"/>
+        <app-navbar_list-item [label]="item.name" [link]="item.where" [icon]="item.icon" [badge]="item.badge"/>
       }
     </ul>
   </nav>

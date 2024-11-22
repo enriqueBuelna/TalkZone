@@ -12,6 +12,12 @@ import { UserInVoiceRoom } from '../../domain/models/user_in_voice_room.model';
   providedIn: 'root',
 })
 export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
+  override verifyOpenVoiceRoom(room_id: string): Observable<boolean> {
+    const params = new HttpParams().set('room_id', room_id);
+    return this._http.get<boolean>(`${this.API_URL}/voice_rooms/verifyStatus`, {
+      params,
+    });
+  }
   override getInVoiceRoom(user_id: string): Observable<void> {
     throw new Error('Method not implemented.');
   }
@@ -106,10 +112,13 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
       );
   }
 
-  closeVoiceRoom(room_id:string):Observable<any>{
+  closeVoiceRoom(room_id: string): Observable<any> {
     const payload = {
-      room_id
-    }
-    return this._http.post<any>(`${this.API_URL}/voice_rooms/closeVoiceRoom`, payload);
+      room_id,
+    };
+    return this._http.post<any>(
+      `${this.API_URL}/voice_rooms/closeVoiceRoom`,
+      payload
+    );
   }
 }

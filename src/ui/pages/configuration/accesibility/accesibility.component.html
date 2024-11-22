@@ -1,0 +1,51 @@
+<div class="contenedor">
+    <app-header>
+        <div class="header">
+            <h2>{{title}}</h2>
+        </div>
+    </app-header>
+    <div class="in-side">
+        @if(title === 'Accesibilidad'){
+        <div class="account-options">
+            <div class="option" (click)="goTo('Apariencia')">
+                <span class="icon">🖌️</span>
+                <span>Apariencia</span>
+            </div>
+            <div class="option" (click)="goTo('Idiomas')">
+                <span class="icon">🌎</span>
+                <span>Cambiar idioma</span>
+            </div>
+        </div>
+        }
+        @if(title === 'Apariencia'){
+        <div class="fondo-selector-contenedor">
+            <h2 class="fondo-titulo">Imagen de fondo</h2>
+            <div class="fondo-opciones">
+                <label class="fondo-opcion fondo-seleccionada">
+                    <input type="radio" name="fondo" value="predeterminado" checked>
+                    <span class="blanco">Predet.</span>
+                </label>
+                <label class="fondo-opcion">
+                    <input type="radio" name="fondo" value="noche">
+                    <span class="fondo-texto">Noche clara</span>
+                </label>
+                <label class="fondo-opcion">
+                    <input type="radio" name="fondo" value="oscuro">
+                    <span class="fondo-texto">Oscuro</span>
+                </label>
+            </div>
+        </div>
+        }@else if(title === 'Idiomas'){
+        <div class="container">
+            <h1 class="title">Idioma de visualización</h1>
+            <p class="description">Selecciona tu idioma preferido para los encabezados, los botones y demás texto.
+            </p>
+            <div class="language-selection">
+                <span class="label">Idioma de visualización</span>
+                <span class="selected-language">español</span>
+                <span class="arrow">></span>
+            </div>
+        </div>
+        }
+    </div>
+</div>

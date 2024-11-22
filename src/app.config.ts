@@ -18,6 +18,10 @@ import { MessageRepository } from './domain/repositories/message.repository';
 import { RemoteMessageRepository } from './data/repositories/remote_message.repository';
 import { PostRepository } from './domain/repositories/post.repository';
 import { RemotePostRespository } from './data/repositories/remote_post.repository';
+import { CommunitieRepository } from './domain/repositories/communitie.repository';
+import { RemoteComunitieRepository } from './data/repositories/remote_comunitie.repository';
+import { NotificationRepository } from './domain/repositories/notifications.repository';
+import { RemoteNotificationRepository } from './data/repositories/remote_notifications.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +38,8 @@ export const appConfig: ApplicationConfig = {
     },
     { provide: MessageRepository, useClass: RemoteMessageRepository },
     { provide: PostRepository, useClass: RemotePostRespository },
+    { provide: CommunitieRepository, useClass: RemoteComunitieRepository },
+    { provide: NotificationRepository, useClass: RemoteNotificationRepository },
     provideAnimationsAsync(),
   ],
 };

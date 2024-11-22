@@ -20,6 +20,9 @@ import { DiscoverGroupsComponent } from './ui/pages/group/discover-groups/discov
 import { GroupSkeletonComponent } from './ui/pages/group/group-skeleton/group-skeleton.component';
 import { MyGroupsComponent } from './ui/pages/group/my-groups/my-groups.component';
 import { MyFeedGroupComponent } from './ui/pages/group/my-feed/my-feed.component';
+import { ViewOfGroupComponent } from './ui/pages/group/view-of-group/view-of-group.component';
+import { NotificationsComponent } from './ui/pages/notifications/notifications.component';
+import { ConfigurationComponent } from './ui/pages/configuration/configuration.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -75,8 +78,17 @@ export const routes: Routes = [
               { path: 'my-groups', component: MyGroupsComponent },
             ],
           },
+          { path: ':id', component: ViewOfGroupComponent },
         ],
       },
+      {
+        path: 'notifications',
+        component: NotificationsComponent,
+      },
+      {
+        path:'configuration',
+        component: ConfigurationComponent
+      }
     ],
     canActivate: [authGuard],
   },

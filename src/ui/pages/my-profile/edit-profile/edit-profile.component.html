@@ -71,7 +71,7 @@
             }
           </div>
           <div class="button">
-            <app-button text="Agregar" [buttonClass]="'small-button'"></app-button>
+            <app-button text="Agregar" [buttonClass]="'small-button'" (clickEvent)="showModal('entusiasta')"></app-button>
           </div>
         </div>
         <div class="explorador">
@@ -85,7 +85,7 @@
             }
           </div>
           <div class="button">
-            <app-button text="Agregar" [buttonClass]="'small-button'"></app-button>
+            <app-button text="Agregar" [buttonClass]="'small-button'" (clickEvent)="showModal('explorador')"></app-button>
           </div>
         </div>
       </div>

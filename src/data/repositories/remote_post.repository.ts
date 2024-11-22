@@ -12,81 +12,97 @@ import { Comment } from '../../domain/models/comment.model';
   providedIn: 'root',
 })
 export class RemotePostRespository extends PostRepository {
+  getAllPostGroup(user_id: string, page: number): Observable<Post[]> {
+    const params = new HttpParams().set('user_id', user_id).set('page', page);
+    return this._http
+      .get<Post[]>(`${this.API_URL}/communities/getAllPost`, { params })
+      .pipe(
+        map((posts: any[]) => {
+          if (!Array.isArray(posts) || posts.length === 0) {
+            return []; // Devuelve un array vacío si no hay publicaciones
+          }
+          return posts.map((post) => {
+            return new Post(
+              post.id,
+              new UserDemo(
+                post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
+                post.post_user.username,
+                post.post_user.gender,
+                post.post_user.profile_picture,
+                ''
+              ),
+              post.content,
+              post.likes_count,
+              post.comments_count,
+              post.visibility,
+              new UserPreference(
+                post.user_preference_id, // Corregido
+                post.post_user_preference.topic_id, // Accede usando el nombre completo
+                post.post_user_preference.type,
+                post.post_user_preference.topic.topic_name
+              ),
+              post.media_url,
+              undefined,
+              post.commnuity_id,
+              post.type_community
+            );
+          });
+        })
+      );
+  }
+  getPostGroup(community_id: string, page: number): Observable<Post[]> {
+    const params = new HttpParams()
+      .set('community_id', community_id)
+      .set('page', page);
+    return this._http
+      .get<Post[]>(`${this.API_URL}/posts/getPostGroup`, { params })
+      .pipe(
+        map((posts: any[]) => {
+          if (!Array.isArray(posts) || posts.length === 0) {
+            return []; // Devuelve un array vacío si no hay publicaciones
+          }
+          return posts.map((post) => {
+            return new Post(
+              post.id,
+              new UserDemo(
+                post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
+                post.post_user.username,
+                post.post_user.gender,
+                post.post_user.profile_picture,
+                ''
+              ),
+              post.content,
+              post.likes_count,
+              post.comments_count,
+              post.visibility,
+              new UserPreference(
+                post.user_preference_id, // Corregido
+                post.post_user_preference.topic_id, // Accede usando el nombre completo
+                post.post_user_preference.type,
+                post.post_user_preference.topic.topic_name
+              ),
+              post.media_url,
+              undefined,
+              post.commnuity_id,
+              post.type_community
+            );
+          });
+        })
+      );
+  }
   // override getForYouPost(user_id: string): Observable<Post[]> {
   //   throw new Error('Method not implemented.');
   // }
-  private readonly API_URL = 'http://localhost:3000/posts';
+  private readonly API_URL = 'http://localhost:3000';
   private _http = inject(HttpClient);
 
   newPost(infoPost: IPost): Observable<Post> {
-    return this._http.post<Post>(`${this.API_URL}/newPost`, infoPost).pipe(
-      map(
-        (post: any) =>
-          new Post(
-            post.id,
-            new UserDemo(
-              post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
-              post.post_user.username,
-              post.post_user.gender,
-              post.post_user.profile_picture,
-              ''
-            ),
-            post.content,
-            post.likes_count,
-            post.comments_count,
-            post.visibility,
-            new UserPreference(
-              post.user_preference_id, // Corregido
-              post.post_user_preference.topic_id, // Accede usando el nombre completo
-              post.post_user_preference.type,
-              post.post_user_preference.topic.topic_name
-            ),
-            post.media_url
-          )
-      )
-    );
-  }
-
-  getForYouPost(user_id: string, page: number): Observable<Post[]> {
-    const params = new HttpParams().set('user_id', user_id).set('page', page);
-    return this._http.get<any[]>(`${this.API_URL}/getForYou`, { params }).pipe(
-      map((posts: any[]) => {
-        if (!Array.isArray(posts) || posts.length === 0) {
-          return []; // Devuelve un array vacío si no hay publicaciones
-        }
-        return posts.map((post) => {
+    return this._http
+      .post<Post>(`${this.API_URL}/posts/newPost`, infoPost)
+      .pipe(
+        map((post: any) => {
+          console.log(post);
           return new Post(
-            post.id,
-            new UserDemo(
-              post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
-              post.post_user.username,
-              post.post_user.gender,
-              post.post_user.profile_picture,
-              ''
-            ),
-            post.content,
-            post.likes_count,
-            post.comments_count,
-            post.visibility,
-            new UserPreference(
-              post.user_preference_id, // Corregido
-              post.post_user_preference.topic_id, // Accede usando el nombre completo
-              post.post_user_preference.type,
-              post.post_user_preference.topic.topic_name
-            ),
-            post.media_url
-          );
-        });
-      })
-    );
-  }
-
-  getPostById(id: string): Observable<Post> {
-    const params = new HttpParams().set('id', id);
-    return this._http.get<any>(`${this.API_URL}/getPostById`, { params }).pipe(
-      map(
-        (post) =>
-          new Post(
             post.id,
             new UserDemo(
               post.post_user.id,
@@ -99,38 +115,111 @@ export class RemotePostRespository extends PostRepository {
             post.likes_count,
             post.comments_count,
             post.visibility,
-            new UserPreference(
-              post.user_preference_id,
-              post.post_user_preference.topic_id,
-              post.post_user_preference.type,
-              post.post_user_preference.topic.topic_name
-            ),
-            post.media_url,
-            (post.comments || []).map(
-              (coment: any) =>
-                new Comment(
-                  coment.id,
-                  new UserDemo(
-                    coment.userss.id,
-                    coment.userss.username,
-                    coment.userss.gender,
-                    coment.userss.profile_picture,
-                    ''
-                  ),
-                  coment.content,
-                  coment.likes_count
+            post.post_user_preference && post.post_user_preference.id
+              ? new UserPreference(
+                  post.user_preference_id,
+                  post.post_user_preference.topic_id,
+                  post.post_user_preference.type,
+                  post.post_user_preference.topic.topic_name
                 )
+              : null, // Si es null, se asigna null
+            post.media_url,
+            undefined,
+            post.community_id,
+            post.type_community
+          );
+        })
+      );
+  }
+
+  getForYouPost(user_id: string, page: number): Observable<Post[]> {
+    const params = new HttpParams().set('user_id', user_id).set('page', page);
+    return this._http
+      .get<any[]>(`${this.API_URL}/posts/getForYou`, { params })
+      .pipe(
+        map((posts: any[]) => {
+          if (!Array.isArray(posts) || posts.length === 0) {
+            return []; // Devuelve un array vacío si no hay publicaciones
+          }
+          return posts.map((post) => {
+            return new Post(
+              post.id,
+              new UserDemo(
+                post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
+                post.post_user.username,
+                post.post_user.gender,
+                post.post_user.profile_picture,
+                ''
+              ),
+              post.content,
+              post.likes_count,
+              post.comments_count,
+              post.visibility,
+              new UserPreference(
+                post.user_preference_id, // Corregido
+                post.post_user_preference.topic_id, // Accede usando el nombre completo
+                post.post_user_preference.type,
+                post.post_user_preference.topic.topic_name
+              ),
+              post.media_url
+            );
+          });
+        })
+      );
+  }
+
+  getPostById(id: string): Observable<Post> {
+    const params = new HttpParams().set('id', id);
+    return this._http
+      .get<any>(`${this.API_URL}/posts/getPostById`, { params })
+      .pipe(
+        map(
+          (post) =>
+            new Post(
+              post.id,
+              new UserDemo(
+                post.post_user.id,
+                post.post_user.username,
+                post.post_user.gender,
+                post.post_user.profile_picture,
+                ''
+              ),
+              post.content,
+              post.likes_count,
+              post.comments_count,
+              post.visibility,
+              new UserPreference(
+                post.user_preference_id,
+                post.post_user_preference.topic_id,
+                post.post_user_preference.type,
+                post.post_user_preference.topic.topic_name
+              ),
+              post.media_url,
+              (post.comments || []).map(
+                (coment: any) =>
+                  new Comment(
+                    coment.id,
+                    new UserDemo(
+                      coment.userss.id,
+                      coment.userss.username,
+                      coment.userss.gender,
+                      coment.userss.profile_picture,
+                      ''
+                    ),
+                    coment.content,
+                    coment.likes_count
+                  )
+              )
             )
-          )
-      )
-    );
+        )
+      );
   }
 
   getPostFriends(user_id: string, page: number): Observable<Post[]> {
     const params = new HttpParams().set('user_id', user_id).set('page', page);
     // Convierte también el userId a string
     return this._http
-      .get<any[]>(`${this.API_URL}/getPostFriends`, { params })
+      .get<any[]>(`${this.API_URL}/posts/getPostFriends`, { params })
       .pipe(
         map((posts: any[]) => {
           if (!Array.isArray(posts) || posts.length === 0) {
@@ -163,10 +252,10 @@ export class RemotePostRespository extends PostRepository {
       );
   }
 
-  getYourPost(user_id:string, page:number):Observable<Post[]>{
+  getYourPost(user_id: string, page: number): Observable<Post[]> {
     const params = new HttpParams().set('user_id', user_id).set('page', page);
     return this._http
-      .get<any[]>(`${this.API_URL}/getYourPost`, { params })
+      .get<any[]>(`${this.API_URL}/posts/getYourPost`, { params })
       .pipe(
         map((posts: any[]) => {
           if (!Array.isArray(posts) || posts.length === 0) {
@@ -197,5 +286,18 @@ export class RemotePostRespository extends PostRepository {
           });
         })
       );
+  }
+
+  giveLike(
+    user_id: string,
+    post_id: string,
+    comment_id?: string
+  ): Observable<boolean> {
+    const payload = {
+      user_id,
+      post_id,
+      comment_id,
+    };
+    return this._http.post<boolean>(`${this.API_URL}/like/addLike`, payload);
   }
 }

@@ -1,0 +1,108 @@
+.contenedor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.main-content {
+  width: 70%;
+  height: 100%;
+}
+
+#aside {
+  width: 30%;
+  height: 100%;
+}
+
+.header {
+  height: 7%;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.container {
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.icon {
+  position: relative;
+  margin: 0 auto 20px auto;
+  width: 60px;
+  height: 60px;
+}
+
+.lock {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  background-color: #8a8a8a;
+  border-radius: 5px;
+}
+
+.lock-shackle {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid #8a8a8a;
+  border-radius: 50px 50px 0 0;
+  background-color: transparent;
+}
+
+.lock-body {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.file {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  width: 30px;
+  height: 40px;
+  background-color: #d1e4ff;
+  border-top-left-radius: 4px;
+}
+
+.file:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 8px;
+  background-color: #d1e4ff;
+  border-top-left-radius: 3px;
+}
+
+.h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 10px;
+}
+
+.p {
+  font-size: 14px;
+  margin: 0;
+  color: #6a6a6a;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

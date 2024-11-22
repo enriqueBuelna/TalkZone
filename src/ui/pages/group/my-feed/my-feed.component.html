@@ -2,4 +2,9 @@
     <app-header>
         <div class="header"><h2>Tu feed</h2></div>
     </app-header>
+    <div class="all-post">
+        @for (post of allPost(); track post.getId()) {
+            <app-post [postContent]="post"></app-post>
+            }
+    </div>
 </div>

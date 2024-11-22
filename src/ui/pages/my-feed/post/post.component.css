@@ -1,40 +1,39 @@
 /* Estilos generales del post */
 
-
-.contenedor_principal{
-    display: flex;
-    width: 100%;
+.contenedor_principal {
+  display: flex;
+  width: 100%;
 }
 
 .post {
-    cursor: pointer;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 1.5rem auto;
-    padding: 1.5rem 1.5rem 0 1.5rem;
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center;
-    width: 80%;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 1.5rem auto;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
 }
 
 /* Header del post: usuario y tema */
 .post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 100%;
-    padding-left: 1.5rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+  padding-left: 1.5rem;
 }
 
 .profile-pic {
-    width: 40px;
-    height: 40px;
-    background-color: #ccc;
-    border-radius: 50%;
-    margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .profile-pic img {
@@ -45,82 +44,87 @@
 }
 
 .post-info {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .username {
-    font-weight: bold;
-    margin-right: 10px;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 .topic-tag {
-    padding: 5px 10px;
-    border: none;
-    background-color: #eee;
-    border-radius: 12px;
-    font-size: 12px;
-    cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  background-color: #eee;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 /* Contenido del post: texto y imagen */
 .post-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
 }
 
-.contenedor_texto_post{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0 2rem;
+.contenedor_texto_post {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 2rem;
 }
 
 .post-content p {
-    margin: 0;
-    font-size: 14px;
-    color: #333;
-    word-wrap: break-word;
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  word-wrap: break-word;
 }
 
 /* Ajuste de la imagen */
 .post-content img {
-    width: 25rem;
-    height: 25rem;
-    border-radius: 8px;
-    object-fit: cover; /* Mantiene la proporción sin distorsionar */
+  width: 25rem;
+  height: 25rem;
+  border-radius: 8px;
+  object-fit: cover; /* Mantiene la proporción sin distorsionar */
 }
 
 /* Acciones del post */
 .post-actions {
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    display: flex;
-    justify-content: space-evenly;
-    gap: 1rem; /* Espacio entre cada elemento */
-    font-size:2rem;
-    color: #555; /* Color de los íconos y números */
-  }
-  
-  .action {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .icon {
-    font-size:2rem; /* Tamaño de los íconos */
-    margin-right: 5px; /* Espacio entre el ícono y el número */
-  }
-  
-  .send-icon::before {
-    content: "\f1d8"; /* Código Unicode del ícono de enviar */
-    font-family: "FontAwesome";
-  }.post-actions {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem; /* Espacio entre cada elemento */
+  font-size: 2rem;
+  color: #555; /* Color de los íconos y números */
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.auxiliar {
+  width: 100%;
+}
+
+.icon {
+  font-size: 2rem; /* Tamaño de los íconos */
+  margin-right: 5px; /* Espacio entre el ícono y el número */
+}
+
+.send-icon::before {
+  content: "\f1d8"; /* Código Unicode del ícono de enviar */
+  font-family: "FontAwesome";
+}
+.post-actions {
   display: flex;
   gap: 10px; /* Espacio entre cada elemento */
   font-size: 14px;
@@ -136,4 +140,27 @@
 .icon {
   font-size: 1.5rem; /* Tamaño de los íconos */
   margin-right: 5px; /* Espacio entre el ícono y el número */
+}
+
+.info_preference {
+  border-radius: 0.3rem;
+  border: solid 1px #000;
+  /* background-color: #312; */
+  color: #000;
+  padding: 0.2rem;
+}
+
+.pref p {
+  color: #000;
+  margin: 0;
+}
+
+.pref {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.white {
+  color: #fff;
 }

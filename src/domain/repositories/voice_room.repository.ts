@@ -9,5 +9,6 @@ export abstract class VoiceRoomRepository {
   abstract getAllVoiceRoomMembers(room_id: string): Observable<UserInVoiceRoom[]>; //cuando entro al vr
   abstract getInVoiceRoom(user_id:string): Observable<void>; // cuando entro al vr tmbn
   abstract closeVoiceRoom(room_id:string):Observable<void>;
+  abstract verifyOpenVoiceRoom(room_id:string):Observable<boolean>;
   //en createVR Y GetIn, me puede dar el user_id admin
 }

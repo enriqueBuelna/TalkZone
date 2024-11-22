@@ -7,4 +7,11 @@ export abstract class PostRepository {
   abstract getPostById(id: string): Observable<Post>;
   abstract getPostFriends(user_id: string, page: number): Observable<Post[]>;
   abstract getYourPost(user_id: string, page: number): Observable<Post[]>;
+  abstract giveLike(
+    user_id: string,
+    post_id: string,
+    comment_id?: string
+  ): Observable<boolean>;
+  abstract getPostGroup(community_id:string, page:number):Observable<Post[]>;
+  abstract getAllPostGroup(user_id:string, page:number):Observable<Post[]>;
 }

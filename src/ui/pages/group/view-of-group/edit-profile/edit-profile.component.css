@@ -1,0 +1,329 @@
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.post-modal {
+  width: 40rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  font-family: Arial, sans-serif;
+}
+
+.post-header {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.post-content {
+  height: 37rem;
+  padding: 3.5rem;
+  overflow-y: auto;
+}
+
+.user-info {
+  /* display: flex;
+  align-items: center;
+  margin-bottom: 10px; */
+  margin-bottom: 1rem;
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr);
+
+}
+
+.info {
+  display: flex;
+  align-items: end;
+
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.privacy {
+  font-size: 12px;
+  color: #606770;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.privacy-icon {
+  margin-right: 5px;
+}
+
+.post-textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 14px;
+  min-height: 60px;
+  outline: none;
+}
+
+.post-footer {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.publish-btn {
+  background-color: #1877F2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.publish-btn:disabled {
+  background-color: #d8d8d8;
+  cursor: not-allowed;
+}
+
+.post-button {
+  padding: 8px 16px;
+  background-color: rgba(35, 181, 211, 1);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.post-button:hover {
+  background-color: rgba(35, 181, 211, 1);
+}
+
+/* Foto de Portada */
+.cover-photo-section {
+  width: 100%;
+  height: 150px;
+  position: relative;
+}
+
+.cover-photo-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Foto de Perfil */
+.profile-photo-section {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.profile-photo-section img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+/* Formulario */
+.form-group {
+  margin-top: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+
+/* Contenedor general */
+.profile-edit-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+}
+
+/* Foto de Portada */
+.cover-photo-section {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #d3d3d3; /* Gris de fondo */
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cover-photo-section img.cover-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.cover-photo-label .camera-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px; /* Ícono más grande */
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 24px; /* Tamaño del ícono */
+  cursor: pointer;
+}
+
+/* Foto de Perfil */
+.profile-photo-section {
+  position: absolute;
+  bottom: -50px;
+  left: 30px; /* Posicionada a la izquierda */
+  width: 100px;
+  height: 100px;
+}
+
+.profile-photo-label {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.profile-photo-section img.profile-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid #fff; /* Borde blanco */
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-photo-label .camera-icon {
+  position: absolute;
+  bottom: -10px; /* Ajustado para que se vea más */
+  right: -10px;
+  width: 40px; /* Ícono más grande */
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 20px; /* Tamaño del ícono */
+  cursor: pointer;
+}
+
+/* Estilo adicional para íconos grandes */
+.larger-icon {
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+}
+
+.button {
+  margin: .5rem 0;
+}
+
+.cover-photo,
+.profile-photo {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.cover-photo {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-image: url('https://example.com/cover.jpg'); /* Imagen dinámica */
+  background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+legend {
+  font-size: 14px;
+  margin-bottom: 10px;
+}

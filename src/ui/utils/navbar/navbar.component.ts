@@ -46,8 +46,8 @@ export class NavbarApp {
       },
       {
         name: 'Notificaciones',
-        where: '/notifications',
-        icon: 'pi pi-bell',
+        where: '/home/notifications',
+        icon: 'pi pi-bell text-3xl',
         badge: true,
       },
       {
@@ -58,7 +58,7 @@ export class NavbarApp {
       },
       {
         name: 'Configuración',
-        where: '/configuration',
+        where: '/home/configuration',
         icon: 'pi pi-cog',
         badge: false,
       },

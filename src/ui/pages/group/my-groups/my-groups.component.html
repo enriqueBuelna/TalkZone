@@ -1,5 +1,49 @@
 <div class="contenedor">
     <app-header>
-        <div class="header"><h2>Tus grupos</h2></div>
+        <div class="header">
+            <h2>Tus grupos</h2>
+        </div>
     </app-header>
+    <form [formGroup]="formWhichGroups">
+        <select id="group-select" class="custom-select" formControlName="whichGroup">
+            <option value="1">Grupos creados por ti</option>
+            <option value="2">Grupos que sigues</option>
+            <option value="3">Solicitudes de grupos pendientes</option>
+        </select>
+    </form>
+    @if(option() === 1){
+        <app-my-groups-created [option]="option"></app-my-groups-created>
+    }
+    @if(option() === 2){
+      <app-my-groups-created [option]="option"></app-my-groups-created>
+    }
+    @if(option() === 3){
+      <app-my-groups-created [option]="option"></app-my-groups-created>
+    }
+    <!-- <div class="group-container">
+        <div class="dropdown">
+          <label for="group-select">Mis grupos</label>
+          
+        </div>
+      
+        <div class="group-card">
+          <div class="group-content">
+            <div class="group-info">
+              <span class="group-name">Nombre de grupo</span>
+            </div>
+            <div class="group-actions">
+              <button class="view-group">Ver grupo</button>
+              <button class="more-options">...</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
 </div>
+
+<div class="button-create">
+    <app-button text="Crear grupo" buttonClass="big-button" (clickEvent)="showModal()"></app-button>
+</div>
+
+@if(modalCreate()){
+<app-create-group></app-create-group>
+}

@@ -6,6 +6,7 @@ import { CreateVoiceRoom } from '../use_cases/voice_room/createVoiceRoom.use_cas
 import { GetAllVoiceRoomMembers } from '../use_cases/voice_room/getAllVoiceRoomMembers.use_case';
 import { UserInVoiceRoom } from '../models/user_in_voice_room.model';
 import { CloseVoiceRoom } from '../use_cases/voice_room/closeVoiceRoom.use_case';
+import { VerifyOpenVoiceRoom } from '../use_cases/voice_room/verifyOpenVoiceRoom.use_case';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,8 +15,13 @@ export class VoiceRoomService {
     private _getVoiceRoom: GetVoiceRoom,
     private _createVoiceRoom: CreateVoiceRoom,
     private _getAllVoiceRoomMembers: GetAllVoiceRoomMembers,
-    private _closeVoiceRoom: CloseVoiceRoom
+    private _closeVoiceRoom: CloseVoiceRoom,
+    private _verifyOpenVoiceRoom: VerifyOpenVoiceRoom
   ) {}
+
+  verifyOpenVoiceRoom(room_id: string): Observable<boolean> {
+    return this._verifyOpenVoiceRoom.execute(room_id);
+  }
 
   getVoiceRoom(user_id: string): Observable<VoiceRoom[]> {
     return this._getVoiceRoom.execute(user_id);
@@ -29,11 +35,11 @@ export class VoiceRoomService {
     return this._createVoiceRoom.execute(room_name, host_user_id, topic_id);
   }
 
-  getAllVoiceRoomMembers(room_id:string):Observable<UserInVoiceRoom[]>{
+  getAllVoiceRoomMembers(room_id: string): Observable<UserInVoiceRoom[]> {
     return this._getAllVoiceRoomMembers.execute(room_id);
   }
 
-  closeVoiceRoom(room_id:string):Observable<any>{
+  closeVoiceRoom(room_id: string): Observable<any> {
     return this._closeVoiceRoom.execute(room_id);
-  } 
+  }
 }

@@ -1,0 +1,77 @@
+<div id="modal-background" class="modal-background">
+    @if (!applies()) {
+    <form [formGroup]="formPost">
+        <div class="post-modal">
+            <div class="post-header">
+                <span>Crear publicación</span>
+                <button class="close-btn" (click)="onClick()">&times;</button>
+            </div>
+            <div class="post-content">
+                <div class="user-info">
+                    @if (userInformation) {
+                    <div class="info">
+                        <img [src]="userInformation.getProfilePic()" alt="User Photo" class="user-photo">
+                        <div class="user-name">{{userInformation.getUsername()}}</div>
+                    </div>
+                    }
+                    <div class="privacy">
+                        <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
+                    </div>
+                </div>
+                <!-- aqui -->
+                <textarea placeholder="¿Qué estás pensando?" class="post-textarea" formControlName="content"></textarea>
+            </div>
+            <div class="post-footer">
+                <div class="post-actions">
+                    <label for="imageInput" class="action-btn">
+                        📷
+                        <input type="file" (change)="onImageSelected($event)" />
+                    </label>
+
+                    <button class="action-btn">😊</button>
+                </div>
+                <button class="post-button" (click)="addPost()">Postear</button>
+            </div>
+        </div>
+    </form>
+    }@else {
+    <div class="post-modal">
+        <div class="post-header">
+            <span>Solicitudes de acceso</span>
+            <button class="close-btn" (click)="onClick()">&times;</button>
+        </div>
+        <div class="post-content min-heigth">
+            <div class="text-center mb-5">
+                <h2>Solicitudes de acceso</h2>
+            </div>
+
+            <div class="member-raised-hand">
+                @for (item of applyGroups(); track $index) {
+                <div class="member">
+                    <div class="img">
+                        @if(item.getUserDemo().getProfilePic()){
+                            <img [src]="item.getUserDemo().getProfilePic()" alt="">
+                        }
+                    </div>
+                    <div class="username">
+                        <p>{{item.getUserDemo().getUsername()}}</p>
+                    </div>
+                    <div class="controls">
+                        <div class="accept">
+                            <button class="button check-button" (click)="responseApply('approved',item.getUserDemo().getUserId())">&#10004;</button>
+                        </div>
+                        <div class="ignore">
+                            <button class="button cross-button" (click)="responseApply('rejected', item.getUserDemo().getUserId())">&#10005;</button>
+                        </div>
+                    </div>
+
+                </div>
+                }
+            </div>
+        </div>
+        <div class="post-footer">
+            <button class="post-button" (click)="addPost()">Postear</button>
+        </div>
+    </div>
+    }
+</div>

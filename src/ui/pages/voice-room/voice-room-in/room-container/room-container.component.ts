@@ -52,6 +52,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   );
   closeVoiceRoom!: Observable<any>;
   voiceRoomClosedModal = signal(false);
+  isClosed = signal(false);
   constructor(
     private _callService: CallService,
     private _route: ActivatedRoute,
@@ -67,116 +68,129 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this._socketService.connect();
-    console.log(this._socketService);
     document.body.style.backgroundColor = '#1a1a1a'; // o el color que prefieras
     const roomId =
       this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
     //entrar a la llamada
-    this._voiceRoomSocket.joinRoom(roomId, this._userService.getUserId());
 
-    this.getAllUsers = this._voiceRoomService.getAllVoiceRoomMembers(roomId);
+    //verificar si la sala ya esta cerrada:
+    this._voiceRoomService
+      .verifyOpenVoiceRoom(roomId)
+      .subscribe((el) => this.isClosed.set(el));
+    if (this.isClosed()) {
+      this._socketService.connect();
 
-    this.getAllUsers
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((el) => {
-        console.log('USUARIOS TOTALES', el);
-        this._voiceRoomUsers.setUserInVoiceRoom(el);
-        this.userInVoiceRoom = this._voiceRoomUsers.getUsersInVoiceRoom();
-      });
+      this._voiceRoomSocket.joinRoom(roomId, this._userService.getUserId());
 
-    this.getNewUser = this._voiceRoomSocket.addNewUser();
+      this.getAllUsers = this._voiceRoomService.getAllVoiceRoomMembers(roomId);
 
-    this.getNewUser
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((el) => {
-        if (el) {
-          this._voiceRoomUsers.updateUsersInVoiceRoom(el);
-        }
-      });
+      this.getAllUsers
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe((el) => {
+          console.log('USUARIOS TOTALES', el);
+          this._voiceRoomUsers.setUserInVoiceRoom(el);
+          this.userInVoiceRoom = this._voiceRoomUsers.getUsersInVoiceRoom();
+        });
 
-    this.userLeft = this._voiceRoomSocket.userLeft();
+      this.getNewUser = this._voiceRoomSocket.addNewUser();
 
-    this.userLeft.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((el) => {
-      this._voiceRoomUsers.userLeft(el);
-      this._raisedHand.userLeft(el);
-    });
-
-    this.myUserVoiceRoom = this._voiceRoomSocket.getMyUserVoiceRoom();
-
-    this.myUserVoiceRoom
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe(async (el) => {
-        this._myUserVoiceRoomService.setMyUser(el);
-        this.myUserInVoiceRoom = this._myUserVoiceRoomService.getMyUser();
-
-        // Espera la inicialización del cliente antes de unirte a la llamada
-        await this._callService.initializeClient(
-          roomId,
-          this.myUserInVoiceRoom().getUserId()
-        );
-
-        if (this.myUserInVoiceRoom().getType() === 'host') {
-          await this._callService.joinCall();
-        }
-      });
-
-    this.handRaised = this._voiceRoomSocket.handRaised();
-
-    this.handRaised
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((el) => {
-        const user = this.userInVoiceRoom().find(
-          (users) => el === users.getUserId()
-        );
-        if (user) {
-          this._raisedHand.updateRaisedHand(user);
-        }
-      });
-
-    this.responseHandRaised = this._voiceRoomSocket.responseHandRaised();
-
-    this.responseHandRaised
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe(async (el) => {
-        if (el.answer === 'yes') {
-          //ocupo checar mi usuario
-          let myUser = this.myUserInVoiceRoom();
-          if (myUser.getUserId() === el.user_id) {
-            console.log('ENTROOOOOOOOOOO');
-            await this._callService.joinCall();
-            this.myUserInVoiceRoom().goToStage();
+      this.getNewUser
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe((el) => {
+          if (el) {
+            this._voiceRoomUsers.updateUsersInVoiceRoom(el);
           }
-          this._raisedHand.userLeft(el.user_id);
-          this._voiceRoomUsers.changesUserInStage(el.user_id, 'yes');
-        }
-      });
+        });
 
-    this.userLeftStageComplete = this._voiceRoomSocket.userLeftStageComplete();
+      this.userLeft = this._voiceRoomSocket.userLeft();
 
-    this.userLeftStageComplete
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe(async (el) => {
-        let user = this.myUserInVoiceRoom();
-        if (user.getUserId() === el) {
+      this.userLeft
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe((el) => {
+          this._voiceRoomUsers.userLeft(el);
+          this._raisedHand.userLeft(el);
+        });
+
+      this.myUserVoiceRoom = this._voiceRoomSocket.getMyUserVoiceRoom();
+
+      this.myUserVoiceRoom
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe(async (el) => {
+          this._myUserVoiceRoomService.setMyUser(el);
+          this.myUserInVoiceRoom = this._myUserVoiceRoomService.getMyUser();
+
+          // Espera la inicialización del cliente antes de unirte a la llamada
+          await this._callService.initializeClient(
+            roomId,
+            this.myUserInVoiceRoom().getUserId()
+          );
+
+          if (this.myUserInVoiceRoom().getType() === 'host') {
+            await this._callService.joinCall();
+          }
+        });
+
+      this.handRaised = this._voiceRoomSocket.handRaised();
+
+      this.handRaised
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe((el) => {
+          const user = this.userInVoiceRoom().find(
+            (users) => el === users.getUserId()
+          );
+          if (user) {
+            this._raisedHand.updateRaisedHand(user);
+          }
+        });
+
+      this.responseHandRaised = this._voiceRoomSocket.responseHandRaised();
+
+      this.responseHandRaised
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe(async (el) => {
+          if (el.answer === 'yes') {
+            //ocupo checar mi usuario
+            let myUser = this.myUserInVoiceRoom();
+            if (myUser.getUserId() === el.user_id) {
+              console.log('ENTROOOOOOOOOOO');
+              await this._callService.joinCall();
+              this.myUserInVoiceRoom().goToStage();
+            }
+            this._raisedHand.userLeft(el.user_id);
+            this._voiceRoomUsers.changesUserInStage(el.user_id, 'yes');
+          }
+        });
+
+      this.userLeftStageComplete =
+        this._voiceRoomSocket.userLeftStageComplete();
+
+      this.userLeftStageComplete
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe(async (el) => {
+          let user = this.myUserInVoiceRoom();
+          if (user.getUserId() === el) {
+            await this._callService.leaveCall();
+            this.myUserInVoiceRoom().backFromStage();
+          }
+          this._voiceRoomUsers.changesUserInStage(el, 'no');
+        });
+
+      this.voiceRoomClosed = this._voiceRoomSocket.voiceRoomClosed();
+
+      this.voiceRoomClosed
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe(async (el) => {
+          //tengo que cerrar la llamada y mostrar un modal adviertiendo de que se cerro la sala y lo que tengo que hacer es regresar a las salas de voz
           await this._callService.leaveCall();
-          this.myUserInVoiceRoom().backFromStage();
-        }
-        this._voiceRoomUsers.changesUserInStage(el, 'no');
-      });
+          this.voiceRoomClosedModal.set(true);
+          this.restartAll();
+        });
 
-    this.voiceRoomClosed = this._voiceRoomSocket.voiceRoomClosed();
-
-    this.voiceRoomClosed
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe(async (el) => {
-        //tengo que cerrar la llamada y mostrar un modal adviertiendo de que se cerro la sala y lo que tengo que hacer es regresar a las salas de voz
-        await this._callService.leaveCall();
-        this.voiceRoomClosedModal.set(true);
-        this.restartAll();
-      });
-
-    this.closeVoiceRoom = this._voiceRoomService.closeVoiceRoom(roomId);
+      this.closeVoiceRoom = this._voiceRoomService.closeVoiceRoom(roomId);
+    } else {
+      this.voiceRoomClosedModal.set(!this.isClosed());
+      console.log(this.isClosed());
+    }
     // this._socketService.emitEvent('connection', null);
     //dejarlos en ese arreglo y ternerlos ahi esperando
   }

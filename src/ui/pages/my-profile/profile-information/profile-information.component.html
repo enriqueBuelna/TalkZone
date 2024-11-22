@@ -1,13 +1,27 @@
 <div class="profile-container">
+    @if (type === 'user') {
     <div class="cover-photo" [style.background-image]="'url(' + myUser.getCoverPicture() + ')'">
     </div>
+    }@else if(type === 'group'){
+    <div class="cover-photo" [style.background-image]="'url(' + myGroup.getCoverPicture() + ')'">
+    </div>
+    }
     <div class="profile-details">
         <div class="profile-picture">
             <!-- Foto de perfil -->
+            @if (type === 'user') {
             <img [src]="myUser.getUserDemo().getProfilePic()" alt="Foto de Perfil">
+
+            }@else if(type === 'group'){
+            <img [src]="myGroup.getProfilePicture()" alt="Foto de Perfil">
+            }
         </div>
         <div class="profile-info">
+            @if(type === 'user'){
             <h2 class="username">{{myUser.getUserDemo().getUsername()}}</h2>
+            }@else if (type ==='group') {
+            <h2 class="username">{{myGroup.getGroupName()}}</h2>
+            }
         </div>
     </div>
     <div class="profile-stats">

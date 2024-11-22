@@ -1,6 +1,14 @@
 <li>
+  <!-- @if(badge){
+    <a [routerLink]="link">
+      <span [ngClass]="icon" pBadge value="2"></span>{{ label }}
+    </a>
+  }@else {
+    <a [routerLink]="link">
+      <span [ngClass]="icon"></span>{{ label }}
+    </a>
+  } -->
   <a [routerLink]="link">
     <span [ngClass]="icon"></span>{{ label }}
   </a>
 </li>
-  

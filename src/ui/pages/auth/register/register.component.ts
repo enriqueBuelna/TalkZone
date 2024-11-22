@@ -68,8 +68,8 @@ export class RegisterApp {
     );
     this.genre = [
       { text: 'Masculino', typeBD: 'male' },
-      { text: 'Femenino', typeBD: 'male' },
-      { text: 'Prefiero no decir', typeBD: 'male' },
+      { text: 'Femenino', typeBD: 'female' },
+      { text: 'Prefiero no decir', typeBD: 'prefer not to say' },
     ];
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(8)]],

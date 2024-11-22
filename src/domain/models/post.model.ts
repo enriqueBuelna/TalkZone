@@ -1,29 +1,31 @@
-import { ITopic } from '../entities/topics/topic.interface';
-import { Message } from './message.model';
 import { UserDemo } from './user-demo.model';
 import { UserPreference } from './user_preference.model';
 import { Comment } from './comment.model';
 export class Post {
-  private id: number;
+  private id: string;
   private userInfo: UserDemo;
   private content: string;
   private cant_likes: number;
   private cant_comm: number;
   private privacy: string;
-  private userPreference: UserPreference;
+  private userPreference: UserPreference | null;
   private media_url: string;
-  private comments?:Comment[];
+  private comments?: Comment[];
+  private commnuity_id?: string;
+  private type_community?: string;
 
   constructor(
-    id: number,
+    id: string,
     userInfo: UserDemo,
     content: string,
     cant_likes: number,
     cant_comm: number,
     privacy: string,
-    userPreference:UserPreference,
+    userPreference: UserPreference | null,
     media_url: string,
-    comments?:Comment[]
+    comments?: Comment[],
+    community_id?: string,
+    type_community?: string
   ) {
     this.id = id;
     this.userInfo = userInfo;
@@ -34,37 +36,49 @@ export class Post {
     this.userPreference = userPreference;
     this.media_url = media_url;
     this.comments = comments;
-  }
-
-  getId(){
-    return this.id;
+    this.commnuity_id = community_id;
+    this.type_community = type_community;
   }
   
-  getUserInfo(){
+  getCommunityId(){
+    return this.commnuity_id;
+  }
+
+  getTypeCommunity(){
+    return this.type_community;
+  }
+
+  getId() {
+    return this.id;
+  }
+
+  getUserInfo() {
     return this.userInfo;
   }
 
-  getContent(){
+  getContent() {
     return this.content;
   }
 
-  getCantLikes(){
+  getCantLikes() {
     return this.cant_likes;
   }
 
-  getCantComments(){
+  getCantComments() {
     return this.cant_comm;
   }
 
-  getUserPreference(){
+  getUserPreference() {
     return this.userPreference;
   }
 
-  getMediaUrl(){
+  getMediaUrl() {
     return this.media_url;
   }
 
-  getComment(){
+  getComment() {
     return this.comments;
   }
+
+  
 }

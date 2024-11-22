@@ -1,0 +1,44 @@
+<div id="modal-background" class="modal-background">
+  <div class="post-modal">
+    <div class="post-header">
+      <span>Crear grupo</span>
+      <button class="close-btn" (click)="onClick()">&times;</button>
+    </div>
+    <div class="post-content">
+      <div class="form-container">
+        <form [formGroup]="formCreateGroup">
+          <label for="group-name">Nombre del grupo</label>
+          <input type="text" id="group-name" placeholder="Nombre del grupo" formControlName="name">
+
+          <label for="group-type">Tipo de grupo</label>
+          <select id="group-type" formControlName="type">
+            <option value="" disabled selected>Selecciona una opción</option>
+            <option value="mentor">Círculos de Mentoría</option>
+            <option value="other">Foros de Pasión</option>
+
+          </select>
+
+          @if (firtStep()) {
+          <label for="group-theme">Tema a elegir</label>
+          <p-dropdown optionLabel="name" placeholder="Seleccionar categoria" [style]='{width:"100%"}'
+            [options]="topicPrincipalList" optionLabel="topic_name" formControlName="topic_id" />
+
+          <fieldset>
+            <legend>Privacidad del grupo</legend>
+            <label>
+              <input type="radio" name="privacy" value="public" formControlName="privacy"> Público
+            </label>
+            <label>
+              <input type="radio" name="privacy" value="private" formControlName="privacy"> Privado
+            </label>
+          </fieldset>
+          }
+        </form>
+      </div>
+
+    </div>
+    <div class="post-footer">
+      <app-button text="Guardar cambios" (clickEvent)="saveChanges()"></app-button>
+    </div>
+  </div>
+</div>

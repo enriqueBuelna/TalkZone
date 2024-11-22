@@ -1,0 +1,65 @@
+/* Contenedor principal de la tarjeta */
+.group-card {
+  width: 75%; /* Ajusta según lo necesario */
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Encabezado de la tarjeta (gris superior) */
+.group-header {
+  height: 80px;
+  background-color: #e0e0e0; /* Color gris */
+}
+
+/* Cuerpo de la tarjeta */
+.group-body {
+  background-color: #00a8c6; /* Color azul */
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Información del grupo */
+.group-info {
+  flex-grow: 1;
+}
+
+.group-name {
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Acciones del grupo */
+.group-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.action-button {
+  background-color: white;
+  color: #00a8c6;
+  border: 1px solid #00a8c6;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #e0e0e0;
+  color: #006f85;
+}
+
+.contenedor-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}

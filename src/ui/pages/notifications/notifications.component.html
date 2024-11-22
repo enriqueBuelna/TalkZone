@@ -1,0 +1,32 @@
+<div class="contenedor">
+    <div class="main-content">
+        <app-header>
+            <div class="title">
+                <h2>Notificaciones</h2>
+            </div>
+        </app-header>
+        <div class="notifications-container">
+            <div class="tabs">
+                <button class="tab" [ngClass]="{'active': this.rule === 'all'}" (click)="changeNotifications('todas')">
+                    <p>Todas</p>
+                </button>
+                <button class="tab" [ngClass]="{'active': this.rule === 'like'}" (click)="changeNotifications('like')">
+                    <p>Me gusta</p>
+                </button>
+                <button class="tab" [ngClass]="{'active': this.rule === 'follower'}"
+                    (click)="changeNotifications('follower')">
+                    <p>Seguidores</p>
+                </button>
+            </div>
+            @for (item of notifications; track $index) {
+            <app-notification [notification]="item"></app-notification>
+            }
+        </div>
+
+    </div>
+    <div id="aside">
+        <app-aside>
+
+        </app-aside>
+    </div>
+</div>

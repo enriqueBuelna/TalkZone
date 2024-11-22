@@ -1,4 +1,5 @@
 <div class="contenedor">
+    @if(type=='user'){
     <div class="description">
         <h4>Acerca de mi:</h4>
         <p>
@@ -15,7 +16,7 @@
             <div class="topic">
                 @for (userPref of userPreferences(); track $index) {
                 @if (userPref.getType() === "mentor" && userPref.getId() !== 0) {
-                <p-chip [label]="userPref.getTopicName()"></p-chip>
+                <p-chip [label]="userPref.getTopicName()" (click)="showInformation(userPref)"></p-chip>
                 }
                 }
             </div>
@@ -45,11 +46,69 @@
         <app-button text="Postear" (clickEvent)="createPost()"></app-button>
         <app-button text="Editar perfil" (clickEvent)="editProfile()"></app-button>
     </div>
+    }@else if(type === 'group'){
+    <div class="description">
+        <h4>Acerca de el grupo:</h4>
+        <p>
+            @if(group.getDescription()){
+            {{group.getDescription()}}
+            }@else {
+            Aun no se ha añadido una descripcion
+            }
+        </p>
+    </div>
+
+    @if(typeMember()==='admin'){
+    <div class="buttons">
+        <app-button text="Postear" (clickEvent)="createPost()"></app-button>
+        <app-button text="Editar grupo" (clickEvent)="editProfile()"></app-button>
+        <app-button text="Solicitudes" (clickEvent)="showApplies()"></app-button>
+    </div>
+    }@else if(typeMember()==='member'){
+    <div class="buttons">
+        <app-button text="Postear" (clickEvent)="createPost()"></app-button>
+    </div>
+    }@else if (typeMember()==='no-member') {
+    <app-button text="Unirse al grupo" (clickEvent)="getInGroup()"></app-button>
+    }
+
+    }
 </div>
 @if (create_post()) {
-<app-modal-post (clickEvent)="createPost()" [myUser]="user.getUserDemo()"></app-modal-post>
+<app-modal-post-group (clickEvent)="createPost()" [type]="group.getType()" [group]="group"></app-modal-post-group>
 }
 
-@if(edit_profile()){
+@if(edit_profile() && !group){
 <app-edit-profile [user]="user" (clickEvent)="editProfile()"></app-edit-profile>
+}@else if(edit_profile()){
+    <app-edit-group (clickEvent)="editProfile()" [group]="group"></app-edit-group>
+}
+
+@if(showModalPreference()){
+<p-dialog [visible]="true" [modal]="true" [style]="{ width: '25rem' }">
+    <div class="div-info">
+        <h2>{{userPref.getTopicName()}}</h2>
+        <h3>Tipo: {{userPref.getType()}}</h3>
+        @if (userPref.getTags()!.length > 0) {
+        <h3>Etiquetas relacionadas:</h3>
+        @for (item of userPref.getTags(); track $index) {
+        <p-chip [label]="item.getTagName()"></p-chip>
+        }
+        }
+        <app-button text="Agregar etiquetas"></app-button>
+    </div>
+</p-dialog>
+}
+
+<!-- @if (noAccess()) {
+    <p-dialog [visible]="true" [modal]="true" [style]="{ width: '25rem' }">
+        <div class="div-info">
+            <h2>Este grupo es privado, tienes que enviar una solicitud para poder unirte a el</h2>
+            <app-button text="Enviar solicitud"></app-button>
+        </div>
+    </p-dialog>
+} -->
+
+@if(showApply()){
+    <app-modal-post-group (clickEvent)="showApplies()" [applies]="showApply"></app-modal-post-group>
 }

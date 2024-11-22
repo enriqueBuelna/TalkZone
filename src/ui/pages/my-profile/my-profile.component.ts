@@ -51,6 +51,7 @@ export class MyProfileComponent implements OnInit {
     );
 
     this.myObservable.subscribe((el) => {
+      console.log(el);
       this._userInformation.setMyUserInformation(el);
       this.myUser = this._userInformation.getMyUserInformation();
       this._userPreference.setUserPreferences(this.myUser().getUserPreferences());

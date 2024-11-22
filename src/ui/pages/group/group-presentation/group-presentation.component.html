@@ -1,0 +1,17 @@
+<div class="contenedor-flex">
+    <div class="group-card">
+        <div class="group-header">
+            <!-- Espacio superior, puede ser una imagen o un color sólido -->
+        </div>
+        <div class="group-body">
+            <div class="group-info">
+                <span class="group-name">{{group.getGroupName()}}</span>
+            </div>
+            <div class="group-actions">
+                <button class="action-button">{{group.getTopicName()}}</button>
+                <button class="action-button" (click)="goToGroup()">Ver grupo</button>
+                <button class="action-button">...</button>
+            </div>
+        </div>
+    </div>
+</div>
