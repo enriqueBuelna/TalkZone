@@ -29,7 +29,8 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
                 _userPreference.userPreferences.map(
                   (user_preference: any) =>
                     new UserPreference(
-                      user_preference.topic_id,
+                      user_preference.id,
+                      user_preference.topic.id,
                       user_preference.type,
                       user_preference.topic.topic_name,
                       user_preference.userPreferenceTags.map(
@@ -111,7 +112,8 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
                 _userPreference.userPreferences.map(
                   (user_preference: any) =>
                     new UserPreference(
-                      user_preference.topic_id,
+                      user_preference.id,
+                      user_preference.topic.id,
                       user_preference.type,
                       user_preference.topic.topic_name,
                       user_preference.userPreferenceTags.map(

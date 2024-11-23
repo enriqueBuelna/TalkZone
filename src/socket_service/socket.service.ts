@@ -43,6 +43,7 @@ export class SocketService {
   //modificacion
   connect(): void {
     if (!this.socket) {
+      console.log("HAY CONEXION")
       this.socket = io('http://localhost:3000'); // Cambia por la URL de tu backend
     }
   }

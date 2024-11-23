@@ -22,6 +22,8 @@ import { CommunitieRepository } from './domain/repositories/communitie.repositor
 import { RemoteComunitieRepository } from './data/repositories/remote_comunitie.repository';
 import { NotificationRepository } from './domain/repositories/notifications.repository';
 import { RemoteNotificationRepository } from './data/repositories/remote_notifications.repository';
+import { FollowerRepository } from './domain/repositories/follower.repository';
+import { RemoteFollowerRepository } from './data/repositories/remote_follower.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,6 +42,7 @@ export const appConfig: ApplicationConfig = {
     { provide: PostRepository, useClass: RemotePostRespository },
     { provide: CommunitieRepository, useClass: RemoteComunitieRepository },
     { provide: NotificationRepository, useClass: RemoteNotificationRepository },
+    { provide: FollowerRepository, useClass: RemoteFollowerRepository },
     provideAnimationsAsync(),
   ],
 };

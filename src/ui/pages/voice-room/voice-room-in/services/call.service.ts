@@ -79,7 +79,7 @@ export class CallService {
     console.log('Saliendo de la llamada...');
 
     // Verifica si ya estamos desconectados
-    if (this.rtc.client.localUid) {
+    if (this.rtc.client) {
       await this.rtc.client.leave();
       console.log('Dejamos la sala');
     }

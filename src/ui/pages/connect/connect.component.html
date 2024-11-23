@@ -10,41 +10,33 @@
 
 
         <div class="cards">
-            @for (item of allUserPreferences; track $index) {
-            <app-card (click)="selectCard(item)">
-                <div class="info-user">
+            @for (user of allUserPreferences; track $index) {
+                <app-card (click)="selectCard(user)">
+                  <div class="info-user">
                     <div class="img-user">
-                        <img [src]="item.userInformation?.profile_picture" alt="">
+                      <img [src]="user.userInformation?.profile_picture" alt="">
                     </div>
                     <div class="username">
-                        <p>{{item.userInformation?.username}}</p>
+                      <p>{{user.userInformation?.username}}</p>
                     </div>
-                </div>
-                <div class="user_topics">
-                    <div class="learn">
-                        <div class="chip">
-                            @for (item of item.userPreference; track $index) {
-                            @if (item.getType() === 'learn') {
-                            <p-chip [label]="item.getTopicName()"></p-chip>
-                            }
-                            }
-                        </div>
+                  </div>
+                  <div class="user_topics">
+                    <div class="chip">
+                      @for (userTopic of user.userPreference; track $index) {
+                        <p-chip [label]="userTopic.getTopicName()"></p-chip>
+                        <!-- @for (myTopic of myUserPreference; track $index) {
+                          @if(myTopic.getTopicId() == userTopic.getTopicId()) {
+                            <p-chip [label]="userTopic.getTopicName()"></p-chip>
+                          }
+                        } -->
+                      }
                     </div>
-                    <div class="know">
-                        <div class="chip">
-                            @for (item of item.userPreference; track $index) {
-                            @if (item.getType() === 'know') {
-                            <p-chip [label]="item.getTopicName()"></p-chip>
-                            }
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="matchPercentage">
-                    <p>Match: {{item.matchPercentage | number:'1.0-0'}}%</p>
-                </div>
-            </app-card>
-            }
+                  </div>
+                  <div class="matchPercentage">
+                    <p>Match: {{user.matchPercentage | number:'1.0-0'}}%</p>
+                  </div>
+                </app-card>
+              }
             <!--tooltip para mostrar cual enseña y cual no , en donde dice topics-->
 
 
@@ -97,16 +89,16 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <app-button text="Seguir" buttonClass="tiny-button"></app-button>
-                    <app-button text="Ver perfil" buttonClass="tiny-button"></app-button>
-                    <app-button text="Enviar mensaje" buttonClass="tiny-button"></app-button>
+                    <app-button [text]="textFollow" buttonClass="tiny-button" (clickEvent)="followUser(userPreferenceInformation?.userId)"></app-button>
+                    <app-button text="Ver perfil" buttonClass="tiny-button" (clickEvent)="goToProfile(userPreferenceInformation?.userId)"></app-button>
+                    <app-button text="Enviar mensaje" buttonClass="tiny-button" (clickEvent)="sendMessage(userPreferenceInformation?.userId)"></app-button>
                 </div>
             </div>
             }
         </app-aside>
     </div>
 </div>
-<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="false"
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="true"
     [dismissableMask]="true" [draggable]="false">
     <h2 class="text-center mt-3">Filtros</h2>
     <form [formGroup]="filterForm">
@@ -116,12 +108,20 @@
                /> -->
             <p-multiSelect [options]="topicsEntusiasta" [filter]="false" optionLabel="topic_name"
                 placeholder="Entusiasta" [style]='{width:"100%"}' formControlName="topicsEntusiastas" />
+                @if(isTopicsEntusiasta()){
+                    <p-checkbox label="¿Deseas conectar solo con entusiastas?" id="conectado" value="si"
+                        formControlName="onlyEntusiastas" class="mt-3"></p-checkbox>
+                    }
 
         </div>
 
         <div class="form-group mt-5">
             <p-multiSelect [options]="topicsExplorador" [filter]="false" optionLabel="topic_name"
                 placeholder="Explorador" [style]='{width:"100%"}' formControlName="topicsExploradores" />
+                @if(isTopicsExplorador()){
+                    <p-checkbox label="¿Deseas conectar solo con mentores?" id="conectado" value="si"
+                        formControlName="onlyExploradores" class="mt-3"></p-checkbox>
+                    }
         </div>
 
         <div class="form-group mt-5">

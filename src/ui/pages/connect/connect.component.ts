@@ -22,10 +22,12 @@ import {
 } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { atLeastOneFieldRequired } from './validators/atLeastOne.validator';
+import { FollowerService } from '../../../domain/services/follower.service';
+import { Router } from '@angular/router';
 interface FilterTopic {
   topic_id: number;
   topic_name: string;
-  type:string;
+  type: string;
 }
 interface Gender {
   name: string;
@@ -61,6 +63,8 @@ export class ConnectComponent implements OnInit {
   visible = signal(false);
   buttonFilter = signal(false);
   isTopicsMentor = signal(false);
+  isTopicsEntusiasta = signal(false);
+  isTopicsExplorador = signal(false);
   topicsMentor: FilterTopic[] = [];
   topicsExplorador: FilterTopic[] = [];
   topicsEntusiasta: FilterTopic[] = [];
@@ -74,12 +78,14 @@ export class ConnectComponent implements OnInit {
       type: 'female',
     },
   ];
-
+  textFollow = 'Seguir';
   constructor(
     private _userPreferenceService: UserPreferenceService,
     private _userService: UserService,
     private formBuilder: FormBuilder,
-    private _destroyRef: DestroyRef
+    private _destroyRef: DestroyRef,
+    private _followService: FollowerService,
+    private _router: Router
   ) {
     this.filterForm = this.formBuilder.group(
       {
@@ -88,8 +94,10 @@ export class ConnectComponent implements OnInit {
         topicsEntusiastas: [''],
         gender: [''],
         connect: [''],
-        onlyMentores: ['']
-      },
+        onlyMentores: [''],
+        onlyEntusiastas: [''],
+        onlyExploradores: [''],
+      }
       // {
       //   validators: atLeastOneFieldRequired([
       //     'topicsKnow',
@@ -102,13 +110,31 @@ export class ConnectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterForm.get('topicsMentores')?.valueChanges.subscribe(value => {
-      if(value.length > 0){
+    this.filterForm.get('topicsMentores')?.valueChanges.subscribe((value) => {
+      if (value.length > 0) {
         this.isTopicsMentor.set(true);
-      }else{
+      } else {
         this.isTopicsMentor.set(false);
       }
     });
+    this.filterForm
+      .get('topicsExploradores')
+      ?.valueChanges.subscribe((value) => {
+        if (value.length > 0) {
+          this.isTopicsExplorador.set(true);
+        } else {
+          this.isTopicsExplorador.set(false);
+        }
+      });
+    this.filterForm
+      .get('topicsEntusiastas')
+      ?.valueChanges.subscribe((value) => {
+        if (value.length > 0) {
+          this.isTopicsEntusiasta.set(true);
+        } else {
+          this.isTopicsEntusiasta.set(false);
+        }
+      });
     this.responseMyUserPreferences$ =
       this._userPreferenceService.getMyUserPreferences(
         this._userService.getUserId()
@@ -123,6 +149,7 @@ export class ConnectComponent implements OnInit {
     this.responseUserPreference$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
+        console.log(el);
         this.allUserPreferences = el;
       });
 
@@ -135,7 +162,7 @@ export class ConnectComponent implements OnInit {
           const topic: FilterTopic = {
             topic_id: ele.getTopicId(),
             topic_name: ele.getTopicName(),
-            type:''
+            type: '',
           };
           if (ele.getType() === 'entusiasta') {
             topic.type = 'entusiasta';
@@ -151,9 +178,8 @@ export class ConnectComponent implements OnInit {
       });
   }
 
-
-
   selectCard(userPreference: UserPreferences) {
+    console.log(userPreference);
     this.showInfo.set(true);
     this.userPreferenceInformation = userPreference;
   }
@@ -163,31 +189,78 @@ export class ConnectComponent implements OnInit {
   }
 
   filterApply() {
-    const { topicsMentores, topicsEntusiastas, topicsExploradores, onlyMentores,gender, connect } = this.filterForm.value;
+    const {
+      topicsMentores,
+      topicsEntusiastas,
+      topicsExploradores,
+      onlyMentores,
+      gender,
+      connect,
+      onlyEntusiastas,
+      onlyExploradores,
+    } = this.filterForm.value;
 
     console.log(topicsMentores, topicsEntusiastas, topicsExploradores);
     this.responseUserPreference$ =
       this._userPreferenceService.getUserByPreferencesFiltered(
         this._userService.getUserId(),
         topicsMentores,
-        topicsExploradores, 
+        topicsExploradores,
         topicsEntusiastas,
         gender,
         connect,
-        onlyMentores
+        onlyMentores,
+        onlyExploradores,
+        onlyEntusiastas
       );
 
     this.responseUserPreference$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
-        
-        // this.visible.set(false);
-        // this.allUserPreferences = el;
+        this.showInfo.set(false);
+        this.visible.set(false);
+        this.allUserPreferences = el;
       });
   }
 
   onBlur() {
     console.log('El campo de entrada ha perdido el foco');
     // Aquí puedes agregar la lógica de validación que necesites
+  }
+
+  followUser(id: string | undefined) {
+    console.log(id);
+    if (id) {
+      console.log('HOLA');
+      if (this.textFollow === 'Seguir') {
+        this._followService
+          .followUser(this._userService.getUserId(), id.toString())
+          .subscribe((el) => {
+            if (el) {
+              this.textFollow = 'Dejar de seguir';
+            }
+          });
+      } else if (this.textFollow === 'Dejar de seguir') {
+        this._followService
+          .unfollowUser(this._userService.getUserId(), id.toString())
+          .subscribe((el) => {
+            if (el) {
+              this.textFollow = 'Seguir';
+            }
+          });
+      }
+    }
+  }
+
+  goToProfile(id: string | undefined) {
+    if (id) {
+      this._router.navigate(['home', 'profile', id]);
+    }
+  }
+
+  sendMessage(id: string | undefined) {
+    if (id) {
+      this._router.navigate(['home', 'messages', id]);
+    }
   }
 }

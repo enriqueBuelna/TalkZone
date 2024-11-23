@@ -45,6 +45,7 @@ export class StreamContainerComponent implements OnInit {
   ngOnInit(): void {
     this.usersInVoiceRoom = this._voiceRoom.getUsersInVoiceRoom();
     this.myUserInVoiceRoom = this._myUserVoiceRoomService.getMyUser();
+    console.log(this.myUserInVoiceRoom());
   }
   joinCall() {
     this.outVoiceChat.set(false);
