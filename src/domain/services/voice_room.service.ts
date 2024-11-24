@@ -29,8 +29,8 @@ export class VoiceRoomService {
     return this._addRating.execute(room_id, rating, user_id);
   }
 
-  verifyOpenVoiceRoom(room_id: string): Observable<boolean> {
-    return this._verifyOpenVoiceRoom.execute(room_id);
+  verifyOpenVoiceRoom(room_id: string, user_id:string): Observable<boolean> {
+    return this._verifyOpenVoiceRoom.execute(room_id, user_id);
   }
 
   getVoiceRoom(user_id: string): Observable<VoiceRoom[]> {

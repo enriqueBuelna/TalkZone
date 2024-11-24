@@ -17,3 +17,11 @@
     [closable]="false" [dismissableMask]="true" [draggable]="false">
     <app-rating></app-rating>
 </p-dialog>
+
+
+<p-dialog [modal]="true" [(visible)]="showExitDeleted" [style]="{ width: '20rem', height:'20rem' }"
+    [closable]="false" [dismissableMask]="true" [draggable]="false">
+    <h2>Fuiste eliminado por el host</h2>
+    
+    <app-button text="Ir al inicio" (clickEvent)="goHome()"></app-button>
+</p-dialog>

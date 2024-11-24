@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { SocketService } from './socket.service';
 import { map, Observable } from 'rxjs';
 import { UserInVoiceRoom } from '../domain/models/user_in_voice_room.model';
-import { myUserVoiceRoom } from '../ui/pages/voice-room/voice-room-in/services/myUserVr.service';
 import { ResponseVR } from '../domain/entities/voice_rooms/ResponseVR.entitie';
 
 @Injectable({
@@ -11,20 +10,42 @@ import { ResponseVR } from '../domain/entities/voice_rooms/ResponseVR.entitie';
 export class voiceRoomSocket {
   constructor(private _socket: SocketService) {}
 
-  comeToStage(){
-    
+  silenceMember(room_id:string, user_id:string){
+    const payload = {
+      room_id, 
+      user_id
+    }
+    this._socket.emitEvent('silenceMember', payload);
+  }
+
+  silenceMicrophone():Observable<any>{
+    return this._socket.listenEvent('silenceMicrophone');
   }
 
   acceptInvitation(){
 
   }
 
-  downOfStage(){
-
+  downOfStage(room_id:string, user_id:string){
+    const payload = {
+      room_id,
+      user_id
+    };
+    this._socket.emitEvent('downOfStage', payload);
   }
 
-  goOffRoom(){
-    
+  getDown():Observable<any>{
+    return this._socket.listenEvent('getDown');
+  }
+
+  goOffRoom(room_id:string, user_id:string){
+    const payload = {
+      room_id,
+      user_id,
+      roomLogId:0,
+      deleted:true
+    }
+    this._socket.emitEvent('leaveRoom', payload);
   }
 
   joinRoom(room_id: string | null, user_id: string) {

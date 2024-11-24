@@ -23,8 +23,8 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
     return this._http.post<boolean>(`${this.API_URL}/voice_rooms/addRating`, payload);
   }
 
-  override verifyOpenVoiceRoom(room_id: string): Observable<boolean> {
-    const params = new HttpParams().set('room_id', room_id);
+  override verifyOpenVoiceRoom(room_id: string, user_id:string): Observable<boolean> {
+    const params = new HttpParams().set('room_id', room_id).set('user_id',user_id);
     return this._http.get<boolean>(`${this.API_URL}/voice_rooms/verifyStatus`, {
       params,
     });

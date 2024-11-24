@@ -1,5 +1,13 @@
-<div class="member">
+<div class="member" (click)="toggleMenu()">
     <div class="username">
         <p>{{userInVoiceRoom.getUsername()}}</p>
     </div>
 </div>
+
+@if(isMenuOpen){
+    <div class="menu">
+        <ul>
+            <li (click)="deleteUser()">Eliminar de la llamada</li>
+        </ul>
+    </div>
+    }

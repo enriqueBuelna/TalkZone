@@ -15,7 +15,7 @@ export abstract class VoiceRoomRepository {
   ): Observable<UserInVoiceRoom[]>; //cuando entro al vr
   abstract getInVoiceRoom(user_id: string): Observable<void>; // cuando entro al vr tmbn
   abstract closeVoiceRoom(room_id: string): Observable<void>;
-  abstract verifyOpenVoiceRoom(room_id: string): Observable<boolean>;
+  abstract verifyOpenVoiceRoom(room_id: string, user_id:string): Observable<boolean>;
   abstract addRating(
     room_id: string,
     rating: number,

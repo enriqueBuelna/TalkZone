@@ -10,8 +10,8 @@ export class VerifyOpenVoiceRoom {
   constructor(private VoiceRoomRepository: VoiceRoomRepository) {}
 
   execute(
-    room_id: string,
+    room_id: string,user_id:string
   ): Observable<boolean> {
-    return this.VoiceRoomRepository.verifyOpenVoiceRoom(room_id);
+    return this.VoiceRoomRepository.verifyOpenVoiceRoom(room_id, user_id);
   }
 }

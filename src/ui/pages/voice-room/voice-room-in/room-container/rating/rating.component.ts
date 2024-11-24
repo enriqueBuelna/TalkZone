@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../../auth/services/user.service';
 import { VoiceRoomService } from '../../../../../../domain/services/voice_room.service';
+import { voiceRoomSocket } from '../../../../../../socket_service/voice_room_socket.service';
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',

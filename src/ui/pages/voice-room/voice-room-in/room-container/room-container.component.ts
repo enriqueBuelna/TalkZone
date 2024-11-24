@@ -57,7 +57,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   roomLog = '';
   showModalRating = signal(false);
   IdRoom = '';
-  
+  showExitDeleted = false;
   constructor(
     private _callService: CallService,
     private _route: ActivatedRoute,
@@ -210,14 +210,23 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
 
     // Verificar si la sala está abierta
-    this._voiceRoomService.verifyOpenVoiceRoom(roomId).subscribe({
-      next: (isOpen) => {
-        this.isOpen.set(isOpen);
+    this._voiceRoomService.verifyOpenVoiceRoom(roomId, this._userService.getUserId()).subscribe({
+      next: (isOpen:any) => {
+        console.log(isOpen);
+        let aux = false;
+        if(isOpen === 'active'){
+          aux = true;
+        }
+        this.isOpen.set(aux);
 
-        if (isOpen) {
-          this.initializeVoiceRoom(roomId);
-        } else {
-          this.voiceRoomClosedModal.set(true);
+        if(isOpen !== 'deleted'){
+          if (isOpen) {
+            this.initializeVoiceRoom(roomId);
+          } else {
+            this.voiceRoomClosedModal.set(true);
+          }
+        }else{
+          this.showExitDeleted = true;
         }
       },
       error: (err) => {
@@ -248,7 +257,6 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((newUser) => {
         if (newUser) {
-          console.log('go', newUser);
           if (newUser.type !== 'host') {
             this.roomLog = newUser.roomLog;
           }
@@ -260,9 +268,14 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
     this._voiceRoomSocket
       .userLeft()
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((userLeft) => {
+      .subscribe(async (userLeft) => {
         this._voiceRoomUsers.userLeft(userLeft);
         this._raisedHand.userLeft(userLeft);
+        if(userLeft === this._userService.getUserId()){
+          this.showExitDeleted = true;
+          await this._callService.leaveCall();
+          this.restartAll();
+        }
       });
 
     // Obtener el usuario actual en la sala
@@ -335,6 +348,21 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
         this.restartAll();
       });
 
+    this._voiceRoomSocket.silenceMicrophone().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
+      if(el === this._userService.getUserId()){
+        this._callService.toggleAudio(false);
+      }
+    })
+
+    this._voiceRoomSocket.getDown().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(async el => {
+      const myUser = this.myUserInVoiceRoom();
+        if (myUser.getUserId() === el) {
+          await this._callService.leaveCall();
+          myUser.backFromStage();
+        }
+        this._voiceRoomUsers.changesUserInStage(el, 'no');
+    })
+
     this.closeVoiceRoom = this._voiceRoomService.closeVoiceRoom(roomId);
   }
 
@@ -353,11 +381,9 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
     const roomId =
       this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
     if (this.myUserInVoiceRoom().getType() === 'host') {
-      console.log(this.myUserInVoiceRoom().getType());
       this.closeVoiceRoom
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((el) => {
-          console.log(el);
           this._router.navigate(['home/voice_room']);
         });
     } else {
@@ -388,5 +414,9 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       this._userService.getUserId(),
       this.roomLog
     );
+  }
+
+  goHome(){
+    this._router.navigate(['home/voice_room']);
   }
 }
