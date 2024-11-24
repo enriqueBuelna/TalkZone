@@ -2,7 +2,6 @@ import {
   Component,
   DestroyRef,
   HostListener,
-  inject,
   OnDestroy,
   OnInit,
   signal,
@@ -15,7 +14,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../auth/services/user.service';
 import { voiceRoomSocket } from '../../../../../socket_service/voice_room_socket.service';
 import { Observable } from 'rxjs';
-import { UserDemo } from '../../../../../domain/models/user-demo.model';
 import { VoiceRoomService } from '../../../../../domain/services/voice_room.service';
 import { VoiceRoomUser } from '../services/voice_room_user.service';
 import { SocketService } from '../../../../../socket_service/socket.service';
@@ -25,6 +23,7 @@ import { myUserVoiceRoom } from '../services/myUserVr.service';
 import { RaisedHand } from '../services/raiseHand.service';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonComponent } from '../../../../utils/button/button.component';
+import { RatingComponent } from "./rating/rating.component";
 @Component({
   selector: 'app-room-container',
   standalone: true,
@@ -34,7 +33,8 @@ import { ButtonComponent } from '../../../../utils/button/button.component';
     MessagesContainerComponent,
     DialogModule,
     ButtonComponent,
-  ],
+    RatingComponent
+],
   templateUrl: './room-container.component.html',
   styleUrl: './room-container.component.css',
 })
@@ -54,6 +54,10 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   closeVoiceRoom!: Observable<any>;
   voiceRoomClosedModal = signal(false);
   isOpen = signal(false);
+  roomLog = '';
+  showModalRating = signal(false);
+  IdRoom = '';
+  
   constructor(
     private _callService: CallService,
     private _route: ActivatedRoute,
@@ -234,7 +238,6 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
     this.getAllUsers
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((users) => {
-        console.log('CHECA ESTOOOOOOOOOOOO', users);
         this._voiceRoomUsers.setUserInVoiceRoom(users);
         this.userInVoiceRoom = this._voiceRoomUsers.getUsersInVoiceRoom();
       });
@@ -245,9 +248,11 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((newUser) => {
         if (newUser) {
-          console.log('Checa propiedad ', newUser);
+          console.log('go', newUser);
+          if (newUser.type !== 'host') {
+            this.roomLog = newUser.roomLog;
+          }
           this._voiceRoomUsers.updateUsersInVoiceRoom(newUser);
-          console.log(this._voiceRoomUsers.usersInVoiceRoom());
         }
       });
 
@@ -334,10 +339,6 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
-    const roomId =
-      this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
-    this._voiceRoomSocket.leaveRoom(roomId, this._userService.getUserId());
-
     document.body.style.backgroundColor = ''; // Restablece el color al salir del componente
     await this._callService.leaveCall();
     this.restartAll();
@@ -349,6 +350,8 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   }
 
   goToHome() {
+    const roomId =
+      this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
     if (this.myUserInVoiceRoom().getType() === 'host') {
       console.log(this.myUserInVoiceRoom().getType());
       this.closeVoiceRoom
@@ -358,7 +361,18 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
           this._router.navigate(['home/voice_room']);
         });
     } else {
-      this._router.navigate(['home/voice_room']);
+      this._voiceRoomSocket.leaveRoom(
+        roomId,
+        this._userService.getUserId(),
+        this.roomLog
+      );
+      this._voiceRoomSocket.amWent().subscribe((el) => {
+        if(el){
+          this.showModalRating.set(el);
+        }else{
+          this._router.navigate(['home/voice_room']);
+        }
+      });
     }
   }
 
@@ -369,6 +383,10 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   async onBeforeUnload(event: BeforeUnloadEvent) {
     const roomId =
       this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
-    this._voiceRoomSocket.leaveRoom(roomId, this._userService.getUserId());
+    this._voiceRoomSocket.leaveRoom(
+      roomId,
+      this._userService.getUserId(),
+      this.roomLog
+    );
   }
 }

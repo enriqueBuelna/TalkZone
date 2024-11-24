@@ -7,6 +7,7 @@ import { GetAllVoiceRoomMembers } from '../use_cases/voice_room/getAllVoiceRoomM
 import { UserInVoiceRoom } from '../models/user_in_voice_room.model';
 import { CloseVoiceRoom } from '../use_cases/voice_room/closeVoiceRoom.use_case';
 import { VerifyOpenVoiceRoom } from '../use_cases/voice_room/verifyOpenVoiceRoom.use_case';
+import { AddRating } from '../use_cases/voice_room/addRating.use_case';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,8 +17,17 @@ export class VoiceRoomService {
     private _createVoiceRoom: CreateVoiceRoom,
     private _getAllVoiceRoomMembers: GetAllVoiceRoomMembers,
     private _closeVoiceRoom: CloseVoiceRoom,
-    private _verifyOpenVoiceRoom: VerifyOpenVoiceRoom
+    private _verifyOpenVoiceRoom: VerifyOpenVoiceRoom,
+    private _addRating: AddRating
   ) {}
+
+  addRating(
+    room_id: string,
+    rating: number,
+    user_id: string
+  ): Observable<boolean> {
+    return this._addRating.execute(room_id, rating, user_id);
+  }
 
   verifyOpenVoiceRoom(room_id: string): Observable<boolean> {
     return this._verifyOpenVoiceRoom.execute(room_id);

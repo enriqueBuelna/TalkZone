@@ -1,7 +1,17 @@
-<div class="profile-card">
+<div class="profile-card" (click)="toggleMenu()">
     <div class="profile-image">
         <!-- Aquí puedes poner una imagen -->
-        <img [src]="userInVoiceRoom.getProfilePic()" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%;">
+        <img [src]="userInVoiceRoom.getProfilePic()" alt="Profile"
+            style="width: 100%; height: 100%; border-radius: 50%;">
     </div>
     <div class="username">{{userInVoiceRoom.getUsername()}}</div>
 </div>
+
+@if(isMenuOpen){
+<div class="menu">
+    <ul>
+        <li (click)="muteUser()">Silenciar</li>
+        <li (click)="removeUser()">Bajar del escenario</li>
+    </ul>
+</div>
+}

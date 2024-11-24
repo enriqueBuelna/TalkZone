@@ -72,6 +72,7 @@ export class VoiceRoomComponent implements OnInit {
         
 
         this.allVoiceRooms = el;
+        console.log(this.allVoiceRooms);
       });
   }
 

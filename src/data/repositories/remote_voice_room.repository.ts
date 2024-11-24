@@ -12,6 +12,17 @@ import { UserInVoiceRoom } from '../../domain/models/user_in_voice_room.model';
   providedIn: 'root',
 })
 export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
+
+  override addRating(room_id: string, rating: number, user_id: string): Observable<boolean> {
+    const payload = {
+      room_id, 
+      rating,
+      user_id
+    }
+
+    return this._http.post<boolean>(`${this.API_URL}/voice_rooms/addRating`, payload);
+  }
+
   override verifyOpenVoiceRoom(room_id: string): Observable<boolean> {
     const params = new HttpParams().set('room_id', room_id);
     return this._http.get<boolean>(`${this.API_URL}/voice_rooms/verifyStatus`, {
@@ -62,7 +73,8 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
                       tag.voice_room_tag_to_tag.tag_name
                     )
                 ),
-                room.host_user
+                room.host_user,
+                room?.host_user?.rating_?.[0]?.average_rating || 0
               )
           );
         })

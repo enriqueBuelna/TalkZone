@@ -102,6 +102,7 @@ export class VoiceRoom {
   private topic_name: string;
   private voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[];
   private host_user: UserResponseInformation;
+  private rating?: number;
 
   constructor(
     id: number,
@@ -110,7 +111,8 @@ export class VoiceRoom {
     topic_id: number,
     topic_name: string,
     voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[],
-    host_user: UserResponseInformation
+    host_user: UserResponseInformation,
+    rating: number
   ) {
     this.id = id;
     this.room_name = room_name;
@@ -119,6 +121,7 @@ export class VoiceRoom {
     this.topic_name = topic_name;
     this.voice_room_to_voice_room_tag = voice_room_to_voice_room_tag;
     this.host_user = host_user;
+    this.rating = rating;
   }
 
   // Getters
@@ -169,5 +172,9 @@ export class VoiceRoom {
 
   setVoiceRoomId(id: number): void {
     this.id = id;
+  }
+
+  getRating() {
+    return this.rating;
   }
 }

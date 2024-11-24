@@ -5,12 +5,25 @@ export class UserInVoiceRoom {
   private profile_pic: string;
   private type: string;
   private in_stage: boolean;
-  constructor(id: string, username: string, profile_pic: string, type: string, in_stage:boolean) {
+  private roomLog?: string;
+  constructor(
+    id: string,
+    username: string,
+    profile_pic: string,
+    type: string,
+    in_stage: boolean,
+    roomLog?: string
+  ) {
     this.id = id;
     this.username = username;
     this.profile_pic = profile_pic;
     this.type = type;
     this.in_stage = in_stage;
+    this.roomLog = roomLog;
+  }
+
+  getRoomLog() {
+    return this.roomLog;
   }
 
   getUsername() {

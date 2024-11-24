@@ -6,12 +6,16 @@ import { UserInVoiceRoom } from '../../../../../domain/models/user_in_voice_room
 })
 export class VoiceRoomUser {
   usersInVoiceRoom = signal<UserInVoiceRoom[]>([]);
+  userAdmin = signal('');
 
   setUserInVoiceRoom(users: UserInVoiceRoom[]) {
     this.usersInVoiceRoom.set(users);
   }
 
   updateUsersInVoiceRoom(user: UserInVoiceRoom) {
+    if(user.getType() === 'host'){
+      this.userAdmin.set(user.getUserId());
+    }
     this.usersInVoiceRoom.update((users) => {
       if (
         !users.some(

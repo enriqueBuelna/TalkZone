@@ -12,3 +12,8 @@
     
     <app-button text="Ir al inicio" (clickEvent)="goToHome()"></app-button>
 </p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="showModalRating" [style]="{ width: '20rem', height:'20rem' }"
+    [closable]="false" [dismissableMask]="true" [draggable]="false">
+    <app-rating></app-rating>
+</p-dialog>

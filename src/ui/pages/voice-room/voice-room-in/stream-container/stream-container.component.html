@@ -3,8 +3,14 @@
     <div id="streams__container">
         @for (item of usersInVoiceRoom(); track $index) {
         @if (item.getInStage()) {
+        <!-- @if (item.getType() === 'host') {
+            <app-member-voice-chat [userInVoiceRoom]="item" [admin]="item.getUserId()"></app-member-voice-chat>
+        }@else {
+            <app-member-voice-chat [userInVoiceRoom]="item"></app-member-voice-chat>
+        } -->
         <app-member-voice-chat [userInVoiceRoom]="item"></app-member-voice-chat>
-        }
+    
+    }
         }
     </div>
     @if (myUserInVoiceRoom().getInStage()) {

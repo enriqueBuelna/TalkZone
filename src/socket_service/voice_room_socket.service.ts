@@ -11,6 +11,22 @@ import { ResponseVR } from '../domain/entities/voice_rooms/ResponseVR.entitie';
 export class voiceRoomSocket {
   constructor(private _socket: SocketService) {}
 
+  comeToStage(){
+    
+  }
+
+  acceptInvitation(){
+
+  }
+
+  downOfStage(){
+
+  }
+
+  goOffRoom(){
+    
+  }
+
   joinRoom(room_id: string | null, user_id: string) {
     const payload = {
       room_id,
@@ -89,7 +105,7 @@ export class voiceRoomSocket {
   addNewUser(): Observable<any> {
     return this._socket.listenEvent('newUserVoiceRoom').pipe(
       map((user: any) => {
-        console.log(user);
+        console.log(user)
         // Verifica si el usuario tiene todos los campos necesarios
         if (
           !user ||
@@ -108,7 +124,8 @@ export class voiceRoomSocket {
           user.username,
           user.profile_picture,
           user.type,
-          user.in_stage
+          user.in_stage,
+          user.roomLog
         );
       })
     );
@@ -122,11 +139,16 @@ export class voiceRoomSocket {
     return this._socket.listenEvent('existingUsersInRoom');
   }
 
-  leaveRoom(room_id: string, user_id: string) {
+  leaveRoom(room_id: string, user_id: string, roomLogId?:string) {
     const payload = {
       room_id,
       user_id,
+      roomLogId
     };
     this._socket.emitEvent('leaveRoom', payload);
+  }
+
+  amWent():Observable<any>{
+    return this._socket.listenEvent('imWent');
   }
 }
