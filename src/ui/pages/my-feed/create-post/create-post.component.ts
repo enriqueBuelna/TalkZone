@@ -11,6 +11,7 @@ import { UserDemo } from '../../../../domain/models/user-demo.model';
 })
 export class CreatePostComponent {
   @Input() myUser!:UserDemo;
+  @Input() type!:string;
   modalVisible = signal(false);
   showModal() {
     this.modalVisible.set(!this.modalVisible());

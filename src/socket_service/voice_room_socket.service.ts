@@ -126,7 +126,6 @@ export class voiceRoomSocket {
   addNewUser(): Observable<any> {
     return this._socket.listenEvent('newUserVoiceRoom').pipe(
       map((user: any) => {
-        console.log(user)
         // Verifica si el usuario tiene todos los campos necesarios
         if (
           !user ||
@@ -171,5 +170,18 @@ export class voiceRoomSocket {
 
   amWent():Observable<any>{
     return this._socket.listenEvent('imWent');
+  }
+
+  getNewMessage():Observable<any>{
+    return this._socket.listenEvent('newMessage');
+  }
+
+  sendMessage(room_id:string, user_id:string, message:string){
+    const payload = {
+      room_id, 
+      user_id, 
+      message
+    }
+    this._socket.emitEvent('sendMessageVr', payload);
   }
 }

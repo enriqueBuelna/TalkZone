@@ -15,13 +15,19 @@ export class UserService {
 
   // Método para guardar el token en localStorage
   setToken(token: string): void {
-    console.log(token);
     localStorage.setItem(this.tokenKey, token);
   }
 
+  isProfileComplete() {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      this.user_id = decodedToken.id;
+      return decodedToken.is_profile_complete;
+    }
+  }
   //newUser
   isNewUser(): boolean {
-    console.log(this.currentUser.is_profile_complete);
     return this.currentUser.is_profile_complete;
   }
 

@@ -12,12 +12,14 @@ export class CreateVoiceRoom {
   execute(
     room_name: string,
     host_user_id: string,
-    topic_id: number
+    topic_id: number,
+    type:string
   ): Observable<any> {
     return this.VoiceRoomRepository.createVoiceRoom(
       room_name,
       host_user_id,
-      topic_id
+      topic_id,
+      type
     );
   }
 }

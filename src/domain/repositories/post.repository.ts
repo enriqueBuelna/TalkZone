@@ -4,7 +4,7 @@ import { Post } from '../models/post.model';
 export abstract class PostRepository {
   abstract newPost(info: IPost): Observable<Post>;
   abstract getForYouPost(user_id: string, page: number): Observable<Post[]>;
-  abstract getPostById(id: string): Observable<Post>;
+  abstract getPostById(id: string, user_id:string): Observable<Post>;
   abstract getPostFriends(user_id: string, page: number): Observable<Post[]>;
   abstract getYourPost(user_id: string, page: number): Observable<Post[]>;
   abstract giveLike(
@@ -14,4 +14,5 @@ export abstract class PostRepository {
   ): Observable<boolean>;
   abstract getPostGroup(community_id:string, page:number):Observable<Post[]>;
   abstract getAllPostGroup(user_id:string, page:number):Observable<Post[]>;
+  abstract createComment(user_id:string, post_id:string, content:string):Observable<any>;
 }

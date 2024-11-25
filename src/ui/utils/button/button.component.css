@@ -7,7 +7,6 @@ button {
   cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
   transition: background-color 0.3s; /* Transición suave para el cambio de color */
   display: block;
-  max-width: 100%;
 }
 
 .buttonDisabled {

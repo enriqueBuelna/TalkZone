@@ -4,19 +4,14 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { NavbarApp } from '../../utils/navbar/navbar.component';
 import { AsideComponent } from '../../utils/aside/aside.component';
-import { HeaderComponent } from '../../utils/header/header.component';
 import { ButtonComponent } from '../../utils/button/button.component';
 import { DialogModule } from 'primeng/dialog';
 import { StepperModule } from 'primeng/stepper';
 import { DropdownModule } from 'primeng/dropdown';
 import { AvatarModule } from 'primeng/avatar';
-import { AvatarGroupModule } from 'primeng/avatargroup';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ChipModule } from 'primeng/chip';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TopicService } from '../../../domain/services/topic.service';
 import { Topic } from '../../../domain/models/topic.model';
@@ -35,6 +30,7 @@ import { UserService } from '../auth/services/user.service';
 import { AuthService } from '../../../domain/services/auth.service';
 import { TopicsTagsService } from './services/topics-tags.service';
 import { UserPreferencesServices } from './services/userPreferenceService.service';
+import { Router } from '@angular/router';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -55,7 +51,6 @@ class TopicDOM {
   imports: [
     CommonModule,
     AsideComponent,
-    HeaderComponent,
     ButtonComponent,
     DialogModule,
     StepperModule,
@@ -86,6 +81,8 @@ export class WelcomeComponent implements OnInit {
   type: string = '';
   indexUserPreference: number = 0;
   topicExiste = signal(false);
+  modalOutOf = signal(false);
+  maximo = '';
   constructor(
     private _topicService: TopicService,
     private formBuilder: FormBuilder,
@@ -93,7 +90,8 @@ export class WelcomeComponent implements OnInit {
     private _userService: UserService,
     private _authService: AuthService,
     private _TopicTagsService: TopicsTagsService,
-    private _UserPreferenceService: UserPreferencesServices
+    private _UserPreferenceService: UserPreferencesServices,
+    private _router: Router
   ) {
     this.formTopics = this.formBuilder.group({
       firstTopic: ['', [Validators.required]],
@@ -107,7 +105,14 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.responseTopicPrincipal$ = this._topicService.getPrincipalTopic();
+    if (this._userService.isProfileComplete()) {
+      this._router.navigate(['home','posts']);
+    } else {
+      this.responseTopicPrincipal$ = this._topicService.getPrincipalTopic();
+      this._authService
+        .completeProfile(this._userService.getUserId())
+        .subscribe((el) => el);
+    }
   }
 
   changeStep() {
@@ -115,8 +120,24 @@ export class WelcomeComponent implements OnInit {
   }
 
   showDialog(n: number, type: string) {
-    this.visible = true;
-    this.type = type;
+    let si = this._UserPreferenceService.hasReachedTypeLimit(type);
+    if (!si) {
+      this.cleanAll();
+      this.visible = true;
+      this.type = type;
+    } else {
+      this.maximo = type;
+      this.modalOutOf.set(true);
+    }
+  }
+
+  okey() {
+    this.modalOutOf.set(false);
+    this.maximo = '';
+  }
+
+  close() {
+    return true;
   }
 
   next() {
@@ -167,8 +188,6 @@ export class WelcomeComponent implements OnInit {
         this.type,
         chosenTopic.topic_name
       );
-
-      console.log(this._UserPreferenceService.getUserPreferences('explorador'));
 
       this.activeStep.set(3);
 
@@ -255,7 +274,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   cleanAll() {
-    this.indexUserPreference++;
+    // this.indexUserPreference++;
     this.responseTopicSecond$ = undefined;
     this.responseAddTag$ = undefined;
     this.visible = false;
@@ -301,7 +320,7 @@ export class WelcomeComponent implements OnInit {
     let { about_me } = this.formDescription.value;
     //llamar al servicio para que haga esta cosa
 
-    let id  = this._userService.getUserId();
+    let id = this._userService.getUserId();
     this.responseFinishProfile$ = this._authService.finishProfile(
       id,
       about_me,

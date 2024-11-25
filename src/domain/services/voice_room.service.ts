@@ -40,9 +40,10 @@ export class VoiceRoomService {
   createVoiceRoom(
     room_name: string,
     host_user_id: string,
-    topic_id: number
+    topic_id: number,
+    type:string
   ): Observable<any> {
-    return this._createVoiceRoom.execute(room_name, host_user_id, topic_id);
+    return this._createVoiceRoom.execute(room_name, host_user_id, topic_id, type);
   }
 
   getAllVoiceRoomMembers(room_id: string): Observable<UserInVoiceRoom[]> {

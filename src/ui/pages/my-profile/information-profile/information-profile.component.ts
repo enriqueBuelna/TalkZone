@@ -11,6 +11,7 @@ import { ModalPostGroupComponent } from '../../group/view-of-group/modal-post/mo
 import { CommunitieService } from '../../../../domain/services/communitie.service';
 import { UserService } from '../../auth/services/user.service';
 import { EditProfileGroupComponent } from "../../group/view-of-group/edit-profile/edit-profile.component";
+import { ModalPostComponent } from "../../my-feed/create-post/modal-post/modal-post.component";
 @Component({
   selector: 'app-information-profile',
   standalone: true,
@@ -20,12 +21,16 @@ import { EditProfileGroupComponent } from "../../group/view-of-group/edit-profil
     EditProfileComponent,
     DialogModule,
     ModalPostGroupComponent,
-    EditProfileGroupComponent
+    EditProfileGroupComponent,
+    ModalPostComponent
 ],
   templateUrl: './information-profile.component.html',
   styleUrl: './information-profile.component.css',
 })
 export class InformationProfileComponent implements OnInit {
+showModal() {
+throw new Error('Method not implemented.');
+}
   create_post = signal(false);
   edit_profile = signal(false);
   userPreferences = signal<UserPreference[]>([]);
@@ -36,6 +41,7 @@ export class InformationProfileComponent implements OnInit {
   @Input() user!: UserComplete;
   @Input() typeMember = signal('');
   showApply = signal(false);
+myUser: any;
   showApplies(){
     this.showApply.set(!this.showApply());
   }

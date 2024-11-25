@@ -1,52 +1,59 @@
-@if (postContent) {
-<div class="contenedor_principal">
-    <div class="post">
-        <div class="auxiliar" [routerLink]="['detail_post', postContent.getId()]">
-            <div class="post-header">
-                <div class="profile-pic">
-                    <img [src]="postContent.getUserInfo().getProfilePic()" alt="">
+<!-- post.component.html -->
+<div class="post-container" *ngIf="postContent">
+    <div class="post-card">
+        <!-- Header -->
+        <div class="post-header">
+            <div class="user-info">
+                <div class="profile-image">
+                    <img [src]="postContent.getUserInfo().getProfilePic()" [alt]="postContent.getUserInfo().getUsername()">
                 </div>
-                <div class="post-info">
-                    <a class="username">{{postContent.getUserInfo().getUsername()}}</a>
-                    <div class="info_preference">
-                        <div class="pref">
+                <div class="user-details">
+                    <div class="user-top-line">
+                        <span class="username" (click)="goProfile()">{{postContent.getUserInfo().getUsername()}}</span>
+                        <div class="preference-badge">
                             @if (postContent.getUserPreference()?.getType() === 'mentor') {
-                            <i class="">👨‍🎓</i>
+                                <i>🧠</i>
+                            } @else if (postContent.getUserPreference()?.getType() === 'explorador') {
+                                <i>🔍</i>
+                            } @else if (postContent.getUserPreference()?.getType() === 'entusiasta') {
+                                <i>💡</i>
                             }
-                            <p>{{postContent.getUserPreference()?.getTopicName()}}</p>
+                            <span>{{postContent.getUserPreference()?.getTopicName()}}</span>
                         </div>
                     </div>
                     <span class="post-time">30 minutos · 🌎</span>
                 </div>
+            </div>
+            <button class="options-button">•••</button>
+        </div>
 
-                <div class="post-options">•••</div>
-            </div>
-            <div class="contenedor_texto_post">
-                <p>{{postContent.getContent()}}</p>
-            </div>
+        <!-- Content -->
+        <div class="post-content" [routerLink]="['detail_post', postContent.getId()]"> 
+            <p class="post-text">{{postContent.getContent()}}</p>
             @if (postContent.getMediaUrl()) {
-            <div class="post-content">
-                <img class="foto_post" [src]="postContent.getMediaUrl()" alt="Imagen del post">
-            </div>
+                <div class="media-container">
+                    <img [src]="postContent.getMediaUrl()" alt="Post media" class="post-media">
+                </div>
             }
         </div>
+
+        <!-- Actions -->
         <div class="post-actions">
-            <span class="action" (click)="giveLike()">
-                <i class="pi pi-heart icon"></i>
+            <button class="action-button" (click)="giveLike()">
+                <i class="pi pi-heart" [ngClass]="postContent.isLiked() ? 'red' : 'no-red'"></i>
                 @if (postContent.getCantLikes() > 0) {
-                <p>{{postContent.getCantLikes()}}</p>
+                    <span>{{postContent.getCantLikes()}}</span>
                 }
-            </span>
-            <span class="action" (click)="giveComment()">
-                <i class="pi pi-comment icon"></i>
+            </button>
+            <button class="action-button" [routerLink]="['detail_post', postContent.getId()]">
+                <i class="pi pi-comment"></i>
                 @if (postContent.getCantComments() > 0) {
-                <p>{{postContent.getCantComments()}}</p>
+                    <span>{{postContent.getCantComments()}}</span>
                 }
-            </span>
-            <span class="action">
-                <i class="pi pi-share-alt icon"></i>
-            </span>
+            </button>
+            <button class="action-button">
+                <i class="pi pi-share-alt"></i>
+            </button>
         </div>
     </div>
 </div>
-}

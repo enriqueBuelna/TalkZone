@@ -20,6 +20,15 @@ const headers = new HttpHeaders({
   providedIn: 'root',
 })
 export class RemoteUserRepository extends UserRepository {
+
+  override completeProfile(user_id: string): Observable<any> {
+    const payload = {
+      user_id
+    }
+
+    return this._http.post<any>(`${this.API_URL}/completeProfile`,payload);
+  }
+
   override verifyChangePasswordCode(
     code: string,
     email: string

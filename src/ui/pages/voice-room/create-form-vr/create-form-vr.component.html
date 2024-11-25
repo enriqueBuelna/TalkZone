@@ -1,0 +1,35 @@
+<div id="modal-background" class="modal-background">
+    <div class="post-modal">
+      <div class="post-header">
+        <span>Crear sala</span>
+        <!-- <button class="close-btn" (click)="onClick()">&times;</button> -->
+      </div>
+      <div class="post-content">
+        <div class="form-container">
+            <!--  -->
+            <form [formGroup]="formCreateGroup">
+            <label for="group-name">Nombre de sala</label>
+            <input type="text" id="group-name" placeholder="Nombre del grupo" formControlName="name">
+  
+            <label for="group-type">Tipo de grupo</label>
+            <select id="group-type" formControlName="type">
+              <option value="" disabled selected>Tipo de sala:</option>
+              <option value="mentor">Mentoria</option>
+              <option value="explorador">Busqueda de aprendizaje</option>
+              <option value="entusiasta">Interses compartidos</option>
+            </select>
+  
+            @if (firtStep()) {
+            <label for="group-theme">Tema a elegir</label>
+            <p-dropdown optionLabel="name" placeholder="Seleccionar categoria" [style]='{width:"100%"}'
+            [options]="topicPrincipalList" optionLabel="topic_name" formControlName="topic_id" />
+            }
+          </form>
+        </div>
+  
+      </div>
+      <div class="post-footer">
+        <app-button text="Crear sala" (clickEvent)="saveChanges()"></app-button>
+      </div>
+    </div>
+  </div>

@@ -74,7 +74,10 @@
 
     }
 </div>
-@if (create_post()) {
+@if(create_post() && type=='user'){
+    <app-modal-post (clickEvent)="createPost()" [myUser]="user.getUserDemo()" [type]="'post'"></app-modal-post>
+}
+@else if (create_post()) {
 <app-modal-post-group (clickEvent)="createPost()" [type]="group.getType()" [group]="group"></app-modal-post-group>
 }
 

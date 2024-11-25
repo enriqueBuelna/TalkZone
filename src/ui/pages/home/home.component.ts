@@ -18,9 +18,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _socketService: SocketService
   ) {}
   ngOnInit(): void {
-    // if (!this._authService.isNewUser()) {
-    //   this._router.navigate(['home','welcome']); // Redirigir a la página de bienvenida
-    // }
+    if (!this._authService.isProfileComplete()) {
+      this._router.navigate(['home','welcome']); // Redirigir a la página de bienvenida
+    }
     // this._socketService.emitEvent('connection', null);
     // this._router.navigate(['home', 'welcome']); // Redirigir a la página de bienvenida
     // console.log(this._socketService);

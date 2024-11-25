@@ -84,12 +84,14 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
   createVoiceRoom(
     room_name: string,
     host_user_id: string,
-    topic_id: number
+    topic_id: number,
+    type:string
   ): Observable<any> {
     const payload = {
       room_name,
       host_user_id,
       topic_id,
+      type
     };
     return this._http.post<any>(
       `${this.API_URL}/voice_rooms/createVoiceRoom`,

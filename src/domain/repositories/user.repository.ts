@@ -38,4 +38,5 @@ export abstract class UserRepository {
     profile_picture?: string,
     cover_picture?: string
   ): Observable<any>;
+  abstract completeProfile(user_id:string):Observable<any>;
 }

@@ -18,10 +18,19 @@ export class UserPreferencesServices {
     type: string,
     topic_name: string,
   ) {
+
+    // Agregar la nueva preferencia
     this.userPreferences.push(
       new UserPreference(id, topic_id, type, topic_name, tags)
     );
   }
+
+  hasReachedTypeLimit(type: string): boolean {
+    const maxPerType = 5;
+    const count = this.userPreferences.filter(pref => pref.getType() === type).length;
+    return count >= maxPerType;
+  }
+
 
   deleteUserPreference(topic_name: string) {
     this.userPreferences = this.userPreferences.filter(

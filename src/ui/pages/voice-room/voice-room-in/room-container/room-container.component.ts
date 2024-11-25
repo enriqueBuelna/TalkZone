@@ -212,7 +212,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
     // Verificar si la sala está abierta
     this._voiceRoomService.verifyOpenVoiceRoom(roomId, this._userService.getUserId()).subscribe({
       next: (isOpen:any) => {
-        console.log(isOpen);
+        console.log("NO LO SERA",isOpen);
         let aux = false;
         if(isOpen === 'active'){
           aux = true;
@@ -220,7 +220,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
         this.isOpen.set(aux);
 
         if(isOpen !== 'deleted'){
-          if (isOpen) {
+          if (isOpen !== 'closed') {
             this.initializeVoiceRoom(roomId);
           } else {
             this.voiceRoomClosedModal.set(true);
@@ -384,8 +384,14 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       this.closeVoiceRoom
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((el) => {
+          console.log(el);
           this._router.navigate(['home/voice_room']);
         });
+        this._voiceRoomSocket.leaveRoom(
+          roomId,
+          this._userService.getUserId(),
+          this.roomLog
+        );
     } else {
       this._voiceRoomSocket.leaveRoom(
         roomId,

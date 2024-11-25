@@ -4,9 +4,9 @@
         <p>4-Post</p>
     </app-header>
     <app-post [postContent]="post"></app-post>
-    <app-tweet-text [myUser]="myUserInformation()"></app-tweet-text>
+    <app-tweet-text [myUser]="myUserInformation()" type="comment"></app-tweet-text>
     @if (post.getCantComments() > 0) {
-    @for (comment of post.getComment(); track $index) {
+    @for (comment of comments(); track $index) {
     <app-comment [comment]="comment"></app-comment>
     }
     }

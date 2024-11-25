@@ -1,23 +1,23 @@
-.main-content   {
-    width: calc(
+.main-content {
+  width: calc(
     100% - 300px
   ); /* El ancho es el resto del espacio después del navbar */
 }
 
 #aside {
-    width: 30%;
+  width: 30%;
 }
 
 .btnFiltros {
   display: flex;
   justify-content: end;
   align-items: end;
-  margin-top: .5rem;
-  margin-right: .5rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .img-user {
-  width: 75px;  /* Ajusta el tamaño del contenedor */
+  width: 75px; /* Ajusta el tamaño del contenedor */
   height: 75px; /* Igual al ancho para que sea un cuadrado */
   border-radius: 50%; /* Hace que el contenedor tenga forma de círculo */
   overflow: hidden; /* Asegura que cualquier parte extra de la imagen se corte */
@@ -25,18 +25,18 @@
 }
 
 .img-user img {
-  width: 100%;  /* La imagen se ajusta al tamaño del contenedor */
+  width: 100%; /* La imagen se ajusta al tamaño del contenedor */
   height: 100%; /* Para que la imagen llene completamente el contenedor */
   object-fit: cover; /* Recorta la imagen si es necesario para mantener las proporciones */
 }
 
-.info-user{
+.info-user {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
-.info-user .username p{
+.info-user .username p {
   margin: 0;
 }
 
@@ -58,8 +58,6 @@
   align-items: center;
 }
 
-
-
 .contenedor {
   width: 100%;
   height: 100%;
@@ -74,4 +72,37 @@
 .aside {
   width: 30%;
   height: 100%;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: auto;
+  padding: 20px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-container input[type="text"]::placeholder {
+  color: #aaa;
+  font-style: italic;
 }

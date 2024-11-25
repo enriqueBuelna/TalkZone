@@ -12,8 +12,9 @@ import { InformationProfileComponent } from './information-profile/information-p
 import { UserComplete } from '../../../domain/models/user_complete_information.model';
 import { UserPreference } from '../../../domain/models/user_preference.model';
 import { UserCompleteProfile } from './services/user_complete.service';
-import { EditProfileComponent } from "./edit-profile/edit-profile.component";
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserPreferenceSignalService } from './services/user_preferences.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-my-profile',
@@ -23,8 +24,8 @@ import { UserPreferenceSignalService } from './services/user_preferences.service
     ProfileInformationComponent,
     PostProfileComponent,
     InformationProfileComponent,
-    EditProfileComponent
-],
+    EditProfileComponent,
+  ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css',
 })
@@ -38,23 +39,25 @@ export class MyProfileComponent implements OnInit {
       ''
     )
   );
+  userDemo!: UserDemo;
   constructor(
     private _userService: AuthService,
     private _user: UserService,
     private _userInformation: UserCompleteProfile,
-    private _userPreference: UserPreferenceSignalService
+    private _userPreference: UserPreferenceSignalService,
+    private _route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.myObservable = this._userService.getCompleteInformation(
-      this._user.getUserId()
-    );
+    const userId = this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId';
+    this.myObservable = this._userService.getCompleteInformation(userId);
 
     this.myObservable.subscribe((el) => {
-      console.log(el);
       this._userInformation.setMyUserInformation(el);
       this.myUser = this._userInformation.getMyUserInformation();
-      this._userPreference.setUserPreferences(this.myUser().getUserPreferences());
+      this._userPreference.setUserPreferences(
+        this.myUser().getUserPreferences()
+      );
     });
   }
 }

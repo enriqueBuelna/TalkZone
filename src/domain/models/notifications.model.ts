@@ -34,7 +34,7 @@ export class Notification {
     this.type = type;
     this.like = like;
     if (this.related_comment_id) {
-      this.message = `ha respondido tu comentario`;
+      this.message = `ha hecho un comentario en tu publicacion`;
       this.action = 'Ven a echarle un vistazo';
     } else if (this.related_like_id) {
       if (this.like?.getCommentId()) {

@@ -7,10 +7,10 @@ import { Post } from '../../models/post.model';
 @Injectable({
   providedIn: 'root',
 })
-export class GetPostById {
-  constructor(private postRepository:PostRepository) {}
+export class CreateComment {
+  constructor(private postRepository: PostRepository) {}
 
-  execute(id:string, user_id:string):Observable<Post>{
-    return this.postRepository.getPostById(id, user_id);
+  execute(user_id:string, post_id:string, content: string):Observable<any>{
+    return this.postRepository.createComment(user_id, post_id, content);
   }
 }

@@ -2,7 +2,11 @@
     <form [formGroup]="formPost">
         <div class="post-modal">
             <div class="post-header">
+                @if(type==='post'){
                 <span>Crear publicación</span>
+                }@else {
+                <span>Crear comentario</span>
+                }
                 <button class="close-btn" (click)="onClick()">&times;</button>
             </div>
             <div class="post-content">
@@ -12,6 +16,7 @@
                         <div class="user-name">{{myUser.getUsername()}}</div>
                     </div>
                     <div class="privacy">
+                        @if (type === 'post') {
                         <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
                             formControlName="topic_id" />
                         <div class="privacy">
@@ -19,6 +24,7 @@
                             <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
                             <!-- aqui -->
                         </div>
+                        }
                     </div>
                 </div>
                 <!-- aqui -->
@@ -30,10 +36,16 @@
                         📷
                         <input type="file" (change)="onImageSelected($event)" />
                     </label>
-                    
+
                     <button class="action-btn">😊</button>
                 </div>
-                <button class="post-button" (click)="addPost()">Postear</button>
+                <button class="post-button" (click)="addPost()">
+                    @if (type==='post') {
+                        Postear
+                    }@else {
+                        Comentar
+                    }
+                </button>
             </div>
         </div>
     </form>

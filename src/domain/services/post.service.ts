@@ -10,6 +10,7 @@ import { GetYourPost } from '../use_cases/post/getMyPost.use_case';
 import { GiveLike } from '../use_cases/post/giveLike.use_case';
 import { GetPostGroup } from '../use_cases/post/getPostGroup.use_case';
 import { GetAllPostGroup } from '../use_cases/post/getAllPostGroup.use_case';
+import { CreateComment } from '../use_cases/post/createComment.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class PostService {
     private _getYourPost: GetYourPost,
     private _giveLike: GiveLike,
     private _getPostGroup: GetPostGroup,
-    private _getAllPostGroup: GetAllPostGroup
+    private _getAllPostGroup: GetAllPostGroup,
+    private _createComment:CreateComment
   ) {}
 
   getAllPostGroup(user_id: string, page: number): Observable<Post[]> {
@@ -42,8 +44,8 @@ export class PostService {
     return this._getForYouPost.execute(user_id, page);
   }
 
-  getPostById(id: string): Observable<Post> {
-    return this._getPostById.execute(id);
+  getPostById(id: string, user_id:string): Observable<Post> {
+    return this._getPostById.execute(id, user_id);
   }
 
   getPostFriends(user_id: string, page: number): Observable<Post[]> {
@@ -60,5 +62,9 @@ export class PostService {
     comment_id?: string
   ): Observable<boolean> {
     return this._giveLike.execute(user_id, post_id, comment_id);
+  }
+
+  createComment(user_id:string, post_id:string, content:string):Observable<any>{
+    return this._createComment.execute(user_id, post_id, content);
   }
 }

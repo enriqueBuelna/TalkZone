@@ -8,7 +8,8 @@ export abstract class VoiceRoomRepository {
   abstract createVoiceRoom(
     room_name: string,
     host_user_id: string,
-    topic_id: number
+    topic_id: number,
+    type:string
   ): Observable<void>; //createVoiceRoom y meter al usuario dentro del voice_room
   abstract getAllVoiceRoomMembers(
     room_id: string

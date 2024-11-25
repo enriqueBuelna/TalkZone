@@ -1,47 +1,52 @@
-<div class="main-content">
-    <app-header>
-        <h2>¡Bienvenido a TalkZone!</h2>
-    </app-header>
+<div class="contenedor">
+    <div class="header">
+        <h1>Bienvenido a TalkZone</h1>
+    </div>
     <div class="main">
         @if (!stepOne) {
-            <div class="containerr">
-                <div class="intro">
-                  <p>En <strong>TalkZone</strong>, puedes aprender, enseñar y conectar con personas que comparten tus intereses. Hemos creado una experiencia flexible para que explores temas, compartas conocimientos y participes en conversaciones enriquecedoras.</p>
-                </div>
-            
-                <div class="roles">
-                  <div class="role">
+        <div class="containerr">
+            <div class="intro">
+                <p>En <strong>TalkZone</strong>, puedes aprender, enseñar y conectar con personas que comparten tus
+                    intereses. Hemos creado una experiencia flexible para que explores temas, compartas conocimientos y
+                    participes en conversaciones enriquecedoras.</p>
+            </div>
+
+            <div class="roles">
+                <div class="role">
                     <h2>Exploradores</h2>
-                    <p>Si deseas aprender, selecciona los temas que te interesan y comienza a descubrir nuevas ideas.</p>
-                  </div>
-            
-                  <div class="role">
+                    <p>Si deseas aprender, selecciona los temas que te interesan y comienza a descubrir nuevas ideas.
+                    </p>
+                </div>
+
+                <div class="role">
                     <h2>Mentores</h2>
-                    <p>Si eres experto en algún tema, comparte tu conocimiento con los demás y ayuda a los Exploradores a crecer.</p>
-                  </div>
-            
-                  <div class="role">
+                    <p>Si eres experto en algún tema, comparte tu conocimiento con los demás y ayuda a los Exploradores
+                        a crecer.</p>
+                </div>
+
+                <div class="role">
                     <h2>Entusiastas</h2>
-                    <p>Si te apasiona participar en conversaciones, pero no te enfocas en enseñar ni aprender formalmente, este rol es para ti.</p>
-                  </div>
+                    <p>Si te apasiona participar en conversaciones, pero no te enfocas en enseñar ni aprender
+                        formalmente, este rol es para ti.</p>
                 </div>
-            
-                <div class="footer">
-                  <p>¡Elige tus temas y conecta con otros! Puedes cambiar de rol y explorar lo que más te interese. ¡Disfruta de la experiencia en TalkZone!</p>
+            </div>
+
+            <div class="footer">
+                <p>¡Elige tus temas y conecta con otros! Puedes cambiar de rol y explorar lo que más te interese.
+                    ¡Disfruta de la experiencia en TalkZone!</p>
+                <div class="btn">
+                    <app-button buttonClass="medium-button" text="Configurar mi perfil" (click)="changeStep()" />
                 </div>
-              </div>
-        <div class="btn">
-            <app-button buttonClass="medium-button" text="Configurar mi perfil" (click)="changeStep()" />
+            </div>
         </div>
         }@else {
-        <form [formGroup]="formDescription">
+        <!-- <form [formGroup]="formDescription">
             <textarea formControlName="about_me"></textarea>
             <div class="teach">
                 <p>Explorador:</p>
                 <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(0, 'explorador')" />
                 <div class="topics-teach">
                     @for (item of getUserPreferences('explorador'); track item) {
-                    <!-- Checar lo del tagRemove -->
                     <p-chip [label]="item.getTopicName()" [removable]="true"
                         (onRemove)="deleteUserPreference(item.getTopicName())" />
                     }
@@ -53,7 +58,6 @@
                 <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(1, 'mentor')" />
                 <div class="topics-learn">
                     @for (item of getUserPreferences('mentor'); track item) {
-                    <!-- Checar lo del tagRemove -->
                     <p-chip [label]="item.getTopicName()" [removable]="true"
                         (onRemove)="deleteUserPreference(item.getTopicName())" />
                     }
@@ -65,48 +69,71 @@
                 <app-button buttonClass="medium-button" text="Elegir tema" (click)="showDialog(1, 'entusiasta')" />
                 <div class="topics-learn">
                     @for (item of getUserPreferences('entusiasta'); track item) {
-                    <!-- Checar lo del tagRemove -->
+                    
                     <p-chip [label]="item.getTopicName()" [removable]="true"
                         (onRemove)="deleteUserPreference(item.getTopicName())" />
                     }
                 </div>
             </div>
-        </form>
+        </form> -->
+        <div class="container">
+            <div class="main-content">
+                <textarea class="description-box" placeholder="Añade una descripción acerca de ti"></textarea>
+
+                <div class="role-section">
+                    <div class="role-title">Explorador:</div>
+                    <div class="topics">
+                        @for (item of getUserPreferences('explorador'); track item) {
+                        <p-chip [label]="item.getTopicName()" [removable]="true"
+                            (onRemove)="deleteUserPreference(item.getTopicName())" class="right"/>
+                        }
+                    </div>
+                    <app-button buttonClass="small-button" text="Elegir tema" (click)="showDialog(0, 'explorador')" />
+
+                </div>
+
+                <div class="role-section">
+                    <div class="role-title">Mentor:</div>
+                    <div class="topics">
+                        @for (item of getUserPreferences('mentor'); track item) {
+                        <p-chip [label]="item.getTopicName()" [removable]="true"
+                            (onRemove)="deleteUserPreference(item.getTopicName())" />
+                        }
+                    </div>
+                    <app-button buttonClass="small-button" text="Elegir tema" (click)="showDialog(0, 'mentor')" />
+                </div>
+
+                <div class="role-section">
+                    <div class="role-title">Entusiasta:</div>
+                    <div class="topics">
+                        @for (item of getUserPreferences('entusiasta'); track item) {
+                        <p-chip [label]="item.getTopicName()" [removable]="true"
+                            (onRemove)="deleteUserPreference(item.getTopicName())" />
+                        }
+                    </div>
+                    <app-button buttonClass="small-button" text="Elegir tema" (click)="showDialog(0, 'entusiasta')" />
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-photo">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 8v8m-4-4h8M12 3c7.2 0 9 1.8 9 9s-1.8 9-9 9-9-1.8-9-9 1.8-9 9-9z' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"
+                        alt="Añadir foto">
+                </div>
+                <button class="save-button">Guardar perfil</button>
+            </div>
+        </div>
         }
     </div>
 </div>
-<app-aside>
-    @if (stepOne) {
-    <div class="header">
-
-    </div>
-    <div class="formulario-final">
-        <div class="foto-perfil text-center mb-5">
-            <p class="text-center">Foto de perfil</p>
-            <p-avatar *ngIf="!uploadedImage" icon="pi pi-image" styleClass="mr-5" size="xlarge" shape="circle"
-                class="text-center"></p-avatar>
-            <div *ngIf="uploadedImage" class="text-center" class="image-container text-center">
-                <img [src]="uploadedImage" alt="" class="profile-image">
-            </div>
-
-            <p-fileUpload mode="basic" [multiple]="true" name="demo[]" chooseIcon="pi pi-upload" accept="image/*"
-                maxFileSize="1000000" [auto]="true" chooseLabel="Subir imagen" (onSelect)="onImageUpload($event)" />
-            <button *ngIf="uploadedImage" (click)="removeImage()">Eliminar imagen</button>
-        </div>
-        <div class="btnSend">
-            <app-button buttonClass="medium-button" text="Guardar perfil" (click)="uploadInformation()"></app-button>
-        </div>
-    </div>
-    }
-</app-aside>
-<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="false"
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="close()"
     [dismissableMask]="true" [draggable]="false">
     <form [formGroup]="formTopics">
         <div class="flex justify-content-center">
             <p-stepper [linear]="true" [activeStep]="activeStep()">
                 <p-stepperPanel>
                     <ng-template pTemplate="content">
-                        <div class="container">
+                        <div class="">
                             <div class="title">
                                 <h2>Selecciona una categoría principal</h2>
                             </div>
@@ -143,7 +170,7 @@
                         </div>
 
                         @if (topicExiste()) {
-                            <h3>Ese tema, ya esta puesto en alguna de tus otras preferencias, por favor, elige otro :D</h3>
+                        <h3>Ese tema, ya esta puesto en alguna de tus otras preferencias, por favor, elige otro :D</h3>
                         }
                     </ng-template>
                 </p-stepperPanel>
@@ -178,4 +205,9 @@
             </p-stepper>
         </div>
     </form>
+</p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="modalOutOf" [style]="{ width: '25rem' }">
+    <h2>Haz alcanzado el maximo de preferencias para el tipo {{maximo}}</h2>
+    <app-button buttonClass="medium-button" text="Aceptar" (clickEvent)="okey()"></app-button>
 </p-dialog>

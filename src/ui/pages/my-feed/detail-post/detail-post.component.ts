@@ -10,6 +10,8 @@ import { PostService } from '../../../../domain/services/post.service';
 import { UserService } from '../../auth/services/user.service';
 import { MyUserInformation } from '../services/information_user.service';
 import { ActivatedRoute } from '@angular/router';
+import { CommentsCService } from '../services/comment.service';
+import { Comment } from '../../../../domain/models/comment.model';
 
 @Component({
   selector: 'app-detail-post',
@@ -27,22 +29,26 @@ export class DetailPostComponent implements OnInit {
   myUserInformation = signal<UserDemo>(new UserDemo('', '', '', ''));
   postObservable!: Observable<any>;
   post!: Post;
+  comments = signal<Comment[]>([]);
 
   constructor(
     private _myUserInformation: MyUserInformation,
     private _postService: PostService,
     private _route: ActivatedRoute,
-    private _userService: UserService
+    private _userService: UserService,
+     public _commentService:CommentsCService
   ) {}
 
   ngOnInit(): void {
     this.myUserInformation = this._myUserInformation.getMyUserInformation();
 
     const postId = this._route.snapshot.paramMap.get('id') ?? 'defaultRoomId';
-    this.postObservable = this._postService.getPostById(postId);
+    this.postObservable = this._postService.getPostById(postId, this._userService.getUserId());
 
     this.postObservable.subscribe((el) => {
       this.post = el;
+      this._commentService.setComment(this.post.getComment());
+      this.comments = this._commentService.getComments();
     });
   }
 }

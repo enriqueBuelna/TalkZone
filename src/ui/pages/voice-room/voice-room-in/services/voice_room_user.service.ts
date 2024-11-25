@@ -22,7 +22,6 @@ export class VoiceRoomUser {
           (existingUser) => existingUser.getUserId() === user.getUserId()
         )
       ) {
-        console.log(users, "yyyyyyyyyyyyy","user");
         return [...users, user];
       }
       return users;

@@ -103,18 +103,23 @@
     </div>
 
 </div>
-<p-dialog [header]="'Nuevo mensaje'" [modal]="true" [(visible)]="modalCreate"
+<!-- <p-dialog [header]="'Crear sala'" [modal]="true" [(visible)]="modalCreate"
     [style]="{ width: '40rem', height:'40rem' }" [closable]="false" [dismissableMask]="true" [draggable]="false">
-    <!--Los que te siguen y a los que sigues-->
 
-    <form [formGroup]="formCreateVR">
-        <label for="">Nombre de sala</label>
-        <input type="text" formControlName="room_name">
-        <label for="">Tema a elegir</label>
-        <input type="text" formControlName="topic_id">
+
+    <form [formGroup]="formCreateVR" class="form-container">
+        <label for="roomName">Nombre de sala</label>
+        <input id="roomName" type="text" formControlName="room_name" class="input-field">
+    
+        <label for="topic">Tema a elegir</label>
+        <input id="topic" type="text" formControlName="topic_id" class="input-field">
     </form>
 
     <div class="mt-5">
         <app-button text="Siguiente" buttonClass="medium-button" (clickEvent)="createVoiceRoom()"></app-button>
     </div>
-</p-dialog>
+</p-dialog> -->
+
+@if(modalCreate()){
+    <app-create-form-vr></app-create-form-vr>
+}

@@ -13,7 +13,7 @@ export class Post {
   private comments?: Comment[];
   private commnuity_id?: string;
   private type_community?: string;
-
+  private is_liked:boolean = false;
   constructor(
     id: string,
     userInfo: UserDemo,
@@ -25,7 +25,8 @@ export class Post {
     media_url: string,
     comments?: Comment[],
     community_id?: string,
-    type_community?: string
+    type_community?: string,
+    is_liked?:any
   ) {
     this.id = id;
     this.userInfo = userInfo;
@@ -38,6 +39,15 @@ export class Post {
     this.comments = comments;
     this.commnuity_id = community_id;
     this.type_community = type_community;
+
+    if(!comments){
+      this.comments = [];
+    }
+    if(is_liked){
+      if(is_liked.length > 0){
+        this.is_liked = true;
+      }
+    }
   }
   
   getCommunityId(){
@@ -80,5 +90,27 @@ export class Post {
     return this.comments;
   }
 
-  
+  oneLikeMore(){
+    this.cant_likes++;
+  }
+
+  oneCommentMore(){
+    this.cant_comm++;
+  }
+
+  oneLikeLess(){
+    this.cant_likes--;
+  }
+
+  oneCommentLess(){
+    this.cant_comm--;
+  }
+
+  isLiked(){
+    return this.is_liked;
+  }
+
+  setLiked(){
+    this.is_liked = !this.is_liked;
+  }
 }

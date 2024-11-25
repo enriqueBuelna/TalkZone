@@ -59,7 +59,6 @@ export class CallService {
   }
 
   async joinCall(): Promise<void> {
-    console.log('primer paso');
 
     // Verifica si ya estamos conectados
     if (this.rtc.client.localUid) {
@@ -72,22 +71,18 @@ export class CallService {
 
     // Publicar el track solo después de haber entrado a la sala
     await this.rtc.client.publish([this.rtc.localAudioTrack]);
-    console.log('Stream publicado');
   }
 
   async leaveCall() {
-    console.log('Saliendo de la llamada...');
 
     // Verifica si ya estamos desconectados
     if (this.rtc.client) {
       await this.rtc.client.leave();
-      console.log('Dejamos la sala');
     }
 
     // Cierra el track de audio solo después de que se haya dejado la llamada
     if (this.rtc.localAudioTrack) {
       this.rtc.localAudioTrack.close();
-      console.log('Track de audio cerrado');
     }
   }
 

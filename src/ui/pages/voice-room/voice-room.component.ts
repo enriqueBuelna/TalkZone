@@ -21,6 +21,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { CreateFormVRComponent } from "./create-form-vr/create-form-vr.component";
 @Component({
   selector: 'app-voice-room',
   standalone: true,
@@ -35,7 +36,8 @@ import { Route, Router } from '@angular/router';
     ScrollerModule,
     DialogModule,
     ReactiveFormsModule,
-  ],
+    CreateFormVRComponent
+],
   templateUrl: './voice-room.component.html',
   styleUrl: './voice-room.component.css',
 })
@@ -82,16 +84,7 @@ export class VoiceRoomComponent implements OnInit {
   }
 
   createVoiceRoom() {
-    if (this.formCreateVR.valid) {
-      let { room_name, topic_id } = this.formCreateVR.value;
-
-      this._voiceRoomService
-        .createVoiceRoom(room_name, this._userService.getUserId(), topic_id)
-        .pipe(takeUntilDestroyed(this._destroyRef))
-        .subscribe((el) => {
-          this._router.navigate(['/voice_room', el.id]);
-        });
-    }
+    
   }
 
   openDialog() {

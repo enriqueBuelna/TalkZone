@@ -1,6 +1,10 @@
 <section id="messages__container">
-    <div id="messages"></div>
-    <form id="message__form">
-        <input type="text" name="message" placeholder="Enviar un mensaje" />
+    <div id="messages">
+        @for (item of messages; track $index) {
+            <app-message-voice-room [message]="item" ></app-message-voice-room>
+        }
+    </div>
+    <form [formGroup]="formMessage" id="message__form">
+        <input type="text" name="message" placeholder="Enviar un mensaje" formControlName="message" (keydown.enter)="sendMessage()"/>
     </form>
 </section>

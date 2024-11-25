@@ -20,10 +20,16 @@
             <span>📷</span> <!-- Icono para imagen -->
             <span>😊</span> <!-- Icono para emojis -->
         </div>
-        <button class="post-button">Postear</button>
+        <button class="post-button">
+            @if (type==='post') {
+                Postear
+            }@else {
+                Comentar
+            }
+        </button>
     </div>
 </div>
 
 @if(modalVisible()){
-    <app-modal-post (clickEvent)="showModal()" [myUser]="myUser"></app-modal-post>
+    <app-modal-post (clickEvent)="showModal()" [myUser]="myUser" [type]="type"></app-modal-post>
 }

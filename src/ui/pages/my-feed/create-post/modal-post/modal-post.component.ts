@@ -25,6 +25,10 @@ import { PostService } from '../../../../../domain/services/post.service';
 import { IPost } from '../../../../../domain/entities/post/post.entitie';
 import { PostCService } from '../../services/post.service';
 import { uploadFile } from '../../../../../firestore/firestore';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../../auth/services/user.service';
+import { CommentsCService } from '../../services/comment.service';
+import { Comment } from '../../../../../domain/models/comment.model';
 
 @Component({
   selector: 'app-modal-post',
@@ -46,6 +50,7 @@ export class ModalPostComponent implements OnInit {
   userPreferences$!: Observable<any>;
   addPost$!: Observable<any>;
   userPreferences!: UserPreference[];
+  @Input() type!: string;
   paymentOptions: any[] = [
     { name: 'Publico', value: 'public' },
     { name: 'Solo amigos', value: 'friends' },
@@ -57,7 +62,10 @@ export class ModalPostComponent implements OnInit {
     private _userPreferences: UserPreferenceService,
     private _postService: PostService,
     private _formBuilder: FormBuilder,
-    private _postCService: PostCService
+    private _postCService: PostCService,
+    private _route: ActivatedRoute,
+    private _userService: UserService,
+    private _commentService: CommentsCService
   ) {
     this.formPost = this._formBuilder.group({
       content: ['', [Validators.required]],
@@ -83,42 +91,68 @@ export class ModalPostComponent implements OnInit {
   }
 
   async addPost() {
-    if (this.formPost.valid) {
-      let { content, visibility, topic_id } = this.formPost.value;
-      let aux = topic_id.id;
-      let aux2 = visibility.value;
-      let downloadURL;
-      if(this.photoFile){
-        downloadURL = await uploadFile(this.photoFile);
-      }
-      let payload: IPost = {
-        user_id: this.myUser.getUserId(),
-        content,
-        visibility: aux2,
-        user_preference_id: aux,
-        media_url: downloadURL
-      };
+    if (this.type === 'post') {
+      if (this.formPost.valid) {
+        let { content, visibility, topic_id } = this.formPost.value;
+        let aux = topic_id.id;
+        let aux2 = visibility.value;
+        let downloadURL;
+        if (this.photoFile) {
+          downloadURL = await uploadFile(this.photoFile);
+        }
+        let payload: IPost = {
+          user_id: this.myUser.getUserId(),
+          content,
+          visibility: aux2,
+          user_preference_id: aux,
+          media_url: downloadURL,
+        };
 
-      this._postService.newPost(payload).subscribe((el) => {
-        this._postCService.addNewPost(el);
-        this.onClick();
-      });
+        this._postService.newPost(payload).subscribe((el) => {
+          this._postCService.addNewPost(el);
+          this.onClick();
+        });
+      }
+    } else {
+      const roomId = this._route.snapshot.paramMap.get('id') ?? 'defaultRoomId';
+      let { content } = this.formPost.value;
+      if (content) {
+        this._postService
+          .createComment(this._userService.getUserId(), roomId, content)
+          .subscribe((el) => {
+            console.log(el);
+            this._commentService.addComment(
+              new Comment(
+                el.comment.id,
+                new UserDemo(
+                  el.comment.userss.id,
+                  el.comment.userss.username,
+                  el.comment.userss.gender,
+                  el.comment.userss.profile_picture
+                ),
+                el.comment.content,
+                el.comment.likes_count
+              )
+            );
+            this.onClick();
+          });
+      }
     }
   }
 
   onImageSelected(event: Event): void {
     const fileInput = event.target as HTMLInputElement;
-  
+
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
       this.photoFile = file; // Guardar el archivo en la propiedad
       const reader = new FileReader();
-  
+
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const previewUrl = e.target?.result as string;
         console.log('Vista previa de la imagen:', previewUrl); // Para mostrar una previsualización si lo deseas
       };
-  
+
       reader.readAsDataURL(file); // Convierte el archivo a Base64 para la previsualización (opcional)
     }
   }
