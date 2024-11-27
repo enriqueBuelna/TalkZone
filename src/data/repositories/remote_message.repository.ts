@@ -71,7 +71,8 @@ export class RemoteMessageRepository extends MessageRepository {
                   conversation.other_user.username,
                   '',
                   conversation.other_user.profile_picture
-                )
+                ),
+                conversation.unread_count
               )
           );
         })

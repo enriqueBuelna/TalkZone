@@ -1,34 +1,25 @@
 <div class="profile-container">
-    @if (type === 'user') {
-    <div class="cover-photo" [style.background-image]="'url(' + myUser.getCoverPicture() + ')'">
+  @if (type === 'user') {
+  <div class="cover-image">
+    <img [src]="myUser.getCoverPicture()" alt="Cover image">
+  </div>
+  }@else if(type === 'group'){
+  <div class="cover-photo" [style.background-image]="'url(' + myGroup.getCoverPicture() + ')'">
+  </div>
+  }
+  <div class="profile-content">
+    <div class="profile-image">
+      <img [src]="myUser.getUserDemo().getProfilePic()" alt="Enrique's profile picture">
     </div>
-    }@else if(type === 'group'){
-    <div class="cover-photo" [style.background-image]="'url(' + myGroup.getCoverPicture() + ')'">
+    <div class="info">
+      <p class="username">{{myUser.getUserDemo().getUsername()}}</p>
+      <div class="stats">
+        <p><span class="stat-value">29</span> Siguiendo</p>
+        <p><span class="stat-value">24</span> Seguidores</p>
+      </div>
     </div>
-    }
-    <div class="profile-details">
-        <div class="profile-picture">
-            <!-- Foto de perfil -->
-            @if (type === 'user') {
-            <img [src]="myUser.getUserDemo().getProfilePic()" alt="Foto de Perfil">
-
-            }@else if(type === 'group'){
-            <img [src]="myGroup.getProfilePicture()" alt="Foto de Perfil">
-            }
-        </div>
-        <div class="profile-info">
-            @if(type === 'user'){
-            <h2 class="username">{{myUser.getUserDemo().getUsername()}}</h2>
-            }@else if (type ==='group') {
-            <h2 class="username">{{myGroup.getGroupName()}}</h2>
-            }
-        </div>
-    </div>
-    <div class="profile-stats">
-        <p><strong>67</strong> Siguiendo</p>
-        <p><strong>89</strong> Seguidores</p>
-    </div>
-    <!-- <div class="follow-button-container">
+  </div>
+  <!-- <div class="follow-button-container">
         <button class="follow-button">Seguir</button>
     </div> -->
 </div>

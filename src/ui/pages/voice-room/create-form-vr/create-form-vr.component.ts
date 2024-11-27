@@ -1,4 +1,4 @@
-import { Component, DestroyRef, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Output, signal } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -92,5 +92,9 @@ export class CreateFormVRComponent {
         (ele: any) => ele.type === 'entusiasta'
       );
     });
+  }
+  @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
+  close(){
+    this.clickEvent.emit();
   }
 }

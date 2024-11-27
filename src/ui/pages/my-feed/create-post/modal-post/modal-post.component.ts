@@ -53,7 +53,6 @@ export class ModalPostComponent implements OnInit {
   @Input() type!: string;
   paymentOptions: any[] = [
     { name: 'Publico', value: 'public' },
-    { name: 'Solo amigos', value: 'friends' },
     { name: 'Privado', value: 'private' },
   ];
   //foto

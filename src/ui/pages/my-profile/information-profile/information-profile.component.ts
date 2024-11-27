@@ -31,6 +31,7 @@ export class InformationProfileComponent implements OnInit {
 showModal() {
 throw new Error('Method not implemented.');
 }
+  @Input() isPrimary = signal(false);
   create_post = signal(false);
   edit_profile = signal(false);
   userPreferences = signal<UserPreference[]>([]);

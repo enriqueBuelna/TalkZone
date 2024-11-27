@@ -5,7 +5,7 @@
     </div>
     <div class="tweet-content">
         <div>
-            <a href=""><span class="username">{{comment.getUserInfo().getUsername()}}</span></a> · <span
+            <span class="username" (click)="goToProfile()">{{comment.getUserInfo().getUsername()}}</span>· <span
                 class="timestamp">9 min</span>
         </div>
         <p><span>{{comment.getContent()}}</span></p>

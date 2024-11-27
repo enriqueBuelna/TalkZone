@@ -33,8 +33,8 @@ export class VoiceRoomService {
     return this._verifyOpenVoiceRoom.execute(room_id, user_id);
   }
 
-  getVoiceRoom(user_id: string): Observable<VoiceRoom[]> {
-    return this._getVoiceRoom.execute(user_id);
+  getVoiceRoom(user_id: string, filters: any): Observable<VoiceRoom[]> {
+    return this._getVoiceRoom.execute(user_id, filters);
   }
 
   createVoiceRoom(

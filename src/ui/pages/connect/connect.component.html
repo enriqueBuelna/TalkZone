@@ -1,46 +1,49 @@
 <div class="contenedor">
     <div class="main-content">
         <app-header>
-            <h2>Conectar</h2>
+            <div class="header">
+                <h2>Conectar</h2>
+            </div>
         </app-header>
 
+        @if(allUserPreferences.length > 0){
         <div class="btnFiltros">
+          <app-button buttonClass="small-button" text="Tipos de conexiones" (clickEvent)="showDialogType()"></app-button>
             <app-button buttonClass="small-button" text="Filtros" (clickEvent)="showDialog()"></app-button>
         </div>
-
-
-        <div class="cards">
-            @for (user of allUserPreferences; track $index) {
-                <app-card (click)="selectCard(user)">
-                  <div class="info-user">
-                    <div class="img-user">
-                      <img [src]="user.userInformation?.profile_picture" alt="">
-                    </div>
-                    <div class="username">
-                      <p>{{user.userInformation?.username}}</p>
-                    </div>
-                  </div>
-                  <div class="user_topics">
-                    <div class="chip">
-                      @for (userTopic of user.userPreference; track $index) {
-                        <p-chip [label]="userTopic.getTopicName()"></p-chip>
-                        <!-- @for (myTopic of myUserPreference; track $index) {
-                          @if(myTopic.getTopicId() == userTopic.getTopicId()) {
-                            <p-chip [label]="userTopic.getTopicName()"></p-chip>
-                          }
-                        } -->
-                      }
-                    </div>
-                  </div>
-                  <div class="matchPercentage">
-                    <p>Match: {{user.matchPercentage | number:'1.0-0'}}%</p>
-                  </div>
-                </app-card>
-              }
-            <!--tooltip para mostrar cual enseña y cual no , en donde dice topics-->
-
-
+        <div class="cards-container">
+            <div class="card" *ngFor="let user of allUserPreferences; let $index = index" (click)="selectCard(user)">
+              <div class="card-header">
+                <div class="user-avatar">
+                  <img [src]="user.userInformation?.profile_picture" alt="">
+                </div>
+                <div class="username">
+                  <p>{{user.userInformation?.username}}</p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="user-topics">
+                  <span class="topic-label" *ngFor="let userTopic of user.userPreference; let $index = index">
+                    {{userTopic.getTopicName()}}
+                  </span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="match-percentage">
+                  <p>Match: {{user.matchPercentage | number:'1.0-0'}}%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        }@else {
+        <div class="no-connections-state">
+            <div class="no-connections-content">
+                <h2>No encontramos a nadie para conectar</h2>
+                <p>Intenta ajustar tus filtros o vuelve a intentarlo más tarde.</p>
+                <button class="refresh-button">Volver a buscar</button>
+            </div>
         </div>
+        }
 
 
     </div>
@@ -48,52 +51,51 @@
         <app-aside>
             <app-header></app-header>
             @if (showInfo()) {
-            <div class="information-user">
-                <div class="image-container">
-                    <img [src]="userPreferenceInformation?.userInformation?.profile_picture" alt=""
-                        class="profile-image">
-                </div>
-                <div class="username">
-                    <h3>{{userPreferenceInformation?.userInformation?.username}}</h3>
-                </div>
-                <div class="topics">
-                    <div class="know">
-                        <h4>Mentor: </h4>
-                        <div class="chip">
-                            @for (item of userPreferenceInformation?.userPreference; track $index) {
-                            @if (item.getType() === 'mentor') {
-                            <p-chip [label]="item.getTopicName()"></p-chip>
-                            }
-                            }
-                        </div>
+                <div class="information-user">
+                    <div class="image-container">
+                      <img [src]="userPreferenceInformation?.userInformation?.profile_picture" alt="" class="profile-image">
                     </div>
-                    <div class="learn">
-                        <h4>Explorador: </h4>
-                        <div class="chip">
-                            @for (item of userPreferenceInformation?.userPreference; track $index) {
-                            @if (item.getType() === 'explorador') {
-                            <p-chip [label]="item.getTopicName()"></p-chip>
-                            }
-                            }
-                        </div>
+                    <div class="username">
+                      <h3>{{userPreferenceInformation?.userInformation?.username}}</h3>
                     </div>
-                    <div class="learn">
-                        <h4>Entusiasta: </h4>
+                    <div class="topics">
+                      <div class="topic-section">
+                        <h4>Mentor:</h4>
                         <div class="chip">
-                            @for (item of userPreferenceInformation?.userPreference; track $index) {
-                            @if (item.getType() === 'entusiasta') {
-                            <p-chip [label]="item.getTopicName()"></p-chip>
-                            }
-                            }
+                          @for (item of userPreferenceInformation?.userPreference; track $index) {
+                          @if (item.getType() === 'mentor') {
+                          <p-chip [label]="item.getTopicName()"></p-chip>
+                          }
+                          }
                         </div>
+                      </div>
+                      <div class="topic-section">
+                        <h4>Explorador:</h4>
+                        <div class="chip">
+                          @for (item of userPreferenceInformation?.userPreference; track $index) {
+                          @if (item.getType() === 'explorador') {
+                          <p-chip [label]="item.getTopicName()"></p-chip>
+                          }
+                          }
+                        </div>
+                      </div>
+                      <div class="topic-section">
+                        <h4>Entusiasta:</h4>
+                        <div class="chip">
+                          @for (item of userPreferenceInformation?.userPreference; track $index) {
+                          @if (item.getType() === 'entusiasta') {
+                          <p-chip [label]="item.getTopicName()"></p-chip>
+                          }
+                          }
+                        </div>
+                      </div>
                     </div>
-                </div>
-                <div class="buttons">
-                    <app-button [text]="textFollow" buttonClass="tiny-button" (clickEvent)="followUser(userPreferenceInformation?.userId)"></app-button>
-                    <app-button text="Ver perfil" buttonClass="tiny-button" (clickEvent)="goToProfile(userPreferenceInformation?.userId)"></app-button>
-                    <app-button text="Enviar mensaje" buttonClass="tiny-button" (clickEvent)="sendMessage(userPreferenceInformation?.userId)"></app-button>
-                </div>
-            </div>
+                    <div class="buttons">
+                      <app-button [text]="textFollow" buttonClass="tiny-button" (clickEvent)="followUser(userPreferenceInformation?.userId)"></app-button>
+                      <app-button text="Ver perfil" buttonClass="tiny-button" (clickEvent)="goToProfile(userPreferenceInformation?.userId)"></app-button>
+                      <app-button text="Enviar mensaje" buttonClass="tiny-button" (clickEvent)="sendMessage(userPreferenceInformation?.userId)"></app-button>
+                    </div>
+                  </div>
             }
         </app-aside>
     </div>
@@ -108,20 +110,20 @@
                /> -->
             <p-multiSelect [options]="topicsEntusiasta" [filter]="false" optionLabel="topic_name"
                 placeholder="Entusiasta" [style]='{width:"100%"}' formControlName="topicsEntusiastas" />
-                @if(isTopicsEntusiasta()){
-                    <p-checkbox label="¿Deseas conectar solo con entusiastas?" id="conectado" value="si"
-                        formControlName="onlyEntusiastas" class="mt-3"></p-checkbox>
-                    }
+            @if(isTopicsEntusiasta()){
+            <p-checkbox label="¿Deseas conectar solo con entusiastas?" id="conectado" value="si"
+                formControlName="onlyEntusiastas" class="mt-3"></p-checkbox>
+            }
 
         </div>
 
         <div class="form-group mt-5">
             <p-multiSelect [options]="topicsExplorador" [filter]="false" optionLabel="topic_name"
                 placeholder="Explorador" [style]='{width:"100%"}' formControlName="topicsExploradores" />
-                @if(isTopicsExplorador()){
-                    <p-checkbox label="¿Deseas conectar solo con mentores?" id="conectado" value="si"
-                        formControlName="onlyExploradores" class="mt-3"></p-checkbox>
-                    }
+            @if(isTopicsExplorador()){
+            <p-checkbox label="¿Deseas conectar solo con mentores?" id="conectado" value="si"
+                formControlName="onlyExploradores" class="mt-3"></p-checkbox>
+            }
         </div>
 
         <div class="form-group mt-5">
@@ -151,3 +153,36 @@
         <!-- [isDisabled]="!filterForm.valid" -->
     </form>
 </p-dialog>
+
+
+@if(modalShowInfo()){
+  <div class="connection-preferences-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Encuentra tus conexiones ideales</h3>
+        <button class="close-button" (click)="showDialogType()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Descubre los diferentes tipos de conexiones que puedes hacer en nuestra red social:</p>
+        <div class="connection-types">
+          <div class="connection-type">
+            <div class="preference-icon">🧠</div>
+            <h4>Mentor - Explorador</h4>
+            <p>Los mentores pueden enseñar a los exploradores sobre sus temas de interés.</p>
+          </div>
+          <div class="connection-type">
+            <div class="preference-icon">🔍</div>
+            <h4>Explorador - Mentor</h4>
+            <p>Los exploradores pueden aprender de los mentores en sus áreas de expertise.</p>
+          </div>
+          <div class="connection-type">
+            <div class="preference-icon">💡</div>
+            <h4>Entusiasta - Entusiasta</h4>
+            <p>Los entusiastas pueden conectar y disfrutar juntos de sus temas de interés.</p>
+          </div>
+        </div>
+        <p>Recuerda, independientemente de tu preferencia, puedes encontrar conexiones con personas que comparten tus mismos temas de interés.</p>
+      </div>
+    </div>
+  </div>
+}

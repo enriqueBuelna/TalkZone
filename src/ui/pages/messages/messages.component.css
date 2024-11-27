@@ -1,9 +1,18 @@
-.main-content{
-    width: 38%;
-    height: 100%;
-    border-right: 1px solid #d3d3d3;
+.main-content {
+  width: 38%;
+  height: 100%;
+  border-right: 1px solid #d3d3d3;
 }
 
-.title {
-    margin: 0;
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+}
+
+.header h2 {
+  margin: 0;
+  margin-top: 1rem;
 }

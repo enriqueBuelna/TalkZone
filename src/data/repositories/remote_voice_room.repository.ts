@@ -12,19 +12,30 @@ import { UserInVoiceRoom } from '../../domain/models/user_in_voice_room.model';
   providedIn: 'root',
 })
 export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
-
-  override addRating(room_id: string, rating: number, user_id: string): Observable<boolean> {
+  override addRating(
+    room_id: string,
+    rating: number,
+    user_id: string
+  ): Observable<boolean> {
     const payload = {
-      room_id, 
+      room_id,
       rating,
-      user_id
-    }
+      user_id,
+    };
 
-    return this._http.post<boolean>(`${this.API_URL}/voice_rooms/addRating`, payload);
+    return this._http.post<boolean>(
+      `${this.API_URL}/voice_rooms/addRating`,
+      payload
+    );
   }
 
-  override verifyOpenVoiceRoom(room_id: string, user_id:string): Observable<boolean> {
-    const params = new HttpParams().set('room_id', room_id).set('user_id',user_id);
+  override verifyOpenVoiceRoom(
+    room_id: string,
+    user_id: string
+  ): Observable<boolean> {
+    const params = new HttpParams()
+      .set('room_id', room_id)
+      .set('user_id', user_id);
     return this._http.get<boolean>(`${this.API_URL}/voice_rooms/verifyStatus`, {
       params,
     });
@@ -35,12 +46,13 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
   private readonly API_URL = 'http://localhost:3000';
   private _http = inject(HttpClient);
 
-  getVoiceRoom(user_id: string): Observable<VoiceRoom[]> {
-    const params = new HttpParams().set('user_id', user_id);
+  getVoiceRoom(user_id: string, filter: any): Observable<VoiceRoom[]> {
+    const payload = {
+      user_id,
+      filter,
+    };
     return this._http
-      .get<VoiceRoom[]>(`${this.API_URL}/voice_rooms/getVoiceRooms`, {
-        params,
-      })
+      .post<VoiceRoom[]>(`${this.API_URL}/voice_rooms/getVoiceRooms`, payload)
       .pipe(
         map((rooms: any[]) => {
           console.log(rooms);
@@ -85,13 +97,13 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
     room_name: string,
     host_user_id: string,
     topic_id: number,
-    type:string
+    type: string
   ): Observable<any> {
     const payload = {
       room_name,
       host_user_id,
       topic_id,
-      type
+      type,
     };
     return this._http.post<any>(
       `${this.API_URL}/voice_rooms/createVoiceRoom`,

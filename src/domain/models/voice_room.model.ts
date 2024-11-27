@@ -124,6 +124,10 @@ export class VoiceRoom {
     this.rating = rating;
   }
 
+  getNumberMembers():number{
+    return this.users_of_voice_room.length;
+  }
+
   // Getters
   getTopicName(): string {
     return this.topic_name;

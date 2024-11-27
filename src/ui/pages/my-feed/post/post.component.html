@@ -24,11 +24,13 @@
                     <span class="post-time">30 minutos · 🌎</span>
                 </div>
             </div>
-            <button class="options-button">•••</button>
+            @if (postContent.getUserInfo().getUserId() === userId) {                
+                <button class="options-button">•••</button>
+            }
         </div>
 
         <!-- Content -->
-        <div class="post-content" [routerLink]="['detail_post', postContent.getId()]"> 
+        <div class="post-content" (click)="goToPost()"> 
             <p class="post-text">{{postContent.getContent()}}</p>
             @if (postContent.getMediaUrl()) {
                 <div class="media-container">

@@ -7,11 +7,23 @@ export class UserComplete {
     private userPreferences: UserPreference[];
     private about_me:string;
     private cover_picture:string;
-    constructor(userDemo:UserDemo, userPreferences:UserPreference[], about_me:string, cover_picture: string){
+    private followers:UserDemo[];
+    private following:UserDemo[];
+    constructor(userDemo:UserDemo, userPreferences:UserPreference[], about_me:string, cover_picture: string, followers:UserDemo[], following:UserDemo[]){
         this.userDemo = userDemo;
         this.userPreferences = userPreferences;
         this.about_me = about_me;
         this.cover_picture = cover_picture;
+        this.followers = followers;
+        this.following = following;
+    }
+
+    getFollowers(){
+        return this.followers;
+    }
+
+    getFollowing(){
+        return this.following;
     }
 
     getUserDemo(){

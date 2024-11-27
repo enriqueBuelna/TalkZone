@@ -1,0 +1,28 @@
+<div class="users-container">
+  <h2 class="title">Amigos</h2>
+  <div class="users-list">
+    @for (user of users(); track $index) {
+    <div class="user-item" (mouseenter)="hoveredUser = user.getUserId()"
+    (mouseleave)="hoveredUser = null">
+      <div class="user-info">
+        <div class="avatar-container">
+          <div class="avatar">
+            <img [src]="user.getProfilePic()" alt="">
+          </div>
+          <!-- <div class="online-indicator"></div> -->
+        </div>
+        <span class="username">{{user.getUsername()}}</span>
+      </div>
+
+      <div class="action-buttons" *ngIf="hoveredUser === user.getUserId()">
+        <button class="action-btn" (click)="viewProfile(user.getUserId())">
+          Ver perfil
+        </button>
+        <button class="action-btn" (click)="sendMessage(user.getUserId())">
+          Enviar mensaje
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

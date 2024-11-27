@@ -134,6 +134,9 @@ export class ListMessagesComponent implements OnInit {
       }
 
       // this._messageService.selectMessage(user);
+      if(user.id === this._userService.getUserId()){
+      this._router.navigate(['home/messages']); // Redirigir a la página de bienvenida
+      }
       this._router.navigate(['home/messages', user.id]); // Redirigir a la página de bienvenida
       this.visible.set(false);
     }

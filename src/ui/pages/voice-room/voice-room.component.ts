@@ -2,7 +2,6 @@ import { Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { HeaderComponent } from '../../utils/header/header.component';
 import { AsideComponent } from '../../utils/aside/aside.component';
 import { ButtonComponent } from '../../utils/button/button.component';
-import { CardComponent } from '../../utils/card/card.component';
 import { ChipModule } from 'primeng/chip';
 import { UserService } from '../auth/services/user.service';
 import { VoiceRoomService } from '../../../domain/services/voice_room.service';
@@ -14,14 +13,18 @@ import { UserOfVoiceRoom } from '../../../domain/entities/voice_rooms/UserOfVoic
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { ScrollerModule } from 'primeng/scroller';
+import { CheckboxModule } from 'primeng/checkbox';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Route, Router } from '@angular/router';
-import { CreateFormVRComponent } from "./create-form-vr/create-form-vr.component";
+import { Router } from '@angular/router';
+import { CreateFormVRComponent } from './create-form-vr/create-form-vr.component';
+import { UserPreference } from '../../../domain/models/user_preference.model';
+import { UserPreferenceService } from '../../../domain/services/user_preference.service';
+import { MultiSelectModule } from 'primeng/multiselect';
 @Component({
   selector: 'app-voice-room',
   standalone: true,
@@ -30,14 +33,16 @@ import { CreateFormVRComponent } from "./create-form-vr/create-form-vr.component
     HeaderComponent,
     AsideComponent,
     ButtonComponent,
-    CardComponent,
     ChipModule,
     OrderListModule,
     ScrollerModule,
     DialogModule,
     ReactiveFormsModule,
-    CreateFormVRComponent
-],
+    CreateFormVRComponent,
+    ReactiveFormsModule,
+    MultiSelectModule,
+    CheckboxModule
+  ],
   templateUrl: './voice-room.component.html',
   styleUrl: './voice-room.component.css',
 })
@@ -49,32 +54,52 @@ export class VoiceRoomComponent implements OnInit {
   integrantsVr: UserOfVoiceRoom[] = [];
   formCreateVR!: FormGroup;
   modalCreate = signal(false);
+  filterForm!: FormGroup;
+  myUserPreference = signal<UserPreference[]>([]);
+  filterApplies = signal(false);
+
+  categories: any[] = [
+    { name: 'Explorador', key: 'explorador' },
+    { name: 'Entusiasta', key: 'entusiasta' },
+    { name: 'Mentor', key: 'mentor' }
+];
 
   constructor(
     private _userService: UserService,
     private _voiceRoomService: VoiceRoomService,
     private _destroyRef: DestroyRef,
     private _formBuilder: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _userPreferenceService: UserPreferenceService
   ) {
     this.formCreateVR = this._formBuilder.group({
       room_name: ['', [Validators.required]],
       topic_id: ['', [Validators.required]],
     });
+
+    this.filterForm = this._formBuilder.group({
+      all_topics: [''],
+      type:[''],
+    });
   }
 
   ngOnInit() {
+    this._userPreferenceService
+      .getMyUserPreferences(this._userService.getUserId())
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((el) => {
+        this.myUserPreference.set(el);
+      });
+
     this.responseAllVoiceRoom$ = this._voiceRoomService.getVoiceRoom(
-      this._userService.getUserId()
+      this._userService.getUserId(),
+      null
     );
 
     this.responseAllVoiceRoom$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
-        
-
         this.allVoiceRooms = el;
-        console.log(this.allVoiceRooms);
       });
   }
 
@@ -83,9 +108,7 @@ export class VoiceRoomComponent implements OnInit {
     this.integrantsVr = this.vrChoosen.getUsers();
   }
 
-  createVoiceRoom() {
-    
-  }
+  createVoiceRoom() {}
 
   openDialog() {
     this.modalCreate.set(true);
@@ -93,5 +116,45 @@ export class VoiceRoomComponent implements OnInit {
 
   joinRoom(room_id: number) {
     this._router.navigate(['/voice_room', room_id]);
+  }
+
+  modalFilter = signal(false);
+  showModal() {
+    this.modalFilter.set(true);
+  }
+
+  filterApply(){
+    let {all_topics, type} = this.filterForm.value;
+    console.log(type);
+    if(all_topics.length > 0 || type.length > 0){
+      let auxTopicId, auxType;
+      if(all_topics.length > 0){
+        auxTopicId = all_topics.map((el:any) => el.topic_id)
+      }
+      const payload = {
+        topicsId: auxTopicId,
+        type
+      }
+
+      this.responseAllVoiceRoom$ = this._voiceRoomService.getVoiceRoom(
+        this._userService.getUserId(),
+        payload
+      );
+
+      this.responseAllVoiceRoom$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
+        this.allVoiceRooms = el;
+        if(this.allVoiceRooms.length === 0){
+          this.filterApplies.set(true);
+        }else{
+          this.filterApplies.set(false);
+        }
+        this.modalFilter.set(false);
+      });
+    }
+  }
+
+
+  closeModal(){
+    this.modalCreate.set(false);
   }
 }

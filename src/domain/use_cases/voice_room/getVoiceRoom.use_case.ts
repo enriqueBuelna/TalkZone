@@ -9,7 +9,7 @@ import { VoiceRoom } from '../../models/voice_room.model';
 export class GetVoiceRoom {
   constructor(private VoiceRoomRepository: VoiceRoomRepository) {}
 
-  execute(user_id: string): Observable<VoiceRoom[]> {
-    return this.VoiceRoomRepository.getVoiceRoom(user_id);
+  execute(user_id: string, filters: any): Observable<VoiceRoom[]> {
+    return this.VoiceRoomRepository.getVoiceRoom(user_id, filters);
   }
 }

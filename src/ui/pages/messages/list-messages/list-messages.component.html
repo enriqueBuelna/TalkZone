@@ -15,10 +15,10 @@
     }@else {
     <div class="search">
         <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-search" />
+            <p-inputIcon styleClass="pi pi-search"/>
             <input type="text" pInputText placeholder="Buscar compañeros" [style]='{width:"100%"}' />
         </p-iconField>
-        <div class="add-message">
+        <div class="add-message" (click)="showDialog()">
             <i class="pi pi-send" style="color: slateblue" style="font-size: 1.3rem"></i>
         </div>
     </div>
@@ -88,7 +88,7 @@
         </p-autoComplete>
     </form>
 
-    <div class="mt-5">
+    <div class="margin-top">
         <app-button text="Siguiente" buttonClass="medium-button" (clickEvent)="sendMessageUser()"></app-button>
     </div>
 </p-dialog>

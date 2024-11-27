@@ -20,12 +20,12 @@
 }
 
 .profile-information {
-    height: 46.5%;
+    /* height: 46.5%; */
     border-bottom: 1px solid #d3d3d3;
 }
 
 .publications {
-    height: 46.5%;
+    /* height: 46.5%; */
 }
 
 .title {
@@ -156,3 +156,4 @@ input[type="file"]::-webkit-file-upload-button {
 input[type="file"]::-webkit-file-upload-button:hover {
   background: #0056b3;
 }
+

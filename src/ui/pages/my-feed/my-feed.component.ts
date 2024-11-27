@@ -10,11 +10,12 @@ import { UserService } from '../auth/services/user.service';
 import { AuthService } from '../../../domain/services/auth.service';
 import { Observable } from 'rxjs';
 import { MyUserInformation } from './services/information_user.service';
+import { OnlineUsersComponent } from "./online-users/online-users.component";
 
 @Component({
   selector: 'app-my-feed',
   standalone: true,
-  imports: [AsideComponent, RouterOutlet, HeaderComponent],
+  imports: [AsideComponent, RouterOutlet, HeaderComponent, OnlineUsersComponent],
   templateUrl: './my-feed.component.html',
   styleUrl: './my-feed.component.css',
 })

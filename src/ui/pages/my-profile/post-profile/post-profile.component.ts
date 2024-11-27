@@ -19,6 +19,7 @@ export class PostProfileComponent {
   postObservableAll!: Observable<any>;
   hasMorePosts = true;
   forAll = signal(true);
+  @Input() user_id !:string;
   page: number = 1;
   constructor(
     private _postService: PostService,
@@ -32,6 +33,9 @@ export class PostProfileComponent {
   }
 
   loadPosts() {
+    if(this.user_id){
+      this.forAll.set(false);
+    }
     if (this.forAll()) {
       this.postObservableAll = this._postService.getForYouPost(
         this._userService.getUserId(),
@@ -39,6 +43,20 @@ export class PostProfileComponent {
       );
 
       this.postObservableAll.subscribe((posts) => {
+        if (posts.length > 0) {
+          this._postCService.addPosts(posts);
+        } else {
+          this.hasMorePosts = false; // No hay más publicaciones
+        }
+      });
+    }else{
+      this.postObservableAll = this._postService.getYourPost(
+        this._userService.getUserId(),
+        this.page
+      );
+
+      this.postObservableAll.subscribe((posts) => {
+        console.log(posts);
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {

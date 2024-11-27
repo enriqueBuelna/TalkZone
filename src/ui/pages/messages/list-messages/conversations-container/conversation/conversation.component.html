@@ -9,5 +9,10 @@
         <div class="last-message">
             <p>{{last_message.getContent()}}</p>
         </div>
+        @if (unread > 0) {
+        <div class="unread-messages">
+            <p>{{unread}}</p>
+        </div>
+        }
     </div>
 </div>

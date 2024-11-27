@@ -56,6 +56,7 @@ export class MessagesContainerComponent implements OnInit {
         this._userService.getUserId(),
         message
       );
+      this.formMessage.get('message')?.reset();
     }
   }
 }

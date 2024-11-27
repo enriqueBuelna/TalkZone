@@ -21,7 +21,6 @@ export class MessageComponentService {
 
   setMessages(messages: Message[]) {
     this.myMessages.set(messages);
-    console.log(this.myMessages());
   }
 
   getMessages() {

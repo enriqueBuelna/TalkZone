@@ -24,7 +24,6 @@ import { ActivatedRoute } from '@angular/router';
     ProfileInformationComponent,
     PostProfileComponent,
     InformationProfileComponent,
-    EditProfileComponent,
   ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css',
@@ -36,9 +35,13 @@ export class MyProfileComponent implements OnInit {
       new UserDemo('', '', '', '', ''),
       [new UserPreference(0, 0, '', '')],
       '',
-      ''
+      '',
+      [],
+      []
     )
   );
+  userId = signal('');
+  isPrimary = signal(false);
   userDemo!: UserDemo;
   constructor(
     private _userService: AuthService,
@@ -49,8 +52,15 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const userId = this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId';
-    this.myObservable = this._userService.getCompleteInformation(userId);
+    this.userId.set(
+      this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId'
+    );
+
+    if (this.userId() === this._user.getUserId()) {
+      this.isPrimary.set(true);
+    }
+
+    this.myObservable = this._userService.getCompleteInformation(this.userId());
 
     this.myObservable.subscribe((el) => {
       this._userInformation.setMyUserInformation(el);

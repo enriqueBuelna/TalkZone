@@ -68,6 +68,7 @@ export class ConnectComponent implements OnInit {
   topicsMentor: FilterTopic[] = [];
   topicsExplorador: FilterTopic[] = [];
   topicsEntusiasta: FilterTopic[] = [];
+  modalShowInfo = signal(false);
   genders: Gender[] = [
     {
       name: 'Hombre',
@@ -253,6 +254,9 @@ export class ConnectComponent implements OnInit {
   }
 
   goToProfile(id: string | undefined) {
+    if (id === ''){
+      id = this._userService.getUserId();
+    }
     if (id) {
       this._router.navigate(['home', 'profile', id]);
     }
@@ -262,5 +266,9 @@ export class ConnectComponent implements OnInit {
     if (id) {
       this._router.navigate(['home', 'messages', id]);
     }
+  }
+
+  showDialogType(){
+    this.modalShowInfo.set(!this.modalShowInfo());
   }
 }
