@@ -20,13 +20,12 @@ const headers = new HttpHeaders({
   providedIn: 'root',
 })
 export class RemoteUserRepository extends UserRepository {
-
   override completeProfile(user_id: string): Observable<any> {
     const payload = {
-      user_id
-    }
+      user_id,
+    };
 
-    return this._http.post<any>(`${this.API_URL}/completeProfile`,payload);
+    return this._http.post<any>(`${this.API_URL}/completeProfile`, payload);
   }
 
   override verifyChangePasswordCode(
@@ -184,6 +183,7 @@ export class RemoteUserRepository extends UserRepository {
       .get<UserComplete>(`${this.API_URL}/getCompleteProfile`, { params })
       .pipe(
         map((user: any) => {
+          console.log(user);
           return new UserComplete(
             new UserDemo(
               user.id,
@@ -209,7 +209,9 @@ export class RemoteUserRepository extends UserRepository {
                 )
             ),
             user.about_me,
-            user.cover_picture
+            user.cover_picture,
+            user.followers.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture)),
+            user.following.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture))
           );
         })
       );

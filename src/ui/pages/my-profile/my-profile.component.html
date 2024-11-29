@@ -7,7 +7,7 @@
             <app-profile-information [myUser]="myUser()" type="user"></app-profile-information>
         </div>
         <div class="publications">
-            <app-post-profile [user_id]="userId()"></app-post-profile>
+            <app-post-profile [user_id]="userId()" [myUser]="myUser().getUserDemo()"></app-post-profile>
         </div>
     </div>
     <div id="aside">

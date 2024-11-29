@@ -203,7 +203,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // Cambiar el color de fondo
-    document.body.style.backgroundColor = '#1a1a1a';
+    // document.body.style.backgroundColor = '#1a1a1a';
 
     // Obtener el ID de la sala
     const roomId =
@@ -212,7 +212,6 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
     // Verificar si la sala está abierta
     this._voiceRoomService.verifyOpenVoiceRoom(roomId, this._userService.getUserId()).subscribe({
       next: (isOpen:any) => {
-        console.log("NO LO SERA",isOpen);
         let aux = false;
         if(isOpen === 'active'){
           aux = true;
@@ -223,6 +222,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
           if (isOpen !== 'closed') {
             this.initializeVoiceRoom(roomId);
           } else {
+            console.log("ESTO ESTA CERRADO");
             this.voiceRoomClosedModal.set(true);
           }
         }else{
@@ -363,7 +363,6 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
         this._voiceRoomUsers.changesUserInStage(el, 'no');
     })
 
-    this.closeVoiceRoom = this._voiceRoomService.closeVoiceRoom(roomId);
   }
 
   async ngOnDestroy() {
@@ -377,50 +376,9 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
     this.myUserInVoiceRoom.set(new UserInVoiceRoom('', '', '', '', false));
   }
 
-  goToHome() {
-    const roomId =
-      this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
-    if (this.myUserInVoiceRoom().getType() === 'host') {
-      this.closeVoiceRoom
-        .pipe(takeUntilDestroyed(this._destroyRef))
-        .subscribe((el) => {
-          console.log(el);
-          this._router.navigate(['home/voice_room']);
-        });
-        this._voiceRoomSocket.leaveRoom(
-          roomId,
-          this._userService.getUserId(),
-          this.roomLog
-        );
-    } else {
-      this._voiceRoomSocket.leaveRoom(
-        roomId,
-        this._userService.getUserId(),
-        this.roomLog
-      );
-      this._voiceRoomSocket.amWent().subscribe((el) => {
-        if(el){
-          this.showModalRating.set(el);
-        }else{
-          this._router.navigate(['home/voice_room']);
-        }
-      });
-    }
-  }
+  
 
-  hasUnsavedChanges = true;
-
-  // Escuchar el cierre de ventana
-  @HostListener('window:beforeunload', ['$event'])
-  async onBeforeUnload(event: BeforeUnloadEvent) {
-    const roomId =
-      this._route.snapshot.paramMap.get('room_id') ?? 'defaultRoomId';
-    this._voiceRoomSocket.leaveRoom(
-      roomId,
-      this._userService.getUserId(),
-      this.roomLog
-    );
-  }
+  
 
   goHome(){
     this._router.navigate(['home/voice_room']);

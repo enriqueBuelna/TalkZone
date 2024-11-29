@@ -12,8 +12,11 @@ export class UserCompleteProfile {
       new UserDemo('', '', '', '', ''),
       [new UserPreference(0, 0, '', '')],
       '',
-      ''
+      '',
+      [],
+      []
     )
+    
   );
 
   setMyUserInformation(user: UserComplete) {

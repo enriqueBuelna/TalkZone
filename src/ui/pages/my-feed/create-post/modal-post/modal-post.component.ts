@@ -2,10 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
-  signal,
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
@@ -29,7 +27,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../auth/services/user.service';
 import { CommentsCService } from '../../services/comment.service';
 import { Comment } from '../../../../../domain/models/comment.model';
-
+import { Post } from '../../../../../domain/models/post.model';
 @Component({
   selector: 'app-modal-post',
   standalone: true,
@@ -47,6 +45,8 @@ export class ModalPostComponent implements OnInit {
   formPost!: FormGroup;
   @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
   @Input() myUser!: UserDemo;
+  @Input() editable = false;
+  @Input() postContent!: Post;
   userPreferences$!: Observable<any>;
   addPost$!: Observable<any>;
   userPreferences!: UserPreference[];
@@ -69,7 +69,7 @@ export class ModalPostComponent implements OnInit {
     this.formPost = this._formBuilder.group({
       content: ['', [Validators.required]],
       topic_id: ['', [Validators.required]],
-      visibility: ['', [Validators.required]],
+      visibility: ['public', [Validators.required]],
     });
   }
 
@@ -81,6 +81,30 @@ export class ModalPostComponent implements OnInit {
     this.userPreferences$.subscribe((el) => {
       this.userPreferences = el;
     });
+
+    if (this.postContent) {
+      // console.log(this.postContent.getPrivacy());
+      // this.formPost.patchValue({
+
+      // });
+
+      let option = {
+        name: '',
+        value: '',
+      };
+
+      if (this.postContent.getPrivacy() === 'public') {
+        (option.name = 'Publico'), (option.value = 'public');
+      } else if (this.postContent.getPrivacy() === 'private') {
+        (option.name = 'Privado'), (option.value = 'private');
+      }
+
+      this.formPost.patchValue({
+        content: this.postContent.getContent(),
+        topic_id: this.postContent.getUserPreference(),
+        visibility: option,
+      });
+    }
   }
 
   // Método para manejar el clic
@@ -95,7 +119,7 @@ export class ModalPostComponent implements OnInit {
         let { content, visibility, topic_id } = this.formPost.value;
         let aux = topic_id.id;
         let aux2 = visibility.value;
-        let downloadURL;
+        let downloadURL = '';
         if (this.photoFile) {
           downloadURL = await uploadFile(this.photoFile);
         }
@@ -107,10 +131,25 @@ export class ModalPostComponent implements OnInit {
           media_url: downloadURL,
         };
 
-        this._postService.newPost(payload).subscribe((el) => {
-          this._postCService.addNewPost(el);
-          this.onClick();
-        });
+        if (this.postContent) {
+          this._postService
+            .updatePost(
+              this.postContent.getId(),
+              content,
+              downloadURL + '',
+              aux2,
+              aux
+            )
+            .subscribe((el) => {
+              this._postCService.findPost(this.postContent.getId(), content, downloadURL, aux2, topic_id);
+            });
+            this.onClick();
+        } else {
+          this._postService.newPost(payload).subscribe((el) => {
+            this._postCService.addNewPost(el);
+            this.onClick();
+          });
+        }
       }
     } else {
       const roomId = this._route.snapshot.paramMap.get('id') ?? 'defaultRoomId';

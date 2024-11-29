@@ -7,10 +7,11 @@ import { myUserVoiceRoom } from '../services/myUserVr.service';
 import { RaisedHand } from '../services/raiseHand.service';
 import { DialogModule } from 'primeng/dialog';
 import { MemberRaisedHandComponent } from "./member-raised-hand/member.component";
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-members-container',
   standalone: true,
-  imports: [MemberComponent, DialogModule, MemberRaisedHandComponent],
+  imports: [MemberComponent, DialogModule, MemberRaisedHandComponent, CommonModule],
   templateUrl: './members-container.component.html',
   styleUrl: './members-container.component.css',
 })

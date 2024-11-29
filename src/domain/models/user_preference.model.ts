@@ -43,4 +43,11 @@ export class UserPreference {
   getId(){
     return this.id;
   }
+
+  setPreference(userPreference:UserPreference){
+    this.id = userPreference.getId();
+    this.topic_id = userPreference.getTopicId();
+    this.type = userPreference.getType();
+    this.topic_name = userPreference.getTopicName();
+  }
 }

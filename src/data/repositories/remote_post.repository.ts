@@ -12,6 +12,25 @@ import { Comment } from '../../domain/models/comment.model';
   providedIn: 'root',
 })
 export class RemotePostRespository extends PostRepository {
+  override updatePost(
+    id: string,
+    content: string,
+    media_url: string,
+    visibility: string,
+    topic_id: string
+  ): Observable<boolean> {
+    const payload = {
+      id,
+      content,
+      media_url,
+      visibility,
+      topic_id,
+    };
+
+    return this._http
+      .post<boolean>(`${this.API_URL}/posts/updatePost`, payload)
+      .pipe(map((el) => el));
+  }
   override createComment(
     user_id: string,
     post_id: string,
@@ -289,7 +308,6 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
-            console.log(posts);
             return new Post(
               post.id,
               new UserDemo(

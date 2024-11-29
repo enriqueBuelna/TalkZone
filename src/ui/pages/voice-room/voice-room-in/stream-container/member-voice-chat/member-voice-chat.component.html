@@ -1,10 +1,8 @@
-<div class="profile-card" (click)="toggleMenu()">
-    <div class="profile-image">
-        <!-- Aquí puedes poner una imagen -->
-        <img [src]="userInVoiceRoom.getProfilePic()" alt="Profile"
-            style="width: 100%; height: 100%; border-radius: 50%;">
-    </div>
-    <div class="username">{{userInVoiceRoom.getUsername()}}</div>
+<div class="stage-user-item" (click)="toggleMenu()">
+        <div class="user-avatar">
+            <img [src]="userInVoiceRoom.getProfilePic()" :alt="user.username">
+        </div>
+        <div class="user-name">{{ userInVoiceRoom.getUsername() }}</div>
 </div>
 
 @if(isMenuOpen){

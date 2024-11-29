@@ -1,14 +1,9 @@
-<section id="stream__container">
+<!-- <section id="stream__container">
     <div id="stream__box"></div>
     <div id="streams__container">
         @for (item of usersInVoiceRoom(); track $index) {
         @if (item.getInStage()) {
-        <!-- @if (item.getType() === 'host') {
-            <app-member-voice-chat [userInVoiceRoom]="item" [admin]="item.getUserId()"></app-member-voice-chat>
-        }@else {
-            <app-member-voice-chat [userInVoiceRoom]="item"></app-member-voice-chat>
-        } -->
-        <app-member-voice-chat [userInVoiceRoom]="item"></app-member-voice-chat>
+        
     
     }
         }
@@ -26,4 +21,57 @@
     <button id="join-btn" (click)="raiseHand()">Levantar la mano</button>
     }
 
-</section>
+</section> -->
+
+<!-- <div class="stage">
+    <div class="user-item">
+        @for (item of usersInVoiceRoom(); track $index) {
+        @if (item.getInStage()) {
+        <div class="user-avatar">
+            <img [src]="item.getProfilePic()" alt="Usuario">
+        </div>
+        <div class="user-name">{{item.getUsername()}}</div>
+        }
+        }
+
+    </div>
+</div> -->
+<div class="app-stage-container">
+    <div class="stage-header">
+        <h3>En el Escenario</h3>
+    </div>
+    <div class="stage-users">
+        @for (item of usersInVoiceRoom(); track $index) {
+        @if (item.getInStage()) {
+        <app-member-voice-chat [userInVoiceRoom]="item"></app-member-voice-chat>
+        }
+        }
+    </div>
+    <div class="stage-actions">
+        @if (!myUserInVoiceRoom().getInStage()) {
+        <button class="action-button request-access" (click)="raiseHand()">
+            <i class="fas fa-hand-paper"></i> Levantar la mano
+        </button>
+        }
+        @if (myUserInVoiceRoom().getInStage()){
+            <button class="action-button request-access" (click)="toggleMicrophone()">
+                <i class="fas fa-hand-paper"></i> Microfono
+            </button>
+        }
+        @if (myUserInVoiceRoom().getInStage() && myUserInVoiceRoom().getType() === 'member') {
+            <button class="action-button request-access" (click)="leaveChanel()">
+                <i class="fas fa-hand-paper"></i> Bajar del escenario
+            </button>
+        }
+        <button class="action-button leave-call" (click)="goToHome()">
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
+    </div>
+</div>
+
+<p-dialog [modal]="true" [(visible)]="voiceRoomClosedModal" [style]="{ width: '40rem', height:'40rem' }"
+    [closable]="false" [dismissableMask]="true" [draggable]="false">
+    <h2>La sala de voz ha sido cerrada, gracias por acompañar a tus compañeros :D</h2>
+
+    <app-button text="Ir al inicio" (clickEvent)="goToHome()"></app-button>
+</p-dialog>

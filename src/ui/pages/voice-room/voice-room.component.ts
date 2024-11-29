@@ -14,9 +14,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { ScrollerModule } from 'primeng/scroller';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RatingModule } from 'primeng/rating';
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -41,7 +43,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
     CreateFormVRComponent,
     ReactiveFormsModule,
     MultiSelectModule,
-    CheckboxModule
+    CheckboxModule,
+    RatingModule,
+    FormsModule
   ],
   templateUrl: './voice-room.component.html',
   styleUrl: './voice-room.component.css',
@@ -100,6 +104,7 @@ export class VoiceRoomComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
         this.allVoiceRooms = el;
+        console.log(this.allVoiceRooms);
       });
   }
 

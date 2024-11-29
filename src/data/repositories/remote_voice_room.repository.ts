@@ -55,7 +55,6 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
       .post<VoiceRoom[]>(`${this.API_URL}/voice_rooms/getVoiceRooms`, payload)
       .pipe(
         map((rooms: any[]) => {
-          console.log(rooms);
           if (!Array.isArray(rooms) || rooms.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }
@@ -86,7 +85,8 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
                     )
                 ),
                 room.host_user,
-                room?.host_user?.rating_?.[0]?.average_rating || 0
+                room?.host_user?.rating_?.[0]?.average_rating || 0,
+                room?.host_user?.rating_?.[0]?.total_ratings || 0
               )
           );
         })

@@ -1,4 +1,4 @@
-.containerr {
+/* .containerr {
   width: 100%;
   position: relative;
 }
@@ -11,4 +11,31 @@
 
 .nombre {
   color: #fff;
+} */
+
+.title {
+  height: 2.99rem;
+  border-bottom: solid #d3d3d3 1px;
+}
+
+.voice-room-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr;
+  height: calc(100% - 3rem);
+}
+
+.sidebar {
+  padding: 20px;
+}
+
+.stage-container {
+  padding: 20px;
+  border-left: 1px #d3d3d3 solid;
+  border-right: 1px #d3d3d3 solid;
+}
+
+.chat-container {
+  padding: 20px;
+  height: 100%;
 }

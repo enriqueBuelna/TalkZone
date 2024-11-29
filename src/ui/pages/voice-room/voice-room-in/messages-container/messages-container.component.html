@@ -1,4 +1,4 @@
-<section id="messages__container">
+<!-- <section id="messages__container">
     <div id="messages">
         @for (item of messages; track $index) {
             <app-message-voice-room [message]="item" ></app-message-voice-room>
@@ -7,4 +7,19 @@
     <form [formGroup]="formMessage" id="message__form">
         <input type="text" name="message" placeholder="Enviar un mensaje" formControlName="message" (keydown.enter)="sendMessage()"/>
     </form>
-</section>
+</section> -->
+<div class="app-chat-container">
+    <div class="chat-header">
+        <h3>Chat</h3>
+    </div>
+    <div class="chat-messages">
+        @for (item of messages; track $index) {
+            <app-message-voice-room [message]="item" ></app-message-voice-room>
+        }
+    </div>
+    <div class="chat-input">
+        <form [formGroup]="formMessage">
+            <input type="text" name="message" placeholder="Enviar un mensaje" formControlName="message" (keydown.enter)="sendMessage()"/>
+        </form>
+    </div>
+</div>

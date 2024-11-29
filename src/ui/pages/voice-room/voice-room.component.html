@@ -16,6 +16,9 @@
             @for (item of allVoiceRooms; track item.getVoiceRoomId()) {
             @defer () {
             <div class="room-card" (click)="siFunciona(item)">
+                @if (item.getRatingValid()) {
+                    <p-rating [ngModel]="item.getRating()" [readonly]="true" [cancel]="false" />
+                }
                 <div class="room-header">
                     <div class="header-main">
                         <h2 class="room-title">{{item.getVoiceRoomName()}}</h2>
@@ -137,6 +140,7 @@
                     (clickEvent)="joinRoom(vrChoosen.getVoiceRoomId())"></app-button>
             </div> -->
             <div class="voice-room-details">
+                
                 <div class="header">
                     <div class="room-info">
                         <h2 class="room-title">{{vrChoosen.getVoiceRoomName()}}</h2>

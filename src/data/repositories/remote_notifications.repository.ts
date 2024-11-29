@@ -40,6 +40,7 @@ export class RemoteNotificationRepository extends NotificationRepository {
                 n.related_post_id,
                 n.related_room_open_id,
                 n.related_like_id,
+                n.follower_id,
                 new Like(
                   n.like?.post_id,
                   n.like?.comment_id,

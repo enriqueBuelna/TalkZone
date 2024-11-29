@@ -1,7 +1,7 @@
 <div class="profile-container">
   @if (type === 'user') {
   <div class="cover-image">
-    <img [src]="myUser.getCoverPicture()" alt="Cover image">
+    <img [src]="myUser.getCoverPicture() || path" alt="Cover image">
   </div>
   }@else if(type === 'group'){
   <div class="cover-photo" [style.background-image]="'url(' + myGroup.getCoverPicture() + ')'">
@@ -13,13 +13,53 @@
     </div>
     <div class="info">
       <p class="username">{{myUser.getUserDemo().getUsername()}}</p>
+      @if (type ==='user') {
       <div class="stats">
-        <p><span class="stat-value">29</span> Siguiendo</p>
-        <p><span class="stat-value">24</span> Seguidores</p>
+        <p (click)="viewFollowingg()"><span class="stat-value">{{myUser.getCountFollowing()}}</span> Siguiendo</p>
+        <p (click)="viewFollowerss()"><span class="stat-value">{{myUser.getCountFollowers()}}</span> Seguidores</p>
       </div>
+      }
     </div>
   </div>
   <!-- <div class="follow-button-container">
         <button class="follow-button">Seguir</button>
     </div> -->
 </div>
+
+
+@if (viewFollowers()) {
+<!-- Modal -->
+<div class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Tus seguidores</h2>
+      <button class="close-modal-btn" (click)="viewFollowerss()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <ul class="followers-list">
+        @for (follower of myUser.getFollowers(); track $index) {
+          <app-follower-item [follower]="follower" type="follower" [userComplete]="myUser"></app-follower-item>
+          }
+      </ul>
+    </div>
+  </div>
+</div>
+}
+
+@if(viewFollowing()){
+<div class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Tus seguidores</h2>
+      <button class="close-modal-btn" (click)="viewFollowingg()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <ul class="followers-list">
+        @for (follower of myUser.getFollowing(); track $index) {
+        <app-follower-item [follower]="follower" type="following" [userComplete]="myUser"></app-follower-item>
+        }
+      </ul>
+    </div>
+  </div>
+</div>
+}

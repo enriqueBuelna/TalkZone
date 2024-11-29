@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Post } from '../../../../domain/models/post.model';
+import { UserPreference } from '../../../../domain/models/user_preference.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +22,16 @@ export class PostCService {
 
   addPosts(post: Post[]) {
     this.posts.update((pst) => [...pst, ...post]);
+  }
+
+  findPost(post_id: string, content:string, media_url:string = '', visibility:string, topic_id:UserPreference){
+    console.log(content, media_url ,visibility, topic_id);
+    this.posts().find(el => {
+      if(el.getId() === post_id){
+        el.setContent(content);
+        el.setPrivacy(visibility);
+        el.setTopic(topic_id);
+      }
+    })
   }
 }

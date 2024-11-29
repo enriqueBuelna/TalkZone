@@ -1,4 +1,14 @@
+<!-- <div class="message-container">
+    <div class="user-name"></div>
+    <div class="message-box"></div>
+</div> -->
+
 <div class="message-container">
-    <div class="user-name">{{message.from}}</div>
-    <div class="message-box">{{message.message}}</div>
+    <!-- <div class="message-avatar">
+        <img :src="message.avatarUrl" :alt="message.username">
+    </div> -->
+    <div class="message-content">
+        <div class="message-author">{{message.from}}</div>
+        <div class="message-text">{{message.message}}</div>
+    </div>
 </div>

@@ -1,38 +1,71 @@
-<section id="members__container">
+<!-- <section id="members__container">
     <div id="members__header">
-        <p>Participants</p>
-        <strong id="members__count">{{usersInVoiceRoom().length}}</strong>
+      <p>Participants</p>
+      <strong id="members__count">{{usersInVoiceRoom().length}}</strong>
     </div>
     <div id="member__list">
-        @for (item of usersInVoiceRoom(); track $index) {
+      <div class="member-card" *ngFor="let item of usersInVoiceRoom(); let $index = index">
         <app-member [userInVoiceRoom]="item"></app-member>
-        }
+      </div>
     </div>
-
-    @if (myUserVoiceRoom().getType() === 'host') {
-    <div class="fixed">
-        <div class="raised-hands">
-            <div class="siu" (click)="showModal()">
-                <p>Solicitudes de acceso {{handRaised().length}}</p>
-            </div>
+    <div class="fixed" *ngIf="myUserVoiceRoom().getType() === 'host'">
+      <div class="raised-hands">
+        <div class="siu" (click)="showModal()">
+          <p>Solicitudes de acceso {{handRaised().length}}</p>
         </div>
+      </div>
     </div>
+  </section> -->
+
+
+<div class="app-members-container">
+  <div class="members-header">
+    <h3>Participantes <span class="badge">{{ usersInVoiceRoom().length }}</span></h3>
+    @if (myUserVoiceRoom().getType() === 'host') {
+    <button class="request-button" (click)="showModal()">Solicitudes de acceso: {{handRaised().length}}</button>
     }
+  </div>
+  <div class="participants-list">
+    @for (item of usersInVoiceRoom(); track $index) {
+      <app-member [userInVoiceRoom]="item"></app-member>
+    }
+  </div>
+</div>
+<!-- <div class="participants-container">
+  <div class="participant-item">
+    <div class="participant-info">
+      <p class="participant-username">Username</p>
+    </div>
+  </div> -->
+<!-- Agrega más participantes aquí -->
+<!-- </div> -->
 
-</section>
+<!-- <div class="user-list">
+  <div id="members__header">
+    <p>Participantes</p>
+    <strong id="members__count">{{usersInVoiceRoom().length}}</strong>
+  </div>
+  <div class="user-item" *ngFor="let user of usersInVoiceRoom()">
+    <div class="user-avatar">
+      <img [src]="user.getProfilePic()" alt="Usuario">
+    </div>
+    <div class="user-name">{{ user.getUsername() }}</div>
+  </div>
+</div> -->
+
 <p-dialog [modal]="true" [(visible)]="modalCreate" [style]="{ width: '40rem', height:'40rem' }" [closable]="true"
-    [dismissableMask]="true" [draggable]="false">
-    <!--Los que te siguen y a los que sigues-->
-    <div class="text-center mb-5">
-        <h2>Solicitudes de acceso</h2>
-    </div>
+  [dismissableMask]="true" [draggable]="false">
+  <!--Los que te siguen y a los que sigues-->
+  <div class="text-center mb-5">
+    <h2>Solicitudes de acceso</h2>
+  </div>
 
-    <div class="member-raised-hand">
-        @if (handRaised().length > 0) {
-        @for (item of handRaised(); track $index) {
-        <app-member-raised-hand [userInVoiceRoom]="item"></app-member-raised-hand>
-        }
-        }
-    </div>
+  <div class="member-raised-hand">
+    @if (handRaised().length > 0) {
+    @for (item of handRaised(); track $index) {
+    <app-member-raised-hand [userInVoiceRoom]="item"></app-member-raised-hand>
+    }
+    }
+  </div>
 
 </p-dialog>

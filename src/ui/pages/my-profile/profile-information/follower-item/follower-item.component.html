@@ -1,0 +1,9 @@
+<li class="follower-item">
+    <div class="follower-avatar">
+      <img [src]="follower.getProfilePic()">
+    </div>
+    <div class="follower-info">
+      <h3>{{ follower.getUsername() }}</h3>
+      <button class="unfollow-btn" (click)="doAction()">{{text}}</button>
+    </div>
+  </li>

@@ -28,3 +28,72 @@ a {
   font-weight: bold;
   transition: color 0.3s;
 }
+
+.tweet-container {
+  color: #000;
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.profile-image img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.username-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.handle {
+  color: #6e767d;
+}
+
+.options-button {
+  color: #6e767d;
+}
+
+.tooltip {
+  color:#000;
+  position: absolute;
+  top: -100px;
+  right: 0;
+  border-radius: 8px;
+  padding: 16px;
+  z-index: 1;
+}
+
+.tooltip-content {
+  background-color: #d3d3d3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.tweet-text {
+  margin-bottom: 12px;
+}
+
+.tooltip-button {
+  background-color: #1da1f2;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}

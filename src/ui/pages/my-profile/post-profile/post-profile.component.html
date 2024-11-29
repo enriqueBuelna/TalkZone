@@ -13,7 +13,7 @@
     <div class="posts">
         <div class="all-post">
             @for (post of allPost(); track post.getId()) {
-            <app-post [postContent]="post"></app-post>
+            <app-post [postContent]="post" [userDemo]="myUser" ></app-post>
             }
         </div>
         @if (hasMorePosts) {

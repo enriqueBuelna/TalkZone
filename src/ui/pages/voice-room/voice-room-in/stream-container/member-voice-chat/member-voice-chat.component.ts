@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { UserDemo } from '../../../../../../domain/models/user-demo.model';
 import { UserInVoiceRoom } from '../../../../../../domain/models/user_in_voice_room.model';
 import { UserService } from '../../../../auth/services/user.service';
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './member-voice-chat.component.html',
   styleUrl: './member-voice-chat.component.css',
 })
-export class MemberVoiceChatComponent {
+export class MemberVoiceChatComponent implements OnInit{
   constructor(
     private _userService: UserService,
     private _voiceRoomService: VoiceRoomUser,
@@ -30,6 +30,10 @@ export class MemberVoiceChatComponent {
         this.isMenuOpen = !this.isMenuOpen;
       }
     }
+  }
+
+  ngOnInit(): void {
+    console.log("chivonnnnnn")
   }
 
   muteUser() {

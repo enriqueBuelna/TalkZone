@@ -5,5 +5,26 @@
         <app-navbar_list-item [label]="item.name" [link]="item.where" [icon]="item.icon" [badge]="item.badge"/>
       }
     </ul>
+    <div class="tweet-container">
+      <div class="profile-info" (click)="toggleTooltip()">
+        <div class="profile-image">
+          <img src="https://i.imgur.com/KuVqSy8.png" alt="Enrique's profile picture">
+        </div>
+        <div class="username-container">
+          <span class="username">Enrique</span>
+          <span class="handle">Enriqueciendo0</span>
+        </div>
+        <div class="options-button">
+          <i class="fas fa-ellipsis-h"></i>
+        </div>
+      </div>
+    
+      <div class="tooltip" *ngIf="showTooltip" [style.display]="showTooltip ? 'block' : 'none'">
+        <div class="tooltip-content">
+          <span class="tweet-text">Cerrar la sesión de Enriqueciendo0</span>
+          <button class="tooltip-button" (click)="closeSesion()">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
   </nav>
   

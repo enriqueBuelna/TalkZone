@@ -113,4 +113,20 @@ export class Post {
   setLiked(){
     this.is_liked = !this.is_liked;
   }
+
+  getPrivacy(){
+    return this.privacy;
+  }
+
+  setContent(content:string){
+    this.content = content;
+  }
+
+  setPrivacy(privacy:string){
+    this.privacy = privacy;
+  }
+
+  setTopic(user_preference:UserPreference){
+    this.userPreference?.setPreference(user_preference);
+  }
 }

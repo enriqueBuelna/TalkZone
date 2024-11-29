@@ -102,7 +102,8 @@ export class VoiceRoom {
   private topic_name: string;
   private voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[];
   private host_user: UserResponseInformation;
-  private rating?: number;
+  private rating: number = 0;
+  private total_rating:number = 0;
 
   constructor(
     id: number,
@@ -112,7 +113,8 @@ export class VoiceRoom {
     topic_name: string,
     voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[],
     host_user: UserResponseInformation,
-    rating: number
+    rating: number,
+    total_rating:number
   ) {
     this.id = id;
     this.room_name = room_name;
@@ -122,6 +124,16 @@ export class VoiceRoom {
     this.voice_room_to_voice_room_tag = voice_room_to_voice_room_tag;
     this.host_user = host_user;
     this.rating = rating;
+    this.total_rating = total_rating;
+  }
+
+  getRatingValid(){
+    if(this.total_rating){
+      if(this.total_rating > 49){
+        return true
+      }
+    }
+    return false
   }
 
   getNumberMembers():number{

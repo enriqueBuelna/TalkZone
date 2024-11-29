@@ -1,27 +1,48 @@
-<button (click)="goToHome()">Go to home</button>
+<!-- <button (click)="goToHome()">Go to home</button>
 <main class="containerr">
     <div id="room__container">
+        <div class="one-part">
+            <app-members-container></app-members-container>
+        </div>
+        <div class="two-part">
+            <app-stream-container></app-stream-container>
+        </div>
+        <div class="three-part">
+            <app-messages-container></app-messages-container>
+        </div>
+    </div>
+</main> -->
+<div class="title">
+    <h2>TalkZone</h2>
+</div>
+<div class="voice-room-container">
+    <div class="sidebar">
         <app-members-container></app-members-container>
+    </div>
+    <div class="stage-container">
         <app-stream-container></app-stream-container>
+    </div>
+    <div class="chat-container">
         <app-messages-container></app-messages-container>
     </div>
-</main>
+</div>
+
 <p-dialog [modal]="true" [(visible)]="voiceRoomClosedModal" [style]="{ width: '40rem', height:'40rem' }"
     [closable]="false" [dismissableMask]="true" [draggable]="false">
     <h2>La sala de voz ha sido cerrada, gracias por acompañar a tus compañeros :D</h2>
-    
-    <app-button text="Ir al inicio" (clickEvent)="goToHome()"></app-button>
+
+    <app-button text="Ir al inicio" (clickEvent)="goHome()"></app-button>
 </p-dialog>
 
-<p-dialog [modal]="true" [(visible)]="showModalRating" [style]="{ width: '20rem', height:'20rem' }"
-    [closable]="false" [dismissableMask]="true" [draggable]="false">
+<p-dialog [modal]="true" [(visible)]="showModalRating" [style]="{ width: '20rem', height:'20rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
     <app-rating></app-rating>
 </p-dialog>
 
 
-<p-dialog [modal]="true" [(visible)]="showExitDeleted" [style]="{ width: '20rem', height:'20rem' }"
-    [closable]="false" [dismissableMask]="true" [draggable]="false">
+<p-dialog [modal]="true" [(visible)]="showExitDeleted" [style]="{ width: '20rem', height:'20rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
     <h2>Fuiste eliminado por el host</h2>
-    
+
     <app-button text="Ir al inicio" (clickEvent)="goHome()"></app-button>
 </p-dialog>

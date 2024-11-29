@@ -1,13 +1,14 @@
-<div class="member" (click)="toggleMenu()">
-    <div class="username">
-        <p>{{userInVoiceRoom.getUsername()}}</p>
+<div class="participant-item" (click)="toggleMenu()">
+    <div class="member-avatar">
+        <img [src]="userInVoiceRoom.getProfilePic()" alt="Avatar">
     </div>
+    <p class="participant-username">{{ userInVoiceRoom.getUsername() }}</p>
 </div>
 
 @if(isMenuOpen){
-    <div class="menu">
-        <ul>
-            <li (click)="deleteUser()">Eliminar de la llamada</li>
-        </ul>
-    </div>
-    }
+<div class="menu">
+    <ul>
+        <li (click)="deleteUser()">Eliminar de la llamada</li>
+    </ul>
+</div>
+}

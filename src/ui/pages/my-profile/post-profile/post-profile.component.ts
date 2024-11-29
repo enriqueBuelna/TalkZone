@@ -6,6 +6,7 @@ import { PostCService } from '../../my-feed/services/post.service';
 import { UserService } from '../../auth/services/user.service';
 import { PostComponent } from "../../my-feed/post/post.component";
 import { UserDemo } from '../../../../domain/models/user-demo.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-post-profile',
@@ -15,6 +16,7 @@ import { UserDemo } from '../../../../domain/models/user-demo.model';
   styleUrl: './post-profile.component.css',
 })
 export class PostProfileComponent {
+  @Input() myUser!: UserDemo;
   allPost = signal<Post[]>([]);
   postObservableAll!: Observable<any>;
   hasMorePosts = true;
@@ -24,7 +26,8 @@ export class PostProfileComponent {
   constructor(
     private _postService: PostService,
     private _postCService: PostCService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _route:ActivatedRoute
   ) {}
   ngOnInit(): void {
     this._postCService.setPost([]);
@@ -33,6 +36,8 @@ export class PostProfileComponent {
   }
 
   loadPosts() {
+    const roomId =
+      this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId';
     if(this.user_id){
       this.forAll.set(false);
     }
@@ -51,7 +56,7 @@ export class PostProfileComponent {
       });
     }else{
       this.postObservableAll = this._postService.getYourPost(
-        this._userService.getUserId(),
+        roomId,
         this.page
       );
 

@@ -21,11 +21,29 @@
                             <span>{{postContent.getUserPreference()?.getTopicName()}}</span>
                         </div>
                     </div>
-                    <span class="post-time">30 minutos · 🌎</span>
+                    <span class="post-time">30 minutos · @if (postContent.getPrivacy() === 'public') {
+                        🌎}@else {
+                            🔒
+                        }</span>
                 </div>
             </div>
             @if (postContent.getUserInfo().getUserId() === userId) {                
-                <button class="options-button">•••</button>
+                <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
+                @if (isOptionsMenuOpen) {
+                    <div class="options-dropdown" (click)="$event.stopPropagation()">
+                        <button 
+                            class="dropdown-item"
+                            (click)="editPublication()"
+                        >
+                            <i class="pi pi-pencil"></i> Editar publicación
+                        </button>
+                        <button 
+                            class="dropdown-item" 
+                        >
+                            <i class="pi pi-trash"></i> Eliminar publicación
+                        </button>
+                    </div>
+                }
             }
         </div>
 
@@ -59,3 +77,8 @@
         </div>
     </div>
 </div>
+
+
+@if(publicationEdit()){
+    <app-modal-post [myUser]="userDemo" [editable]="true" [postContent]="postContent" [type]="'post'" (clickEvent)="editPublication()"></app-modal-post>
+}

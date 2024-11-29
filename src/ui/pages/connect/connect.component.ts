@@ -40,7 +40,6 @@ interface Gender {
     AsideComponent,
     HeaderComponent,
     ButtonComponent,
-    CardComponent,
     ChipModule,
     CommonModule,
     DialogModule,
@@ -180,7 +179,7 @@ export class ConnectComponent implements OnInit {
   }
 
   selectCard(userPreference: UserPreferences) {
-    console.log(userPreference);
+    this.textFollow = 'Seguir'
     this.showInfo.set(true);
     this.userPreferenceInformation = userPreference;
   }
@@ -230,9 +229,7 @@ export class ConnectComponent implements OnInit {
   }
 
   followUser(id: string | undefined) {
-    console.log(id);
     if (id) {
-      console.log('HOLA');
       if (this.textFollow === 'Seguir') {
         this._followService
           .followUser(this._userService.getUserId(), id.toString())
