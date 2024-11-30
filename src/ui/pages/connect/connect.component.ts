@@ -24,6 +24,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { atLeastOneFieldRequired } from './validators/atLeastOne.validator';
 import { FollowerService } from '../../../domain/services/follower.service';
 import { Router } from '@angular/router';
+import { CardUserComponent } from './card-user/card-user.component';
 interface FilterTopic {
   topic_id: number;
   topic_name: string;
@@ -47,6 +48,7 @@ interface Gender {
     CheckboxModule,
     ReactiveFormsModule,
     MultiSelectModule,
+    CardUserComponent,
   ],
   templateUrl: './connect.component.html',
   styleUrl: './connect.component.css',
@@ -78,6 +80,7 @@ export class ConnectComponent implements OnInit {
       type: 'female',
     },
   ];
+  idsSeguidos: string[] = [];
   textFollow = 'Seguir';
   constructor(
     private _userPreferenceService: UserPreferenceService,
@@ -179,7 +182,11 @@ export class ConnectComponent implements OnInit {
   }
 
   selectCard(userPreference: UserPreferences) {
-    this.textFollow = 'Seguir'
+    if(!this.idsSeguidos.some(el => el === userPreference.userId)){
+      this.textFollow = 'Seguir';
+    }else{
+      this.textFollow = "Dejar de seguir";
+    }
     this.showInfo.set(true);
     this.userPreferenceInformation = userPreference;
   }
@@ -228,13 +235,14 @@ export class ConnectComponent implements OnInit {
     // Aquí puedes agregar la lógica de validación que necesites
   }
 
-  followUser(id: string | undefined) {
+  followUser(id: string) {
     if (id) {
       if (this.textFollow === 'Seguir') {
         this._followService
           .followUser(this._userService.getUserId(), id.toString())
           .subscribe((el) => {
             if (el) {
+              this.idsSeguidos.push(id);
               this.textFollow = 'Dejar de seguir';
             }
           });
@@ -251,7 +259,7 @@ export class ConnectComponent implements OnInit {
   }
 
   goToProfile(id: string | undefined) {
-    if (id === ''){
+    if (id === '') {
       id = this._userService.getUserId();
     }
     if (id) {
@@ -265,7 +273,7 @@ export class ConnectComponent implements OnInit {
     }
   }
 
-  showDialogType(){
+  showDialogType() {
     this.modalShowInfo.set(!this.modalShowInfo());
   }
 }
