@@ -51,3 +51,21 @@
   .tweet-actions div:hover {
     color: #1DA1F2;
   }
+
+
+  .header {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .header h2 {
+    margin-top: 1rem;
+  }
+
+  .left {
+    margin-right: 1rem;
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+

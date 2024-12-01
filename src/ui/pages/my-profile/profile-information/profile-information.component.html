@@ -3,10 +3,6 @@
   <div class="cover-image">
     <img [src]="myUser.getCoverPicture() || path" alt="Cover image">
   </div>
-  }@else if(type === 'group'){
-  <div class="cover-photo" [style.background-image]="'url(' + myGroup.getCoverPicture() + ')'">
-  </div>
-  }
   <div class="profile-content">
     <div class="profile-image">
       <img [src]="myUser.getUserDemo().getProfilePic()" alt="Enrique's profile picture">
@@ -21,6 +17,31 @@
       }
     </div>
   </div>
+  }@else if(type === 'group'){
+  <div class="cover-image" >
+    <img [src]="myGroup.getCoverPicture() || path" alt="Cover image">
+  </div>
+  <div class="profile-content">
+    <div class="profile-image">
+      <img [src]="myGroup.getProfilePicture()" alt="profile picture">
+    </div>
+    <div class="info">
+      <p class="username">{{myGroup.getGroupName()}}</p>
+      <!-- @if (type ==='group') {
+      <div class="stats">
+        <p (click)="viewFollowingg()"><span class="stat-value">{{myUser.getCountFollowing()}}</span> Siguiendo</p>
+        <p (click)="viewFollowerss()"><span class="stat-value">{{myUser.getCountFollowers()}}</span> Seguidores</p>
+      </div>
+      } -->
+      @if (type==='group' &&  access) {
+        <div class="stats">
+          <p (click)="viewMemberss()"><span class="stat-value">{{myGroup.getMembersCount()}}</span> miembros</p>
+        </div>
+      }
+    </div>
+  </div>
+  }
+  
   <!-- <div class="follow-button-container">
         <button class="follow-button">Seguir</button>
     </div> -->
@@ -32,7 +53,7 @@
 <div class="modal-container">
   <div class="modal">
     <div class="modal-header">
-      <h2>Tus seguidores</h2>
+      <h2>Seguidores:</h2>
       <button class="close-modal-btn" (click)="viewFollowerss()">&times;</button>
     </div>
     <div class="modal-body">
@@ -50,7 +71,7 @@
 <div class="modal-container">
   <div class="modal">
     <div class="modal-header">
-      <h2>Tus seguidores</h2>
+      <h2>Siguiendo:</h2>
       <button class="close-modal-btn" (click)="viewFollowingg()">&times;</button>
     </div>
     <div class="modal-body">
@@ -62,4 +83,25 @@
     </div>
   </div>
 </div>
+}
+
+@if (viewMembers()) {
+  <div class="modal-container">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Miembros</h2>
+        <button class="close-modal-btn" (click)="viewMemberss()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <ul class="followers-list">
+          <!-- @for (follower of myUser.getFollowing(); track $index) {
+          <app-follower-item [follower]="follower" type="following" [userComplete]="myUser"></app-follower-item>
+          } -->
+          @for (members of myGroup.getAllMembers(); track $index) {
+            <app-follower-item [member]="members" type="member" [hostMember]="myGroup.getAdminUser()"></app-follower-item>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
 }

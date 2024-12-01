@@ -25,12 +25,24 @@ export class PostCService {
   }
 
   findPost(post_id: string, content:string, media_url:string = '', visibility:string, topic_id:UserPreference){
-    console.log(content, media_url ,visibility, topic_id);
     this.posts().find(el => {
       if(el.getId() === post_id){
         el.setContent(content);
         el.setPrivacy(visibility);
         el.setTopic(topic_id);
+        if(media_url){
+          
+        }
+      }
+    })
+  }
+
+  findPostGroup(post_id:string, content:string, media_url:string = '', visibility:string){
+    this.posts().find(el => {
+      if(el.getId() === post_id){
+        el.setContent(content);
+        el.setTypeCommunity(visibility);
+
       }
     })
   }

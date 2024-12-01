@@ -8,6 +8,8 @@ import { PostProfileGroupComponent } from './post-groups/post-profile.component'
 import { InformationProfileComponent } from '../../my-profile/information-profile/information-profile.component';
 import { UserService } from '../../auth/services/user.service';
 import { ButtonComponent } from '../../../utils/button/button.component';
+import { AuthService } from '../../../../domain/services/auth.service';
+import { UserComplete } from '../../../../domain/models/user_complete_information.model';
 
 @Component({
   selector: 'app-view-of-group',
@@ -29,20 +31,29 @@ export class ViewOfGroupComponent implements OnInit {
   typeMember = signal('');
   applyButton = signal(false);
   text = signal('Solicitar acceso');
+  petitionYet!: boolean;
+  userComplete!: UserComplete;
+  id!:string;
   constructor(
     private communityService: CommunitieService,
     private route: ActivatedRoute,
-    private _userService: UserService
+    private _userService: UserService,
+    private userService: AuthService
   ) {}
 
   ngOnInit() {
+    this.userService
+      .getCompleteInformation(this._userService.getUserId())
+      .subscribe((el) => {
+        this.userComplete = el;
+      });
+
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id') || '';
-      if (id) {
+      this.id = params.get('id') || '';
+      if (this.id) {
         // Realiza la solicitud cada vez que cambie el parámetro 'user_id'
-        this.communityService.getGroupById(id).subscribe((el) => {
+        this.communityService.getGroupById(this.id).subscribe((el) => {
           this.myGroup = el;
-          console.log(this.myGroup)
           if (this.myGroup) {
             if (
               this.myGroup.getPrivacy() &&
@@ -54,8 +65,18 @@ export class ViewOfGroupComponent implements OnInit {
                     this._userService.getUserId()
                 )
             ) {
+              this.applyButton.set(true);
               this.noAccess.set(true);
               this.typeMember.set('no-member');
+              this.communityService
+                .viewIfOnePending(this._userService.getUserId(), this.id)
+                .subscribe((el) => {
+                  if (el) {
+                    this.petitionYet = true;
+                  } else {
+                    this.petitionYet = false;
+                  }
+                });
             } else {
               if (
                 this.myGroup.getAdminUser() === this._userService.getUserId()
@@ -89,9 +110,17 @@ export class ViewOfGroupComponent implements OnInit {
         this._userService.getUserId()
       )
       .subscribe((el) => {
-        console.log(el);
-        this.applyButton.set(false);
-        this.text.set('Esperando respuesta del administrador...');
+        this.petitionYet = el;
+        this.applyButton.set(true);
       });
+  }
+
+  deleteApply() {
+    this.communityService.deleteApply(this._userService.getUserId(), this.id).subscribe(el => {
+      if(el){
+        this.applyButton.set(false);
+        this.petitionYet = false;
+      }
+    })
   }
 }

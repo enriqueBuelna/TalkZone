@@ -13,6 +13,17 @@ import { ApplyGroup } from '../../domain/models/group/apply_group.model';
 })
 export class RemoteComunitieRepository extends CommunitieRepository {
 
+  override deleteApply(user_id: string, group_id: string): Observable<boolean> {
+    const payload = {
+      user_id,
+      group_id,
+    };
+
+    return this._http
+      .post<boolean>(`${this.API_URL}/communities/deleteApply`, payload)
+      .pipe(map((el) => el));
+  }
+
   override editGroup(group_id: string, privacy: string,about_communitie:string, cover_picture: string, profile_picture: string): Observable<boolean> {
     const payload = {
       group_id, 
@@ -112,6 +123,16 @@ export class RemoteComunitieRepository extends CommunitieRepository {
     return this._http
       .post<boolean>(`${this.API_URL}/communities/wantToGetIn`, payload)
       .pipe(map((el) => el));
+  }
+
+  override viewIfOnePending(user_id: string, group_id: string): Observable<boolean> {
+    const payload = {
+      group_id,
+      user_id,
+    };
+    return this._http
+    .post<boolean>(`${this.API_URL}/communities/viewIfOnePending`, payload)
+    .pipe(map((el) => el));
   }
 
   override getGroupsFollowed(user_id: string): Observable<GroupPresentation[]> {

@@ -12,6 +12,7 @@ import { GetPostGroup } from '../use_cases/post/getPostGroup.use_case';
 import { GetAllPostGroup } from '../use_cases/post/getAllPostGroup.use_case';
 import { CreateComment } from '../use_cases/post/createComment.use_case';
 import { UpdatePost } from '../use_cases/post/updatePost.use_case';
+import { UpdatePostGroup } from '../use_cases/post/updatePostGroup.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +28,13 @@ export class PostService {
     private _getPostGroup: GetPostGroup,
     private _getAllPostGroup: GetAllPostGroup,
     private _createComment: CreateComment,
-    private _updatePost: UpdatePost
+    private _updatePost: UpdatePost,
+    private _updatePostGroup:UpdatePostGroup
   ) {}
+
+  updatePostGroup(id:string, content:string, media_url:string, visibility:string ):Observable<boolean>{
+    return this._updatePostGroup.execute(id, content, media_url, visibility);
+  }
 
   updatePost(
     id: string,
@@ -50,16 +56,16 @@ export class PostService {
     return this._getAllPostGroup.execute(user_id, page);
   }
 
-  getPostGroup(community_id: string, page: number): Observable<Post[]> {
-    return this._getPostGroup.execute(community_id, page);
+  getPostGroup(community_id: string, page: number, user_id:string): Observable<Post[]> {
+    return this._getPostGroup.execute(community_id, page, user_id);
   }
 
   newPost(infoPost: IPost): Observable<Post> {
     return this._newPost.execute(infoPost);
   }
 
-  getForYouPost(user_id: string, page: number): Observable<Post[]> {
-    return this._getForYouPost.execute(user_id, page);
+  getForYouPost(user_id: string, page: number, other_user_id:string): Observable<Post[]> {
+    return this._getForYouPost.execute(user_id, page, other_user_id);
   }
 
   getPostById(id: string, user_id: string): Observable<Post> {
@@ -70,8 +76,8 @@ export class PostService {
     return this._getPostFriends.execute(user_id, page);
   }
 
-  getYourPost(user_id: string, page: number): Observable<Post[]> {
-    return this._getYourPost.execute(user_id, page);
+  getYourPost(user_id: string, page: number, other_user_id:string): Observable<Post[]> {
+    return this._getYourPost.execute(user_id, page, other_user_id);
   }
 
   giveLike(

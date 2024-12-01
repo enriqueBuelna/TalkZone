@@ -7,11 +7,12 @@ import { UserService } from '../../auth/services/user.service';
 import { PostComponent } from "../../my-feed/post/post.component";
 import { UserDemo } from '../../../../domain/models/user-demo.model';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-post-profile',
   standalone: true,
-  imports: [PostComponent],
+  imports: [PostComponent,CommonModule],
   templateUrl: './post-profile.component.html',
   styleUrl: './post-profile.component.css',
 })
@@ -23,6 +24,7 @@ export class PostProfileComponent {
   forAll = signal(true);
   @Input() user_id !:string;
   page: number = 1;
+  rule = 'all';
   constructor(
     private _postService: PostService,
     private _postCService: PostCService,
@@ -44,10 +46,12 @@ export class PostProfileComponent {
     if (this.forAll()) {
       this.postObservableAll = this._postService.getForYouPost(
         this._userService.getUserId(),
-        this.page
+        this.page,
+        this._userService.getUserId()
       );
 
       this.postObservableAll.subscribe((posts) => {
+        
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {
@@ -57,7 +61,8 @@ export class PostProfileComponent {
     }else{
       this.postObservableAll = this._postService.getYourPost(
         roomId,
-        this.page
+        this.page,
+        this._userService.getUserId()
       );
 
       this.postObservableAll.subscribe((posts) => {
@@ -73,5 +78,9 @@ export class PostProfileComponent {
   loadMore() {
     this.page += 1;
     this.loadPosts();
+  }
+
+  changePublication(opt:string){
+    this.rule = opt;
   }
 }

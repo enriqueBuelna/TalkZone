@@ -49,7 +49,7 @@ export class GroupComplete extends GroupPresentation {
   }
 
   getMembersCount() {
-    return this.members_count;
+    return this.all_member.length;
   }
 
   setDescription(description: string) {

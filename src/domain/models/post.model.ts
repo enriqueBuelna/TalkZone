@@ -14,6 +14,8 @@ export class Post {
   private commnuity_id?: string;
   private type_community?: string;
   private is_liked:boolean = false;
+  private name_community?:string;
+  private cover_picture?:string;
   constructor(
     id: string,
     userInfo: UserDemo,
@@ -26,7 +28,9 @@ export class Post {
     comments?: Comment[],
     community_id?: string,
     type_community?: string,
-    is_liked?:any
+    is_liked?:any,
+    name_community?:string,
+    cover_picture?:string
   ) {
     this.id = id;
     this.userInfo = userInfo;
@@ -39,6 +43,8 @@ export class Post {
     this.comments = comments;
     this.commnuity_id = community_id;
     this.type_community = type_community;
+    this.name_community = name_community;
+    this.cover_picture = cover_picture;
 
     if(!comments){
       this.comments = [];
@@ -48,6 +54,14 @@ export class Post {
         this.is_liked = true;
       }
     }
+  }
+
+  getNameComunity(){
+    return this.name_community;
+  }
+
+  getCoverPicture(){
+    return this.cover_picture;
   }
   
   getCommunityId(){
@@ -128,5 +142,9 @@ export class Post {
 
   setTopic(user_preference:UserPreference){
     this.userPreference?.setPreference(user_preference);
+  }
+
+  setTypeCommunity(type :string){
+    this.type_community = type;
   }
 }

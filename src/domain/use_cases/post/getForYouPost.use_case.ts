@@ -10,7 +10,7 @@ import { Post } from '../../models/post.model';
 export class GetForYouPost {
   constructor(private postRepository: PostRepository) {}
 
-  execute(user_id: string, page: number): Observable<Post[]> {
-    return this.postRepository.getForYouPost(user_id, page);
+  execute(user_id: string, page: number, other_user_id:string): Observable<Post[]> {
+    return this.postRepository.getForYouPost(user_id, page, other_user_id);
   }
 }

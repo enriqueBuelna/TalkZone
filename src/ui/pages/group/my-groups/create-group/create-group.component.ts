@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommunitieService } from '../../../../../domain/services/communitie.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-group',
   standalone: true,
@@ -44,14 +45,17 @@ export class CreateGroupComponent implements OnInit {
           privacyB,
           topic_id.id
         )
-        .subscribe((el) => console.log(el));
+        .subscribe((el) => {
+          this._router.navigate(['home', 'groups', el.id]);
+        });
     }
   }
   constructor(
     private _userService: UserService,
     private _userPreferences: UserPreferenceService,
     private _formBuilder: FormBuilder,
-    private _comunitieService: CommunitieService
+    private _comunitieService: CommunitieService,
+    private _router:Router
   ) {
     this.formCreateGroup = this._formBuilder.group({
       name: ['', [Validators.required]],

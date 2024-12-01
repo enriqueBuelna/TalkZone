@@ -9,7 +9,7 @@ import { Post } from '../../models/post.model';
 export class GetPostGroup {
   constructor(private postRepository: PostRepository) {}
 
-  execute(community_id: string, page:number): Observable<Post[]> {
-    return this.postRepository.getPostGroup(community_id, page);
+  execute(community_id: string, page:number, user_id: string): Observable<Post[]> {
+    return this.postRepository.getPostGroup(community_id, page, user_id);
   }
 }

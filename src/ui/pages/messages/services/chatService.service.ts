@@ -11,7 +11,12 @@ export class ChatService {
   // triggerScrollToBottom() {
   //   this.scrollToBottomSource.next();
   // }
-  amHere = false;
+  amHere = true;
+  amHereId = '';
+
+  setAmHereId(id:string){
+    this.amHereId = id;
+  }
 
   setHere(){
     this.amHere = true;
@@ -19,5 +24,9 @@ export class ChatService {
 
   setNoHere(){
     this.amHere = false;
+  }
+
+  getAmHereId(){
+    return this.amHereId;
   }
 }

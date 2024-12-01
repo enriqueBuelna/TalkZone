@@ -24,7 +24,7 @@ export class MessageComponentService {
   }
 
   getMessages() {
-    return this.myMessages;
+    return this.myMessages();
   }
 
   addNewMessage(message: Message) {

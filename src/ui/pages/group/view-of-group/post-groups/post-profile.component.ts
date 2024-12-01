@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from '../../../../../domain/models/post.model';
 import { PostService } from '../../../../../domain/services/post.service';
@@ -6,6 +6,7 @@ import { UserService } from '../../../auth/services/user.service';
 import { PostComponent } from '../../../my-feed/post/post.component';
 import { PostCService } from '../../../my-feed/services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserDemo } from '../../../../../domain/models/user-demo.model';
 
 @Component({
   selector: 'app-post-profile-group',
@@ -17,9 +18,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PostProfileGroupComponent {
   allPost = signal<Post[]>([]);
   postObservableAll!: Observable<any>;
+  @Input() userDemo!:UserDemo;
   hasMorePosts = true;
   forAll = signal(true);
   page: number = 1;
+  @Input() hostGroupMember!:string;
+  imHost = false;
   constructor(
     private _postService: PostService,
     private _postCService: PostCService,
@@ -30,19 +34,21 @@ export class PostProfileGroupComponent {
     this._postCService.setPost([]);
     this.allPost = this._postCService.getPosts();
     this.loadPosts();
+    if(this.hostGroupMember === this._userService.getUserId()){
+      this.imHost = true;
+    }
   }
 
   loadPosts() {
-    console.log('Chivones');
     const roomId = this._route.snapshot.paramMap.get('id') ?? 'defaultRoomId';
     if (this.forAll()) {
       this.postObservableAll = this._postService.getPostGroup(
         roomId,
-        this.page
+        this.page,
+        this._userService.getUserId()
       );
 
       this.postObservableAll.subscribe((posts) => {
-        console.log(posts);
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {

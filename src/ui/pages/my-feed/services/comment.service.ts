@@ -17,7 +17,7 @@ export class CommentsCService {
   }
 
   getComments() {
-    return this.Comments;
+    return this.Comments();
   }
 
   addNewComment(m: Comment) {

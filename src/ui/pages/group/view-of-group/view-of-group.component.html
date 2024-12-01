@@ -5,11 +5,13 @@
             <h2 class="title">{{myGroup.getGroupName()}}</h2>
         </div>
         <div class="profile-information">
-            <app-profile-information [myGroup]="myGroup" [type]="'group'"></app-profile-information>
+            <app-profile-information [myGroup]="myGroup" [type]="'group'" [access]="!noAccess()"></app-profile-information>
         </div>
         @if(!noAccess()){
         <div class="publications">
-            <app-post-profile-group></app-post-profile-group>
+            @if (userComplete) {
+                <app-post-profile-group [userDemo]="userComplete.getUserDemo()" [hostGroupMember]="myGroup.getAdminUser()"></app-post-profile-group>
+            }
         </div>
         }@else {
         <div class="container">
@@ -22,9 +24,16 @@
             </div>
             <h1 class="h1">Este grupo es privado</h1>
             <p class="p">Únete a este grupo para ver las conversaciones o participar en ellas.</p>
-            <div class="button">
-                <app-button [text]="text()" (clickEvent)="applyGroup()" [isDisabled]="applyButton()"></app-button>
-            </div>
+            @if (petitionYet) {
+                <div class="button">
+                    <app-button [text]="'Esperando respuesta del administrador...'" (clickEvent)="applyGroup()" [isDisabled]="applyButton()"></app-button>
+                    <app-button text="Eliminar solicitud" (clickEvent)="deleteApply()" ></app-button>
+                </div>
+            }@else {
+                <div class="button">
+                    <app-button [text]="'Solicitar acceso'" (clickEvent)="applyGroup()"></app-button>
+                </div>
+            }
         </div>
         }
     </div>

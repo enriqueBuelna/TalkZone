@@ -12,6 +12,22 @@ import { Comment } from '../../domain/models/comment.model';
   providedIn: 'root',
 })
 export class RemotePostRespository extends PostRepository {
+  override updatePostGroup(
+    id: string,
+    content: string,
+    media_url: string,
+    visibility: string
+  ): Observable<boolean> {
+    const payload = {
+      id,
+      content,
+      media_url,
+      visibility,
+    };
+    return this._http
+      .post<boolean>(`${this.API_URL}/posts/updatePostGroup`, payload)
+      .pipe(map((el) => el));
+  }
   override updatePost(
     id: string,
     content: string,
@@ -56,6 +72,7 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
+            console.log(post);
             return new Post(
               post.id,
               new UserDemo(
@@ -77,17 +94,25 @@ export class RemotePostRespository extends PostRepository {
               ),
               post.media_url,
               undefined,
-              post.commnuity_id,
-              post.type_community
+              post.community_id,
+              post.type_community,
+              post.post_liked,
+              post.community_name.communitie_name,
+              post.community_name.profile_picture
             );
           });
         })
       );
   }
-  getPostGroup(community_id: string, page: number): Observable<Post[]> {
+  getPostGroup(
+    community_id: string,
+    page: number,
+    user_id: string
+  ): Observable<Post[]> {
     const params = new HttpParams()
       .set('community_id', community_id)
-      .set('page', page);
+      .set('page', page)
+      .set('user_id', user_id);
     return this._http
       .get<Post[]>(`${this.API_URL}/posts/getPostGroup`, { params })
       .pipe(
@@ -96,6 +121,7 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
+            console.log(post);
             return new Post(
               post.id,
               new UserDemo(
@@ -117,8 +143,9 @@ export class RemotePostRespository extends PostRepository {
               ),
               post.media_url,
               undefined,
-              post.commnuity_id,
-              post.type_community
+              post.community_id,
+              post.type_community,
+              post.post_liked
             );
           });
         })
@@ -167,8 +194,15 @@ export class RemotePostRespository extends PostRepository {
       );
   }
 
-  getForYouPost(user_id: string, page: number): Observable<Post[]> {
-    const params = new HttpParams().set('user_id', user_id).set('page', page);
+  getForYouPost(
+    user_id: string,
+    page: number,
+    other_user_id: string
+  ): Observable<Post[]> {
+    const params = new HttpParams()
+      .set('user_id', user_id)
+      .set('page', page)
+      .set('other_user_id', other_user_id);
     return this._http
       .get<any[]>(`${this.API_URL}/posts/getForYou`, { params })
       .pipe(
@@ -249,9 +283,11 @@ export class RemotePostRespository extends PostRepository {
                   coment.likes_count
                 )
             ),
-            undefined,
-            undefined,
-            post.post_liked
+            post.community_id,
+            post.type_community,
+            post.post_liked,
+            post.community_name.communitie_name || '',
+            post.community_name.profile_picture || ''
           );
         })
       );
@@ -298,8 +334,15 @@ export class RemotePostRespository extends PostRepository {
       );
   }
 
-  getYourPost(user_id: string, page: number): Observable<Post[]> {
-    const params = new HttpParams().set('user_id', user_id).set('page', page);
+  getYourPost(
+    user_id: string,
+    page: number,
+    other_user_id: string
+  ): Observable<Post[]> {
+    const params = new HttpParams()
+      .set('user_id', user_id)
+      .set('page', page)
+      .set('other_user_id', other_user_id);
     return this._http
       .get<Post[]>(`${this.API_URL}/posts/getYourPost`, { params })
       .pipe(
@@ -327,7 +370,13 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.type,
                 post.post_user_preference.topic.topic_name
               ),
-              post.media_url
+              post.media_url,
+              undefined,
+              undefined,
+              undefined,
+              post.post_liked,
+              undefined,
+              undefined
             );
           });
         })

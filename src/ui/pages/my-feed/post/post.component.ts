@@ -4,7 +4,7 @@ import { Post } from '../../../../domain/models/post.model';
 import { UserService } from '../../auth/services/user.service';
 import { PostService } from '../../../../domain/services/post.service';
 import { CommonModule } from '@angular/common';
-import { ModalPostComponent } from "../create-post/modal-post/modal-post.component";
+import { ModalPostComponent } from '../create-post/modal-post/modal-post.component';
 import { UserDemo } from '../../../../domain/models/user-demo.model';
 
 @Component({
@@ -14,11 +14,13 @@ import { UserDemo } from '../../../../domain/models/user-demo.model';
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
 })
-export class PostComponent implements OnInit{
+export class PostComponent implements OnInit {
   @Input() postContent!: Post;
-  @Input() userDemo!:UserDemo;
-  userId : string = '';
+  @Input() userDemo!: UserDemo;
+  userId: string = '';
   isOptionsMenuOpen = false;
+  @Input() type = '';
+  @Input() amHost = false;
   constructor(
     private _userService: UserService,
     private _postService: PostService,
@@ -40,6 +42,7 @@ export class PostComponent implements OnInit{
 
   ngOnInit(): void {
     this.userId = this._userService.getUserId();
+    console.log(this.postContent.getTypeCommunity());
   }
 
   giveComment() {
@@ -63,29 +66,29 @@ export class PostComponent implements OnInit{
     ]);
   }
 
-   // Listener para clicks globales
-   @HostListener('document:click', ['$event'])
-   clickOutside(event: MouseEvent) {
-     // Verificar si el click NO está dentro del menú de opciones
-     const optionsButton = event.target as HTMLElement;
-     const optionsMenu = document.querySelector('.options-dropdown');
-     
-     if (
-       this.isOptionsMenuOpen && 
-       !optionsButton.closest('.options-menu-container') &&
-       !optionsMenu?.contains(event.target as Node)
-     ) {
-       this.isOptionsMenuOpen = false;
-     }
-   }
+  // Listener para clicks globales
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    // Verificar si el click NO está dentro del menú de opciones
+    const optionsButton = event.target as HTMLElement;
+    const optionsMenu = document.querySelector('.options-dropdown');
 
-   toggleOptionsMenu(event: Event) {
+    if (
+      this.isOptionsMenuOpen &&
+      !optionsButton.closest('.options-menu-container') &&
+      !optionsMenu?.contains(event.target as Node)
+    ) {
+      this.isOptionsMenuOpen = false;
+    }
+  }
+
+  toggleOptionsMenu(event: Event) {
     event.stopPropagation(); // Prevenir propagación
     this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
   }
 
   publicationEdit = signal(false);
-  editPublication(){
-    this.publicationEdit.set(!this.publicationEdit())
+  editPublication() {
+    this.publicationEdit.set(!this.publicationEdit());
   }
 }

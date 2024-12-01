@@ -9,7 +9,7 @@ import { UserDemo } from '../../../../domain/models/user-demo.model';
 import { PostService } from '../../../../domain/services/post.service';
 import { UserService } from '../../auth/services/user.service';
 import { MyUserInformation } from '../services/information_user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentsCService } from '../services/comment.service';
 import { Comment } from '../../../../domain/models/comment.model';
 
@@ -36,7 +36,8 @@ export class DetailPostComponent implements OnInit {
     private _postService: PostService,
     private _route: ActivatedRoute,
     private _userService: UserService,
-     public _commentService:CommentsCService
+     public _commentService:CommentsCService,
+     private _router:Router
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +49,10 @@ export class DetailPostComponent implements OnInit {
     this.postObservable.subscribe((el) => {
       this.post = el;
       this._commentService.setComment(this.post.getComment());
-      this.comments = this._commentService.getComments();
     });
+  }
+
+  goToHome(){
+    this._router.navigate(['home','posts']);
   }
 }

@@ -1,9 +1,29 @@
+@if (type !== 'member') {
 <li class="follower-item">
-    <div class="follower-avatar">
-      <img [src]="follower.getProfilePic()">
-    </div>
-    <div class="follower-info">
-      <h3>{{ follower.getUsername() }}</h3>
-      <button class="unfollow-btn" (click)="doAction()">{{text}}</button>
-    </div>
-  </li>
+  <div class="follower-avatar">
+    <img [src]="follower.getProfilePic()">
+  </div>
+  <div class="follower-info">
+    <h3>{{ follower.getUsername() }}</h3>
+    <button class="unfollow-btn" (click)="doAction()">{{text}}</button>
+  </div>
+</li>
+}@else {
+<li class="follower-item">
+  <div class="follower-avatar">
+    <img [src]="member.getUserDemo().getProfilePic()">
+  </div>
+  <div class="follower-info">
+    <h3>{{ member.getUserDemo().getUsername() }}</h3>
+    @if (member.getUserDemo().getUserId() !== _userService.getUserId()) {
+      <button class="show-profile" (click)="doAction()">Ver perfil</button>
+    }
+    @if (member.getUserDemo().getUserId() !== hostMember) {
+
+    @if(_userService.getUserId() === hostMember){
+    <button class="unfollow-btn" (click)="doAction()">Eliminar miembro</button>
+    }
+    }
+  </div>
+</li>
+}

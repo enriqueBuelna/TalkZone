@@ -5,8 +5,18 @@
         </div>
     </app-header>
     <div>
+        @if (myGroups.length > 0) {
         @for (groups of myGroups; track $index) {
         <app-group-presentation [group]="groups"></app-group-presentation>
+        }
+        }@else {
+        <div class="no-connections-state">
+            <div class="no-connections-content">
+                <h2>No hay grupos disponibles</h2>
+                <p>Por ahora, no hay grupos activos. ¡Sé el primero en crear uno y conecta con otros usuarios!</p>
+                <button class="refresh-button">Crear grupo</button>
+            </div>
+        </div>
         }
     </div>
 </div>

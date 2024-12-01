@@ -25,6 +25,10 @@
                                 <p-dropdown [options]="paymentOptions" optionLabel="name" placeholder="Privacidad" formControlName="visibility" />
                                 <!-- aqui -->
                             </div>
+                            }@else if(type === 'group'){
+                                <div class="privacy">
+                                    <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
+                                </div>
                             }
                         </div>
                     </div>
@@ -47,6 +51,8 @@
                             }@else{
                                 Postear
                             }
+                        }@else if(type === 'group'){
+                            Editar
                         }@else {
                             Comentar
                         }

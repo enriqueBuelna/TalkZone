@@ -14,6 +14,8 @@ import { GetPendingApplies } from '../use_cases/comunities/getPendingApplies.use
 import { ApplyGroup } from '../models/group/apply_group.model';
 import { ResponseApply } from '../use_cases/comunities/responseApply.use_case';
 import { EditGroup } from '../use_cases/comunities/editGroup.use_case';
+import { ViewIfOnePending } from '../use_cases/comunities/viewIfOnePending.use_case';
+import { DeleteApply } from '../use_cases/comunities/deleteApply.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +32,18 @@ export class CommunitieService {
     private _getInGroup: GetInGroup,
     private _getPendingApplies: GetPendingApplies,
     private _responseApply: ResponseApply,
-    private _editGroup: EditGroup
+    private _editGroup: EditGroup,
+    private _viewIfOnePending:ViewIfOnePending,
+    private _deleteApply:DeleteApply
   ) {}
+
+  deleteApply(user_id:string, group_id:string):Observable<boolean>{
+    return this._deleteApply.execute(user_id, group_id);
+  }
+
+  viewIfOnePending(user_id:string, group_id:string):Observable<boolean>{
+    return this._viewIfOnePending.execute(user_id, group_id);
+  }
 
   editGroup(
     group_id: string,

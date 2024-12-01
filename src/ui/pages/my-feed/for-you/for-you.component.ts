@@ -50,10 +50,12 @@ export class ForYouComponent implements OnInit {
     if (this.forAll()) {
       this.postObservableAll = this._postService.getForYouPost(
         this._userService.getUserId(),
-        this.page
+        this.page,
+        this._userService.getUserId()
       );
 
       this.postObservableAll.subscribe((posts) => {
+        console.log(posts);
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {

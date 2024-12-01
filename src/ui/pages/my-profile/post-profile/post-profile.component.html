@@ -1,5 +1,5 @@
 <div class="contenedor">
-    <div class="options">
+    <!-- <div class="options">
         <div class="option">
             <p>Publicaciones</p>
         </div>
@@ -9,11 +9,22 @@
         <div class="option">
             <p>Multimedia</p>
         </div>
+    </div> -->
+    <div class="tabs">
+        <button class="tab" [ngClass]="{'active': this.rule === 'all'}" (click)="changePublication('all')">
+            <p>Publicaciones</p>
+        </button>
+        <button class="tab" [ngClass]="{'active': this.rule === 'like'}" (click)="changePublication('like')">
+            <p>Me gusta</p>
+        </button>
+        <button class="tab" [ngClass]="{'active': this.rule === 'follower'}" (click)="changePublication('follower')">
+            <p>Multimedia</p>
+        </button>
     </div>
     <div class="posts">
         <div class="all-post">
             @for (post of allPost(); track post.getId()) {
-            <app-post [postContent]="post" [userDemo]="myUser" ></app-post>
+            <app-post [postContent]="post" [userDemo]="myUser" type="profile"></app-post>
             }
         </div>
         @if (hasMorePosts) {

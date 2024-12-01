@@ -248,3 +248,68 @@
 .post-container {
   position: relative;
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-container {
+  position: relative;
+  margin-right: 16px;
+}
+
+.profile-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.group-image {
+  position: absolute;
+  top: 0;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.group-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-top-line {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 8px;
+}
+
+.preference-badge {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.preference-badge i {
+  margin-right: 4px;
+}
+
+.post-time {
+  font-size: 14px;
+  color: #666;
+}
+
+.group {
+  margin: 0;
+  margin-bottom: .5px;
+}

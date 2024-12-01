@@ -7,10 +7,20 @@ import { Post } from '../../models/post.model';
 @Injectable({
   providedIn: 'root',
 })
-export class GetYourPost {
+export class UpdatePostGroup {
   constructor(private postRepository: PostRepository) {}
 
-  execute(user_id: string, page: number, other_user_id:string): Observable<Post[]> {
-    return this.postRepository.getYourPost(user_id, page, other_user_id);
+  execute(
+    id: string,
+    content: string,
+    media_url: string,
+    visibility: string,
+  ): Observable<boolean> {
+    return this.postRepository.updatePostGroup(
+      id,
+      content,
+      media_url,
+      visibility,
+    );
   }
 }

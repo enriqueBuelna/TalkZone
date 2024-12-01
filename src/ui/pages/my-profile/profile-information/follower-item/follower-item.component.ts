@@ -3,6 +3,7 @@ import { UserDemo } from '../../../../../domain/models/user-demo.model';
 import { FollowerService } from '../../../../../domain/services/follower.service';
 import { UserService } from '../../../auth/services/user.service';
 import { UserComplete } from '../../../../../domain/models/user_complete_information.model';
+import { CommunityMember } from '../../../../../domain/models/communityMember.model';
 
 @Component({
   selector: 'app-follower-item',
@@ -17,10 +18,11 @@ export class FollowerItemComponent implements OnDestroy, OnInit {
   unfollowUser = false;
   @Input() type!: string;
   @Input() userComplete!: UserComplete;
-
+  @Input() member!:CommunityMember;
+  @Input() hostMember!:string;
   constructor(
     private _followerService: FollowerService,
-    private _userService: UserService
+    public _userService: UserService
   ) {}
 
   ngOnInit(): void {

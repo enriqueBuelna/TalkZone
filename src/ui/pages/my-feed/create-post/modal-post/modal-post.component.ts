@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { UserDemo } from '../../../../../domain/models/user-demo.model';
@@ -74,6 +68,27 @@ export class ModalPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.type !== 'comment' && this.type !== 'post') {
+      if (
+        this.postContent.getUserPreference()?.getType() === 'mentor' &&
+        this.type === 'group'
+      ) {
+        this.paymentOptions = [
+          { name: 'Preguntas y respuestas', value: 'questions' },
+          { name: 'Recursos academicos', value: 'resources-academic' },
+          { name: 'Experiencias', value: 'experiences' },
+        ];
+      } else if (
+        this.postContent.getUserPreference()?.getType() === 'entusiasta' &&
+        this.type === 'group'
+      ) {
+        this.paymentOptions = [
+          { name: 'Opiniones', value: 'opinions' },
+          { name: 'Recursos externos', value: 'resources-external' },
+          { name: 'Experiencias', value: 'experiences' },
+        ];
+      }
+    }
     this.userPreferences$ = this._userPreferences.getMyUserPreferences(
       this.myUser.getUserId()
     );
@@ -93,10 +108,31 @@ export class ModalPostComponent implements OnInit {
         value: '',
       };
 
-      if (this.postContent.getPrivacy() === 'public') {
-        (option.name = 'Publico'), (option.value = 'public');
-      } else if (this.postContent.getPrivacy() === 'private') {
-        (option.name = 'Privado'), (option.value = 'private');
+      if (this.type !== 'group') {
+        if (this.postContent.getPrivacy() === 'public') {
+          (option.name = 'Publico'), (option.value = 'public');
+        } else if (this.postContent.getPrivacy() === 'private') {
+          (option.name = 'Privado'), (option.value = 'private');
+        }
+      } else {
+        if (this.postContent.getTypeCommunity() === 'questions') {
+          (option.name = 'Preguntas y respuestas'),
+            (option.value = 'questions');
+        } else if (
+          this.postContent.getTypeCommunity() === 'resources-academic'
+        ) {
+          (option.name = 'Recursos academicos'),
+            (option.value = 'resources-academic');
+        } else if (this.postContent.getTypeCommunity() === 'experiences') {
+          (option.name = 'Experiencias'), (option.value = 'experiences');
+        } else if (this.postContent.getTypeCommunity() === 'opinions') {
+          (option.name = 'Opiniones'), (option.value = 'opinions');
+        } else if (
+          this.postContent.getTypeCommunity() === 'resources-external'
+        ) {
+          (option.name = 'Recursos externos'),
+            (option.value = 'resources-external');
+        }
       }
 
       this.formPost.patchValue({
@@ -141,15 +177,47 @@ export class ModalPostComponent implements OnInit {
               aux
             )
             .subscribe((el) => {
-              this._postCService.findPost(this.postContent.getId(), content, downloadURL, aux2, topic_id);
+              this._postCService.findPost(
+                this.postContent.getId(),
+                content,
+                downloadURL,
+                aux2,
+                topic_id
+              );
             });
-            this.onClick();
+          this.onClick();
         } else {
           this._postService.newPost(payload).subscribe((el) => {
             this._postCService.addNewPost(el);
             this.onClick();
           });
         }
+      }
+    } else if (this.type === 'group') {
+      let { content, visibility } = this.formPost.value;
+      let downloadURL = '';
+      if (this.photoFile) {
+        downloadURL = await uploadFile(this.photoFile);
+      }
+      if (content && visibility) {
+        console.log('chivin');
+        this._postService
+          .updatePostGroup(
+            this.postContent.getId(),
+            content,
+            downloadURL,
+            visibility.value
+          )
+          .subscribe((el) => {
+            console.log(el);
+            this._postCService.findPostGroup(
+              this.postContent.getId(),
+              content,
+              downloadURL,
+              visibility.value
+            );
+            this.onClick();
+          });
       }
     } else {
       const roomId = this._route.snapshot.paramMap.get('id') ?? 'defaultRoomId';
@@ -158,7 +226,6 @@ export class ModalPostComponent implements OnInit {
         this._postService
           .createComment(this._userService.getUserId(), roomId, content)
           .subscribe((el) => {
-            console.log(el);
             this._commentService.addComment(
               new Comment(
                 el.comment.id,

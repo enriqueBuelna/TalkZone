@@ -94,13 +94,13 @@ export class ModalPostGroupComponent implements OnInit {
         this.paymentOptions = [
           { name: 'Preguntas y respuestas', value: 'questions' },
           { name: 'Recursos academicos', value: 'resources-academic' },
-          { name: 'Experiencias', value: 'experience' },
+          { name: 'Experiencias', value: 'experiences' },
         ];
       } else {
         this.paymentOptions = [
           { name: 'Opiniones', value: 'opinions' },
           { name: 'Recursos externos', value: 'resources-external' },
-          { name: 'Experiencias', value: 'experience' },
+          { name: 'Experiencias', value: 'experiences' },
         ];
       }
     }

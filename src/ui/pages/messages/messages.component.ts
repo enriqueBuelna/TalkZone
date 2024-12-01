@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../utils/header/header.component';
 import { AsideComponent } from '../../utils/aside/aside.component';
 import { MessageRigthComponent } from './message-rigth/message-rigth.component';
@@ -14,15 +14,11 @@ import { AuthService } from '../../../domain/services/auth.service';
 import { UserDemo } from '../../../domain/models/user-demo.model';
 import { Conversation } from '../../../domain/models/conversation.model';
 import { ChatService } from './services/chatService.service';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    HeaderComponent,
-    ListMessagesComponent,
-  ],
+  imports: [RouterOutlet, HeaderComponent, ListMessagesComponent],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
 })
@@ -34,23 +30,27 @@ export class MessagesComponent {
     private _conversationService: ConversationCService,
     private _userService: UserService,
     private _userAService: AuthService,
-    private _chatService:ChatService
+    private _chatService: ChatService,
+    private _destroyRef:DestroyRef
   ) {}
-
+  howMany = 0;
   ngOnInit() {
     this.observable = this._socketService
       .listenEvent('chatMessage')
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
+        this.howMany++;
         let aux = false;
-        if(this._chatService.amHere){
+        console.log(this._chatService.getAmHereId(), el[0].sender_id);
+        if (this._chatService.getAmHereId() === el[0].sender_id) {
           let payload = {
-            id:el[0].id,
-            sender_id:el[0].sender_id,
-            receiver_id:el[0].receiver_id,
-            user_id:this._userService.getUserId(),
-            amHere: this._chatService.amHere
-          }
-          this._socketService.emitEvent("readMessage", payload);
+            id: el[0].id,
+            sender_id: el[0].sender_id,
+            receiver_id: el[0].receiver_id,
+            user_id: this._userService.getUserId(),
+            amHere: this._chatService.amHere,
+          };
+          this._socketService.emitEvent('readMessage', payload);
           aux = true;
         }
         //TENGO QUE AGARRAR EL SERVICIO DE LOS MENSAJES Y EL DE LAS CONVERSACIONES
@@ -64,28 +64,45 @@ export class MessagesComponent {
           msg.media_url,
           msg.sent_at
         );
-        // console.log(newMessage);
+        console.log(newMessage);
         //tengo q cambiar el backend primero , para que me envie las dos cosas en el createMessage
         // console.log(el);
         //el tiene el nuevo mensaje, y la conversacion
         if (this._conversationService.findConversation(el[1].id)) {
-          console.log(newMessage.getSenderId(), this._userService.getUserId(), aux);
-          if(!aux && newMessage.getSenderId() !== this._userService.getUserId()){
-            this._conversationService
-            .findConversation(el[1].id)
-            ?.plusNoRead();  
-            console.log(this._conversationService.findConversation(el[1].id)?.getUnreadCount());
+          if (
+            !aux &&
+            newMessage.getSenderId() !== this._userService.getUserId()
+          ) {
+            this._conversationService.findConversation(el[1].id)?.plusNoRead();
           }
           this._conversationService
             .findConversation(el[1].id)
             ?.setNewMessage(newMessage);
-          this._messageService.addNewMessage(newMessage); //es el que pone el mensaje ahi
+          console.log(
+            'HOLAAAAAAAAAA',
+            this._chatService.getAmHereId(),
+            newMessage.getReceiverId()
+          );
+          console.log(
+            'HOLAAAAAAAAAAAA2',
+            this._userService.getUserId(),
+            newMessage.getSenderId()
+          );
+          if (
+            this._chatService.getAmHereId() === newMessage.getReceiverId() ||
+            newMessage.getSenderId() === this._chatService.getAmHereId()
+          ) {
+            this._messageService.addNewMessage(newMessage); //es el que pone el mensaje ahi
+          }
         } else {
           let user1 = el[2];
           let user2 = el[3];
           let user;
           let unread = 0;
-          if(el[0].sender_id !== this._userService.getUserId()){
+          if (
+            el[0].sender_id !== this._userService.getUserId() &&
+            this._chatService.getAmHereId() !== el[0].sender_id
+          ) {
             unread++;
           }
 
@@ -104,10 +121,11 @@ export class MessagesComponent {
           this._conversationService.addNewConversation(
             new Conversation(el[1].id, newMessage, otherUser, unread)
           );
-          // this._messageService.addNewMessage(newMessage);
+          this._messageService.addNewMessage(newMessage);
         }
         this._conversationService.reorderConversation();
         //SI LA ENCUENTRA, TENGO QUE CAMBIAR EL LAST_MESSAGE Y HACER UN CAMBIO DE COMO ESTAN ACOMODADOS LOS ELEMENTOS DE MI ARREGLO DE CHATS
+        console.log(this.howMany);
       });
   }
 }

@@ -1,5 +1,5 @@
 <div #chatContainer class="messages-container">
-    @for (message of allMessages(); track $index) {
+    @for (message of _messages.getMessages(); track $index) {
       <app-message 
         [content]="message.getContent()"
         [whosMessage]="message.getSenderId() === idOtherUser ? 'received' : 'sent'">

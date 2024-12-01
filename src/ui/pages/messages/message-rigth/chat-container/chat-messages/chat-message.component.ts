@@ -38,7 +38,7 @@ export class ChatMessageComponent implements OnInit {
   constructor(
     private _messageService: MessageService,
     private _userService: UserService,
-    private _messages: MessageComponentService,
+    public _messages: MessageComponentService,
     private _route: ActivatedRoute,
     private _destroyRefe: DestroyRef,
     private chatService: ChatService,
@@ -68,7 +68,7 @@ export class ChatMessageComponent implements OnInit {
           .pipe(takeUntilDestroyed(this._destroyRefe))
           .subscribe((el) => {
             this._messages.setMessages(el);
-            this.allMessages = this._messages.getMessages();
+            // this.allMessages = this._messages.getMessages();
             this.hasNewMessages = true; // Indicar que hay nuevos mensajes
           });
       });

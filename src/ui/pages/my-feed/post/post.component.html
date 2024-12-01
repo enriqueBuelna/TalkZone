@@ -3,57 +3,146 @@
     <div class="post-card">
         <!-- Header -->
         <div class="post-header">
+            @if(postContent.getCommunityId()){
+            <!-- <div class="user-info">
+                <div class="profile-image">
+                    <div class="group-image-overlay">
+                        <img src="images/images.jpeg" alt="Group Image">
+                    </div>
+                    <img [src]="postContent.getUserInfo().getProfilePic()"
+                        [alt]="postContent.getUserInfo().getUsername()">
+                </div>
+                <div class="user-details">
+                    <div class="user-top-line">
+                        <div class="group-name">
+                            <p class="group">Grupo</p>
+                            <span class="username">enriqueBuelna</span>
+                        </div>
+                        <div class="username-container">
+                            <div class="preference-badge">
+                                <i>📝</i>
+                                <span>Preguntas y respuestas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="post-time">2 h · 🌎</span>
+                </div>
+            </div> -->
+            <div class="user-info">
+                <div class="profile-container">
+                    <img [src]="postContent.getCoverPicture()" class="profile-image">
+                    <div class="group-image">
+                        <img [src]="postContent.getUserInfo().getProfilePic()"
+                            [alt]="postContent.getUserInfo().getUsername()" alt="Group Image">
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="user-top-line">
+                        <div class="group-name">
+                            <p class="group">{{postContent.getNameComunity()}}</p>
+                            <span class="username">{{postContent.getUserInfo().getUsername()}}</span>
+                        </div>
+                        <div class="preference-badge">
+                            @if (postContent.getTypeCommunity() === 'questions') {
+                            <i>📝</i>
+                            <span>Preguntas y respuestas</span>
+                            }@else if(postContent.getTypeCommunity() === 'resources-academic'){
+                            <i>📖</i>
+                            <span>Recursos academicos</span>
+                            }@else if (postContent.getTypeCommunity() === 'experiences') {
+                            <i>👨🏽‍💼</i>
+                            <span>Experiencias</span>
+                            }@else if(postContent.getTypeCommunity() === 'opinions'){
+                            <i>🗯️</i>
+                            <span>Opiniones</span>
+                            }@else if (postContent.getTypeCommunity() === 'resources-external') {
+                            <i>📸</i>
+                            <span>Recursos externos</span>
+                            }
+                        </div>
+                    </div>
+                    <span class="post-time">2 h · 🌎</span>
+                </div>
+            </div>
+            }@else {
             <div class="user-info">
                 <div class="profile-image">
-                    <img [src]="postContent.getUserInfo().getProfilePic()" [alt]="postContent.getUserInfo().getUsername()">
+                    <img [src]="postContent.getUserInfo().getProfilePic()"
+                        [alt]="postContent.getUserInfo().getUsername()">
                 </div>
                 <div class="user-details">
                     <div class="user-top-line">
                         <span class="username" (click)="goProfile()">{{postContent.getUserInfo().getUsername()}}</span>
                         <div class="preference-badge">
+                            @if (postContent.getCommunityId()) {
+                            @if (postContent.getTypeCommunity() === 'questions') {
+                            <i>📝</i>
+                            <span>Preguntas y respuestas</span>
+                            }@else if(postContent.getTypeCommunity() === 'resources-academic'){
+                            <i>📖</i>
+                            <span>Recursos academicos</span>
+                            }@else if (postContent.getTypeCommunity() === 'experiences') {
+                            <i>👨🏽‍💼</i>
+                            <span>Experiencias</span>
+                            }@else if(postContent.getTypeCommunity() === 'opinions'){
+                            <i>🗯️</i>
+                            <span>Opiniones</span>
+                            }@else if (postContent.getTypeCommunity() === 'resources-external') {
+                            <i>📸</i>
+                            <span>Recursos externos</span>
+                            }
+                            }@else {
                             @if (postContent.getUserPreference()?.getType() === 'mentor') {
-                                <i>🧠</i>
+                            <i>🧠</i>
                             } @else if (postContent.getUserPreference()?.getType() === 'explorador') {
-                                <i>🔍</i>
+                            <i>🔍</i>
                             } @else if (postContent.getUserPreference()?.getType() === 'entusiasta') {
-                                <i>💡</i>
+                            <i>💡</i>
                             }
                             <span>{{postContent.getUserPreference()?.getTopicName()}}</span>
+                            }
                         </div>
                     </div>
                     <span class="post-time">30 minutos · @if (postContent.getPrivacy() === 'public') {
                         🌎}@else {
-                            🔒
+                        🔒
                         }</span>
                 </div>
             </div>
-            @if (postContent.getUserInfo().getUserId() === userId) {                
-                <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
-                @if (isOptionsMenuOpen) {
-                    <div class="options-dropdown" (click)="$event.stopPropagation()">
-                        <button 
-                            class="dropdown-item"
-                            (click)="editPublication()"
-                        >
-                            <i class="pi pi-pencil"></i> Editar publicación
-                        </button>
-                        <button 
-                            class="dropdown-item" 
-                        >
-                            <i class="pi pi-trash"></i> Eliminar publicación
-                        </button>
-                    </div>
-                }
+            }
+
+            @if (postContent.getUserInfo().getUserId() === userId) {
+            <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
+            @if (isOptionsMenuOpen) {
+            <div class="options-dropdown" (click)="$event.stopPropagation()">
+                <button class="dropdown-item" (click)="editPublication()">
+                    <i class="pi pi-pencil"></i> Editar publicación
+                </button>
+                <button class="dropdown-item">
+                    <i class="pi pi-trash"></i> Eliminar publicación
+                </button>
+            </div>
+            }
+
+            }@else if(amHost){
+            <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
+            @if (isOptionsMenuOpen) {
+            <div class="options-dropdown" (click)="$event.stopPropagation()">
+                <button class="dropdown-item">
+                    <i class="pi pi-trash"></i> Eliminar publicación
+                </button>
+            </div>
+            }
             }
         </div>
 
         <!-- Content -->
-        <div class="post-content" (click)="goToPost()"> 
+        <div class="post-content" (click)="goToPost()">
             <p class="post-text">{{postContent.getContent()}}</p>
             @if (postContent.getMediaUrl()) {
-                <div class="media-container">
-                    <img [src]="postContent.getMediaUrl()" alt="Post media" class="post-media">
-                </div>
+            <div class="media-container">
+                <img [src]="postContent.getMediaUrl()" alt="Post media" class="post-media">
+            </div>
             }
         </div>
 
@@ -62,23 +151,24 @@
             <button class="action-button" (click)="giveLike()">
                 <i class="pi pi-heart" [ngClass]="postContent.isLiked() ? 'red' : 'no-red'"></i>
                 @if (postContent.getCantLikes() > 0) {
-                    <span>{{postContent.getCantLikes()}}</span>
+                <span>{{postContent.getCantLikes()}}</span>
                 }
             </button>
             <button class="action-button" [routerLink]="['detail_post', postContent.getId()]">
                 <i class="pi pi-comment"></i>
                 @if (postContent.getCantComments() > 0) {
-                    <span>{{postContent.getCantComments()}}</span>
+                <span>{{postContent.getCantComments()}}</span>
                 }
-            </button>
-            <button class="action-button">
-                <i class="pi pi-share-alt"></i>
             </button>
         </div>
     </div>
 </div>
 
 
-@if(publicationEdit()){
-    <app-modal-post [myUser]="userDemo" [editable]="true" [postContent]="postContent" [type]="'post'" (clickEvent)="editPublication()"></app-modal-post>
+@if(publicationEdit() && type === 'profile'){
+<app-modal-post [myUser]="userDemo" [editable]="true" [postContent]="postContent" [type]="'post'"
+    (clickEvent)="editPublication()"></app-modal-post>
+}@else if (publicationEdit() && type === 'group') {
+<app-modal-post [myUser]="userDemo" [editable]="true" [postContent]="postContent" [type]="'group'"
+    (clickEvent)="editPublication()"></app-modal-post>
 }

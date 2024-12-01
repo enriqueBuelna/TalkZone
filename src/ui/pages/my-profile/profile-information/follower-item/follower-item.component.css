@@ -47,3 +47,16 @@
     background-color: #e53935;
   }
   
+  .show-profile {
+    background-color: #36f456;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
