@@ -149,16 +149,18 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
     return this._http
       .post<UserPreference>(`${this.API_URL}preferences`, payload)
       .pipe(
-        map(
-          (el: any) =>
-            new UserPreference(
-              el.id,
-              el.topic_id,
-              el.type,
-              el.topic_name,
-              el.tags
+        map((el: any) => {
+          console.log(el);
+          return new UserPreference(
+            el.id,
+            el.topic_id,
+            el.type,
+            el.topic_name,
+            el.tags.map(
+              (tag: any) => new Tag(tag.tag_name, tag.tag_id, tag.topic_id)
             )
-        )
+          );
+        })
       );
   }
 

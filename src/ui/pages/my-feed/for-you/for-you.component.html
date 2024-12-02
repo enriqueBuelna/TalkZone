@@ -3,10 +3,35 @@
 </app-header>
 <app-tweet-text [myUser]="myUserInformation()" type="post"></app-tweet-text>
 <div class="all-post">
+    @if (allPost().length > 0) {
     @for (post of allPost(); track post.getId()) {
-        <app-post [postContent]="post"></app-post>
-        }
+    <app-post [postContent]="post"></app-post>
+    }
+    }@else {
+    @if (forAll()) {
+    <div class="no-connections-state">
+        <div class="no-connections-content">
+            <h2>¡Ups! Parece que aún no hay publicaciones relacionadas con tus intereses.</h2>
+            <p>Explora nuevos temas o sigue a más personas para descubrir contenido increíble.</p>
+            <div class="display">
+                <button class="refresh-button" (click)="goToConnect()">Conectar con personas</button>
+                <button class="refresh-button" (click)="goToProfile()">Editar preferencias</button>
+            </div>
+        </div>
+    </div>
+    }@else {
+        <div class="no-connections-state">
+            <div class="no-connections-content">
+                <h2>Aún no hay publicaciones de las personas que sigues.</h2>
+                <p>Anímate a interactuar más y crea conexiones para ver más contenido aquí.</p>
+                <div class="display">
+                    <button class="refresh-button" (click)="goToConnect()">Conectar con personas</button>
+                </div>
+            </div>
+        </div>
+    }
+    }
 </div>
 @if (hasMorePosts) {
-    <button (click)="loadMore()">Cargar más</button>
+<button (click)="loadMore()">Cargar más</button>
 }

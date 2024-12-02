@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { Post } from '../../../../domain/models/post.model';
 import { UserService } from '../../auth/services/user.service';
 import { PostCService } from '../services/post.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-for-you',
@@ -35,7 +36,8 @@ export class ForYouComponent implements OnInit {
     private _myUserInformation: MyUserInformation,
     private _postService: PostService,
     private _userService: UserService,
-    private _postCService: PostCService
+    private _postCService: PostCService,
+    private _router: Router
   ) {
     this.myUserInformation = this._myUserInformation.getMyUserInformation();
   }
@@ -86,8 +88,16 @@ export class ForYouComponent implements OnInit {
   changePost(option: boolean) {
     this.forAll.set(option);
     this.page = 1;
-    this._postCService.setPost([])
+    this._postCService.setPost([]);
     this.hasMorePosts = true;
     this.loadPosts();
+  }
+
+  goToProfile() {
+    this._router.navigate(['home', 'profile', this._userService.getUserId()]);
+  }
+
+  goToConnect() {
+    this._router.navigate(['home', 'connect']);
   }
 }

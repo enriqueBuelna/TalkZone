@@ -28,6 +28,11 @@ export class UserPreferenceSignalService {
       user_preference.filter((el) => el.getTopicName() !== topic_name)
     );
   }
+  deleteUserPreferenceId(topic_id: number) {
+    this.userPreferences.update((user_preference) =>
+        user_preference.filter((el) => el.getId() !== topic_id)
+    );
+}
 
   verifyNotExist(id: number) {
     console.log(id);

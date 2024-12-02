@@ -1,59 +1,60 @@
 <div class="contenedor">
     @if(type=='user'){
-        <div class="profile-container">
-            <div class="description-card">
-                <h3 class="section-title">Acerca de mí:</h3>
-                <p class="description-text">
-                    @if(user.getAboutMe()){
-                        {{user.getAboutMe()}}
-                    }@else {
-                        Aún no se ha añadido una descripción
-                    }
-                </p>
-            </div>
-        
-            <div class="topics-container">
-                <div class="topic-section">
-                    <h3 class="section-title">Mentor:</h3>
-                    <div class="topic-container">
-                        @for (userPref of userPreferences(); track $index) {
-                            @if (userPref.getType() === "mentor" && userPref.getId() !== 0) {
-                                <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
-                            }
-                        }
-                    </div>
-                </div>
-        
-                <div class="topic-section">
-                    <h3 class="section-title">Entusiasta:</h3>
-                    <div class="topic-container">
-                        @for (userPref of userPreferences(); track $index) {
-                            @if (userPref.getType() === "entusiasta" && userPref.getId() !== 0) {
-                                <div class="topic-chip">{{userPref.getTopicName()}}</div>
-                            }
-                        }
-                    </div>
-                </div>
-        
-                <div class="topic-section">
-                    <h3 class="section-title">Explorador:</h3>
-                    <div class="topic-container">
-                        @for (userPref of userPreferences(); track $index) {
-                            @if (userPref.getType() === "explorador" && userPref.getId() !== 0) {
-                                <div class="topic-chip">{{userPref.getTopicName()}}</div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        
-            @if (isPrimary()) {
-                <div class="button-container">
-                    <app-button text="Postear" (clickEvent)="createPost()" class="primary-button"></app-button>
-                    <app-button text="Editar perfil" (clickEvent)="editProfile()" class="secondary-button"></app-button>
-                </div>
-            }
+    <div class="profile-container">
+        <div class="description-card">
+            <h3 class="section-title">Acerca de mí:</h3>
+            <p class="description-text">
+                @if(user.getAboutMe()){
+                {{user.getAboutMe()}}
+                }@else {
+                Aún no se ha añadido una descripción
+                }
+            </p>
         </div>
+
+        <div class="topics-container">
+            <div class="topic-section">
+                <h3 class="section-title">Mentor:</h3>
+                <div class="topic-container">
+                    @for (userPref of userPreferences(); track $index) {
+                    @if (userPref.getType() === "mentor" && userPref.getId() !== 0) {
+                    <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
+                    }
+                    }
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <h3 class="section-title">Entusiasta:</h3>
+                <div class="topic-container">
+                    @for (userPref of userPreferences(); track $index) {
+                    @if (userPref.getType() === "entusiasta" && userPref.getId() !== 0) {
+                    <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
+                    }
+                    }
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <h3 class="section-title">Explorador:</h3>
+                <div class="topic-container">
+                    @for (userPref of userPreferences(); track $index) {
+                    @if (userPref.getType() === "explorador" && userPref.getId() !== 0) {
+                    <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (isPrimary()) {
+        <div class="button-container">
+            <app-button text="Postear" (clickEvent)="createPost()"></app-button>
+            <app-button text="Editar perfil" (clickEvent)="editProfile()"></app-button>
+            <app-button text="Editar preferencias" (clickEvent)="editPreferences()"></app-button>
+        </div>
+        }
+    </div>
     }@else if(type === 'group'){
     <div class="description">
         <h4>Acerca de el grupo:</h4>
@@ -93,22 +94,33 @@
 <app-edit-profile [user]="user" (clickEvent)="editProfile()"></app-edit-profile>
 }@else if(edit_profile()){
 <app-edit-group (clickEvent)="editProfile()" [group]="group"></app-edit-group>
+}@else if(edit_preferences()){
+<app-edit-preferences (clickEvent)="editPreferences()" [user]="user"></app-edit-preferences>
 }
 
 @if(showModalPreference()){
-<p-dialog [visible]="true" [modal]="true" [style]="{ width: '25rem' }">
-    <div class="div-info">
-        <h2>{{userPref.getTopicName()}}</h2>
-        <h3>Tipo: {{userPref.getType()}}</h3>
+<div class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>{{userPref.getTopicName()}}</h2>
+            <span class="modal-close" (click)="showInformation(null)">&times;</span>
+        </div>
         @if (userPref.getTags()!.length > 0) {
-        <h3>Etiquetas relacionadas:</h3>
-        @for (item of userPref.getTags(); track $index) {
-        <p-chip [label]="item.getTagName()"></p-chip>
+        <div class="title">
+            <h3>Etiquetas relacionadas:</h3>
+        </div>
         }
-        }
-        <app-button text="Agregar etiquetas"></app-button>
+        <div class="modal-body">
+            @if (userPref.getTags()!.length > 0) {
+            @for (item of userPref.getTags(); track $index) {
+            <button>{{item.getTagName()}}</button>
+            }
+            }@else {
+            <h3>Esta preferencia no tiene etiquetas relacionadas</h3>
+            }
+        </div>
     </div>
-</p-dialog>
+</div>
 }
 
 <!-- @if (noAccess()) {

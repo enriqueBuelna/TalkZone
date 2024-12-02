@@ -10,8 +10,9 @@ import { GroupComplete } from '../../../../domain/models/group/groupComplete.mod
 import { ModalPostGroupComponent } from '../../group/view-of-group/modal-post/modal-post.component';
 import { CommunitieService } from '../../../../domain/services/communitie.service';
 import { UserService } from '../../auth/services/user.service';
-import { EditProfileGroupComponent } from "../../group/view-of-group/edit-profile/edit-profile.component";
-import { ModalPostComponent } from "../../my-feed/create-post/modal-post/modal-post.component";
+import { EditProfileGroupComponent } from '../../group/view-of-group/edit-profile/edit-profile.component';
+import { ModalPostComponent } from '../../my-feed/create-post/modal-post/modal-post.component';
+import { EditPreferencesComponent } from "../edit-preferences/edit-preferences.component";
 @Component({
   selector: 'app-information-profile',
   standalone: true,
@@ -22,15 +23,16 @@ import { ModalPostComponent } from "../../my-feed/create-post/modal-post/modal-p
     DialogModule,
     ModalPostGroupComponent,
     EditProfileGroupComponent,
-    ModalPostComponent
+    ModalPostComponent,
+    EditPreferencesComponent
 ],
   templateUrl: './information-profile.component.html',
   styleUrl: './information-profile.component.css',
 })
 export class InformationProfileComponent implements OnInit {
-showModal() {
-throw new Error('Method not implemented.');
-}
+  showModal() {
+    throw new Error('Method not implemented.');
+  }
   @Input() isPrimary = signal(false);
   create_post = signal(false);
   edit_profile = signal(false);
@@ -42,9 +44,14 @@ throw new Error('Method not implemented.');
   @Input() user!: UserComplete;
   @Input() typeMember = signal('');
   showApply = signal(false);
-myUser: any;
-  showApplies(){
+  myUser: any;
+  edit_preferences = signal(false);
+  showApplies() {
     this.showApply.set(!this.showApply());
+  }
+
+  editPreferences(){
+    this.edit_preferences.set(!this.edit_preferences());
   }
 
   createPost() {
@@ -65,9 +72,11 @@ myUser: any;
     this.userPreferences = this._userPreference.getUserPreferencesAll();
   }
 
-  showInformation(userPref: UserPreference) {
-    this.userPref = userPref;
-    this.showModalPreference.set(true);
+  showInformation(userPref: UserPreference | null) {
+    if (userPref) {
+      this.userPref = userPref;
+    }
+    this.showModalPreference.set(!this.showModalPreference());
   }
 
   getInGroup() {
@@ -79,4 +88,6 @@ myUser: any;
         }
       });
   }
+
+
 }

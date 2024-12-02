@@ -1,0 +1,137 @@
+<div id="modal-background" class="modal-background">
+    <div class="post-modal">
+      <div class="post-header">
+        <span>Editar preferencias</span>
+        <button class="close-btn" (click)="onClick()">&times;</button>
+      </div>
+      <div class="post-content">
+        <div class="topics">
+          <div class="mentor">
+            <h4>Mentor:</h4>
+            <div class="topic">
+              @for (userPref of userPreferences(); track $index) {
+              @if (userPref.getType() === "mentor") {
+              <div class="preference-tag">
+                <span class="preference-name">{{ userPref.getTopicName() }}</span>
+                <div class="preference-actions">
+                  <button (click)="editPreference(userPref)">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button (click)="deleteUserPreference(userPref.getId())">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </div>
+              }
+              }
+            </div>
+            <div class="button">
+              <app-button text="Agregar" [buttonClass]="'small-button'" (clickEvent)="showModal('mentor')"></app-button>
+            </div>
+          </div>
+          <div class="entusiasta">
+            <h4>Entusiasta:</h4>
+            <div class="topic">
+              @for (userPref of userPreferences(); track $index) {
+              @if (userPref.getType() === "entusiasta") {
+              <div class="preference-tag">
+                <span class="preference-name">{{ userPref.getTopicName() }}</span>
+                <div class="preference-actions">
+                  <button (click)="editPreference(userPref)">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button (click)="deleteUserPreference(userPref.getId())">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </div>
+              }
+              }
+            </div>
+            <div class="button">
+              <app-button text="Agregar" [buttonClass]="'small-button'"
+                (clickEvent)="showModal('entusiasta')"></app-button>
+            </div>
+          </div>
+          <div class="explorador">
+            <h4>Explorador:</h4>
+            <div class="topic">
+              @for (userPref of userPreferences(); track $index) {
+              @if (userPref.getType() === "explorador") {
+              <div class="preference-tag">
+                <span class="preference-name">{{ userPref.getTopicName() }}</span>
+                <div class="preference-actions">
+                  <button (click)="editPreference(userPref)">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button (click)="deleteUserPreference(userPref.getId())">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </div>
+              }
+              }
+            </div>
+            <div class="button">
+              <app-button text="Agregar" [buttonClass]="'small-button'"
+                (clickEvent)="showModal('explorador')"></app-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="post-footer">
+        
+      </div>
+    </div>
+  </div>
+  
+  @if (modalShow()) {
+  <app-modal-user-preferences [type]="type" (clickEvent)="quitModal()"></app-modal-user-preferences>
+  }
+  
+  @if(editTagModal()){
+  <div class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{userPreferenceEdit.getTopicName()}}</h2>
+        <span class="modal-close" (click)="editPreference(null)">&times;</span>
+      </div>
+      @if (userPreferenceEdit.getTags()!.length > 0) {
+      <div class="title">
+        <h3>Etiquetas relacionadas:</h3>
+      </div>
+      }
+      <div class="modal-body">
+        @if (userPreferenceEdit.getTags()!.length > 0 || _TopicTagsService.getTagAdded().length > 0) {
+        @for (item of _TopicTagsService.getTagAdded(); track item.getId()) {
+        <p-chip [label]="item.getTagName()" [removable]="true" (onRemove)="tagRemoveFull(item.getId())" />
+        }
+        }@else {
+        <h3>Esta preferencia no tiene etiquetas relacionadas</h3>
+        }
+      </div>
+      <div class="input-group text-center">
+        <form [formGroup]="formTopics">
+          <p-autoComplete [suggestions]="filteredTags" optionLabel="tag_name" (completeMethod)="filterTags($event)"
+            formControlName="tag" [showEmptyMessage]="false" />
+        </form>
+  
+        <app-button buttonClass="medium-button" text="Añadir" (clickEvent)="addTag()"></app-button>
+      </div>
+      <app-button buttonClass="medium-button" text="Guardar cambios" (clickEvent)="saveTags()"></app-button>
+    </div>
+  </div>
+  }
+
+  @if(deletePreference()){
+    <div class="modal-overlay">
+      <div class="modal-content">
+          <h2>Eliminar Preferencia</h2>
+          <p>¿Estás seguro de eliminar esta preferencia? Esta acción no se puede deshacer.</p>
+          <div class="modal-buttons">
+              <button class="btn btn-cancel" (click)="deleteUserPreference(0)">Cancelar</button>
+              <button class="btn btn-delete" (click)="deleteForReal()">Eliminar</button>
+          </div>
+      </div>
+  </div>
+  }

@@ -7,11 +7,11 @@ export class UserPreference {
   private topic_name: string;
   private id: number;
   constructor(
-    id:number,
+    id: number,
     topic_id: number,
     type: string,
     topic_name: string,
-    tag?: Tag[],
+    tag?: Tag[]
   ) {
     this.topic_id = topic_id;
     this.type = type;
@@ -40,14 +40,38 @@ export class UserPreference {
     return this.tag;
   }
 
-  getId(){
+  getId() {
     return this.id;
   }
 
-  setPreference(userPreference:UserPreference){
+  setPreference(userPreference: UserPreference) {
     this.id = userPreference.getId();
     this.topic_id = userPreference.getTopicId();
     this.type = userPreference.getType();
     this.topic_name = userPreference.getTopicName();
+  }
+
+  addNewTags(tag: Tag) {
+    // Verificar si el tag ya existe en el arreglo
+    const exists = this.tag?.some(
+      (existingTag) => existingTag.getId() === tag.getId()
+    );
+
+    if (!exists) {
+      this.tag?.push(tag); // Solo agregar si no existe
+    }
+  }
+
+  removeTagsByIds(ids: number[]) {
+    // Filtrar los tags que se van a eliminar
+    const removedTags =
+      this.tag?.filter((existingTag) => ids.includes(existingTag.getId())) ||
+      [];
+
+    // Actualizar el arreglo excluyendo los tags eliminados
+    this.tag =
+      this.tag?.filter((existingTag) => !ids.includes(existingTag.getId())) ||
+      [];
+
   }
 }

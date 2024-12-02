@@ -8,13 +8,21 @@ import { Tag } from '../../domain/models/tag.model';
   providedIn: 'root',
 })
 export class RemoteTagRespository extends TagRepository {
-  private readonly API_URL = 'http://localhost:3000/tags';
+  override submitTagsPreferences(user_preference_id: string, tag: Tag[], tagsEliminated:number[]): Observable<any> {
+    const payload = {
+      user_preference_id,
+      tag,
+      tagsEliminated
+    }
+    return this._http.post<any>(`${this.API_URL}/preferencesTags/createTags`, payload);
+  }
+  private readonly API_URL = 'http://localhost:3000';
   private _http = inject(HttpClient);
 
   getAllTag(id: number): Observable<Tag[]> {
     const params = new HttpParams().set('topic_id', id.toString()); // Convierte el ID a string
     return this._http
-      .get<Tag[]>(`${this.API_URL}/getAllTag`, { params })
+      .get<Tag[]>(`${this.API_URL}/tags/getAllTag`, { params })
       .pipe(
         map((tags: any) =>
           tags.map((tag: any) => new Tag(tag.tag_name, tag.id, tag.topic_id))
@@ -29,7 +37,7 @@ export class RemoteTagRespository extends TagRepository {
     };
 
     return this._http
-      .post<Tag>(`${this.API_URL}/addTag`, payload)
+      .post<Tag>(`${this.API_URL}/tags/addTag`, payload)
       .pipe(map((tag: any) => new Tag(tag.tag_name, tag.id, tag.topic_id)));
   }
 }

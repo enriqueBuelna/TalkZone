@@ -23,6 +23,8 @@ import { ButtonComponent } from '../../../utils/button/button.component';
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { UserPreferenceSignalService } from '../services/user_preferences.service';
+import { UserPreferenceService } from '../../../../domain/services/user_preference.service';
+import { UserPreference } from '../../../../domain/models/user_preference.model';
 @Component({
   selector: 'app-modal-user-preferences',
   standalone: true,
@@ -64,7 +66,8 @@ export class ModalUserPreferencesComponent {
     private _authService: AuthService,
     private _TopicTagsService: TopicsTagsService,
     private _UserPreferenceService: UserPreferencesServices,
-    private _userPreferencesSignal: UserPreferenceSignalService
+    private _userPreferencesSignal: UserPreferenceSignalService,
+    private _remoteUserPreferenceService: UserPreferenceService
   ) {
     this.formTopics = this.formBuilder.group({
       firstTopic: ['', [Validators.required]],
@@ -125,21 +128,29 @@ export class ModalUserPreferencesComponent {
     } else if (this.activeStep() === 2) {
       let { firstTopic, secondTopic } = this.formTopics.value;
       const chosenTopic = secondTopic || firstTopic;
-      console.log(
-        chosenTopic.id,
-        this._TopicTagsService.getTagAdded(),
-        this.type,
-        chosenTopic.topic_name
-      );
-      this._userPreferencesSignal.createUserPreference(
+      
+
+      let userPreference = new UserPreference(
         0,
         chosenTopic.id,
-        this._TopicTagsService.getTagAdded(),
         this.type,
-        chosenTopic.topic_name
+        chosenTopic.topic_name,
+        this._TopicTagsService.getTagAdded()
       );
 
       this.activeStep.set(3);
+
+      this._remoteUserPreferenceService
+        .addUserPreferences(this._userService.getUserId(), userPreference)
+        .subscribe((el) => {
+          this._userPreferencesSignal.createUserPreference(
+            el.getId(),
+            el.getTopicId(),
+            el.getTags() || [],
+            el.getType(),
+            el.getTopicName()
+          );
+        });
 
       this.cleanAll();
     }
@@ -262,8 +273,6 @@ export class ModalUserPreferencesComponent {
   removeImage() {
     this.uploadedImage = ''; // Elimina la imagen
   }
-
-  
 
   getTopicTags() {
     return this._TopicTagsService;

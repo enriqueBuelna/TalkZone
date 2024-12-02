@@ -1,56 +1,49 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   DestroyRef,
   EventEmitter,
   Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
   Output,
   signal,
   SimpleChanges,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Chip, ChipModule } from 'primeng/chip';
-import { UserComplete } from '../../../../domain/models/user_complete_information.model';
-import { UserPreferenceSignalService } from '../services/user_preferences.service';
-import { UserPreference } from '../../../../domain/models/user_preference.model';
-import { ButtonComponent } from '../../../utils/button/button.component';
-import { ModalUserPreferencesComponent } from '../modal-user-preferences/modal-user-preferences.component';
-import { UserPreferenceService } from '../../../../domain/services/user_preference.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { uploadFile } from '../../../../firestore/firestore';
-import { AuthService } from '../../../../domain/services/auth.service';
-import { UserCompleteProfile } from '../services/user_complete.service';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   AutoCompleteCompleteEvent,
   AutoCompleteModule,
 } from 'primeng/autocomplete';
-import { Tag } from '../../../../domain/models/tag.model';
-import { TopicsTagsService } from '../../welcome/services/topics-tags.service';
 import { Observable } from 'rxjs';
+import { Tag } from '../../../../domain/models/tag.model';
+import { UserComplete } from '../../../../domain/models/user_complete_information.model';
+import { UserPreference } from '../../../../domain/models/user_preference.model';
+import { AuthService } from '../../../../domain/services/auth.service';
 import { TagService } from '../../../../domain/services/tag.service';
+import { UserPreferenceService } from '../../../../domain/services/user_preference.service';
+import { uploadFile } from '../../../../firestore/firestore';
+import { TopicsTagsService } from '../../welcome/services/topics-tags.service';
+import { UserCompleteProfile } from '../services/user_complete.service';
+import { UserPreferenceSignalService } from '../services/user_preferences.service';
+import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../../utils/button/button.component';
+import { ModalUserPreferencesComponent } from '../modal-user-preferences/modal-user-preferences.component';
+import { ChipModule } from 'primeng/chip';
+
 @Component({
-  selector: 'app-edit-profile',
+  selector: 'app-edit-preferences',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ChipModule,
     ButtonComponent,
     ModalUserPreferencesComponent,
+    ChipModule,
     AutoCompleteModule,
   ],
-  templateUrl: './edit-profile.component.html',
-  styleUrl: './edit-profile.component.css',
+  templateUrl: './edit-preferences.component.html',
+  styleUrl: './edit-preferences.component.css',
 })
-export class EditProfileComponent implements OnInit, OnDestroy, OnChanges {
+export class EditPreferencesComponent {
   formEditProfile!: FormGroup;
   formTopics!: FormGroup; //aqui
   @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
@@ -59,6 +52,7 @@ export class EditProfileComponent implements OnInit, OnDestroy, OnChanges {
   @Input() user!: UserComplete;
   userPreferences = signal<UserPreference[]>([]);
   userPreferencesDeleted: number[] = [];
+  deletePreference = signal(false);
   // Método para manejar el clic
   onClick() {
     // Previene el clic si el botón está deshabilitado
@@ -124,9 +118,23 @@ export class EditProfileComponent implements OnInit, OnDestroy, OnChanges {
     this.userPreferences = this._userPreference.getUserPreferencesAll();
   }
 
+  preferenceDeleted !:number;
   deleteUserPreference(id: number) {
-    console.log(id);
-    this.userPreferencesDeleted.push(id);
+    this.deletePreference.set(!this.deletePreference());
+    if(id !== 0){
+      this.preferenceDeleted = id;
+    }
+  }
+
+  deleteForReal(){
+    if(this.preferenceDeleted){
+      this._userPreferenceService.deleteUserPreference(this.preferenceDeleted).subscribe(el => {
+        this._userPreference.deleteUserPreferenceId(this.preferenceDeleted);
+        this.preferenceDeleted = 0;
+        this.deletePreference.set(!this.deletePreference());
+        
+      })
+    }
   }
 
   //yo aqui:
@@ -250,6 +258,7 @@ export class EditProfileComponent implements OnInit, OnDestroy, OnChanges {
 
   userPreferenceEdit!: UserPreference;
   editPreference(userPreference: UserPreference | null) {
+    console.log(userPreference);
     if (userPreference) {
       if (userPreference.getTags()) {
         userPreference.getTags()?.forEach((el) => {

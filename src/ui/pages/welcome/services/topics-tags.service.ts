@@ -64,8 +64,14 @@ export class TopicsTagsService {
     );
   }
 
-  tagRemove(tag_id: number) {
+  tagRemove(tag_id: number){
+    // Encontrar el tag que será eliminado
+    const removedTag = this.tagAdded.find((el) => el.getId() === tag_id);
+  
+    // Filtrar el arreglo para eliminar el tag
     this.tagAdded = this.tagAdded.filter((el) => el.getId() !== tag_id);
-    console.log(this.tagAdded);
+  
+    // Retornar el tag eliminado o undefined si no se encontró
+    return removedTag;
   }
 }
