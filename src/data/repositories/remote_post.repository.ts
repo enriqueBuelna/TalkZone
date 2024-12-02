@@ -395,4 +395,46 @@ export class RemotePostRespository extends PostRepository {
     };
     return this._http.post<boolean>(`${this.API_URL}/like/addLike`, payload);
   }
+
+  override getPostLike(user_id: string, page: number): Observable<Post[]> {
+    const params = new HttpParams().set('user_id', user_id).set('page', page);
+    return this._http
+      .get<any[]>(`${this.API_URL}/posts/getLikePost`, { params })
+      .pipe(
+        map((posts: any[]) => {
+          if (!Array.isArray(posts) || posts.length === 0) {
+            return []; // Devuelve un array vacío si no hay publicaciones
+          }
+          return posts.map((post) => {
+            return new Post(
+              post.id,
+              new UserDemo(
+                post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
+                post.post_user.username,
+                post.post_user.gender,
+                post.post_user.profile_picture,
+                ''
+              ),
+              post.content,
+              post.likes_count,
+              post.comments_count,
+              post.visibility,
+              new UserPreference(
+                post.user_preference_id, // Corregido
+                post.post_user_preference.topic_id, // Accede usando el nombre completo
+                post.post_user_preference.type,
+                post.post_user_preference.topic.topic_name
+              ),
+              post.media_url,
+              undefined,
+              undefined,
+              undefined,
+              post.post_liked,
+              undefined,
+              undefined
+            );
+          });
+        })
+      );
+  }
 }

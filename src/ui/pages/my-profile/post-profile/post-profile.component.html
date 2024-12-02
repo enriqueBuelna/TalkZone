@@ -14,12 +14,11 @@
         <button class="tab" [ngClass]="{'active': this.rule === 'all'}" (click)="changePublication('all')">
             <p>Publicaciones</p>
         </button>
-        <button class="tab" [ngClass]="{'active': this.rule === 'like'}" (click)="changePublication('like')">
-            <p>Me gusta</p>
-        </button>
-        <button class="tab" [ngClass]="{'active': this.rule === 'follower'}" (click)="changePublication('follower')">
-            <p>Multimedia</p>
-        </button>
+        @if (access){
+            <button class="tab" [ngClass]="{'active': this.rule === 'like'}" (click)="changePublication('like')">
+                <p>Me gusta</p>
+            </button>
+        }
     </div>
     <div class="posts">
         <div class="all-post">

@@ -21,8 +21,9 @@ export class PostProfileComponent {
   allPost = signal<Post[]>([]);
   postObservableAll!: Observable<any>;
   hasMorePosts = true;
-  forAll = signal(true);
+  forAll = signal(false);
   @Input() user_id !:string;
+  @Input() access!:boolean;
   page: number = 1;
   rule = 'all';
   constructor(
@@ -32,26 +33,31 @@ export class PostProfileComponent {
     private _route:ActivatedRoute
   ) {}
   ngOnInit(): void {
+    
+    this._route.paramMap.subscribe((params) => {
+      this.firstThing();    
+    });
+  }
+
+  firstThing(){
     this._postCService.setPost([]);
     this.allPost = this._postCService.getPosts();
     this.loadPosts();
   }
 
   loadPosts() {
-    const roomId =
-      this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId';
-    if(this.user_id){
-      this.forAll.set(false);
+    if(this.forAll() && this.rule === 'like'){
+      this._postCService.setPost([]);
+    }else if(!this.forAll() && this.rule === 'all'){
+      this._postCService.setPost([]);
     }
     if (this.forAll()) {
-      this.postObservableAll = this._postService.getForYouPost(
+      this.postObservableAll = this._postService.getPostLike(
         this._userService.getUserId(),
         this.page,
-        this._userService.getUserId()
       );
 
       this.postObservableAll.subscribe((posts) => {
-        
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {
@@ -59,6 +65,8 @@ export class PostProfileComponent {
         }
       });
     }else{
+      const roomId =
+      this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId';
       this.postObservableAll = this._postService.getYourPost(
         roomId,
         this.page,
@@ -66,7 +74,6 @@ export class PostProfileComponent {
       );
 
       this.postObservableAll.subscribe((posts) => {
-        console.log(posts);
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {
@@ -82,5 +89,8 @@ export class PostProfileComponent {
 
   changePublication(opt:string){
     this.rule = opt;
+    this.forAll.set(!this.forAll());
+    this.page = 1;
+    this.loadPosts();
   }
 }

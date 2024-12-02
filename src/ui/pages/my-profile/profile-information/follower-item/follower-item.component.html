@@ -6,6 +6,7 @@
   <div class="follower-info">
     <h3>{{ follower.getUsername() }}</h3>
     <button class="unfollow-btn" (click)="doAction()">{{text}}</button>
+    <button class="show-profile" (click)="goToProfile(follower.getUserId())">Ver perfil</button>
   </div>
 </li>
 }@else {

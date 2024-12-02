@@ -382,3 +382,21 @@
 .unfollow-btn:hover {
   background-color: #e53935;
 }
+
+.follow-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.follow-btn:not(.following) {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.follow-btn.following {
+  background-color: #f44336;
+  color: white;
+}

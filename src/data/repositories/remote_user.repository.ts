@@ -20,6 +20,15 @@ const headers = new HttpHeaders({
   providedIn: 'root',
 })
 export class RemoteUserRepository extends UserRepository {
+
+  override amFollowing(user_id: string, other_user_id: string): Observable<boolean> {
+    const payload = {
+      user_id,
+      other_user_id
+    }
+    return this._http.post<boolean>(`${this.API_URL}/amFollowing`, payload);
+  }
+
   override completeProfile(user_id: string): Observable<any> {
     const payload = {
       user_id,

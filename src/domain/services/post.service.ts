@@ -13,6 +13,7 @@ import { GetAllPostGroup } from '../use_cases/post/getAllPostGroup.use_case';
 import { CreateComment } from '../use_cases/post/createComment.use_case';
 import { UpdatePost } from '../use_cases/post/updatePost.use_case';
 import { UpdatePostGroup } from '../use_cases/post/updatePostGroup.use_case';
+import { GetPostLike } from '../use_cases/post/getPostLike.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +30,13 @@ export class PostService {
     private _getAllPostGroup: GetAllPostGroup,
     private _createComment: CreateComment,
     private _updatePost: UpdatePost,
-    private _updatePostGroup:UpdatePostGroup
+    private _updatePostGroup:UpdatePostGroup,
+    private _getPostLike:GetPostLike
   ) {}
+
+  getPostLike(user_id:string, page:number):Observable<Post[]>{
+    return this._getPostLike.execute(user_id, page);
+  }
 
   updatePostGroup(id:string, content:string, media_url:string, visibility:string ):Observable<boolean>{
     return this._updatePostGroup.execute(id, content, media_url, visibility);

@@ -32,4 +32,5 @@ export abstract class PostRepository {
     media_url:string,
     visibility:string
   ):Observable<boolean>;
+  abstract getPostLike(user_id:string, page:number):Observable<Post[]>;
 }

@@ -52,12 +52,17 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userId.set(
-      this._route.snapshot.paramMap.get('user_id') ?? 'defaultRoomId'
-    );
+    this._route.paramMap.subscribe((params) => {
+      this.userId.set(params.get('user_id') || '');
+      this.loadProfileData(); // Método para recargar la información
+    });
+  }
 
+  loadProfileData() {
     if (this.userId() === this._user.getUserId()) {
       this.isPrimary.set(true);
+    }else{
+      this.isPrimary.set(false);
     }
 
     this.myObservable = this._userService.getCompleteInformation(this.userId());

@@ -18,6 +18,7 @@ import { GetCompleteInformation } from '../use_cases/user/getCompleteInformation
 import { UserComplete } from '../models/user_complete_information.model';
 import { EditProfile } from '../use_cases/user/editProfile.use_case';
 import { CompleteProfile } from '../use_cases/user/completeProfile.use_case';
+import { AmFollowing } from '../use_cases/user/amFollowing.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -33,12 +34,17 @@ export class AuthService {
     private _finishProfile: FinishProfile,
     private _getFollowersFollowed: GetFollowersFollowed,
     private _getBasicInfo: GetBasicInfo,
-    private _getCompleteInformation:GetCompleteInformation,
-    private _editProfile:EditProfile,
-    private _completeProfile:CompleteProfile
+    private _getCompleteInformation: GetCompleteInformation,
+    private _editProfile: EditProfile,
+    private _completeProfile: CompleteProfile,
+    private _amFollowing: AmFollowing
   ) {}
 
-  completeProfile(user_id:string){
+  amFollowing(user_id: string, other_user_id: string): Observable<boolean> {
+    return this._amFollowing.execute(user_id, other_user_id);
+  }
+
+  completeProfile(user_id: string) {
     return this._completeProfile.execute(user_id);
   }
 
@@ -91,15 +97,23 @@ export class AuthService {
     return this._getBasicInfo.execute(user_id);
   }
 
-  getCompleteInformation(user_id:string):Observable<UserComplete>{
+  getCompleteInformation(user_id: string): Observable<UserComplete> {
     return this._getCompleteInformation.execute(user_id);
   }
 
-  editProfile(user_id: string,
+  editProfile(
+    user_id: string,
     username?: string,
     about_me?: string,
     profile_picture?: string,
-    cover_picture?: string):Observable<any>{
-      return this._editProfile.execute(user_id, username, about_me, profile_picture, cover_picture);
-    }
+    cover_picture?: string
+  ): Observable<any> {
+    return this._editProfile.execute(
+      user_id,
+      username,
+      about_me,
+      profile_picture,
+      cover_picture
+    );
+  }
 }

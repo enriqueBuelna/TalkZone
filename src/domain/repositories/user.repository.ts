@@ -39,4 +39,5 @@ export abstract class UserRepository {
     cover_picture?: string
   ): Observable<any>;
   abstract completeProfile(user_id:string):Observable<any>;
+  abstract amFollowing(user_id:string, other_user_id:string):Observable<boolean>;
 }

@@ -1,9 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { UserDemo } from '../../../../../domain/models/user-demo.model';
 import { FollowerService } from '../../../../../domain/services/follower.service';
 import { UserService } from '../../../auth/services/user.service';
 import { UserComplete } from '../../../../../domain/models/user_complete_information.model';
 import { CommunityMember } from '../../../../../domain/models/communityMember.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-follower-item',
@@ -22,9 +23,9 @@ export class FollowerItemComponent implements OnDestroy, OnInit {
   @Input() hostMember!:string;
   constructor(
     private _followerService: FollowerService,
-    public _userService: UserService
+    public _userService: UserService,
+    private _router: Router
   ) {}
-
   ngOnInit(): void {
     if (this.type === 'following') {
       this.text = 'Dejar de seguir';
@@ -61,10 +62,15 @@ export class FollowerItemComponent implements OnDestroy, OnInit {
         });
     }
   }
-
+  @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
   ngOnDestroy(): void {
     if (this.unfollowUser) {
       this.userComplete.deleteFollowing(this.follower.getUserId());
     }
+  }
+
+  goToProfile(id:string){
+    this.clickEvent.emit();
+    this._router.navigate(['home', 'profile', id]);
   }
 }
