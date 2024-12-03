@@ -45,12 +45,14 @@ export const routes: Routes = [
           },
         ],
       },
+      { path: 'posts/:id', redirectTo: 'posts', pathMatch: 'full' }, // Redirige si se detecta un ,
       // { path: '', component: VoiceRoomComponent },
       { path: 'welcome', component: WelcomeComponent },
       {
         path: 'voice_room',
         component: VoiceRoomComponent,
       },
+      { path: 'voice_room/:id', redirectTo: 'voice_room', pathMatch: 'full' }, // Redirige si se detecta un parámetro no esperado
       {
         path: 'connect',
         component: ConnectComponent,
@@ -86,9 +88,9 @@ export const routes: Routes = [
         component: NotificationsComponent,
       },
       {
-        path:'configuration',
-        component: ConfigurationComponent
-      }
+        path: 'configuration',
+        component: ConfigurationComponent,
+      },
     ],
     canActivate: [authGuard],
   },

@@ -33,7 +33,7 @@ export class MyGroupsComponent implements OnInit {
     });
   }
   showModal() {
-    this.modalCreate.set(true);
+    this.modalCreate.set(!this.modalCreate());
   }
 
   ngOnInit(): void {

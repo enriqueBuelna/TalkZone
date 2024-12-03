@@ -16,6 +16,7 @@ import { ResponseApply } from '../use_cases/comunities/responseApply.use_case';
 import { EditGroup } from '../use_cases/comunities/editGroup.use_case';
 import { ViewIfOnePending } from '../use_cases/comunities/viewIfOnePending.use_case';
 import { DeleteApply } from '../use_cases/comunities/deleteApply.use_case';
+import { GetOutGroup } from '../use_cases/comunities/getOutGroup.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -34,8 +35,13 @@ export class CommunitieService {
     private _responseApply: ResponseApply,
     private _editGroup: EditGroup,
     private _viewIfOnePending:ViewIfOnePending,
-    private _deleteApply:DeleteApply
+    private _deleteApply:DeleteApply,
+    private _getOutGroup:GetOutGroup
   ) {}
+
+  getOutGroup(user_id:string, group_id:string):Observable<boolean>{
+    return this._getOutGroup.execute(user_id, group_id);
+  }
 
   deleteApply(user_id:string, group_id:string):Observable<boolean>{
     return this._deleteApply.execute(user_id, group_id);

@@ -63,4 +63,9 @@ export class GroupComplete extends GroupPresentation {
   getType(){
     return this.type;
   }
+
+  deleteMember(id:string){
+    this.all_member = this.all_member.filter(el => el.getUserDemo().getUserId() !== id);
+    this.members_count--;
+  }
 }

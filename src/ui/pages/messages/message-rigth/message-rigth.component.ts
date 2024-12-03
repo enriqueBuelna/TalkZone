@@ -28,6 +28,7 @@ export class MessageRigthComponent implements OnInit, OnDestroy {
   responseGetBasicInfo?: Observable<UserDemo>;
   // userDemoInfo = signal<UserDemo>;
   userDemoInfo?: UserDemo;
+  userNotFound = false;
   constructor(
     private route: ActivatedRoute,
     private _messageCService: MessageComponentService,
@@ -44,15 +45,22 @@ export class MessageRigthComponent implements OnInit, OnDestroy {
       this._chatService.setAmHereId(userId);
       if(userId !== this._userrService.getUserId()){
         if (userId) {
+          console.log('chivo');
           // Realiza la solicitud cada vez que cambie el parámetro 'user_id'
           this.responseGetBasicInfo = this._userService.getBasicInfo(userId);
   
           // Suscríbete para actualizar la información del usuario
           this.responseGetBasicInfo
             .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe((el) => {
-              this._messageCService.setUser(el);
-              this.userDemoInfo = this._messageCService.getUser();
+            .subscribe({
+              next: (el) => {
+                this.userNotFound = false;
+                this._messageCService.setUser(el);
+                this.userDemoInfo = this._messageCService.getUser();
+              },
+              error: (error) => {
+                this.userNotFound = true;
+              }
             });
         }
       }else{

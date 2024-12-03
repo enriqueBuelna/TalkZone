@@ -12,7 +12,7 @@ import { CommunitieService } from '../../../../domain/services/communitie.servic
 import { UserService } from '../../auth/services/user.service';
 import { EditProfileGroupComponent } from '../../group/view-of-group/edit-profile/edit-profile.component';
 import { ModalPostComponent } from '../../my-feed/create-post/modal-post/modal-post.component';
-import { EditPreferencesComponent } from "../edit-preferences/edit-preferences.component";
+import { EditPreferencesComponent } from '../edit-preferences/edit-preferences.component';
 @Component({
   selector: 'app-information-profile',
   standalone: true,
@@ -24,8 +24,8 @@ import { EditPreferencesComponent } from "../edit-preferences/edit-preferences.c
     ModalPostGroupComponent,
     EditProfileGroupComponent,
     ModalPostComponent,
-    EditPreferencesComponent
-],
+    EditPreferencesComponent,
+  ],
   templateUrl: './information-profile.component.html',
   styleUrl: './information-profile.component.css',
 })
@@ -50,7 +50,7 @@ export class InformationProfileComponent implements OnInit {
     this.showApply.set(!this.showApply());
   }
 
-  editPreferences(){
+  editPreferences() {
     this.edit_preferences.set(!this.edit_preferences());
   }
 
@@ -89,5 +89,13 @@ export class InformationProfileComponent implements OnInit {
       });
   }
 
-
+  leaveGroup() {
+    this._communityService
+      .getOutGroup(this._userService.getUserId(), this.group.getId().toString())
+      .subscribe((el) => {
+        if (el) {
+          this.typeMember.set('no-member');
+        }
+      });
+  }
 }

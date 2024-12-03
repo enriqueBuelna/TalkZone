@@ -40,6 +40,7 @@ export class MyProfileComponent implements OnInit {
       []
     )
   );
+  profileNotFound = false;
   userId = signal('');
   isPrimary = signal(false);
   userDemo!: UserDemo;
@@ -67,12 +68,17 @@ export class MyProfileComponent implements OnInit {
 
     this.myObservable = this._userService.getCompleteInformation(this.userId());
 
-    this.myObservable.subscribe((el) => {
-      this._userInformation.setMyUserInformation(el);
-      this.myUser = this._userInformation.getMyUserInformation();
-      this._userPreference.setUserPreferences(
-        this.myUser().getUserPreferences()
-      );
+    this.myObservable.subscribe({
+      next: (el) => {
+        this._userInformation.setMyUserInformation(el);
+        this.myUser = this._userInformation.getMyUserInformation();
+        this._userPreference.setUserPreferences(
+          this.myUser().getUserPreferences()
+        );
+      },
+      error: (e) => {
+        this.profileNotFound = true;
+      }
     });
   }
 }

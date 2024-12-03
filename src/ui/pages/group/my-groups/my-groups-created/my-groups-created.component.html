@@ -1,5 +1,7 @@
 <div class="contenedor">
-    @for (groups of myGroups; track $index) {
-    <app-group-presentation [group]="groups"></app-group-presentation>
-    }
+    <div class="groups">
+        @for (groups of myGroups; track $index) {
+            <app-group-presentation [group]="groups"></app-group-presentation>
+            }
+    </div>
 </div>

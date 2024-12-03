@@ -1,24 +1,33 @@
-<div class="contenedor">
-    <div class="main-content">
-        <div class="header">
-            <h2 class="title">{{myUser().getUserDemo().getUsername()}}</h2>
-        </div>
-        <div class="profile-information">
-            <app-profile-information [myUser]="myUser()" type="user" [access]="isPrimary()"></app-profile-information>
-        </div>
-        <div class="publications">
-            <app-post-profile [user_id]="userId()" [myUser]="myUser().getUserDemo()" [access]="isPrimary()"></app-post-profile>
-        </div>
-    </div>
-    <div id="aside">
-        <app-aside>
+@if (!profileNotFound) {
+    <div class="contenedor">
+        <div class="main-content">
             <div class="header">
-
+                <h2 class="title">{{myUser().getUserDemo().getUsername()}}</h2>
             </div>
-            <app-information-profile [user]="myUser()" type="user" [isPrimary]="isPrimary"></app-information-profile>
-        </app-aside>
+            <div class="profile-information">
+                <app-profile-information [myUser]="myUser()" type="user" [access]="isPrimary()"></app-profile-information>
+            </div>
+            <div class="publications">
+                <app-post-profile [user_id]="userId()" [myUser]="myUser().getUserDemo()" [access]="isPrimary()"></app-post-profile>
+            </div>
+        </div>
+        <div id="aside">
+            <app-aside>
+                <div class="header">
+    
+                </div>
+                <app-information-profile [user]="myUser()" type="user" [isPrimary]="isPrimary"></app-information-profile>
+            </app-aside>
+        </div>
     </div>
-</div>
+}@else {
+    <div class="container">
+        <div class="error-icon">🕵️</div>
+        <h1>Perfil no Encontrado</h1>
+        <p>Lo sentimos, el perfil que estás buscando no existe o ha sido eliminado. Puede que el usuario haya cambiado su nombre de usuario o la cuenta haya sido desactivada.</p>
+        <a href="/" class="btn">Volver al Inicio</a>
+    </div>
+}
 
 
 <!-- 

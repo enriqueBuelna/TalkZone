@@ -12,7 +12,17 @@ import { ApplyGroup } from '../../domain/models/group/apply_group.model';
   providedIn: 'root',
 })
 export class RemoteComunitieRepository extends CommunitieRepository {
+  // "/communities/getOutGroup"
+  override getOutGroup(user_id: string, group_id: string): Observable<boolean> {
+    const payload = {
+      user_id,
+      group_id,
+    };
 
+    return this._http
+      .post<boolean>(`${this.API_URL}/communities/getOutGroup`, payload)
+      .pipe(map((el) => el));
+  }
   override deleteApply(user_id: string, group_id: string): Observable<boolean> {
     const payload = {
       user_id,

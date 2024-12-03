@@ -62,3 +62,12 @@
   background-color: #e0e0e0;
   color: #006f85;
 }
+
+.contenedor .groups {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+}

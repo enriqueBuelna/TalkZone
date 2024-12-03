@@ -1,7 +1,6 @@
-<div class="contenedor-flex">
+<!-- <div class="contenedor-flex">
     <div class="group-card">
         <div class="group-header">
-            <!-- Espacio superior, puede ser una imagen o un color sólido -->
         </div>
         <div class="group-body">
             <div class="group-info">
@@ -12,5 +11,31 @@
                 <button class="action-button" (click)="goToGroup()">Ver grupo</button>
             </div>
         </div>
+    </div>
+</div> -->
+
+<div class="grupo-card">
+    <div class="portada">
+        <img [src]="group.getCoverPicture() || 'images/background.jpg'">
+        <div class="privacidad">
+            @if (!group.getPrivacy()) {
+            <span class="publico">
+                <i class="fas fa-users"></i> Público
+            </span>
+            }@else {
+            <span class="privado">
+                <i class="fas fa-lock"></i> Privado
+            </span>
+            }
+        </div>
+    </div>
+
+    <div class="contenido">
+        <h2>{{ group.getGroupName() }}</h2>
+        <p class="tema">Tema: {{ group.getTopicName() }}</p>
+
+        <button (click)="goToGroup()" class="btn-ver-grupo">
+            Ver Grupo
+        </button>
     </div>
 </div>

@@ -60,3 +60,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
+
+  .contenedor .groups {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+  }

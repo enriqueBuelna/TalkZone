@@ -112,7 +112,7 @@
           <app-follower-item [follower]="follower" type="following" [userComplete]="myUser"></app-follower-item>
           } -->
         @for (members of myGroup.getAllMembers(); track $index) {
-        <app-follower-item [member]="members" type="member" [hostMember]="myGroup.getAdminUser()"></app-follower-item>
+        <app-follower-item [member]="members" type="member" [hostMember]="myGroup.getAdminUser()" [group]="myGroup"></app-follower-item>
         }
       </ul>
     </div>

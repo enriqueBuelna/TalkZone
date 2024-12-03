@@ -1,50 +1,95 @@
-@if (myGroup) {
-<div class="contenedor">
-    <div class="main-content">
-        <div class="header">
-            <h2 class="title">{{myGroup.getGroupName()}}</h2>
-        </div>
-        <div class="profile-information">
-            <app-profile-information [myGroup]="myGroup" [type]="'group'" [access]="!noAccess()"></app-profile-information>
-        </div>
-        @if(!noAccess()){
-        <div class="publications">
-            @if (userComplete) {
-                <app-post-profile-group [userDemo]="userComplete.getUserDemo()" [hostGroupMember]="myGroup.getAdminUser()"></app-post-profile-group>
-            }
-        </div>
-        }@else {
-        <div class="container">
-            <div class="icon">
-                <div class="lock">
-                    <div class="lock-body"></div>
-                    <div class="lock-shackle"></div>
-                </div>
-                <div class="file"></div>
+@if (!groupNotFound) {
+    @if (groupRestricted) {
+        <div class="containerrr">
+            <div class="lock-icon">🔒</div>
+            <h1>Acceso Restringido</h1>
+            <p class="subtitle">Este es un grupo de Enseñanza y Aprendizaje</p>
+    
+            <div class="description">
+                No tienes acceso a este grupo porque requiere cumplir con ciertos criterios específicos.
             </div>
-            <h1 class="h1">Este grupo es privado</h1>
-            <p class="p">Únete a este grupo para ver las conversaciones o participar en ellas.</p>
-            @if (petitionYet) {
-                <div class="button">
-                    <app-button [text]="'Esperando respuesta del administrador...'" (clickEvent)="applyGroup()" [isDisabled]="applyButton()"></app-button>
-                    <app-button text="Eliminar solicitud" (clickEvent)="deleteApply()" ></app-button>
-                </div>
-            }@else {
-                <div class="button">
-                    <app-button [text]="'Solicitar acceso'" (clickEvent)="applyGroup()"></app-button>
-                </div>
-            }
-        </div>
-        }
-    </div>
-    <div id="aside">
-        <app-aside>
-            <div class="header">
+    
+            <div class="requirements">
+                <h3>Requisitos para Acceder</h3>
+                <ul>
+                    <li>Tener interés verificado en el tema</li>
+                    <li>Demostrar compromiso con la comunidad</li>
+                </ul>
             </div>
-            @if(!noAccess()){
-            <app-information-profile type="group" [group]="myGroup" [typeMember]="typeMember"></app-information-profile>
+    
+            <div class="btn-group">
+                <a href="/perfil" class="btn btn-primary">Editar perfil</a>
+                <a href="/home" class="btn btn-secondary">Volver al Inicio</a>
+            </div>
+        </div>
+    }@else {
+        @if (myGroup) {
+            <div class="contenedor">
+                <div class="main-content">
+                    <div class="header">
+                        <h2 class="title">{{myGroup.getGroupName()}}</h2>
+                    </div>
+                    <div class="profile-information">
+                        <app-profile-information [myGroup]="myGroup" [type]="'group'" [access]="!noAccess()"></app-profile-information>
+                    </div>
+                    @if(!noAccess()){
+                    <div class="publications">
+                        @if (userComplete) {
+                            <app-post-profile-group [userDemo]="userComplete.getUserDemo()" [hostGroupMember]="myGroup.getAdminUser()"></app-post-profile-group>
+                        }
+                    </div>
+                    }@else {
+                    <div class="container">
+                        <div class="icon">
+                            <div class="lock">
+                                <div class="lock-body"></div>
+                                <div class="lock-shackle"></div>
+                            </div>
+                            <div class="file"></div>
+                        </div>
+                        <h1 class="h1">Este grupo es privado</h1>
+                        <p class="p">Únete a este grupo para ver las conversaciones o participar en ellas.</p>
+                        @if (petitionYet) {
+                            <div class="button">
+                                <app-button [text]="'Esperando respuesta del administrador...'" (clickEvent)="applyGroup()" [isDisabled]="applyButton()"></app-button>
+                                <app-button text="Eliminar solicitud" (clickEvent)="deleteApply()" ></app-button>
+                            </div>
+                        }@else {
+                            <div class="button">
+                                <app-button [text]="'Solicitar acceso'" (clickEvent)="applyGroup()"></app-button>
+                            </div>
+                        }
+                    </div>
+                    }
+                </div>
+                <div id="aside">
+                    <app-aside>
+                        <div class="header">
+                        </div>
+                        @if(!noAccess()){
+                        <app-information-profile type="group" [group]="myGroup" [typeMember]="typeMember"></app-information-profile>
+                        }
+                    </app-aside>
+                </div>
+            </div>
             }
-        </app-aside>
+    }
+}@else {
+    <div class="containerr">
+        <div class="group-icon"></div>
+        <h1>Comunidad no encontrada</h1>
+        <p>Parece que el grupo o comunidad que estás buscando no existe o ha sido eliminado. Puede que haya sido removido, o tal vez escribiste el nombre incorrectamente.</p>
+
+        <div class="group-actions">
+            <h3>¿Qué puedes hacer?</h3>
+            <div class="btn-group">
+                <a href="/explorar-grupos" class="btn btn-explore">Explorar Grupos</a>
+                <a href="/crear-grupo" class="btn btn-create">Crear Grupo</a>
+            </div>
+        </div>
+
+        <div class="suggestions">
+            💡 Sugerencia: Verifica la ortografía o busca grupos similares
+        </div>
     </div>
-</div>
 }

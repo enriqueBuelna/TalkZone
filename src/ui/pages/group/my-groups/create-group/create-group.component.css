@@ -144,14 +144,14 @@ input, select {
   width: 100%;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 5px;
-  outline: none;
+  /* outline: none; */
 }
 
-input:focus, select:focus {
+/* input:focus, select:focus {
   border-color: #007BFF;
-}
+} */
 
 fieldset {
   border: none;
@@ -180,4 +180,177 @@ label input {
 
 .apply-btn:hover {
   background-color: #0097a7;
+}
+
+.privacy-options-container {
+  display: flex;
+  gap: 15px;
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.privacy-radio-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.privacy-radio-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.privacy-radio-label .radio-custom {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 2px solid #3498db;
+  transition: all 0.3s ease;
+}
+
+.privacy-radio-label .radio-text {
+  font-size: 14px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.privacy-radio-label input:checked + .radio-custom {
+  background-color: #3498db;
+}
+
+/* .privacy-radio-label input:checked + .radio-custom::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */
+
+/* .privacy-radio-label input:checked + .radio-custom + .radio-text {
+  color: #3498db;
+  font-weight: bold;
+} */
+
+.form-container {
+  margin: 0 auto;
+  background-color: #ffffff;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-container label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+
+.form-container select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.form-container select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+/* Privacidad Radio Buttons */
+.privacy-options-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.privacy-radio-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.privacy-radio-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.privacy-radio-label .radio-custom {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #4a90e2;
+  margin-right: 8px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.privacy-radio-label input:checked + .radio-custom {
+  background-color: #4a90e2;
+  border-color: #4a90e2;
+}
+
+.privacy-radio-label input:checked + .radio-custom::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.privacy-radio-label .radio-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.privacy-radio-label input:checked + .radio-custom + .radio-text {
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+/* Fieldset Styling */
+.form-container fieldset {
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.form-container fieldset legend {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  padding: 0 8px;
 }

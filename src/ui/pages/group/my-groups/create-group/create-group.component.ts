@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import { ButtonComponent } from '../../../../utils/button/button.component';
 import { UserService } from '../../../auth/services/user.service';
 import { UserPreferenceService } from '../../../../../domain/services/user_preference.service';
@@ -13,10 +13,16 @@ import {
 import { DropdownModule } from 'primeng/dropdown';
 import { CommunitieService } from '../../../../../domain/services/communitie.service';
 import { Router } from '@angular/router';
+import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'app-create-group',
   standalone: true,
-  imports: [ButtonComponent, DropdownModule, ReactiveFormsModule],
+  imports: [
+    ButtonComponent,
+    DropdownModule,
+    ReactiveFormsModule,
+    InputTextModule,
+  ],
   templateUrl: './create-group.component.html',
   styleUrl: './create-group.component.css',
 })
@@ -27,19 +33,37 @@ export class CreateGroupComponent implements OnInit {
   otherTopics!: UserPreference[];
   topicPrincipalList!: UserPreference[];
   formCreateGroup!: FormGroup;
+  constructor(
+    private _userService: UserService,
+    private _userPreferences: UserPreferenceService,
+    private _formBuilder: FormBuilder,
+    private _comunitieService: CommunitieService,
+    private _router: Router
+  ) {
+    this.formCreateGroup = this._formBuilder.group({
+      group_name: ['', [Validators.required, Validators.minLength(8)]],
+      type: ['', [Validators.required]],
+      topic_id: ['', [Validators.required]],
+      privacy: ['', [Validators.required]],
+    });
+  }
+  @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
   onClick() {
-    throw new Error('Method not implemented.');
+    this.clickEvent.emit();
   }
   saveChanges() {
     let form = this.formCreateGroup.valid;
 
     if (form) {
-      let { name, privacy, topic_id, type } = this.formCreateGroup.value;
-      console.log(topic_id)
+      let { group_name, privacy, topic_id, type } = this.formCreateGroup.value;
+      if (type === 'other') {
+        type = 'entusiasta';
+      }
+      console.log(type);
       let privacyB = privacy === 'public' ? false : true;
       this._comunitieService
         .createGroup(
-          name,
+          group_name,
           type,
           this._userService.getUserId(),
           privacyB,
@@ -49,20 +73,6 @@ export class CreateGroupComponent implements OnInit {
           this._router.navigate(['home', 'groups', el.id]);
         });
     }
-  }
-  constructor(
-    private _userService: UserService,
-    private _userPreferences: UserPreferenceService,
-    private _formBuilder: FormBuilder,
-    private _comunitieService: CommunitieService,
-    private _router:Router
-  ) {
-    this.formCreateGroup = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      topic_id: ['', [Validators.required]],
-      privacy: ['', [Validators.required]],
-    });
   }
 
   ngOnInit() {

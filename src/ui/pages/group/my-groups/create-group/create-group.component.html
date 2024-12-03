@@ -6,14 +6,13 @@
     </div>
     <div class="post-content">
       <div class="form-container">
-        <form [formGroup]="formCreateGroup">
-          <label for="group-name">Nombre del grupo</label>
-          <input type="text" id="group-name" placeholder="Nombre del grupo" formControlName="name">
-
+        <form [formGroup]="formCreateGroup" novalidate (ngSubmit)="saveChanges()">
+          <label for="group_name">Nombre del grupo</label>
+          <input pInputText type="text" id="group_name" formControlName="group_name" placeholder="Nombre del grupo">
           <label for="group-type">Tipo de grupo</label>
           <select id="group-type" formControlName="type">
             <option value="" disabled selected>Selecciona una opción</option>
-            <option value="mentor">Círculos de Mentoría</option>
+            <option value="mentor">Enseñanza y aprendizaje</option>
             <option value="other">Foros de Pasión</option>
 
           </select>
@@ -25,12 +24,18 @@
 
           <fieldset>
             <legend>Privacidad del grupo</legend>
-            <label>
-              <input type="radio" name="privacy" value="public" formControlName="privacy"> Público
-            </label>
-            <label>
-              <input type="radio" name="privacy" value="private" formControlName="privacy"> Privado
-            </label>
+            <div class="privacy-options-container">
+              <label class="privacy-radio-label">
+                  <input type="radio" name="privacy" value="public" formControlName="privacy">
+                  <span class="radio-custom"></span>
+                  <span class="radio-text">Público</span>
+              </label>
+              <label class="privacy-radio-label">
+                  <input type="radio" name="privacy" value="private" formControlName="privacy">
+                  <span class="radio-custom"></span>
+                  <span class="radio-text">Privado</span>
+              </label>
+          </div>
           </fieldset>
           }
         </form>

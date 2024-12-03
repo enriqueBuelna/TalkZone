@@ -76,6 +76,7 @@
     }@else if(typeMember()==='member'){
     <div class="buttons">
         <app-button text="Postear" (clickEvent)="createPost()"></app-button>
+        <app-button text="Salir del grupo" (clickEvent)="leaveGroup()"></app-button>
     </div>
     }@else if (typeMember()==='no-member') {
     <app-button text="Unirse al grupo" (clickEvent)="getInGroup()"></app-button>

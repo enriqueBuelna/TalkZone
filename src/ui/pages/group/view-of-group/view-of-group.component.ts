@@ -10,7 +10,8 @@ import { UserService } from '../../auth/services/user.service';
 import { ButtonComponent } from '../../../utils/button/button.component';
 import { AuthService } from '../../../../domain/services/auth.service';
 import { UserComplete } from '../../../../domain/models/user_complete_information.model';
-
+import { combineLatest } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-view-of-group',
   standalone: true,
@@ -33,7 +34,9 @@ export class ViewOfGroupComponent implements OnInit {
   text = signal('Solicitar acceso');
   petitionYet!: boolean;
   userComplete!: UserComplete;
-  id!:string;
+  groupNotFound = false;
+  groupRestricted = false;
+  id!: string;
   constructor(
     private communityService: CommunitieService,
     private route: ActivatedRoute,
@@ -42,54 +45,59 @@ export class ViewOfGroupComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userService
-      .getCompleteInformation(this._userService.getUserId())
-      .subscribe((el) => {
-        this.userComplete = el;
-      });
-
-    this.route.paramMap.subscribe((params) => {
-      this.id = params.get('id') || '';
-      if (this.id) {
-        // Realiza la solicitud cada vez que cambie el parámetro 'user_id'
-        this.communityService.getGroupById(this.id).subscribe((el) => {
-          this.myGroup = el;
+    combineLatest([
+      this.userService.getCompleteInformation(this._userService.getUserId()),
+      this.route.paramMap.pipe(
+        switchMap((params) => {
+          this.id = params.get('id') || '';
+          if (this.id) {
+            return this.communityService.getGroupById(this.id);
+          } else {
+            throw new Error('No se encontró el ID del grupo');
+          }
+        })
+      ),
+    ]).subscribe({
+      next: ([userComplete, group]) => {
+        this.userComplete = userComplete;
+        this.myGroup = group;
+        if (
+          this.myGroup.getType() === 'mentor' &&
+          !this.userComplete
+            .getUserPreferences()
+            .some((el) => this.myGroup.getTopicName() === el.getTopicName()) &&
+          this.userComplete.getUserDemo().getUserId() !==
+            this.myGroup.getAdminUser()
+        ) {
+          this.groupRestricted = true;
+        } else {
           if (this.myGroup) {
+            const userId = this._userService.getUserId();
+
+            // Verificar si el grupo es privado y si el usuario no es miembro
             if (
               this.myGroup.getPrivacy() &&
               !this.myGroup
                 .getAllMembers()
-                .some(
-                  (el) =>
-                    el.getUserDemo().getUserId() ===
-                    this._userService.getUserId()
-                )
+                .some((member) => member.getUserDemo().getUserId() === userId)
             ) {
               this.applyButton.set(true);
               this.noAccess.set(true);
               this.typeMember.set('no-member');
+
               this.communityService
-                .viewIfOnePending(this._userService.getUserId(), this.id)
-                .subscribe((el) => {
-                  if (el) {
-                    this.petitionYet = true;
-                  } else {
-                    this.petitionYet = false;
-                  }
+                .viewIfOnePending(userId, this.id)
+                .subscribe((isPending) => {
+                  this.petitionYet = isPending;
                 });
             } else {
-              if (
-                this.myGroup.getAdminUser() === this._userService.getUserId()
-              ) {
+              // Verificar el tipo de miembro
+              if (this.myGroup.getAdminUser() === userId) {
                 this.typeMember.set('admin');
               } else if (
                 this.myGroup
                   .getAllMembers()
-                  .some(
-                    (el) =>
-                      el.getUserDemo().getUserId() ===
-                      this._userService.getUserId()
-                  )
+                  .some((member) => member.getUserDemo().getUserId() === userId)
               ) {
                 this.typeMember.set('member');
               } else {
@@ -97,8 +105,12 @@ export class ViewOfGroupComponent implements OnInit {
               }
             }
           }
-        });
-      }
+        }
+      },
+      error: (error) => {
+        // console.error(error);
+        this.groupNotFound = true;
+      },
     });
     // this.communityService.getGroupById();
   }
@@ -116,11 +128,13 @@ export class ViewOfGroupComponent implements OnInit {
   }
 
   deleteApply() {
-    this.communityService.deleteApply(this._userService.getUserId(), this.id).subscribe(el => {
-      if(el){
-        this.applyButton.set(false);
-        this.petitionYet = false;
-      }
-    })
+    this.communityService
+      .deleteApply(this._userService.getUserId(), this.id)
+      .subscribe((el) => {
+        if (el) {
+          this.applyButton.set(false);
+          this.petitionYet = false;
+        }
+      });
   }
 }

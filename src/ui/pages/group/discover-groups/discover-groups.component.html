@@ -6,9 +6,11 @@
     </app-header>
     <div>
         @if (myGroups.length > 0) {
-        @for (groups of myGroups; track $index) {
-        <app-group-presentation [group]="groups"></app-group-presentation>
-        }
+        <div class="groups">
+            @for (groups of myGroups; track $index) {
+            <app-group-presentation [group]="groups"></app-group-presentation>
+            }
+        </div>
         }@else {
         <div class="no-connections-state">
             <div class="no-connections-content">

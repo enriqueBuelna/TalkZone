@@ -28,4 +28,5 @@ export abstract class CommunitieRepository {
   abstract editGroup(group_id:string, privacy:string,about_communitie:string, cover_picture:string, profile_picture:string):Observable<boolean>;
   abstract viewIfOnePending(user_id:string, group_id:string):Observable<boolean>;
   abstract deleteApply(user_id:string, group_id:string):Observable<boolean>;
+  abstract getOutGroup(user_id: string, group_id: string): Observable<boolean>;
 }

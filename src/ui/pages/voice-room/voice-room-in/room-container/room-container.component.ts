@@ -211,27 +211,28 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
 
     // Verificar si la sala está abierta
     this._voiceRoomService.verifyOpenVoiceRoom(roomId, this._userService.getUserId()).subscribe({
-      next: (isOpen:any) => {
+      next: (isOpen: any) => {
         let aux = false;
-        if(isOpen === 'active'){
+        if (isOpen === 'active') {
           aux = true;
         }
         this.isOpen.set(aux);
-
-        if(isOpen !== 'deleted'){
+    
+        if (isOpen !== 'deleted') {
           if (isOpen !== 'closed') {
             this.initializeVoiceRoom(roomId);
           } else {
             console.log("ESTO ESTA CERRADO");
             this.voiceRoomClosedModal.set(true);
           }
-        }else{
+        } else {
           this.showExitDeleted = true;
         }
       },
-      error: (err) => {
-        console.error('Error al verificar la sala de voz:', err);
+      error: () => {
+        // Manejar el error sin usar console.error
         this.voiceRoomClosedModal.set(true);
+        // Opcional: mostrar algún mensaje al usuario o manejar el error de otra forma.
       },
     });
   }
