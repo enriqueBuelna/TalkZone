@@ -13,6 +13,7 @@ import { UserService } from '../../auth/services/user.service';
 import { EditProfileGroupComponent } from '../../group/view-of-group/edit-profile/edit-profile.component';
 import { ModalPostComponent } from '../../my-feed/create-post/modal-post/modal-post.component';
 import { EditPreferencesComponent } from '../edit-preferences/edit-preferences.component';
+import { TopicsTagsService } from '../../welcome/services/topics-tags.service';
 @Component({
   selector: 'app-information-profile',
   standalone: true,
@@ -65,7 +66,8 @@ export class InformationProfileComponent implements OnInit {
   constructor(
     private _userPreference: UserPreferenceSignalService,
     private _communityService: CommunitieService,
-    private _userService: UserService
+    private _userService: UserService,
+    public _TopicTagsService: TopicsTagsService
   ) {}
 
   ngOnInit(): void {

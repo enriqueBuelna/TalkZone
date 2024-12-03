@@ -49,8 +49,6 @@ export class ModalPostComponent implements OnInit {
     { name: 'Publico', value: 'public' },
     { name: 'Privado', value: 'private' },
   ];
-  //foto
-  photoFile: File | null = null;
   constructor(
     private _userPreferences: UserPreferenceService,
     private _postService: PostService,
@@ -64,7 +62,25 @@ export class ModalPostComponent implements OnInit {
       content: ['', [Validators.required]],
       topic_id: ['', [Validators.required]],
       visibility: ['public', [Validators.required]],
+      tags: ['']
     });
+  }
+
+  showTagsInput = false;
+
+  toggleTagsInput() {
+      this.showTagsInput = !this.showTagsInput;
+      if (!this.showTagsInput) {
+          // Limpiar las etiquetas cuando se oculta
+          this.formPost.get('tags')?.setValue('');
+      }
+  }
+
+  removeTag(index: number) {
+      const tagsControl = this.formPost.get('tags');
+      const currentTags = tagsControl?.value.split(',');
+      currentTags.splice(index, 1);
+      tagsControl?.setValue(currentTags.join(','));
   }
 
   ngOnInit(): void {
@@ -245,20 +261,49 @@ export class ModalPostComponent implements OnInit {
     }
   }
 
+  photoFile: File | null = null;
+  imagePreviewUrl: string | null = null;
+
   onImageSelected(event: Event): void {
     const fileInput = event.target as HTMLInputElement;
-
+    
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
-      this.photoFile = file; // Guardar el archivo en la propiedad
+      
+      // Validar que sea una imagen
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Por favor, sube solo imágenes (JPEG, PNG, GIF, WEBP)');
+        fileInput.value = ''; // Limpiar el input
+        return;
+      }
+      
+      // Validar tamaño de imagen (opcional, ejemplo: máximo 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        alert('La imagen no debe superar los 5MB');
+        fileInput.value = '';
+        return;
+      }
+
+      this.photoFile = file;
+
       const reader = new FileReader();
-
       reader.onload = (e: ProgressEvent<FileReader>) => {
-        const previewUrl = e.target?.result as string;
-        console.log('Vista previa de la imagen:', previewUrl); // Para mostrar una previsualización si lo deseas
+        this.imagePreviewUrl = e.target?.result as string;
       };
+      reader.readAsDataURL(file);
+    }
+  }
 
-      reader.readAsDataURL(file); // Convierte el archivo a Base64 para la previsualización (opcional)
+  removeImage(): void {
+    this.photoFile = null;
+    this.imagePreviewUrl = null;
+    
+    // Limpiar el input de archivo
+    const fileInput = document.getElementById('imageInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 }

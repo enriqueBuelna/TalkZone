@@ -48,7 +48,7 @@
         </div>
       </form>
       <!-- Preferencias -->
-
+      <app-button text="Agregar etiquetas" (clickEvent)="addTags()"></app-button>
       <div class="post-footer">
         <app-button text="Guardar cambios" (clickEvent)="saveChanges()"></app-button>
       </div>
@@ -57,4 +57,37 @@
 
   @if (modalShow()) {
   <app-modal-user-preferences [type]="type" (clickEvent)="quitModal()"></app-modal-user-preferences>
+  }
+
+  @if (tagAdd()) {
+    <div class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-close" (click)="closeModal()">&times;</span>
+        </div>
+        @if (group.getTags()!.length > 0) {
+        <div class="title">
+          <h3>Etiquetas relacionadas:</h3>
+        </div>
+        }
+        <div class="modal-body">
+          @if (group.getTags()!.length > 0 || _TopicTagsService.getTagAdded().length > 0) {
+          @for (item of _TopicTagsService.getTagAdded(); track item.getId()) {
+          <p-chip [label]="item.getTagName()" [removable]="true" (onRemove)="tagRemoveFull(item.getId())" />
+          }
+          }@else {
+          <h3>Esta preferencia no tiene etiquetas relacionadas</h3>
+          }
+        </div>
+        <div class="input-group text-center">
+          <form [formGroup]="formTopics">
+            <p-autoComplete [suggestions]="filteredTags" optionLabel="tag_name" (completeMethod)="filterTags($event)"
+              formControlName="tag" [showEmptyMessage]="false" />
+          </form>
+    
+          <app-button buttonClass="medium-button" text="Añadir" (clickEvent)="addTag()"></app-button>
+        </div>
+        <app-button buttonClass="medium-button" text="Guardar cambios" (clickEvent)="saveTags()"></app-button>
+      </div>
+    </div>
   }

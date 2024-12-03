@@ -62,7 +62,7 @@
         </form>
     </div>
 }@else {
-    <div id="modal-background" class="modal-background">
+    <!-- <div id="modal-background" class="modal-background">
         <form [formGroup]="formPost">
             <div class="post-modal">
                 <div class="post-header">
@@ -98,6 +98,98 @@
                             <input type="file" (change)="onImageSelected($event)" />
                         </label>
     
+                        <button class="action-btn">😊</button>
+                    </div>
+                    <button class="post-button" (click)="addPost()">
+                        @if (type==='post') {
+                            Postear
+                        }@else {
+                            Comentar
+                        }
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div> -->
+
+    <div id="modal-background" class="modal-background">
+        <form [formGroup]="formPost">
+            <div class="post-modal">
+                <div class="post-header">
+                    @if(type==='post'){
+                    <span>Crear publicación</span>
+                    }@else {
+                    <span>Crear comentario</span>
+                    }
+                    <button class="close-btn" (click)="onClick()">&times;</button>
+                </div>
+                <div class="post-content">
+                    <div class="user-info">
+                        <div class="info">
+                            <img [src]="myUser.getProfilePic()" alt="User Photo" class="user-photo">
+                            <div class="user-name">{{myUser.getUsername()}}</div>
+                        </div>
+                        <div class="privacy">
+                            @if (type === 'post') {
+                            <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
+                                formControlName="topic_id" />
+                            <div class="privacy">
+                                <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <textarea placeholder="¿Qué estás pensando?" class="post-textarea" formControlName="content"></textarea>
+                    
+                    <!-- Nueva sección para vista previa de imagen -->
+                    @if (imagePreviewUrl) {
+                    <div class="image-preview-container">
+                        <img [src]="imagePreviewUrl" alt="Image Preview" class="image-preview">
+                        <button class="remove-image-btn" (click)="removeImage()">&times;</button>
+                    </div>
+                    }
+                    <div class="tags-toggle-section">
+                        @if (!showTagsInput) {
+                            <button class="add-tags-btn" (click)="toggleTagsInput()">
+                                + Añadir etiquetas
+                            </button>
+                        } @else {
+                            <div class="tags-input-container">
+                                <div class="tags-header">
+                                    <span>Etiquetas</span>
+                                    <button class="close-tags-btn" (click)="toggleTagsInput()">&times;</button>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    class="tags-input" 
+                                    placeholder="Escriba etiquetas separadas por comas" 
+                                    formControlName="tags"
+                                />
+                                <div class="tags-list">
+                                    @if (formPost.get('tags')?.value) {
+                                        @for (tag of formPost.get('tags')?.value.split(','); track $index) {
+                                            <span class="tag">
+                                                {{tag.trim()}}
+                                                <button class="remove-tag" (click)="removeTag($index)">&times;</button>
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="post-actions">
+                        <label class="image-upload-btn action-btn">
+                            <input 
+                                type="file"
+                                id="imageInput"
+                                accept="image/*"
+                                (change)="onImageSelected($event)"
+                            />
+                            <span class="btn-content">📷</span>
+                        </label>
                         <button class="action-btn">😊</button>
                     </div>
                     <button class="post-button" (click)="addPost()">

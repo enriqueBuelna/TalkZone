@@ -145,7 +145,9 @@ export class RemotePostRespository extends PostRepository {
               undefined,
               post.community_id,
               post.type_community,
-              post.post_liked
+              post.post_liked,
+              post.community.communitie_name,
+              post.community.profile_picture
             );
           });
         })

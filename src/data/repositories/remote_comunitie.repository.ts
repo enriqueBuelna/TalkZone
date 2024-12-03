@@ -7,6 +7,7 @@ import { GroupComplete } from '../../domain/models/group/groupComplete.model';
 import { CommunityMember } from '../../domain/models/communityMember.model';
 import { UserDemo } from '../../domain/models/user-demo.model';
 import { ApplyGroup } from '../../domain/models/group/apply_group.model';
+import { Tag } from '../../domain/models/tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,37 +35,53 @@ export class RemoteComunitieRepository extends CommunitieRepository {
       .pipe(map((el) => el));
   }
 
-  override editGroup(group_id: string, privacy: string,about_communitie:string, cover_picture: string, profile_picture: string): Observable<boolean> {
+  override editGroup(
+    group_id: string,
+    privacy: string,
+    about_communitie: string,
+    cover_picture: string,
+    profile_picture: string
+  ): Observable<boolean> {
     const payload = {
-      group_id, 
-      privacy, 
+      group_id,
+      privacy,
       about_communitie,
-      cover_picture, 
-      profile_picture
-    }
+      cover_picture,
+      profile_picture,
+    };
 
-    return this._http.post<boolean>(`${this.API_URL}/communities/editGroup`, payload).pipe((map((el) => el)));
+    return this._http
+      .post<boolean>(`${this.API_URL}/communities/editGroup`, payload)
+      .pipe(map((el) => el));
   }
 
-  override responseApply(user_id: string, group_id: string, status: string): Observable<any> {
+  override responseApply(
+    user_id: string,
+    group_id: string,
+    status: string
+  ): Observable<any> {
     const payload = {
-      user_id, 
-      group_id, 
-      status
-    }
+      user_id,
+      group_id,
+      status,
+    };
 
-    return this._http.post<boolean>(`${this.API_URL}/communities/responseApply`, payload).pipe((map((el) => el)))
+    return this._http
+      .post<boolean>(`${this.API_URL}/communities/responseApply`, payload)
+      .pipe(map((el) => el));
   }
 
   override getPendingApplies(group_id: string): Observable<ApplyGroup[]> {
     const params = new HttpParams().set('group_id', group_id);
     return this._http
-      .get<ApplyGroup[]>(`${this.API_URL}/communities/getPendingApplies`, {params})
+      .get<ApplyGroup[]>(`${this.API_URL}/communities/getPendingApplies`, {
+        params,
+      })
       .pipe(
         map((groups: any[]) => {
           // Verifica si conversations es un array vacío
           if (!Array.isArray(groups) || groups.length === 0) {
-            console.log("df")
+            console.log('df');
             return []; // Devuelve un array vacío si no hay conversaciones
           }
           return groups.map(
@@ -135,14 +152,17 @@ export class RemoteComunitieRepository extends CommunitieRepository {
       .pipe(map((el) => el));
   }
 
-  override viewIfOnePending(user_id: string, group_id: string): Observable<boolean> {
+  override viewIfOnePending(
+    user_id: string,
+    group_id: string
+  ): Observable<boolean> {
     const payload = {
       group_id,
       user_id,
     };
     return this._http
-    .post<boolean>(`${this.API_URL}/communities/viewIfOnePending`, payload)
-    .pipe(map((el) => el));
+      .post<boolean>(`${this.API_URL}/communities/viewIfOnePending`, payload)
+      .pipe(map((el) => el));
   }
 
   override getGroupsFollowed(user_id: string): Observable<GroupPresentation[]> {
@@ -234,7 +254,11 @@ export class RemoteComunitieRepository extends CommunitieRepository {
             ),
             group.creator_id,
             group.type,
-            group.userPreference.id
+            group.userPreference.id,
+            group.com_tag_id.map(
+              (tg: any) => new Tag(tg.tag.tag_name, tg.tag.id, tg.tag.topic_id)
+            ),
+            group.userPreference.topic.id,
           );
         })
       );

@@ -354,3 +354,53 @@ label input {
   color: #333;
   padding: 0 8px;
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+.modal-contenido {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+}
+.modal-botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.modal-botones button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#etiquetas-seccion {
+  display: none;
+  margin-top: 15px;
+}
+.etiqueta-input {
+  display: flex;
+  margin-bottom: 10px;
+}
+.etiqueta-input input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 5px;
+}
+.etiqueta-input button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px;
+}

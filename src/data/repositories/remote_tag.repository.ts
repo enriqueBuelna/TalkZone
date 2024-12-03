@@ -8,6 +8,17 @@ import { Tag } from '../../domain/models/tag.model';
   providedIn: 'root',
 })
 export class RemoteTagRespository extends TagRepository {
+  override submitTagsGroup(group_id: string, tag: Tag[], tagsEliminated: number[]): Observable<any> {
+    const payload = {
+      group_id,
+      tag,
+      tagsEliminated
+    }
+    return this._http.post<any>(`${this.API_URL}/preferencesGroups/createTags`, payload);
+  }
+
+  
+
   override submitTagsPreferences(user_preference_id: string, tag: Tag[], tagsEliminated:number[]): Observable<any> {
     const payload = {
       user_preference_id,

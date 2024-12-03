@@ -5,15 +5,33 @@ import { Tag } from '../models/tag.model';
 import { GetAllTag } from '../use_cases/tag/getAllTag.user_case';
 import { AddTag } from '../use_cases/tag/addTag.use_case';
 import { SubmitTagsPreferences } from '../use_cases/tag/submitTagsPreferences.use_case';
+import { SubmitTagsGroup } from '../use_cases/tag/submitTagsGroup.use_case';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TagService {
-  constructor(private _getAllTag: GetAllTag, private _addTag: AddTag, private _submitTagPreferences:SubmitTagsPreferences) {}
+  constructor(
+    private _getAllTag: GetAllTag,
+    private _addTag: AddTag,
+    private _submitTagPreferences: SubmitTagsPreferences,
+    private _submitTagGroup: SubmitTagsGroup
+  ) {}
 
-  submitTagPreferences(user_preference_id:string, tags: Tag[], tagsEliminated:number[]){
-    return this._submitTagPreferences.execute(user_preference_id, tags, tagsEliminated);
+  submitTagGroup(group_id: string, tags: Tag[], tagsEliminated: number[]) {
+    return this._submitTagGroup.execute(group_id, tags, tagsEliminated);
+  }
+
+  submitTagPreferences(
+    user_preference_id: string,
+    tags: Tag[],
+    tagsEliminated: number[]
+  ) {
+    return this._submitTagPreferences.execute(
+      user_preference_id,
+      tags,
+      tagsEliminated
+    );
   }
 
   getAllTag(id: number): Observable<Tag[]> {

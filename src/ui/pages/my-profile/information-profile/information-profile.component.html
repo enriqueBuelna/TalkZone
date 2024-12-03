@@ -48,15 +48,15 @@
         </div>
 
         @if (isPrimary()) {
-        <div class="button-container">
-            <app-button text="Postear" (clickEvent)="createPost()"></app-button>
-            <app-button text="Editar perfil" (clickEvent)="editProfile()"></app-button>
-            <app-button text="Editar preferencias" (clickEvent)="editPreferences()"></app-button>
+        <div class="group-actions">
+            <button class="btn btn-primary" (click)="createPost()">Postear</button>
+            <button class="btn btn-secondary" (click)="editProfile()">Editar perfil</button>
+            <button class="btn btn-secondary" (click)="editPreferences()">Editar preferencias</button>
         </div>
         }
     </div>
     }@else if(type === 'group'){
-    <div class="description">
+    <!-- <div class="description">
         <h4>Acerca de el grupo:</h4>
         <p>
             @if(group.getDescription()){
@@ -80,7 +80,50 @@
     </div>
     }@else if (typeMember()==='no-member') {
     <app-button text="Unirse al grupo" (clickEvent)="getInGroup()"></app-button>
-    }
+    } -->
+    <div class="group-sidebar">
+        <div class="group-description">
+            <h3>Acerca de el grupo:</h3>
+            @if (group.getDescription()) {
+            <p>{{group.getDescription()}}</p>
+            }@else {
+            <p>De momento, no hay descripcion</p>
+            }
+        </div>
+
+        <div class="group-theme">
+            <h2>Tema principal:</h2>
+            <h3>{{group.getTopicName()}}</h3>
+        </div>
+
+        <div class="group-tags">
+            @if (group.getTags()) {
+            <h3>Etiquetas relacionadas:</h3>
+            @for (item of group.getTags(); track $index) {
+            <span class="tag">{{item.getTagName()}}</span>
+
+            }
+            }
+        </div>
+
+
+        @if(typeMember()==='admin'){
+        <div class="group-actions">
+            <button class="btn btn-primary" (click)="createPost()">Postear</button>
+            <button class="btn btn-secondary" (click)="editProfile()">Editar grupo</button>
+            <button class="btn btn-secondary" (click)="showApplies()">Solicitudes</button>
+        </div>
+        }@else if(typeMember()==='member'){
+        <div class="group-actions">
+            <button class="btn btn-primary" (click)="createPost()">Postear</button>
+            <button class="btn btn-secondary" (click)="leaveGroup()">Salir del grupo</button>
+        </div>
+        }@else if (typeMember()==='no-member') {
+        <div class="group-actions">
+            <button class="btn btn-secondary" (click)="getInGroup()">Unirse al grupo</button>
+        </div>
+        }
+    </div>
 
     }
 </div>
