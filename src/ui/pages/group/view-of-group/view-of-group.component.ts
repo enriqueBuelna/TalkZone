@@ -108,7 +108,7 @@ export class ViewOfGroupComponent implements OnInit {
         }
       },
       error: (error) => {
-        // console.error(error);
+        console.error(error);
         this.groupNotFound = true;
       },
     });

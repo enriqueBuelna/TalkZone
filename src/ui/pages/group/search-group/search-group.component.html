@@ -1,0 +1,22 @@
+<div class="contenedor">
+    <app-header>
+        <div class="header"><h2>Resultados de busqueda:</h2></div>
+    </app-header>
+    <div>
+        @if (!yetNo) {
+            @if (myGroups!.length > 0) {
+                <div class="groups">
+                    @for (groups of myGroups; track $index) {
+                    <app-group-presentation [group]="groups"></app-group-presentation>
+                    }
+                </div>
+                }@else {
+                <div class="no-connections-state">
+                    <div class="no-connections-content">
+                        <h2>No hubo coincidencias, intenta buscar otra cosa</h2>
+                    </div>
+                </div>
+                }
+        }
+    </div>
+</div>

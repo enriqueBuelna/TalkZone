@@ -1,39 +1,46 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from "../../../utils/header/header.component";
-import { AsideComponent } from "../../../utils/aside/aside.component";
+import { HeaderComponent } from '../../../utils/header/header.component';
+import { AsideComponent } from '../../../utils/aside/aside.component';
 import { Router, RouterOutlet } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-group-skeleton',
   standalone: true,
-  imports: [ AsideComponent, RouterOutlet, ReactiveFormsModule],
+  imports: [AsideComponent, RouterOutlet, ReactiveFormsModule],
   templateUrl: './group-skeleton.component.html',
-  styleUrl: './group-skeleton.component.css'
+  styleUrl: './group-skeleton.component.css',
 })
 export class GroupSkeletonComponent {
-  formSearch!:FormGroup;
-  constructor(private _router:Router, private _formBuilder:FormBuilder){
+  formSearch!: FormGroup;
+  constructor(private _router: Router, private _formBuilder: FormBuilder) {
     this.formSearch = this._formBuilder.group({
-      search: ['',[Validators.required]]
-    })
+      search: ['', [Validators.required]],
+    });
   }
 
-
-
-  goToFeed(){
-    this._router.navigate(['home','groups','my-feed'])
+  goToFeed() {
+    this._router.navigate(['home', 'groups', 'my-feed']);
   }
 
-  goToMyGroups(){
-    this._router.navigate(['home','groups','my-groups'])
+  goToMyGroups() {
+    this._router.navigate(['home', 'groups', 'my-groups']);
   }
 
-  goToDiscover(){
-    this._router.navigate(['home','groups'])
+  goToDiscover() {
+    this._router.navigate(['home', 'groups']);
   }
 
-  search(){
-    
+  searchGroup() {
+    let { search } = this.formSearch.value;
+
+    if (search) {
+      this._router.navigate(['home', 'groups', 'search', search]);
+    }
   }
 }

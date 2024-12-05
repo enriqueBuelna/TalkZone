@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
+import { NotService } from '../../../pages/notifications/services/notifications.service';
 
 @Component({
   selector: 'app-navbar_list-item',
@@ -16,4 +17,7 @@ export class List_itemApp {
   @Input() notificationCount?: number; // Contador de notificaciones (opcional)
   @Input() icon?:string;
   @Input() badge?:boolean;
+  constructor(public _notService:NotService){
+
+  }
 }

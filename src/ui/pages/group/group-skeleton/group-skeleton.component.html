@@ -9,8 +9,8 @@
             <div class="flex">
                 <form [formGroup]="formSearch">
                     <div class="search-container">
-                        <input type="text" placeholder="Buscar en TalkZone" class="search-input" formControlName="search" (keydown.enter)="search()">
-                        <button class="search-button" (click)="search()">
+                        <input type="text" placeholder="Buscar en TalkZone" class="search-input" formControlName="search" (keydown.enter)="searchGroup()">
+                        <button class="search-button" (click)="searchGroup()">
                             <i class="pi 
                               pi-search"></i>
                         </button>

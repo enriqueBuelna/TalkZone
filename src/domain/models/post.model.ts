@@ -1,6 +1,7 @@
 import { UserDemo } from './user-demo.model';
 import { UserPreference } from './user_preference.model';
 import { Comment } from './comment.model';
+import { Tag } from './tag.model';
 export class Post {
   private id: string;
   private userInfo: UserDemo;
@@ -16,6 +17,7 @@ export class Post {
   private is_liked:boolean = false;
   private name_community?:string;
   private cover_picture?:string;
+  private tags:Tag[] = [];
   constructor(
     id: string,
     userInfo: UserDemo,
@@ -25,6 +27,7 @@ export class Post {
     privacy: string,
     userPreference: UserPreference | null,
     media_url: string,
+    tags:Tag[],
     comments?: Comment[],
     community_id?: string,
     type_community?: string,
@@ -45,6 +48,7 @@ export class Post {
     this.type_community = type_community;
     this.name_community = name_community;
     this.cover_picture = cover_picture;
+    this.tags = tags;
 
     if(!comments){
       this.comments = [];
@@ -146,5 +150,13 @@ export class Post {
 
   setTypeCommunity(type :string){
     this.type_community = type;
+  }
+
+  getTags(){
+    return this.tags;
+  }
+
+  setTags(tags: Tag[]){
+    this.tags = tags;
   }
 }

@@ -1,0 +1,11 @@
+<div class="contenedor">
+    <app-header>
+        <div class="header">
+            <i class="pi pi-arrow-left left" style="font-size: 1.5rem" (click)="goToHome()"></i>
+            <h2>Resultados de la busqueda:</h2>
+        </div>
+    </app-header>
+    @for (post of allPost(); track post.getId()) {
+    <app-post [postContent]="post"></app-post>
+    }
+</div>

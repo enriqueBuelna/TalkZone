@@ -51,4 +51,22 @@ export class RemoteNotificationRepository extends NotificationRepository {
         })
       );
   }
+
+  override markAsRead(user_id: string): Observable<void> {
+    const payload = {
+      user_id
+    }
+    return this._http
+      .post<void>(`${this.API_URL}/notifications/markAsRead`,  payload )
+      .pipe(map((el) => el));
+  }
+
+  override getCantNotifications(user_id: string): Observable<number> {
+    const params = new HttpParams().set('user_id', user_id);
+    return this._http
+      .get<number>(`${this.API_URL}/notifications/getCantNotifications`, {
+        params,
+      })
+      .pipe(map((el) => el));
+  }
 }

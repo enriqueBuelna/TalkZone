@@ -13,6 +13,35 @@ import { Tag } from '../../domain/models/tag.model';
   providedIn: 'root',
 })
 export class RemoteComunitieRepository extends CommunitieRepository {
+
+  override searchGroup(group_name: string): Observable<GroupPresentation[]> {
+    const params = new HttpParams().set('group_name', group_name);
+    return this._http
+      .get<GroupComplete[]>(`${this.API_URL}/communities/searchGroup`, {
+        params,
+      })
+      .pipe(
+        map((groups: any[]) => {
+          // Verifica si conversations es un array vacío
+          if (!Array.isArray(groups) || groups.length === 0) {
+            return []; // Devuelve un array vacío si no hay conversaciones
+          }
+          console.log(groups);
+          return groups.map(
+            (group: any) =>
+              new GroupPresentation(
+                group.id,
+                group.communitie_name,
+                group.is_private,
+                group.userPreference.topic.topic_name,
+                group.profile_picture,
+                group.cover_picture
+              )
+          );
+        })
+      );
+  }
+
   // "/communities/getOutGroup"
   override getOutGroup(user_id: string, group_id: string): Observable<boolean> {
     const payload = {

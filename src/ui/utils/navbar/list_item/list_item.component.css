@@ -29,3 +29,33 @@ a {
   font-weight: bold;
   transition: color 0.3s;
 }
+
+.navbar-item {
+  position: relative;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* .navbar-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+} */
+
+.navbar-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.navbar-label {
+  font-weight: 500;
+}
+

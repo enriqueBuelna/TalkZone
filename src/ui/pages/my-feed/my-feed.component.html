@@ -4,7 +4,17 @@
     </div>
     <div id="aside">
         <app-aside>
-            <app-header></app-header>
+            <div class="flex">
+                <form [formGroup]="formSearch">
+                    <div class="search-container">
+                        <input type="text" placeholder="Buscar en TalkZone" class="search-input" formControlName="search" (keydown.enter)="search()">
+                        <button class="search-button" (click)="search()">
+                            <i class="pi 
+                              pi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
             <app-online-users></app-online-users>
         </app-aside>
     </div>

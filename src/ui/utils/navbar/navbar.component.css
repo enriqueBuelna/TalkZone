@@ -69,7 +69,7 @@ a {
 }
 
 .tooltip {
-  color:#000;
+  color: #000;
   position: absolute;
   top: -100px;
   right: 0;
@@ -96,4 +96,43 @@ a {
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.navbar-list {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.app-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  /* letter-spacing: 1px; */
+}
+
+.talk-part {
+  color: #2c3e50;
+  margin-right: 5px;
+}
+
+.zone-part {
+  color: #34495e;
+  font-weight: 900;
 }

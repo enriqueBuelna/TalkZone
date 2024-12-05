@@ -1,14 +1,16 @@
+<li class="navbar-item">
+  <a [routerLink]="link" class="navbar-link">
+    @if (!badge) {
+    <span class="navbar-icon" [ngClass]="icon"></span>
+    }@else {
+    @if (label === 'Notificaciones' && _notService.getUnreadNotifications() > 0) {
+    <span class="navbar-icon" [ngClass]="icon" pBadge [value]="_notService.getUnreadNotifications()"></span>
+    }@else {
+    <span class="navbar-icon" [ngClass]="icon"></span>
+    }
+    }
+    <span class="navbar-label">{{ label }}</span>
+    <!-- @if (badge) {
+      <span class="navbar-badge">{{ badge }}</span>
+    } -->
 <li>
-  <!-- @if(badge){
-    <a [routerLink]="link">
-      <span [ngClass]="icon" pBadge value="2"></span>{{ label }}
-    </a>
-  }@else {
-    <a [routerLink]="link">
-      <span [ngClass]="icon"></span>{{ label }}
-    </a>
-  } -->
-  <a [routerLink]="link">
-    <span [ngClass]="icon"></span>{{ label }}
-  </a>
-</li>

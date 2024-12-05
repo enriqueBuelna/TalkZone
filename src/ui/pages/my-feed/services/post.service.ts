@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Post } from '../../../../domain/models/post.model';
 import { UserPreference } from '../../../../domain/models/user_preference.model';
+import { Tag } from '../../../../domain/models/tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class PostCService {
     this.posts.update((pst) => [...pst, ...post]);
   }
 
-  findPost(post_id: string, content:string, media_url:string = '', visibility:string, topic_id:UserPreference){
+  findPost(post_id: string, content:string, media_url:string = '', visibility:string, topic_id:UserPreference, tags:Tag[]){
     this.posts().find(el => {
       if(el.getId() === post_id){
         el.setContent(content);
@@ -33,6 +34,7 @@ export class PostCService {
         if(media_url){
           
         }
+        el.setTags(tags);
       }
     })
   }

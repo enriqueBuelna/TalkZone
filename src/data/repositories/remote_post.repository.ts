@@ -7,11 +7,67 @@ import { Post } from '../../domain/models/post.model';
 import { UserDemo } from '../../domain/models/user-demo.model';
 import { UserPreference } from '../../domain/models/user_preference.model';
 import { Comment } from '../../domain/models/comment.model';
+import { Tag } from '../../domain/models/tag.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RemotePostRespository extends PostRepository {
+  override searchPost(
+    user_id: string,
+    page: number,
+    post_content: string
+  ): Observable<Post[]> {
+    const params = new HttpParams()
+      .set('user_id', user_id)
+      .set('page', page)
+      .set('post_content', post_content);
+    return this._http
+      .get<any[]>(`${this.API_URL}/posts/searchPost`, { params })
+      .pipe(
+        map((posts: any[]) => {
+          if (!Array.isArray(posts) || posts.length === 0) {
+            return []; // Devuelve un array vacío si no hay publicaciones
+          }
+          return posts.map((post) => {
+            return new Post(
+              post.id,
+              new UserDemo(
+                post.post_user.id, // Accede usando los nombres completos de las propiedades en la respuesta
+                post.post_user.username,
+                post.post_user.gender,
+                post.post_user.profile_picture,
+                ''
+              ),
+              post.content,
+              post.likes_count,
+              post.comments_count,
+              post.visibility,
+              new UserPreference(
+                post.user_preference_id, // Corregido
+                post.post_user_preference.topic_id, // Accede usando el nombre completo
+                post.post_user_preference.type,
+                post.post_user_preference.topic.topic_name
+              ),
+              post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
+              undefined,
+              undefined,
+              undefined,
+              post.post_liked
+            );
+          });
+        })
+      );
+  }
+
   override updatePostGroup(
     id: string,
     content: string,
@@ -33,19 +89,30 @@ export class RemotePostRespository extends PostRepository {
     content: string,
     media_url: string,
     visibility: string,
-    topic_id: string
-  ): Observable<boolean> {
+    topic_id: string,
+    tags: string[]
+  ): Observable<Tag[]> {
     const payload = {
       id,
       content,
       media_url,
       visibility,
       topic_id,
+      tags,
     };
 
     return this._http
-      .post<boolean>(`${this.API_URL}/posts/updatePost`, payload)
-      .pipe(map((el) => el));
+      .post<Tag[]>(`${this.API_URL}/posts/updatePost`, payload)
+      .pipe(
+        map((tags: any[]) => {
+          if (!Array.isArray(tags) || tags.length === 0) {
+            return [];
+          }
+          return tags.map(
+            (tag: any) => new Tag(tag.tag_name, tag.id, tag.topic_id)
+          );
+        })
+      );
   }
   override createComment(
     user_id: string,
@@ -93,6 +160,14 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
               undefined,
               post.community_id,
               post.type_community,
@@ -142,6 +217,14 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
               undefined,
               post.community_id,
               post.type_community,
@@ -187,6 +270,14 @@ export class RemotePostRespository extends PostRepository {
                 )
               : null, // Si es null, se asigna null
             post.media_url,
+            post.post_tagss.map(
+              (tag: any) =>
+                new Tag(
+                  tag.post_tag_tag.tag_name,
+                  tag.post_tag_tag.id,
+                  tag.post_tag_tag.topic_id
+                )
+            ),
             undefined,
             post.community_id,
             post.type_community,
@@ -233,6 +324,14 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
               undefined,
               undefined,
               undefined,
@@ -270,6 +369,14 @@ export class RemotePostRespository extends PostRepository {
               post.post_user_preference.topic.topic_name
             ),
             post.media_url,
+            post.post_tagss.map(
+              (tag: any) =>
+                new Tag(
+                  tag.post_tag_tag.tag_name,
+                  tag.post_tag_tag.id,
+                  tag.post_tag_tag.topic_id
+                )
+            ),
             (post.comments || []).map(
               (coment: any) =>
                 new Comment(
@@ -326,6 +433,14 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
               undefined,
               undefined,
               undefined,
@@ -373,6 +488,14 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
               undefined,
               undefined,
               undefined,
@@ -428,6 +551,14 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
+              post.post_tagss.map(
+                (tag: any) =>
+                  new Tag(
+                    tag.post_tag_tag.tag_name,
+                    tag.post_tag_tag.id,
+                    tag.post_tag_tag.topic_id
+                  )
+              ),
               undefined,
               undefined,
               undefined,

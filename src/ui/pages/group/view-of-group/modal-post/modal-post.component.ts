@@ -72,6 +72,7 @@ export class ModalPostGroupComponent implements OnInit {
     this.formPost = this._formBuilder.group({
       content: ['', [Validators.required]],
       visibility: ['', [Validators.required]],
+      tags:['']
     });
   }
 
@@ -128,6 +129,7 @@ export class ModalPostGroupComponent implements OnInit {
         media_url: downloadURL,
         community_id: this.group.getId().toString(),
         type_community: aux2,
+        tags: this.formPost.get('tags')?.value.split(','),
       };
 
       this._postService.newPost(payload).subscribe((el) => {

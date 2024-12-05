@@ -305,3 +305,11 @@
     margin-left: 5px;
     cursor: pointer;
 }
+
+.emoji-picker-container {
+    position: absolute;
+    z-index: 121321321;
+    padding: 10px;
+    top: 10px;
+    left: 10px;
+  }

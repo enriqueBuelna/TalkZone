@@ -4,30 +4,6 @@
         <!-- Header -->
         <div class="post-header">
             @if(postContent.getCommunityId()){
-            <!-- <div class="user-info">
-                <div class="profile-image">
-                    <div class="group-image-overlay">
-                        <img src="images/images.jpeg" alt="Group Image">
-                    </div>
-                    <img [src]="postContent.getUserInfo().getProfilePic()"
-                        [alt]="postContent.getUserInfo().getUsername()">
-                </div>
-                <div class="user-details">
-                    <div class="user-top-line">
-                        <div class="group-name">
-                            <p class="group">Grupo</p>
-                            <span class="username">enriqueBuelna</span>
-                        </div>
-                        <div class="username-container">
-                            <div class="preference-badge">
-                                <i>📝</i>
-                                <span>Preguntas y respuestas</span>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="post-time">2 h · 🌎</span>
-                </div>
-            </div> -->
             <div class="user-info">
                 <div class="profile-container">
                     <img [src]="postContent.getCoverPicture()" class="profile-image">
@@ -144,6 +120,17 @@
                 <img [src]="postContent.getMediaUrl()" alt="Post media" class="post-media">
             </div>
             }
+            <div class="tags">
+                @if (postContent.getTags() && postContent.getTags().length > 0) {
+                    <div class="post-tags">
+                        <div class="tags-container">
+                            @for (tag of postContent.getTags(); track tag) {
+                                <span class="tag">{{tag.getTagName()}}</span>
+                            }
+                        </div>
+                    </div>
+                    }
+            </div>
         </div>
 
         <!-- Actions -->

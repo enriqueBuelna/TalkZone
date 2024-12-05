@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { IPost } from '../entities/post/post.entitie';
 import { Post } from '../models/post.model';
+import { Tag } from '../models/tag.model';
 export abstract class PostRepository {
   abstract newPost(info: IPost): Observable<Post>;
   abstract getForYouPost(user_id: string, page: number, other_user_id:string): Observable<Post[]>;
@@ -24,8 +25,9 @@ export abstract class PostRepository {
     content: string,
     media_url: string,
     visibility: string,
-    topic_id: string
-  ): Observable<boolean>;
+    topic_id: string,
+    tags:string[]
+  ): Observable<Tag[]>;
   abstract updatePostGroup(
     id:string, 
     content:string,
@@ -33,4 +35,5 @@ export abstract class PostRepository {
     visibility:string
   ):Observable<boolean>;
   abstract getPostLike(user_id:string, page:number):Observable<Post[]>;
+  abstract searchPost(user_id:string, page:number, post_content:string):Observable<Post[]>;
 }

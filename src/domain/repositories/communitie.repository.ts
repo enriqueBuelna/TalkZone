@@ -29,4 +29,5 @@ export abstract class CommunitieRepository {
   abstract viewIfOnePending(user_id:string, group_id:string):Observable<boolean>;
   abstract deleteApply(user_id:string, group_id:string):Observable<boolean>;
   abstract getOutGroup(user_id: string, group_id: string): Observable<boolean>;
+  abstract searchGroup(group_name:string):Observable<GroupPresentation[]>;
 }

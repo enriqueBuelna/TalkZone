@@ -6,6 +6,8 @@ import { SocketService } from '../../../socket_service/socket.service';
 import { UserSocket } from '../../../socket_service/user_socket.service';
 import { UserDemo } from '../../../domain/models/user-demo.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NotificationService } from '../../../domain/services/notifications.service';
+import { NotService } from '../notifications/services/notifications.service';
 
 @Component({
   selector: 'app-home',
@@ -20,15 +22,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _socketService: SocketService,
     private _userSocket: UserSocket,
-    private _destroyRef: DestroyRef
+    private _destroyRef: DestroyRef,
+    private _notificationService: NotificationService,
+    private _notService: NotService
   ) {}
   ngOnInit(): void {
+    this._notificationService
+      .getCantNotifications(this._authService.getUserId())
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          if(el){
+            this._notService.setUnreadNotifications(el);
+          }
+        },
+        error: (el) => {}
+      });
     if (!this._authService.isProfileComplete()) {
-      this._router.navigate(['home', 'welcome']); // Redirigir a la página de bienvenida
+      this._router.navigate(['home', 'welcome']);
     }
-    // this._socketService.emitEvent('connection', null);
-    // this._router.navigate(['home', 'welcome']); // Redirigir a la página de bienvenida
-    // console.log(this._socketService);
     this._socketService.connect();
     this._socketService.emitEvent('getUsers', this._authService.getUserId());
     this._userSocket

@@ -1,4 +1,11 @@
-import { Component, ElementRef, EventEmitter, HostListener, Output, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Output,
+  Renderer2,
+} from '@angular/core';
 import { List_itemApp } from './list_item/list_item.component';
 import { UserService } from '../../pages/auth/services/user.service';
 import { CommonModule } from '@angular/common';
@@ -12,10 +19,17 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class NavbarApp {
+  goToHome() {
+    this._router.navigate(['home','posts']);
+  }
   options: any;
 
-  constructor(private _userService: UserService,private elementRef: ElementRef,
-    private renderer: Renderer2, private _router:Router) {
+  constructor(
+    private _userService: UserService,
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private _router: Router
+  ) {
     this.options = [
       {
         name: 'Inicio',
@@ -75,15 +89,21 @@ export class NavbarApp {
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent) {
-    if (this.showTooltip && !this.elementRef.nativeElement.contains(event.target)) {
-      this.renderer.setStyle(this.elementRef.nativeElement.querySelector('.tooltip'), 'display', 'none');
+    if (
+      this.showTooltip &&
+      !this.elementRef.nativeElement.contains(event.target)
+    ) {
+      this.renderer.setStyle(
+        this.elementRef.nativeElement.querySelector('.tooltip'),
+        'display',
+        'none'
+      );
       this.showTooltip = false;
     }
   }
 
-  closeSesion(){
+  closeSesion() {
     this._userService.clearAuthData();
     this._router.navigate(['']);
   }
-
 }

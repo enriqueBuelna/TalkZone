@@ -1,30 +1,33 @@
 <nav class="navbar-left">
-    <h2>TalkZone</h2>
-    <ul>
-      @for (item of options; track $index) {
-        <app-navbar_list-item [label]="item.name" [link]="item.where" [icon]="item.icon" [badge]="item.badge"/>
-      }
-    </ul>
-    <div class="tweet-container">
-      <div class="profile-info" (click)="toggleTooltip()">
-        <div class="profile-image">
-          <img src="https://i.imgur.com/KuVqSy8.png" alt="Enrique's profile picture">
-        </div>
-        <div class="username-container">
-          <span class="username">Enrique</span>
-          <span class="handle">Enriqueciendo0</span>
-        </div>
-        <div class="options-button">
-          <i class="fas fa-ellipsis-h"></i>
-        </div>
+  <div class="logo-container" (click)="goToHome()">
+    <h2 class="app-title">
+      <span class="talk-part">Talk</span><span class="zone-part">Zone</span>
+    </h2>
+  </div>
+  <ul>
+    @for (item of options; track $index) {
+    <app-navbar_list-item [label]="item.name" [link]="item.where" [icon]="item.icon" [badge]="item.badge" />
+    }
+  </ul>
+  <div class="tweet-container">
+    <div class="profile-info" (click)="toggleTooltip()">
+      <div class="profile-image">
+        <img src="https://i.imgur.com/KuVqSy8.png" alt="Enrique's profile picture">
       </div>
-    
-      <div class="tooltip" *ngIf="showTooltip" [style.display]="showTooltip ? 'block' : 'none'">
-        <div class="tooltip-content">
-          <span class="tweet-text">Cerrar la sesión de Enriqueciendo0</span>
-          <button class="tooltip-button" (click)="closeSesion()">Cerrar sesión</button>
-        </div>
+      <div class="username-container">
+        <span class="username">Enrique</span>
+        <span class="handle">Enriqueciendo0</span>
+      </div>
+      <div class="options-button">
+        <i class="fas fa-ellipsis-h"></i>
       </div>
     </div>
-  </nav>
-  
+
+    <div class="tooltip" *ngIf="showTooltip" [style.display]="showTooltip ? 'block' : 'none'">
+      <div class="tooltip-content">
+        <span class="tweet-text">Cerrar la sesión de Enriqueciendo0</span>
+        <button class="tooltip-button" (click)="closeSesion()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</nav>

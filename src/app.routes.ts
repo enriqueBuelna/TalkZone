@@ -23,6 +23,8 @@ import { MyFeedGroupComponent } from './ui/pages/group/my-feed/my-feed.component
 import { ViewOfGroupComponent } from './ui/pages/group/view-of-group/view-of-group.component';
 import { NotificationsComponent } from './ui/pages/notifications/notifications.component';
 import { ConfigurationComponent } from './ui/pages/configuration/configuration.component';
+import { SearchGroupComponent } from './ui/pages/group/search-group/search-group.component';
+import { SearchPostComponent } from './ui/pages/my-feed/search-post/search-post.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -43,6 +45,10 @@ export const routes: Routes = [
             path: 'detail_post/:id',
             component: DetailPostComponent,
           },
+          {
+            path: 'search/:post_content',
+            component: SearchPostComponent
+          }
         ],
       },
       { path: 'posts/:id', redirectTo: 'posts', pathMatch: 'full' }, // Redirige si se detecta un ,
@@ -76,6 +82,7 @@ export const routes: Routes = [
             component: GroupSkeletonComponent,
             children: [
               { path: '', component: DiscoverGroupsComponent },
+              { path: 'search/:group_name', component: SearchGroupComponent },
               { path: 'my-feed', component: MyFeedGroupComponent },
               { path: 'my-groups', component: MyGroupsComponent },
             ],

@@ -6,4 +6,5 @@ export interface IPost{
     media_url?:string,
     type_community?:string,
     community_id?:string
+    tags: string[]
 }

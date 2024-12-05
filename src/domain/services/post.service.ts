@@ -14,6 +14,7 @@ import { CreateComment } from '../use_cases/post/createComment.use_case';
 import { UpdatePost } from '../use_cases/post/updatePost.use_case';
 import { UpdatePostGroup } from '../use_cases/post/updatePostGroup.use_case';
 import { GetPostLike } from '../use_cases/post/getPostLike.use_case';
+import { SearchPost } from '../use_cases/post/searchPost.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -30,15 +31,29 @@ export class PostService {
     private _getAllPostGroup: GetAllPostGroup,
     private _createComment: CreateComment,
     private _updatePost: UpdatePost,
-    private _updatePostGroup:UpdatePostGroup,
-    private _getPostLike:GetPostLike
+    private _updatePostGroup: UpdatePostGroup,
+    private _getPostLike: GetPostLike,
+    private _searchPost: SearchPost
   ) {}
 
-  getPostLike(user_id:string, page:number):Observable<Post[]>{
+  searchPost(
+    user_id: string,
+    page: number,
+    post_content: string
+  ): Observable<Post[]> {
+    return this._searchPost.execute(user_id, page, post_content);
+  }
+
+  getPostLike(user_id: string, page: number): Observable<Post[]> {
     return this._getPostLike.execute(user_id, page);
   }
 
-  updatePostGroup(id:string, content:string, media_url:string, visibility:string ):Observable<boolean>{
+  updatePostGroup(
+    id: string,
+    content: string,
+    media_url: string,
+    visibility: string
+  ): Observable<boolean> {
     return this._updatePostGroup.execute(id, content, media_url, visibility);
   }
 
@@ -47,14 +62,16 @@ export class PostService {
     content: string,
     media_url: string,
     visibility: string,
-    topic_id: string
+    topic_id: string,
+    tags: string[]
   ) {
     return this._updatePost.execute(
       id,
       content,
       media_url,
       visibility,
-      topic_id
+      topic_id,
+      tags
     );
   }
 
@@ -62,7 +79,11 @@ export class PostService {
     return this._getAllPostGroup.execute(user_id, page);
   }
 
-  getPostGroup(community_id: string, page: number, user_id:string): Observable<Post[]> {
+  getPostGroup(
+    community_id: string,
+    page: number,
+    user_id: string
+  ): Observable<Post[]> {
     return this._getPostGroup.execute(community_id, page, user_id);
   }
 
@@ -70,7 +91,11 @@ export class PostService {
     return this._newPost.execute(infoPost);
   }
 
-  getForYouPost(user_id: string, page: number, other_user_id:string): Observable<Post[]> {
+  getForYouPost(
+    user_id: string,
+    page: number,
+    other_user_id: string
+  ): Observable<Post[]> {
     return this._getForYouPost.execute(user_id, page, other_user_id);
   }
 
@@ -82,7 +107,11 @@ export class PostService {
     return this._getPostFriends.execute(user_id, page);
   }
 
-  getYourPost(user_id: string, page: number, other_user_id:string): Observable<Post[]> {
+  getYourPost(
+    user_id: string,
+    page: number,
+    other_user_id: string
+  ): Observable<Post[]> {
     return this._getYourPost.execute(user_id, page, other_user_id);
   }
 
