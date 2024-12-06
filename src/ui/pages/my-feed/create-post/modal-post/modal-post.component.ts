@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
@@ -31,6 +32,7 @@ import { CommentsCService } from '../../services/comment.service';
 import { Comment } from '../../../../../domain/models/comment.model';
 import { Post } from '../../../../../domain/models/post.model';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'app-modal-post',
   standalone: true,
@@ -41,6 +43,7 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     ReactiveFormsModule,
     CommonModule,
     PickerComponent,
+    ProgressBarModule,
   ],
   templateUrl: './modal-post.component.html',
   styleUrl: './modal-post.component.css',
@@ -59,6 +62,7 @@ export class ModalPostComponent implements OnInit {
     { name: 'Publico', value: 'public' },
     { name: 'Privado', value: 'private' },
   ];
+  submitEnter = signal(false);
   constructor(
     private _userPreferences: UserPreferenceService,
     private _postService: PostService,
@@ -202,6 +206,7 @@ export class ModalPostComponent implements OnInit {
   async addPost() {
     if (this.type === 'post') {
       if (this.formPost.valid) {
+        this.submitEnter.set(true);
         let { content, visibility, topic_id, tags } = this.formPost.value;
         let aux = topic_id.id;
         let aux2 = visibility.value;
@@ -209,10 +214,10 @@ export class ModalPostComponent implements OnInit {
         if (this.photoFile) {
           downloadURL = await uploadFile(this.photoFile);
         }
-        let noMore; 
-        if(Array.isArray(this.formPost.get('tags')?.value)){
-          noMore = this.formPost.get('tags')?.value.join(",");
-        }else{
+        let noMore;
+        if (Array.isArray(this.formPost.get('tags')?.value)) {
+          noMore = this.formPost.get('tags')?.value.join(',');
+        } else {
           noMore = this.formPost.get('tags')?.value;
         }
 
@@ -241,6 +246,7 @@ export class ModalPostComponent implements OnInit {
               cleanedTags
             )
             .subscribe((el) => {
+              this.submitEnter.set(false);
               this._postCService.findPost(
                 this.postContent.getId(),
                 content,
@@ -253,12 +259,15 @@ export class ModalPostComponent implements OnInit {
           this.onClick();
         } else {
           this._postService.newPost(payload).subscribe((el) => {
+            this.submitEnter.set(false);
             this._postCService.addNewPost(el);
             this.onClick();
           });
         }
       }
     } else if (this.type === 'group') {
+      //form valid
+      this.submitEnter.set(true);
       let { content, visibility } = this.formPost.value;
       let downloadURL = '';
       if (this.photoFile) {
@@ -273,7 +282,8 @@ export class ModalPostComponent implements OnInit {
             visibility.value
           )
           .subscribe((el) => {
-            console.log(el);
+            this.submitEnter.set(false);
+
             this._postCService.findPostGroup(
               this.postContent.getId(),
               content,
@@ -290,6 +300,8 @@ export class ModalPostComponent implements OnInit {
         this._postService
           .createComment(this._userService.getUserId(), roomId, content)
           .subscribe((el) => {
+            this.submitEnter.set(false);
+
             this._commentService.addComment(
               new Comment(
                 el.comment.id,

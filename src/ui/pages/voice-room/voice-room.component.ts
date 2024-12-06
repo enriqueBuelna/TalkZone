@@ -13,6 +13,7 @@ import { UserOfVoiceRoom } from '../../../domain/entities/voice_rooms/UserOfVoic
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { ScrollerModule } from 'primeng/scroller';
+import { SkeletonModule } from 'primeng/skeleton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RatingModule } from 'primeng/rating';
 import {
@@ -45,7 +46,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     MultiSelectModule,
     CheckboxModule,
     RatingModule,
-    FormsModule
+    FormsModule,
+    SkeletonModule
   ],
   templateUrl: './voice-room.component.html',
   styleUrl: './voice-room.component.css',
@@ -61,12 +63,13 @@ export class VoiceRoomComponent implements OnInit {
   filterForm!: FormGroup;
   myUserPreference = signal<UserPreference[]>([]);
   filterApplies = signal(false);
-
+  page = signal(1);
+  yetNo = signal(true);
   categories: any[] = [
     { name: 'Explorador', key: 'explorador' },
     { name: 'Entusiasta', key: 'entusiasta' },
-    { name: 'Mentor', key: 'mentor' }
-];
+    { name: 'Mentor', key: 'mentor' },
+  ];
 
   constructor(
     private _userService: UserService,
@@ -83,7 +86,7 @@ export class VoiceRoomComponent implements OnInit {
 
     this.filterForm = this._formBuilder.group({
       all_topics: [''],
-      type:[''],
+      type: [''],
     });
   }
 
@@ -93,18 +96,7 @@ export class VoiceRoomComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
         this.myUserPreference.set(el);
-      });
-
-    this.responseAllVoiceRoom$ = this._voiceRoomService.getVoiceRoom(
-      this._userService.getUserId(),
-      null
-    );
-
-    this.responseAllVoiceRoom$
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((el) => {
-        this.allVoiceRooms = el;
-        console.log(this.allVoiceRooms);
+        this.loadVr();
       });
   }
 
@@ -128,38 +120,75 @@ export class VoiceRoomComponent implements OnInit {
     this.modalFilter.set(true);
   }
 
-  filterApply(){
-    let {all_topics, type} = this.filterForm.value;
+  filterApply() {
+    let { all_topics, type } = this.filterForm.value;
     console.log(type);
-    if(all_topics.length > 0 || type.length > 0){
+    if (all_topics.length > 0 || type.length > 0) {
       let auxTopicId, auxType;
-      if(all_topics.length > 0){
-        auxTopicId = all_topics.map((el:any) => el.topic_id)
+      if (all_topics.length > 0) {
+        auxTopicId = all_topics.map((el: any) => el.topic_id);
       }
       const payload = {
         topicsId: auxTopicId,
-        type
-      }
+        type,
+      };
 
       this.responseAllVoiceRoom$ = this._voiceRoomService.getVoiceRoom(
         this._userService.getUserId(),
-        payload
+        payload,
+        this.page()
       );
 
-      this.responseAllVoiceRoom$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
-        this.allVoiceRooms = el;
-        if(this.allVoiceRooms.length === 0){
-          this.filterApplies.set(true);
-        }else{
-          this.filterApplies.set(false);
-        }
-        this.modalFilter.set(false);
-      });
+      this.responseAllVoiceRoom$
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe((el) => {
+          this.yetNo.set(false);
+          this.allVoiceRooms = el;
+          if (this.allVoiceRooms.length === 0) {
+            this.filterApplies.set(true);
+          } else {
+            this.filterApplies.set(false);
+          }
+          this.modalFilter.set(false);
+        });
     }
   }
 
+  hasMoreVr = signal(true);
 
-  closeModal(){
+  loadMoreVr() {
+    this.page.update((el) => el + 1);
+    console.log(this.page());
+    this.loadVr();
+  }
+
+  loadVr() {
+    this.responseAllVoiceRoom$ = this._voiceRoomService.getVoiceRoom(
+      this._userService.getUserId(),
+      null,
+      this.page()
+    );
+
+    this.responseAllVoiceRoom$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((el) => {
+        this.yetNo.set(false);
+        if (el.length === 10) {
+          this.hasMoreVr.set(true);
+        } else {
+          this.hasMoreVr.set(false);
+        }
+        if (this.allVoiceRooms.length > 0) {
+          el.forEach((ele) => {
+            this.allVoiceRooms.push(ele);
+          });
+        } else {
+          this.allVoiceRooms = el;
+        }
+      });
+  }
+
+  closeModal() {
     this.modalCreate.set(false);
   }
 }

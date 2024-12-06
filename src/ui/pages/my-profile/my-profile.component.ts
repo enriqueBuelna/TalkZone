@@ -15,6 +15,8 @@ import { UserCompleteProfile } from './services/user_complete.service';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserPreferenceSignalService } from './services/user_preferences.service';
 import { ActivatedRoute } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-my-profile',
@@ -24,6 +26,8 @@ import { ActivatedRoute } from '@angular/router';
     ProfileInformationComponent,
     PostProfileComponent,
     InformationProfileComponent,
+    SkeletonModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css',
@@ -44,6 +48,7 @@ export class MyProfileComponent implements OnInit {
   userId = signal('');
   isPrimary = signal(false);
   userDemo!: UserDemo;
+  yetNo = signal(true);
   constructor(
     private _userService: AuthService,
     private _user: UserService,
@@ -70,6 +75,7 @@ export class MyProfileComponent implements OnInit {
 
     this.myObservable.subscribe({
       next: (el) => {
+        this.yetNo.set(false);
         this._userInformation.setMyUserInformation(el);
         this.myUser = this._userInformation.getMyUserInformation();
         this._userPreference.setUserPreferences(

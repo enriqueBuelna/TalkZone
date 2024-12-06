@@ -39,3 +39,35 @@ button:hover {
 .p-chip {
   font-family: monospace
 }
+
+.custom-btn {
+  border: none;
+  border-radius: 1rem;
+  font-family: monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgba(35, 181, 211, 1); /* Un azul bonito y moderno */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.custom-btn:hover {
+  background-color: #2980b9; /* Tono de azul más oscuro para el hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+.btn-medium {
+  padding: 12px 24px;
+  font-size: 14px;
+}
+
+.btn-large {
+  padding: 24px 32px;
+  font-size: 16px;
+}

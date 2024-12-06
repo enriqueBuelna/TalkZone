@@ -15,7 +15,7 @@ export abstract class CommunitieRepository {
     creator_id: string
   ): Observable<GroupPresentation[]>;
   abstract getGroupById(id: string): Observable<GroupComplete>;
-  abstract discoverGroup(user_id: string): Observable<GroupPresentation[]>;
+  abstract discoverGroup(user_id: string, page:number): Observable<GroupPresentation[]>;
   abstract getGroupsFollowed(user_id: string): Observable<GroupPresentation[]>;
   abstract wantToGetInGroup(
     group_id: string,

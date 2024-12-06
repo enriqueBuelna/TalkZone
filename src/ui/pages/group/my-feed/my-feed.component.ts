@@ -8,11 +8,13 @@ import { UserService } from '../../auth/services/user.service';
 import { MyUserInformation } from '../../my-feed/services/information_user.service';
 import { PostCService } from '../../my-feed/services/post.service';
 import { PostComponent } from "../../my-feed/post/post.component";
-
+import { ButtonComponent } from "../../../utils/button/button.component";
+import { Router } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 @Component({
   selector: 'app-my-feed',
   standalone: true,
-  imports: [HeaderComponent, PostComponent],
+  imports: [HeaderComponent, PostComponent, ButtonComponent, SkeletonModule],
   templateUrl: './my-feed.component.html',
   styleUrl: './my-feed.component.css'
 })
@@ -24,11 +26,13 @@ export class MyFeedGroupComponent {
   forAll = signal(true);
   page: number = 1;
   hasMorePosts: boolean = true;
+  yetNo = signal(true);
   constructor(
     private _myUserInformation: MyUserInformation,
     private _postService: PostService,
     private _userService: UserService,
-    private _postCService: PostCService
+    private _postCService: PostCService,
+    private _router:Router
   ) {
     this.myUserInformation = this._myUserInformation.getMyUserInformation();
   }
@@ -47,7 +51,12 @@ export class MyFeedGroupComponent {
       );
 
       this.postObservableAll.subscribe((posts) => {
-        console.log(posts);
+        if(posts.length === 10){
+          this.hasMorePosts = true;
+        }else{
+          this.hasMorePosts = false;
+        }
+        this.yetNo.set(false);
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {
@@ -81,5 +90,9 @@ export class MyFeedGroupComponent {
     this._postCService.setPost([])
     this.hasMorePosts = true;
     this.loadPosts();
+  }
+
+  exploreGroups(){
+    this._router.navigate(['home', 'groups']);
   }
 }

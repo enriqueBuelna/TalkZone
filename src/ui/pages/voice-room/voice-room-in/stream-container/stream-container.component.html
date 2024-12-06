@@ -69,6 +69,12 @@
     </div>
 </div>
 
+<p-dialog [modal]="true" [(visible)]="showModalRating" [style]="{ width: '20rem', height:'20rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
+    <app-rating></app-rating>
+</p-dialog>
+
+
 <p-dialog [modal]="true" [(visible)]="voiceRoomClosedModal" [style]="{ width: '40rem', height:'40rem' }"
     [closable]="false" [dismissableMask]="true" [draggable]="false">
     <h2>La sala de voz ha sido cerrada, gracias por acompañar a tus compañeros :D</h2>

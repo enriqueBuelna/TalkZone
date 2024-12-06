@@ -24,6 +24,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { atLeastOneFieldRequired } from './validators/atLeastOne.validator';
 import { FollowerService } from '../../../domain/services/follower.service';
 import { Router } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 import { CardUserComponent } from './card-user/card-user.component';
 interface FilterTopic {
   topic_id: number;
@@ -49,6 +50,7 @@ interface Gender {
     ReactiveFormsModule,
     MultiSelectModule,
     CardUserComponent,
+    SkeletonModule
   ],
   templateUrl: './connect.component.html',
   styleUrl: './connect.component.css',
@@ -57,7 +59,7 @@ export class ConnectComponent implements OnInit {
   filterForm!: FormGroup;
   responseUserPreference$?: Observable<UserPreferences[]>;
   responseMyUserPreferences$?: Observable<UserPreference[]>;
-  myUserPreference?: UserPreference[];
+  myUserPreference: UserPreference[] = [];
   allUserPreferences: UserPreferences[] = [];
   showInfo = signal(false);
   userPreferenceInformation?: UserPreferences;
@@ -82,6 +84,7 @@ export class ConnectComponent implements OnInit {
   ];
   idsSeguidos: string[] = [];
   textFollow = 'Seguir';
+  yetNo = signal(true);
   constructor(
     private _userPreferenceService: UserPreferenceService,
     private _userService: UserService,
@@ -152,7 +155,7 @@ export class ConnectComponent implements OnInit {
     this.responseUserPreference$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
-        console.log(el);
+        this.yetNo.set(false);
         this.allUserPreferences = el;
       });
 

@@ -9,7 +9,7 @@ import { GroupPresentation } from '../../models/group/presentation-group.model';
 export class DiscoverGroup {
   constructor(private communitieRepository: CommunitieRepository) {}
 
-  execute(user_id: string): Observable<GroupPresentation[]> {
-    return this.communitieRepository.discoverGroup(user_id);
+  execute(user_id: string, page:number): Observable<GroupPresentation[]> {
+    return this.communitieRepository.discoverGroup(user_id, page);
   }
 }

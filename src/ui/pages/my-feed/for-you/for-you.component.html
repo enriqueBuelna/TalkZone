@@ -3,6 +3,59 @@
 </app-header>
 <app-tweet-text [myUser]="myUserInformation()" type="post"></app-tweet-text>
 <div class="all-post">
+    @if (yetNo()) {
+    <div class="container-power">
+        <div class="card-container">
+            <div class="flex mb-3">
+                <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+                <div>
+                    <p-skeleton width="10rem" styleClass="mb-2" />
+                    <p-skeleton width="5rem" styleClass="mb-2" />
+                    <p-skeleton height=".5rem" />
+                </div>
+            </div>
+            <p-skeleton width="100%" height="150px" />
+            <div class="flex-space-between mt-3">
+                <p-skeleton width="4rem" height="2rem" />
+                <p-skeleton width="4rem" height="2rem" />
+            </div>
+        </div>
+    </div>
+    <div class="container-power">
+        <div class="card-container">
+            <div class="flex mb-3">
+                <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+                <div>
+                    <p-skeleton width="10rem" styleClass="mb-2" />
+                    <p-skeleton width="5rem" styleClass="mb-2" />
+                    <p-skeleton height=".5rem" />
+                </div>
+            </div>
+            <p-skeleton width="100%" height="150px" />
+            <div class="flex-space-between mt-3">
+                <p-skeleton width="4rem" height="2rem" />
+                <p-skeleton width="4rem" height="2rem" />
+            </div>
+        </div>
+    </div>
+    <div class="container-power">
+        <div class="card-container">
+            <div class="flex mb-3">
+                <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+                <div>
+                    <p-skeleton width="10rem" styleClass="mb-2" />
+                    <p-skeleton width="5rem" styleClass="mb-2" />
+                    <p-skeleton height=".5rem" />
+                </div>
+            </div>
+            <p-skeleton width="100%" height="150px" />
+            <div class="flex-space-between mt-3">
+                <p-skeleton width="4rem" height="2rem" />
+                <p-skeleton width="4rem" height="2rem" />
+            </div>
+        </div>
+    </div>
+    }@else {
     @if (allPost().length > 0) {
     @for (post of allPost(); track post.getId()) {
     <app-post [postContent]="post"></app-post>
@@ -20,18 +73,23 @@
         </div>
     </div>
     }@else {
-        <div class="no-connections-state">
-            <div class="no-connections-content">
-                <h2>Aún no hay publicaciones de las personas que sigues.</h2>
-                <p>Anímate a interactuar más y crea conexiones para ver más contenido aquí.</p>
-                <div class="display">
-                    <button class="refresh-button" (click)="goToConnect()">Conectar con personas</button>
-                </div>
+    <div class="no-connections-state">
+        <div class="no-connections-content">
+            <h2>Aún no hay publicaciones de las personas que sigues.</h2>
+            <p>Anímate a interactuar más y crea conexiones para ver más contenido aquí.</p>
+            <div class="display">
+                <button class="refresh-button" (click)="goToConnect()">Conectar con personas</button>
             </div>
         </div>
+    </div>
+    }
     }
     }
 </div>
 @if (hasMorePosts) {
-<button (click)="loadMore()">Cargar más</button>
+<div class="btn-container">
+    <button class="load-more-btn" (click)="loadMore()">
+        Cargar más
+    </button>
+</div>
 }

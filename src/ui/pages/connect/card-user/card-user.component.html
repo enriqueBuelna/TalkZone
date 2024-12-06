@@ -1,22 +1,24 @@
 <div class="card" (click)="selectCard(userPreference)">
-    <div class="card-header">
-      <div class="user-avatar">
-        <img [src]="userPreference.userInformation?.profile_picture" alt="">
-      </div>
-      <div class="username">
-        <p>{{userPreference.userInformation?.username}}</p>
-      </div>
+  <div class="card-header">
+    <div class="user-avatar">
+      <img [src]="userPreference.userInformation?.profile_picture" alt="">
     </div>
-    <div class="card-body">
-      <div class="user-topics">
-        <span class="topic-label" *ngFor="let userTopic of userPreference.userPreference; let $index = index">
-          {{userTopic.getTopicName()}}
-        </span>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="match-percentage">
-        <p>Match: {{userPreference.matchPercentage | number:'1.0-0'}}%</p>
-      </div>
+    <div class="username">
+      <p>{{userPreference.userInformation?.username}}</p>
     </div>
   </div>
+  <div class="card-body">
+    <div class="user-topics">
+      @for (item of userPreference.userPreference; track $index) {
+      <span class="topic-label">
+        {{item.getTopicName()}}
+      </span>
+      }
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="match-percentage">
+      <p>Match: {{userPreference.matchPercentage | number:'1.0-0'}}%</p>
+    </div>
+  </div>
+</div>

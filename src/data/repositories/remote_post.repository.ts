@@ -160,7 +160,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user_preference.topic.topic_name
               ),
               post.media_url,
-              post.post_tagss.map(
+              post.post_tagss?.map(
                 (tag: any) =>
                   new Tag(
                     tag.post_tag_tag.tag_name,

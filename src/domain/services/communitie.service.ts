@@ -35,25 +35,25 @@ export class CommunitieService {
     private _getPendingApplies: GetPendingApplies,
     private _responseApply: ResponseApply,
     private _editGroup: EditGroup,
-    private _viewIfOnePending:ViewIfOnePending,
-    private _deleteApply:DeleteApply,
-    private _getOutGroup:GetOutGroup,
-    private _searchGroup:SearchGroup
+    private _viewIfOnePending: ViewIfOnePending,
+    private _deleteApply: DeleteApply,
+    private _getOutGroup: GetOutGroup,
+    private _searchGroup: SearchGroup
   ) {}
 
-  searchGroup(group_name:string){
+  searchGroup(group_name: string) {
     return this._searchGroup.execute(group_name);
   }
 
-  getOutGroup(user_id:string, group_id:string):Observable<boolean>{
+  getOutGroup(user_id: string, group_id: string): Observable<boolean> {
     return this._getOutGroup.execute(user_id, group_id);
   }
 
-  deleteApply(user_id:string, group_id:string):Observable<boolean>{
+  deleteApply(user_id: string, group_id: string): Observable<boolean> {
     return this._deleteApply.execute(user_id, group_id);
   }
 
-  viewIfOnePending(user_id:string, group_id:string):Observable<boolean>{
+  viewIfOnePending(user_id: string, group_id: string): Observable<boolean> {
     return this._viewIfOnePending.execute(user_id, group_id);
   }
 
@@ -101,8 +101,11 @@ export class CommunitieService {
     return this._getGroupsFollowed.execute(user_id);
   }
 
-  discoverGroup(user_id: string): Observable<GroupPresentation[]> {
-    return this._discoverGroup.execute(user_id);
+  discoverGroup(
+    user_id: string,
+    page: number
+  ): Observable<GroupPresentation[]> {
+    return this._discoverGroup.execute(user_id, page);
   }
 
   getGroupById(id: string): Observable<GroupComplete> {

@@ -4,7 +4,7 @@ import { UserDemo } from '../models/user-demo.model';
 import { UserInVoiceRoom } from '../models/user_in_voice_room.model';
 
 export abstract class VoiceRoomRepository {
-  abstract getVoiceRoom(user_id: string, filters: any): Observable<VoiceRoom[]>;
+  abstract getVoiceRoom(user_id: string, filters: any, page:number): Observable<VoiceRoom[]>;
   abstract createVoiceRoom(
     room_name: string,
     host_user_id: string,

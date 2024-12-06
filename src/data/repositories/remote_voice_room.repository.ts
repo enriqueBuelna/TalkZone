@@ -46,10 +46,15 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
   private readonly API_URL = 'http://localhost:3000';
   private _http = inject(HttpClient);
 
-  getVoiceRoom(user_id: string, filter: any): Observable<VoiceRoom[]> {
+  getVoiceRoom(
+    user_id: string,
+    filter: any,
+    page: number
+  ): Observable<VoiceRoom[]> {
     const payload = {
       user_id,
       filter,
+      page,
     };
     return this._http
       .post<VoiceRoom[]>(`${this.API_URL}/voice_rooms/getVoiceRooms`, payload)

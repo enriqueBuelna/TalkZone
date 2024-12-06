@@ -11,7 +11,7 @@ import { Post } from '../../../../domain/models/post.model';
 import { UserService } from '../../auth/services/user.service';
 import { PostCService } from '../services/post.service';
 import { Router } from '@angular/router';
-
+import { SkeletonModule } from 'primeng/skeleton';
 @Component({
   selector: 'app-for-you',
   standalone: true,
@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
     HeaderComponent,
     CreatePostComponent,
     PostComponent,
+    SkeletonModule,
   ],
   templateUrl: './for-you.component.html',
   styleUrl: './for-you.component.css',
@@ -32,6 +33,7 @@ export class ForYouComponent implements OnInit {
   forAll = signal(true);
   page: number = 1;
   hasMorePosts: boolean = true;
+  yetNo = signal(true);
   constructor(
     private _myUserInformation: MyUserInformation,
     private _postService: PostService,
@@ -57,8 +59,14 @@ export class ForYouComponent implements OnInit {
       );
 
       this.postObservableAll.subscribe((posts) => {
-        console.log(posts);
+        console.log(posts.length);
+        this.yetNo.set(false);
         if (posts.length > 0) {
+          if(posts.length === 10){
+            this.hasMorePosts = true;
+          }else{
+            this.hasMorePosts = false;
+          }
           this._postCService.addPosts(posts);
         } else {
           this.hasMorePosts = false; // No hay más publicaciones
@@ -71,8 +79,14 @@ export class ForYouComponent implements OnInit {
       );
 
       this.postObservableAll.subscribe((posts) => {
+        this.yetNo.set(false);
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
+          if(posts.length > 10){
+            this.hasMorePosts = true;
+          }else{
+            this.hasMorePosts = false;
+          }
         } else {
           this.hasMorePosts = false; // No hay más publicaciones
         }

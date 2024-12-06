@@ -5,12 +5,58 @@
         </div>
     </app-header>
     <div>
-        @if (myGroups.length > 0) {
+        @if (yetNo()) {
+        <div class="container-power">
+            <div class="card-container">
+                <p-skeleton width="100%" height="200px" />
+                <div class="flex-space-between mt-3">
+                    <p-skeleton width="367px" styleClass="mb-2" />
+                </div>
+                <div class="haue">
+                    <p-skeleton width="10rem" height="2rem" />
+
+                </div>
+            </div>
+
+        </div>
+        <div class="container-power">
+            <div class="card-container">
+                <p-skeleton width="100%" height="200px" />
+                <div class="flex-space-between mt-3">
+                    <p-skeleton width="367px" styleClass="mb-2" />
+                </div>
+                <div class="haue">
+                    <p-skeleton width="10rem" height="2rem" />
+
+                </div>
+            </div>
+
+        </div>
+        <div class="container-power">
+            <div class="card-container">
+                <p-skeleton width="100%" height="200px" />
+                <div class="flex-space-between mt-3">
+                    <p-skeleton width="367px" styleClass="mb-2" />
+                </div>
+                <div class="haue">
+                    <p-skeleton width="10rem" height="2rem" />
+
+                </div>
+            </div>
+
+        </div>
+        }@else {
+        @if (myGroups) {
         <div class="groups">
             @for (groups of myGroups; track $index) {
             <app-group-presentation [group]="groups"></app-group-presentation>
             }
         </div>
+        @if (hasMoreGroups()) {
+        <div class="btn-container">
+            <app-button text="Mostrar mas" (clickEvent)="showMore()" buttonClass="btn-large"></app-button>
+        </div>
+        }
         }@else {
         <div class="no-connections-state">
             <div class="no-connections-content">
@@ -19,6 +65,7 @@
                 <button class="refresh-button">Crear grupo</button>
             </div>
         </div>
+        }
         }
     </div>
 </div>

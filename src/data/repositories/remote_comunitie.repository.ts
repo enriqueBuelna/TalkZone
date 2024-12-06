@@ -13,7 +13,6 @@ import { Tag } from '../../domain/models/tag.model';
   providedIn: 'root',
 })
 export class RemoteComunitieRepository extends CommunitieRepository {
-
   override searchGroup(group_name: string): Observable<GroupPresentation[]> {
     const params = new HttpParams().set('group_name', group_name);
     return this._http
@@ -222,8 +221,11 @@ export class RemoteComunitieRepository extends CommunitieRepository {
       );
   }
 
-  override discoverGroup(user_id: string): Observable<GroupPresentation[]> {
-    const params = new HttpParams().set('user_id', user_id);
+  override discoverGroup(
+    user_id: string,
+    page: number
+  ): Observable<GroupPresentation[]> {
+    const params = new HttpParams().set('user_id', user_id).set('page', page);
     return this._http
       .get<GroupComplete[]>(`${this.API_URL}/communities/discoverGroups`, {
         params,
@@ -287,7 +289,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
             group.com_tag_id.map(
               (tg: any) => new Tag(tg.tag.tag_name, tg.tag.id, tg.tag.topic_id)
             ),
-            group.userPreference.topic.id,
+            group.userPreference.topic.id
           );
         })
       );

@@ -7,11 +7,13 @@ import { PostComponent } from '../../../my-feed/post/post.component';
 import { PostCService } from '../../../my-feed/services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDemo } from '../../../../../domain/models/user-demo.model';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ButtonComponent } from "../../../../utils/button/button.component";
 
 @Component({
   selector: 'app-post-profile-group',
   standalone: true,
-  imports: [PostComponent],
+  imports: [PostComponent, SkeletonModule, ButtonComponent],
   templateUrl: './post-profile.component.html',
   styleUrl: './post-profile.component.css',
 })
@@ -24,6 +26,7 @@ export class PostProfileGroupComponent {
   page: number = 1;
   @Input() hostGroupMember!:string;
   imHost = false;
+  yetNo = signal(true);
   constructor(
     private _postService: PostService,
     private _postCService: PostCService,
@@ -49,6 +52,12 @@ export class PostProfileGroupComponent {
       );
 
       this.postObservableAll.subscribe((posts) => {
+        this.yetNo.set(false);
+        if(posts.length === 10){
+          this.hasMorePosts = true;
+        }else{
+          this.hasMorePosts = false;
+        }
         if (posts.length > 0) {
           this._postCService.addPosts(posts);
         } else {

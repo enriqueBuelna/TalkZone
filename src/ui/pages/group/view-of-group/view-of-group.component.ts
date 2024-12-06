@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { AsideComponent } from '../../../utils/aside/aside.component';
 import { CommunitieService } from '../../../../domain/services/communitie.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileInformationComponent } from '../../my-profile/profile-information/profile-information.component';
 import { GroupComplete } from '../../../../domain/models/group/groupComplete.model';
 import { PostProfileGroupComponent } from './post-groups/post-profile.component';
@@ -12,6 +12,8 @@ import { AuthService } from '../../../../domain/services/auth.service';
 import { UserComplete } from '../../../../domain/models/user_complete_information.model';
 import { combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'app-view-of-group',
   standalone: true,
@@ -21,6 +23,8 @@ import { switchMap } from 'rxjs/operators';
     PostProfileGroupComponent,
     InformationProfileComponent,
     ButtonComponent,
+    SkeletonModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './view-of-group.component.html',
   styleUrl: './view-of-group.component.css',
@@ -37,11 +41,13 @@ export class ViewOfGroupComponent implements OnInit {
   groupNotFound = false;
   groupRestricted = false;
   id!: string;
+  yetNo = signal(true);
   constructor(
     private communityService: CommunitieService,
     private route: ActivatedRoute,
     private _userService: UserService,
-    private userService: AuthService
+    private userService: AuthService,
+    private _router:Router
   ) {}
 
   ngOnInit() {
@@ -59,6 +65,7 @@ export class ViewOfGroupComponent implements OnInit {
       ),
     ]).subscribe({
       next: ([userComplete, group]) => {
+        this.yetNo.set(false);
         this.userComplete = userComplete;
         this.myGroup = group;
         if (
@@ -136,5 +143,9 @@ export class ViewOfGroupComponent implements OnInit {
           this.petitionYet = false;
         }
       });
+  }
+
+  goToDiscover(){
+    this._router.navigate(['home','groups']);
   }
 }

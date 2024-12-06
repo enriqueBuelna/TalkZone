@@ -32,6 +32,7 @@ import { VoiceRoomService } from '../../../../../domain/services/voice_room.serv
 import { Observable, Subscription } from 'rxjs';
 import { ButtonComponent } from '../../../../utils/button/button.component';
 import { DialogModule } from 'primeng/dialog';
+import { RatingComponent } from "../room-container/rating/rating.component";
 @Component({
   selector: 'app-stream-container',
   standalone: true,
@@ -40,7 +41,8 @@ import { DialogModule } from 'primeng/dialog';
     DialogModule,
     ButtonComponent,
     MemberVoiceChatComponent,
-  ],
+    RatingComponent
+],
   templateUrl: './stream-container.component.html',
   styleUrl: './stream-container.component.css',
 })
