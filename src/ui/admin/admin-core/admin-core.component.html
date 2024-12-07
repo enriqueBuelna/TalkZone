@@ -1,0 +1,56 @@
+<!-- <div class="talkzone-dashboard">
+
+</div> -->
+
+<div class="dashboard-container">
+    <div class="side-navbar">
+        <div class="navbar-logo">
+            <img src="assets/talkzone-logo.png" alt="TalkZone">
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="nav-item active">
+                    <a  [routerLink]="['/admin']" routerLinkActive="router-link-active"  class="nav-link">
+                        <i class="feather-home"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['/admin/users']" class="nav-link">
+                        <i class="feather-users"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['/admin/groups']" class="nav-link">
+                        <i class="feather-message-circle"></i>
+                        <span>Grupos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['/admin/reports']" class="nav-link">
+                        <i class="feather-bell"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class="feather-settings"></i>
+                        <span>Configuración</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="navbar-footer">
+            <a href="#" class="logout-link">
+                <i class="feather-log-out"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </div>
+    <div class="main-dashboard">
+        <router-outlet></router-outlet>
+    </div>
+
+
+</div>

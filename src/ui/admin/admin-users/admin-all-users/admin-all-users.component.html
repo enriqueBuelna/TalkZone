@@ -1,0 +1,120 @@
+<div class="dashboard">
+    @if (yetNo()) {
+    <div class="container-power">
+        <div class="card-container">
+            <div class="flex mb-3">
+                <div>
+                    <div class="bottom">
+                        <p-skeleton width="75rem" height="5rem" />
+                    </div>
+                    <div class="bottom">
+                        <p-skeleton width="75rem" height="5rem" />
+                    </div>
+                    <div class="bottom">
+                        <p-skeleton width="75rem" height="5rem" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else {
+    @if(showTopFollowed){
+    <div class="section">
+        <h2 class="section-title">Usuarios mas seguidos</h2>
+        <div class="card">
+            <p-table [value]="users" [rows]="10" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de usuario</th>
+                        <th>Correo electronico</th>
+                        <th>Usuario activo</th>
+                        <th>Ultima conexion</th>
+                        <th>Seguidores totales</th>
+                        <th>Acciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-customer>
+                    <tr>
+                        <td>{{ customer.getId() }}</td>
+                        <td>{{ customer.getUsername() }}</td>
+                        <td>{{ customer.getEmail() }}</td>
+                        <td>{{ customer.getActive() ? 'Si' : 'No' }}</td>
+                        <td> {{customer.getDate() | date:'short'}}</td>
+                        <td> {{customer.getFollowerCount()}}</td>
+                        <td><button class="user-info-btn">
+                                <i class="fa-solid fa-user"></i>
+                                Información del Usuario
+                            </button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    }@else {
+    <div class="section">
+        <h2 class="section-title">Listado de Usuarios</h2>
+        <div class="card">
+            <p-table [value]="users" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de usuario</th>
+                        <th>Correo electronico</th>
+                        <th>Usuario activo</th>
+                        <th>Ultima conexion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-customer>
+                    <tr>
+                        <td>{{ customer.getId() }}</td>
+                        <td>{{ customer.getUsername() }}</td>
+                        <td>{{ customer.getEmail() }}</td>
+                        <td>{{ customer.getActive() ? 'Si' : 'No' }}</td>
+                        <td> {{customer.getDate() | date:'short'}}</td>
+                        <td><button class="user-info-btn">
+                            <i class="fa-solid fa-user"></i>
+                            Información del Usuario
+                        </button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    }
+
+    <div class="flex-div">
+        <button class="show-users-btn" (click)="toggleTopFollowed()">
+            {{ showTopFollowed ? 'Ocultar usuarios más seguidos' : 'Mostrar usuarios más seguidos' }}
+        </button>
+    </div>
+    <!-- <div class="section">
+        <h2 class="section-title">Listado de Usuarios</h2>
+        <div class="card">
+            <p-table [value]="users" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de usuario</th>
+                        <th>Correo electronico</th>
+                        <th>Usuario activo</th>
+                        <th>Ultima conexion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-customer>
+                    <tr>
+                        <td>{{ customer.getId() }}</td>
+                        <td>{{ customer.getUsername() }}</td>
+                        <td>{{ customer.getEmail() }}</td>
+                        <td>{{ customer.getActive() ? 'Si' : 'No' }}</td>
+                        <td> {{customer.getDate() | date:'short'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div> -->
+    }
+
+</div>

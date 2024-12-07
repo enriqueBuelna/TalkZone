@@ -80,7 +80,11 @@ export class LoginApp {
       this._authService.login(username, password).pipe().subscribe((response) => {
         this._userService.setToken(response.token);
         this._userService.setUser(response.user);
-        this._router.navigate(['/home/posts']); // Redirigir a la página de bienvenida
+        if(this._userService.getUserId() === 'dbb9d930-e338-40c2-9162-d7a04ab685d5'){
+          this._router.navigate(['/admin']); // Redirigir a la página de bienvenida
+        }else{
+          this._router.navigate(['/home/posts']); // Redirigir a la página de bienvenida
+        }
       });
       // me deberia que ir a la parte de pues el inicio, pero ahorita no me voy a poner con eso, ocupo ir al //terminar mi perfil
     }

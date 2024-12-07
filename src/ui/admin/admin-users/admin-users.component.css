@@ -1,0 +1,100 @@
+/* admin-dashboard.component.css */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-light: #f4f6f7;
+    --text-dark: #2c3e50;
+  }
+  
+  .admin-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background-light);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+  }
+  
+  .dashboard-header h1 {
+    color: var(--text-dark);
+    font-size: 24px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .module-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .module-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .module-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+  }
+  
+  .module-icon i {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .module-content h3 {
+    color: var(--text-dark);
+    margin-bottom: 10px;
+  }
+  
+  .module-action {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .module-action:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  .dashboard-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    color: #777;
+  }

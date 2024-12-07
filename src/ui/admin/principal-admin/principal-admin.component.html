@@ -1,0 +1,118 @@
+<!-- <header class="dashboard-header">
+    <div class="header-content">
+        <h1>TalkZone - Panel de Administración</h1>
+        <div class="user-profile">
+            <img src="assets/admin-avatar.png" alt="Admin" class="profile-image">
+            <div class="profile-details">
+                <span class="admin-name">Carlos Administrador</span>
+                <span class="admin-role">Super Administrador</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="dashboard-grid">
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div *ngFor="let card of statsCards" class="stat-card" [style.--card-color]="card.color">
+                <div class="card-icon">
+                    <i class="feather-{{ card.icon }}"></i>
+                </div>
+                <div class="card-content">
+                    <h3>{{ card.title }}</h3>
+                    <p class="card-value">{{ card.value }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="dashboard-content">
+        <div class="content-row">
+        </div>
+    </div>
+</div> -->
+
+@if (yetNo()){
+<div class="contenedor">
+  <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+</div>
+}@else {
+<div class="admin-dashboard">
+  <!-- Platform Header -->
+  <header class="dashboard-header">
+    <div class="platform-info">
+      <h1>{{ platformName }} - Panel de Administración</h1>
+      <p>{{ platformDescription }}</p>
+    </div>
+  </header>
+
+  <!-- Quick Stats Grid -->
+  <section class="quick-stats">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <!-- <i class="feather-{{ stat.icon }}"></i> -->
+      </div>
+      <div class="stat-content">
+        <h3>Usuarios totales</h3>
+        <div class="stat-value">
+          {{stats().getUsers()}}
+        </div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <!-- <i class="feather-{{ stat.icon }}"></i> -->
+      </div>
+      <div class="stat-content">
+        <h3>Publicaciones activas</h3>
+        <div class="stat-value">
+          {{stats().getPost()}}
+        </div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <!-- <i class="feather-{{ stat.icon }}"></i> -->
+      </div>
+      <div class="stat-content">
+        <h3>Salas de voz creadas</h3>
+        <div class="stat-value">
+          {{stats().getVr()}}
+        </div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <!-- <i class="feather-{{ stat.icon }}"></i> -->
+      </div>
+      <div class="stat-content">
+        <h3>Grupos creados</h3>
+        <div class="stat-value">
+          {{stats().getGroups()}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Dashboard Content -->
+  <div class="dashboard-grid">
+    <!-- Recent Activity -->
+    <div class="dashboard-card recent-activity">
+      <h2>Actividad Reciente</h2>
+      <ul>
+        <li *ngFor="let activity of recentActivities">
+          <div class="activity-icon">
+            <i class="feather-activity"></i>
+          </div>
+          <div class="activity-details">
+            <strong>{{ activity.type }}</strong>
+            <p>{{ activity.description }}</p>
+            <small>{{ activity.timestamp | date:'short' }}</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+}

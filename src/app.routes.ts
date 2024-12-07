@@ -25,6 +25,16 @@ import { NotificationsComponent } from './ui/pages/notifications/notifications.c
 import { ConfigurationComponent } from './ui/pages/configuration/configuration.component';
 import { SearchGroupComponent } from './ui/pages/group/search-group/search-group.component';
 import { SearchPostComponent } from './ui/pages/my-feed/search-post/search-post.component';
+import { AdminCoreComponent } from './ui/admin/admin-core/admin-core.component';
+import { PrincipalAdminComponent } from './ui/admin/principal-admin/principal-admin.component';
+import { AdminUsersComponent } from './ui/admin/admin-users/admin-users.component';
+import { AdminGroupsComponent } from './ui/admin/admin-groups/admin-groups.component';
+import { AdminReportsComponent } from './ui/admin/admin-reports/admin-reports.component';
+import { AdminAllUsersComponent } from './ui/admin/admin-users/admin-all-users/admin-all-users.component';
+import { AdminMoreFollowersComponent } from './ui/admin/admin-users/admin-more-followers/admin-more-followers.component';
+import { AdminDetailUserComponent } from './ui/admin/admin-users/admin-detail-user/admin-detail-user.component';
+import { ModerationReportsComponent } from './ui/admin/admin-users/admin-user-problems/admin-user-problems.component';
+import { UserCardStatsComponent } from './ui/admin/admin-users/admin-detail-user/user-card-stats/user-card-stats.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -47,8 +57,8 @@ export const routes: Routes = [
           },
           {
             path: 'search/:post_content',
-            component: SearchPostComponent
-          }
+            component: SearchPostComponent,
+          },
         ],
       },
       { path: 'posts/:id', redirectTo: 'posts', pathMatch: 'full' }, // Redirige si se detecta un ,
@@ -100,6 +110,29 @@ export const routes: Routes = [
       },
     ],
     canActivate: [authGuard],
+  },
+  {
+    path: 'admin',
+    component: AdminCoreComponent,
+    children: [
+      { path: '', component: PrincipalAdminComponent },
+      {
+        path: 'users',
+        component: AdminUsersComponent,
+        children: [
+          { path: 'all-users', component: AdminAllUsersComponent },
+          { path: 'more-followers', component: AdminMoreFollowersComponent },
+          {
+            path: 'detail-user',
+            component: AdminDetailUserComponent,
+            children: [{ path: ':user_id', component: UserCardStatsComponent }],
+          },
+          { path: 'user-problems', component: ModerationReportsComponent },
+        ],
+      },
+      { path: 'groups', component: AdminGroupsComponent },
+      { path: 'reports', component: AdminReportsComponent },
+    ],
   },
   { path: 'voice_room/:room_id', component: RoomContainerComponent },
   // Ruta wildcard para redirigir

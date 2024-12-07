@@ -1,0 +1,90 @@
+/* statistics-dashboard.component.css */
+.statistics-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .dashboard-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .stat-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .card-header i {
+    color: #888;
+  }
+  
+  .primary-stat {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .secondary-stat {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .ranked-lists {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  
+  .ranked-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px;
+  }
+  
+  .ranked-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ranked-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .ranked-list li:last-child {
+    border-bottom: none;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .stats-grid,
+    .ranked-lists {
+      grid-template-columns: 1fr;
+    }
+  }

@@ -1,0 +1,137 @@
+<!-- moderation-reports.component.html -->
+<div class="moderation-reports-container">
+    <div class="reports-header">
+      <h1>Gestión de Reportes de Usuarios</h1>
+      
+      <div class="filters-container">
+        <div class="search-wrapper">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (ngModelChange)="applyFilters()"
+            placeholder="Buscar reportes..." 
+            class="search-input"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="search-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        
+        <select 
+          [(ngModel)]="statusFilter" 
+          (ngModelChange)="applyFilters()" 
+          class="status-filter"
+        >
+          <option value="all">Todos los Estados</option>
+          <option value="pending">Pendientes</option>
+          <option value="resolved">Resueltos</option>
+          <option value="dismissed">Descartados</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="reports-table-container">
+      <table class="reports-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Reportado Por</th>
+            <th>Usuario Reportado</th>
+            <th>Razón</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of filteredReports">
+            <td>{{ report.id }}</td>
+            <td>{{ report.reporter_username }}</td>
+            <td>{{ report.reported_username }}</td>
+            <td>{{ report.reason }}</td>
+            <td>
+              <span 
+                class="status-badge" 
+                [ngClass]="{
+                  'pending': report.status === 'pending',
+                  'resolved': report.status === 'resolved',
+                  'dismissed': report.status === 'dismissed'
+                }"
+              >
+                {{ report.status }}
+              </span>
+            </td>
+            <td>{{ report.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  *ngIf="report.status === 'pending'"
+                  class="btn-resolve"
+                  (click)="updateReportStatus(report, 'resolved')"
+                >
+                  Resolver
+                </button>
+                <button 
+                  *ngIf="report.status === 'pending'"
+                  class="btn-dismiss"
+                  (click)="updateReportStatus(report, 'dismissed')"
+                >
+                  Descartar
+                </button>
+                <button 
+                  class="btn-details"
+                  (click)="viewReportDetails(report)"
+                >
+                  Detalles
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Detalles del Reporte Modal -->
+    <div *ngIf="selectedReport" class="report-details-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Detalles del Reporte #{{ selectedReport.id }}</h2>
+          <button class="close-btn" (click)="closeReportDetails()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="detail-row">
+            <strong>Reportado Por:</strong> {{ selectedReport.reporter_username }}
+          </div>
+          <div class="detail-row">
+            <strong>Usuario Reportado:</strong> {{ selectedReport.reported_username }}
+          </div>
+          <div class="detail-row">
+            <strong>Razón:</strong> {{ selectedReport.reason }}
+          </div>
+          <div class="detail-row">
+            <strong>Fecha del Reporte:</strong> {{ selectedReport.created_at | date:'full' }}
+          </div>
+          <div class="detail-row">
+            <strong>Estado:</strong> 
+            <span 
+              class="status-badge" 
+              [ngClass]="selectedReport.status"
+            >
+              {{ selectedReport.status }}
+            </span>
+          </div>
+          
+          <!-- Conditional rendering for context (posts, comments, etc.) -->
+          <div *ngIf="selectedReport.post_id" class="context-info">
+            <strong>Publicación Reportada:</strong> ID {{ selectedReport.post_id }}
+          </div>
+          <div *ngIf="selectedReport.comment_id" class="context-info">
+            <strong>Comentario Reportado:</strong> ID {{ selectedReport.comment_id }}
+          </div>
+          <div *ngIf="selectedReport.room_id" class="context-info">
+            <strong>Sala Reportada:</strong> ID {{ selectedReport.room_id }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,68 @@
+@if (yetNo()){
+<div class="contenedor">
+  <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+</div>
+}@else if(!notFound()){
+<!-- user-stats.component.html -->
+<div class="user-stats-card">
+  <div class="card-header">
+    <h2>Estadísticas del Usuario</h2>
+  </div>
+
+  <div class="card-body">
+    <div class="user-info">
+      <h3>{{ user.getUsername() }}</h3>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <i class="icon-posts"></i>
+          <span class="stat-label">Publicaciones</span>
+          <span class="stat-value">{{ user.getPosts() }}</span>
+        </div>
+
+        <div class="stat-item">
+          <i class="icon-followers"></i>
+          <span class="stat-label">Seguidores</span>
+          <span class="stat-value">{{ user.getFollowers() }}</span>
+        </div>
+
+        <div class="stat-item">
+          <i class="icon-following"></i>
+          <span class="stat-label">Seguidos</span>
+          <span class="stat-value">{{ user.getFollowed() }}</span>
+        </div>
+
+        <div class="stat-item">
+          <i class="icon-topics"></i>
+          <span class="stat-label">Temas</span>
+          <span class="stat-value">{{ user.getThemes().length }}</span>
+        </div>
+
+        <div class="stat-item">
+          <i class="icon-voice-rooms"></i>
+          <span class="stat-label">Salas de Voz Creadas</span>
+          <span class="stat-value">{{ user.getCantVr()}}</span>
+        </div>
+
+        <div class="stat-item">
+          <i class="icon-comments"></i>
+          <span class="stat-label">Comentarios</span>
+          <span class="stat-value">{{ user.getComments() }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+@if(notFound()){
+<div class="user-not-found-container">
+  <div class="error-card">
+    <div class="error-icon">
+      <i class="fas fa-user-slash"></i>
+    </div>
+    <h1>Usuario no encontrado</h1>
+    <p>Lo sentimos, no pudimos encontrar el perfil que está buscando.</p>
+  </div>
+</div>
+}

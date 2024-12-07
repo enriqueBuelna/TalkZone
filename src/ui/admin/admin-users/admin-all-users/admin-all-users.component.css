@@ -1,0 +1,96 @@
+.dashboard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.section {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+}
+.section-title {
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f8f9fa;
+  color: #333;
+}
+.problematic-user {
+  background-color: #ffdddd;
+}
+.top-follower {
+  background-color: #ddffdd;
+}
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+.badge-warning {
+  background-color: #ffc107;
+  color: white;
+}
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+}
+.badge-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.bottom {
+  margin-bottom: 2rem;
+}
+
+.show-users-btn {
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.flex-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-info-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.user-info-btn i {
+  margin-right: 8px;
+}

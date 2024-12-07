@@ -1,0 +1,18 @@
+@if (showDashboardModules) {
+  <main class="dashboard-modules">
+    <div class="modules-grid">
+      <div *ngFor="let module of modules" class="module-card">
+        <div class="module-icon">
+          <i class="feather-icon"></i>
+        </div>
+        <div class="module-content">
+          <h3>{{ module.name }}</h3>
+          <p>{{ module.description }}</p>
+          <a class="module-action" [routerLink]="[module.where]"
+            routerLinkActive="router-link-active">Acceder</a>
+        </div>
+      </div>
+    </div>
+  </main>
+}
+<router-outlet></router-outlet>

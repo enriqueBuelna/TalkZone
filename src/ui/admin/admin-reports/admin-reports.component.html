@@ -1,0 +1,85 @@
+<!-- statistics-dashboard.component.html -->
+<div class="statistics-container">
+    <h1 class="dashboard-title">Panel de Estadísticas</h1>
+  
+    <div class="stats-grid">
+      <!-- Usuarios -->
+      <div class="stat-card">
+        <div class="card-header">
+          <h3>Usuarios Registrados</h3>
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="card-content">
+          <p class="primary-stat">{{ totalUsers }}</p>
+          <p class="secondary-stat">{{ activeUsers }} activos en 7 días</p>
+        </div>
+      </div>
+  
+      <!-- Actividad Reciente -->
+      <div class="stat-card">
+        <div class="card-header">
+          <h3>Actividad Reciente</h3>
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="card-content">
+          <p class="primary-stat">{{ recentPublications }} Publicaciones</p>
+          <p class="secondary-stat">{{ recentRooms }} Salas Creadas</p>
+        </div>
+      </div>
+  
+      <!-- Salas de Voz -->
+      <div class="stat-card">
+        <div class="card-header">
+          <h3>Salas de Voz Abiertas</h3>
+          <i class="fas fa-microphone"></i>
+        </div>
+        <div class="card-content">
+          <p class="primary-stat">{{ openVoiceRooms }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="ranked-lists">
+      <!-- Top Temas -->
+      <div class="ranked-card">
+        <div class="card-header">
+          <h3>Top 5 Temas</h3>
+          <i class="fas fa-trophy"></i>
+        </div>
+        <ul class="ranked-list">
+          <li *ngFor="let topic of topTopics">
+            <span class="topic-name">{{ topic.name }}</span>
+            <span class="topic-count">{{ topic.count }}</span>
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Top Etiquetas -->
+      <div class="ranked-card">
+        <div class="card-header">
+          <h3>Top Etiquetas</h3>
+          <i class="fas fa-hashtag"></i>
+        </div>
+        <ul class="ranked-list">
+          <li *ngFor="let tag of topTags">
+            <span class="tag-name">{{ tag.name }}</span>
+            <span class="tag-count">{{ tag.count }}</span>
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Tendencias Salas de Voz -->
+      <div class="ranked-card">
+        <div class="card-header">
+          <h3>Tendencias Salas de Voz</h3>
+          <i class="fas fa-microphone-alt"></i>
+        </div>
+        <ul class="ranked-list">
+          <li *ngFor="let topic of voiceTopics">
+            <span class="voice-topic-name">{{ topic.name }}</span>
+            <span class="voice-topic-count">{{ topic.count }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
