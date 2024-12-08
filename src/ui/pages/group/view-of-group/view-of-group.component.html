@@ -1,4 +1,23 @@
 @if (!groupNotFound) {
+@if (groupSuspended()) {
+<div class="paused-container">
+    <div class="paused-icon">⏸️</div>
+    <h2 class="paused-title">Grupo en Pausa</h2>
+    <p class="paused-description">
+        Este grupo está temporalmente inactivo.
+        Volverá a estar disponible próximamente.
+    </p>
+    <div class="paused-details">
+        <div class="paused-detail-item">
+            <span class="paused-detail-label">Estado</span>
+            <span class="paused-detail-value">Temporalmente Pausado</span>
+        </div>
+    </div>
+    <div class="paused-contact">
+        <p>Pronto tendremos más información disponible</p>
+    </div>
+</div>
+}@else {
 @if (groupRestricted) {
 <div class="containerrr">
     <div class="lock-icon">🔒</div>
@@ -113,6 +132,8 @@
 }
 }
 }
+}
+
 }@else {
 <div class="containerr">
     <div class="group-icon"></div>

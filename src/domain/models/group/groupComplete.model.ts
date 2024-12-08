@@ -10,10 +10,12 @@ export class GroupComplete extends GroupPresentation {
   private admin_user: string;
   private type: string;
   private user_preference_id: string;
+  private status: string;
   private tags!: Tag[];
   private topic_id!: string;
   constructor(
     id: number,
+    status:string,
     group_name: string,
     privacy: boolean,
     topic_name: string,
@@ -38,6 +40,11 @@ export class GroupComplete extends GroupPresentation {
     this.user_preference_id = user_preference_id;
     this.tags = tags;
     this.topic_id = topic_id;
+    this.status = status;
+  }
+
+  getStatus(){
+    return this.status;
   }
 
   getTopicId() {

@@ -50,6 +50,7 @@ export class ViewOfGroupComponent implements OnInit {
     private _router:Router
   ) {}
 
+  groupSuspended = signal(false);
   ngOnInit() {
     combineLatest([
       this.userService.getCompleteInformation(this._userService.getUserId()),
@@ -112,6 +113,11 @@ export class ViewOfGroupComponent implements OnInit {
               }
             }
           }
+        }
+
+        if(this.myGroup.getStatus() === 'suspended' && this.userComplete.getUserDemo().getUserId() !==
+        this.myGroup.getAdminUser()){
+          this.groupSuspended.set(true);
         }
       },
       error: (error) => {

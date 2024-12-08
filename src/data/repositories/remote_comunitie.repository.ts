@@ -263,6 +263,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
           console.log(group);
           return new GroupComplete(
             group.id,
+            group.status,
             group.communitie_name,
             group.is_private,
             group.userPreference.topic.topic_name,
