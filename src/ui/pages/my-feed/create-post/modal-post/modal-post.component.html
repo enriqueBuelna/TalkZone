@@ -90,56 +90,6 @@
     </form>
 </div>
 }@else {
-<!-- <div id="modal-background" class="modal-background">
-        <form [formGroup]="formPost">
-            <div class="post-modal">
-                <div class="post-header">
-                    @if(type==='post'){
-                    <span>Crear publicación</span>
-                    }@else {
-                    <span>Crear comentario</span>
-                    }
-                    <button class="close-btn" (click)="onClick()">&times;</button>
-                </div>
-                <div class="post-content">
-                    <div class="user-info">
-                        <div class="info">
-                            <img [src]="myUser.getProfilePic()" alt="User Photo" class="user-photo">
-                            <div class="user-name">{{myUser.getUsername()}}</div>
-                        </div>
-                        <div class="privacy">
-                            @if (type === 'post') {
-                            <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
-                                formControlName="topic_id" />
-                            <div class="privacy">
-                                <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
-                            </div>
-                            }
-                        </div>
-                    </div>
-                    <textarea placeholder="¿Qué estás pensando?" class="post-textarea" formControlName="content"></textarea>
-                </div>
-                <div class="post-footer">
-                    <div class="post-actions">
-                        <label for="imageInput" class="action-btn">
-                            📷
-                            <input type="file" (change)="onImageSelected($event)" />
-                        </label>
-    
-                        <button class="action-btn">😊</button>
-                    </div>
-                    <button class="post-button" (click)="addPost()">
-                        @if (type==='post') {
-                            Postear
-                        }@else {
-                            Comentar
-                        }
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div> -->
-
 <div id="modal-background" class="modal-background">
     <form [formGroup]="formPost">
         <div class="post-modal">
@@ -162,7 +112,7 @@
                         <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
                             formControlName="topic_id" />
                         <div class="privacy">
-                            <p-dropdown [options]="paymentOptions" optionLabel="name" formControlName="visibility" />
+                            <p-dropdown [options]="paymentOptions" placeholder="Privacidad" optionLabel="name" formControlName="visibility" />
                         </div>
                         }
                     </div>
@@ -236,3 +186,4 @@
     </form>
 </div>
 }
+<p-toast />

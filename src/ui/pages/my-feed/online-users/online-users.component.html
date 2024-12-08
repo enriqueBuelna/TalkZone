@@ -1,9 +1,19 @@
 <div class="users-container">
   <h2 class="title">Amigos</h2>
   <div class="users-list">
+    @if (users().length === 0){
+    <div class="friends-container">
+      <div class="friends-icon">👥</div>
+      <h2 class="friends-title">Aún no tienes amigos</h2>
+      <p class="friends-message">
+        Parece que tu red social está vacía. ¡Es hora de conectar!
+        Explora, conoce gente nueva y expande tu círculo social.
+      </p>
+      <app-button text="Comenzar a conectar" (clickEvent)="goToConect()"></app-button>
+    </div>
+    }@else {
     @for (user of users(); track $index) {
-    <div class="user-item" (mouseenter)="hoveredUser = user.getUserId()"
-    (mouseleave)="hoveredUser = null">
+    <div class="user-item" (mouseenter)="hoveredUser = user.getUserId()" (mouseleave)="hoveredUser = null">
       <div class="user-info">
         <div class="avatar-container">
           <div class="avatar">
@@ -24,5 +34,16 @@
       </div>
     </div>
     }
+    }
   </div>
 </div>
+
+<!-- <div class="friends-container">
+  <div class="friends-icon">👥</div>
+  <h2 class="friends-title">Aún no tienes amigos</h2>
+  <p class="friends-message">
+      Parece que tu red social está vacía. ¡Es hora de conectar! 
+      Explora, conoce gente nueva y expande tu círculo social.
+  </p>
+  <button class="connect-btn">Comenzar a Conectar</button>
+</div> -->

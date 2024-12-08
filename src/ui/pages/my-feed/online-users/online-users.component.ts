@@ -12,6 +12,7 @@ import { UserSocket } from '../../../../socket_service/user_socket.service';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { ButtonComponent } from "../../../utils/button/button.component";
 interface User {
   id: number;
   name: string;
@@ -22,7 +23,7 @@ interface User {
   selector: 'app-online-users',
   templateUrl: './online-users.component.html',
   styleUrl: './online-users.component.css',
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   standalone: true,
 })
 export class OnlineUsersComponent implements OnInit, OnDestroy {
@@ -32,6 +33,10 @@ export class OnlineUsersComponent implements OnInit, OnDestroy {
     private _userSocket: UserSocket,
     private _router:Router
   ) {}
+
+  goToConect(){
+    this._router.navigate(['/home/connect'])
+  }
 
   ngOnInit(): void {
     this.users = this._userSocket.getUsers();

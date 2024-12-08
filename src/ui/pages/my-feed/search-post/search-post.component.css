@@ -1,6 +1,6 @@
 .contenedor {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .header {
   display: flex;
@@ -13,7 +13,43 @@
 }
 
 .left {
-    margin-right: 13.5rem;
-    margin-left: 1rem;
-    cursor: pointer;
-  }
+  margin-right: 13.5rem;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.no-results-container {
+  text-align: center;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  width: 100%;
+}
+.no-results-icon {
+  font-size: 80px;
+  color: #888;
+  margin-bottom: 20px;
+}
+.no-results-title {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+.no-results-message {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+.search-again-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+.search-again-btn:hover {
+  background-color: #0056b3;
+}

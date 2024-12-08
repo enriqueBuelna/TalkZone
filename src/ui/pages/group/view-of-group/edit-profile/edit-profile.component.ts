@@ -152,7 +152,11 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       if (this.photoFile) {
         profile_picture$ = await uploadFile(this.photoFile);
       }
-
+      if(privacy === 'private'){
+        privacy = true;
+      }else{
+        privacy = false;
+      }
       this._communityService
         .editGroup(
           this.group.getId().toString(),

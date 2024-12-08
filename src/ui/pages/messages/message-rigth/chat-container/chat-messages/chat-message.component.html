@@ -2,7 +2,8 @@
     @for (message of _messages.getMessages(); track $index) {
       <app-message 
         [content]="message.getContent()"
-        [whosMessage]="message.getSenderId() === idOtherUser ? 'received' : 'sent'">
+        [whosMessage]="message.getSenderId() === idOtherUser ? 'received' : 'sent'"
+        [sentAt]="message.getSentAt()">
       </app-message>
     }
   </div>

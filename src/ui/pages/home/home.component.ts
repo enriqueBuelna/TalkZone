@@ -8,6 +8,7 @@ import { UserDemo } from '../../../domain/models/user-demo.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../../../domain/services/notifications.service';
 import { NotService } from '../notifications/services/notifications.service';
+import { GoogleGeminiProService } from '../../../gemini/gemini.service';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _userSocket: UserSocket,
     private _destroyRef: DestroyRef,
     private _notificationService: NotificationService,
-    private _notService: NotService
-  ) {}
+    private _notService: NotService,
+    private googleGeminiPro: GoogleGeminiProService
+  ) {
+    // this.googleGeminiPro.initialize('AIzaSyDrFMvd5Z1TFrXLnzZ8uX_NctKsUtGaFko');
+  }
   ngOnInit(): void {
     this._notificationService
       .getCantNotifications(this._authService.getUserId())

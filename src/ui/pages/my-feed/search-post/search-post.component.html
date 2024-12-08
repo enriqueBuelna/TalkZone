@@ -5,7 +5,19 @@
             <h2>Resultados de la busqueda:</h2>
         </div>
     </app-header>
+    @if (notPosts()) {
+    <div class="no-results-container">
+        <div class="no-results-icon">🔍</div>
+        <h2 class="no-results-title">No se encontraron resultados</h2>
+        <p class="no-results-message">
+            Lo sentimos, no hay publicaciones que coincidan con tu búsqueda.
+            Intenta usar términos diferentes o ajusta tus filtros.
+        </p>
+        <button class="search-again-btn">Intentar de nuevo</button>
+    </div>
+    }@else {
     @for (post of allPost(); track post.getId()) {
     <app-post [postContent]="post"></app-post>
+    }
     }
 </div>

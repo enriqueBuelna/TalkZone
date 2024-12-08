@@ -11,5 +11,5 @@ import { Component, Input } from '@angular/core';
 export class MessagesComponent {
   @Input() content: string = '';
   @Input() whosMessage: string = '';
-  
+  @Input() sentAt!:Date;
 }

@@ -1,8 +1,6 @@
 <form [formGroup]="messageForm">
     <div class="chat-input">
-        <button class="emoji-button">😊</button>
         <input type="text" placeholder="Escribe un mensaje..." formControlName="message" (keydown.enter)="sendMessage()"/>
-        <button class="image-button">📷</button>
         <button class="send-button" (click)="sendMessage()">Enviar</button>
     </div>
 </form>

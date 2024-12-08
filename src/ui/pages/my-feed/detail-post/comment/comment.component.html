@@ -5,16 +5,9 @@
     </div>
     <div class="tweet-content">
         <div>
-            <span class="username" (click)="goToProfile()">{{comment.getUserInfo().getUsername()}}</span>· <span
-                class="timestamp">9 min</span>
+            <span class="username" (click)="goToProfile()">{{comment.getUserInfo().getUsername()}}</span>
         </div>
         <p><span>{{comment.getContent()}}</span></p>
-        <div class="tweet-actions">
-            <div><span>💬</span> 1</div>
-            <div><span>❤️</span> @if(comment.getCantLikes() > 0){
-                {{comment.getCantLikes()}}
-                }</div>
-        </div>
     </div>
 </div>
 }

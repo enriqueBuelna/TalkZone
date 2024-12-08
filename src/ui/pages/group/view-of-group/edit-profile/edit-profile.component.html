@@ -1,7 +1,7 @@
 <div id="modal-background" class="modal-background">
   <div class="post-modal">
     <div class="post-header">
-      <span>Editar perfil</span>
+      <span>Editar grupo</span>
       <button class="close-btn" (click)="onClick()">&times;</button>
     </div>
     <div class="post-content">
@@ -48,7 +48,9 @@
         </div>
       </form>
       <!-- Preferencias -->
-      <app-button text="Agregar etiquetas" (clickEvent)="addTags()"></app-button>
+      <div class="flex-type">
+        <app-button text="Agregar etiquetas" (clickEvent)="addTags()"></app-button>
+      </div>
       <div class="post-footer">
         <app-button text="Guardar cambios" (clickEvent)="saveChanges()"></app-button>
       </div>

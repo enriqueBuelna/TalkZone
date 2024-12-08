@@ -33,6 +33,10 @@ import { Comment } from '../../../../../domain/models/comment.model';
 import { Post } from '../../../../../domain/models/post.model';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { GoogleGeminiProService } from '../../../../../gemini/gemini.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { MessageSuccess} from '../../services/messageSucces.service';
 @Component({
   selector: 'app-modal-post',
   standalone: true,
@@ -44,9 +48,11 @@ import { ProgressBarModule } from 'primeng/progressbar';
     CommonModule,
     PickerComponent,
     ProgressBarModule,
+    ToastModule,
   ],
   templateUrl: './modal-post.component.html',
   styleUrl: './modal-post.component.css',
+  providers: [MessageService],
 })
 export class ModalPostComponent implements OnInit {
   formPost!: FormGroup;
@@ -70,7 +76,10 @@ export class ModalPostComponent implements OnInit {
     private _postCService: PostCService,
     private _route: ActivatedRoute,
     private _userService: UserService,
-    private _commentService: CommentsCService
+    private _commentService: CommentsCService,
+    private _geminiService: GoogleGeminiProService,
+    private _messageService: MessageService,
+    private _messageSuccess: MessageSuccess
   ) {
     this.formPost = this._formBuilder.group({
       content: ['', [Validators.required]],
@@ -98,6 +107,7 @@ export class ModalPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._messageSuccess.setFalse();
     if (this.type !== 'comment' && this.type !== 'post') {
       if (
         this.postContent.getUserPreference()?.getType() === 'mentor' &&
@@ -202,7 +212,7 @@ export class ModalPostComponent implements OnInit {
     // Previene el clic si el botón está deshabilitado
     this.clickEvent.emit();
   }
-
+  response = signal('');
   async addPost() {
     if (this.type === 'post') {
       if (this.formPost.valid) {
@@ -258,11 +268,33 @@ export class ModalPostComponent implements OnInit {
             });
           this.onClick();
         } else {
-          this._postService.newPost(payload).subscribe((el) => {
-            this.submitEnter.set(false);
-            this._postCService.addNewPost(el);
-            this.onClick();
-          });
+          this._geminiService
+            .verifyIfTopicCorrect(topic_id.topic_name, content)
+            .then((response: any) => {
+              if (
+                response === 'Sí' ||
+                response === 'SÍ' ||
+                response === 'sí' ||
+                response === 'Si' ||
+                response === 'SI' ||
+                response === 'si'
+              ) {
+                this._postService.newPost(payload).subscribe((el) => {
+                  this.submitEnter.set(false);
+                  this._postCService.addNewPost(el);
+                  this.onClick();
+                  this._messageSuccess.setSuccess();
+                });
+              } else {
+                this.submitEnter.set(false);
+                this._messageService.add({
+                  severity: 'error',
+                  summary: 'Algo salio mal',
+                  detail:
+                    'Verifica que el contenido de la publicacion coincida con el tema, que estas publicando',
+                });
+              }
+            });
         }
       }
     } else if (this.type === 'group') {

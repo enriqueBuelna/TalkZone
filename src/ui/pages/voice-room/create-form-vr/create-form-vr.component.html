@@ -9,14 +9,14 @@
             <!--  -->
             <form [formGroup]="formCreateGroup">
             <label for="group-name">Nombre de sala</label>
-            <input type="text" id="group-name" placeholder="Nombre del grupo" formControlName="name">
+            <input type="text" id="group-name" placeholder="Nombre de la sala" formControlName="name">
   
-            <label for="group-type">Tipo de grupo</label>
+            <label for="group-type">Tipo de sala</label>
             <select id="group-type" formControlName="type">
               <option value="" disabled selected>Tipo de sala:</option>
-              <option value="mentor">Mentoria</option>
-              <option value="explorador">Busqueda de aprendizaje</option>
-              <option value="entusiasta">Interses compartidos</option>
+              <option value="mentor">Mentor</option>
+              <option value="explorador">Explorador</option>
+              <option value="entusiasta">Entusiasta</option>
             </select>
   
             @if (firtStep()) {

@@ -58,6 +58,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               undefined,
               undefined,
@@ -168,6 +169,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               post.community_id,
               post.type_community,
@@ -225,6 +227,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               post.community_id,
               post.type_community,
@@ -278,6 +281,7 @@ export class RemotePostRespository extends PostRepository {
                   tag.post_tag_tag.topic_id
                 )
             ),
+            post.created_at,
             undefined,
             post.community_id,
             post.type_community,
@@ -332,6 +336,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               undefined,
               undefined,
@@ -377,6 +382,7 @@ export class RemotePostRespository extends PostRepository {
                   tag.post_tag_tag.topic_id
                 )
             ),
+            post.created_at,
             (post.comments || []).map(
               (coment: any) =>
                 new Comment(
@@ -441,6 +447,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               undefined,
               undefined,
@@ -496,6 +503,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               undefined,
               undefined,
@@ -559,6 +567,7 @@ export class RemotePostRespository extends PostRepository {
                     tag.post_tag_tag.topic_id
                   )
               ),
+              post.created_at,
               undefined,
               undefined,
               undefined,

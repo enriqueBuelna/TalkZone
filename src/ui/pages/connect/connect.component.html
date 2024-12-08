@@ -83,7 +83,11 @@
             <div class="chip">
               @for (item of userPreferenceInformation?.userPreference; track $index) {
               @if (item.getType() === 'mentor') {
-              <span class="topic-label">{{item.getTopicName()}}</span>
+              @if (item.getTags().length > 0) {
+              <span class="topic-label" (click)="showTagss(item)">{{item.getTopicName()}}</span>
+              }@else {
+              <span class="topic-label2" (click)="showTagss(item)">{{item.getTopicName()}}</span>
+              }
               }
               }
             </div>
@@ -93,7 +97,11 @@
             <div class="chip">
               @for (item of userPreferenceInformation?.userPreference; track $index) {
               @if (item.getType() === 'explorador') {
-              <span class="topic-label">{{item.getTopicName()}}</span>
+              @if (item.getTags().length > 0) {
+              <span class="topic-label" (click)="showTagss(item)">{{item.getTopicName()}}</span>
+              }@else {
+              <span class="topic-label2" (click)="showTagss(item)">{{item.getTopicName()}}</span>
+              }
               }
               }
             </div>
@@ -103,7 +111,11 @@
             <div class="chip">
               @for (item of userPreferenceInformation?.userPreference; track $index) {
               @if (item.getType() === 'entusiasta') {
-              <span class="topic-label">{{item.getTopicName()}}</span>
+              @if (item.getTags().length > 0) {
+              <span class="topic-label" (click)="showTagss(item)">{{item.getTopicName()}}</span>
+              }@else {
+              <span class="topic-label2" (click)="showTagss(item)">{{item.getTopicName()}}</span>
+              }
               }
               }
             </div>
@@ -127,16 +139,15 @@
   <h2 class="text-center mt-3">Filtros</h2>
   <form [formGroup]="filterForm">
     <h4 class="text-center">Selecciona tus preferencias</h4>
-    <div class="form-group mb-3 mt-5">
-      <!-- <p-dropdown [options]="topicsKnow" optionLabel="topic_name" placeholder="Selecciona un tema"
-               /> -->
-      <p-multiSelect [options]="topicsEntusiasta" [filter]="false" optionLabel="topic_name" placeholder="Entusiasta"
-        [style]='{width:"100%"}' formControlName="topicsEntusiastas" />
-      @if(isTopicsEntusiasta()){
-      <p-checkbox label="¿Deseas conectar solo con entusiastas?" id="conectado" value="si"
-        formControlName="onlyEntusiastas" class="mt-3"></p-checkbox>
-      }
-
+    <div class="form-group">
+      <div class="multi-select-wrapper">
+        <p-multiSelect [options]="topicsEntusiasta" [filter]="false" optionLabel="topic_name" placeholder="Entusiasta"
+          [style]='{width:"100%"}' formControlName="topicsEntusiastas" />
+        @if(isTopicsEntusiasta()){
+        <p-checkbox label="¿Deseas conectar solo con entusiastas?" id="conectado" value="si"
+          formControlName="onlyEntusiastas" class="mt-3"></p-checkbox>
+        }
+      </div>
     </div>
 
     <div class="form-group mt-5">
@@ -170,8 +181,10 @@
       </div>
     </div>
 
-    <app-button text="Aplicar" (clickEvent)="filterApply()" class="mt-5" buttonClass="smallButton">
-    </app-button>
+    <div class="flex-type">
+      <app-button text="Aplicar" (clickEvent)="filterApply()" class="mt-5" buttonClass="btn-large">
+      </app-button>
+    </div>
     <!-- [isDisabled]="!filterForm.valid" -->
   </form>
 </p-dialog>
@@ -205,6 +218,31 @@
       </div>
       <p>Recuerda, independientemente de tu preferencia, puedes encontrar conexiones con personas que comparten tus
         mismos temas de interés.</p>
+    </div>
+  </div>
+</div>
+}
+
+@if(showTags()){
+<div class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{userPref?.getTopicName()}}</h2>
+      <span class="modal-close" (click)="showTagss(undefined)">&times;</span>
+    </div>
+    @if (userPref?.getTags()!.length > 0) {
+    <div class="title">
+      <h3>Etiquetas relacionadas:</h3>
+    </div>
+    }
+    <div class="modal-body">
+      @if (userPref?.getTags()!.length > 0) {
+      @for (item of userPref?.getTags(); track $index) {
+      <button>{{item.getTagName()}}</button>
+      }
+      }@else {
+      <h3>Esta preferencia no tiene etiquetas relacionadas</h3>
+      }
     </div>
   </div>
 </div>

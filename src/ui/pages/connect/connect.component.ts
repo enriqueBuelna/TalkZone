@@ -26,6 +26,7 @@ import { FollowerService } from '../../../domain/services/follower.service';
 import { Router } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
 import { CardUserComponent } from './card-user/card-user.component';
+import { Tag } from '../../../domain/models/tag.model';
 interface FilterTopic {
   topic_id: number;
   topic_name: string;
@@ -50,7 +51,7 @@ interface Gender {
     ReactiveFormsModule,
     MultiSelectModule,
     CardUserComponent,
-    SkeletonModule
+    SkeletonModule,
   ],
   templateUrl: './connect.component.html',
   styleUrl: './connect.component.css',
@@ -185,10 +186,10 @@ export class ConnectComponent implements OnInit {
   }
 
   selectCard(userPreference: UserPreferences) {
-    if(!this.idsSeguidos.some(el => el === userPreference.userId)){
+    if (!this.idsSeguidos.some((el) => el === userPreference.userId)) {
       this.textFollow = 'Seguir';
-    }else{
-      this.textFollow = "Dejar de seguir";
+    } else {
+      this.textFollow = 'Dejar de seguir';
     }
     this.showInfo.set(true);
     this.userPreferenceInformation = userPreference;
@@ -278,5 +279,18 @@ export class ConnectComponent implements OnInit {
 
   showDialogType() {
     this.modalShowInfo.set(!this.modalShowInfo());
+  }
+
+  showTags = signal(false);
+
+  userPref!: UserPreference | undefined;
+  showTagss(tags: UserPreference | undefined) {
+    if (tags) {
+      this.userPref = tags;
+      this.showTags.set(true);
+    }else{
+      this.userPref = undefined;
+      this.showTags.set(false);
+    }
   }
 }

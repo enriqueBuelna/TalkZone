@@ -41,6 +41,7 @@ export class SearchPostComponent implements OnInit {
     });
   }
   hasMorePosts = true;
+  notPosts = signal(false);
   loadPosts() {
     this.postObservableAll = this._postService.searchPost(
       this._userService.getUserId(),
@@ -49,7 +50,9 @@ export class SearchPostComponent implements OnInit {
     );
 
     this.postObservableAll.subscribe((posts) => {
-      console.log(posts);
+      if(posts.length === 0){
+        this.notPosts.set(true);
+      }
       if (posts.length > 0) {
         this._postCService.addPosts(posts);
       } else {

@@ -196,7 +196,8 @@ export class RemoteAdminRepository extends AdminRepository {
                 0,
                 el.post_user_preference.topic_id,
                 el.post_user_preference.type,
-                el.post_user_preference.topic.topic_name
+                el.post_user_preference.topic.topic_name,
+                []
               ),
               '',
               el?.post_tagss.map(
@@ -206,7 +207,8 @@ export class RemoteAdminRepository extends AdminRepository {
                     tag.post_tag_tag.id,
                     tag.post_tag_tag.topic_id
                   )
-              )
+              ),
+              el.created_at
             );
           } else if (type === 'comment') {
             return new Comment(

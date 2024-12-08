@@ -18,6 +18,7 @@ export class Post {
   private name_community?:string;
   private cover_picture?:string;
   private tags:Tag[] = [];
+  private created_at:Date;
   constructor(
     id: string,
     userInfo: UserDemo,
@@ -28,13 +29,15 @@ export class Post {
     userPreference: UserPreference | null,
     media_url: string,
     tags:Tag[],
+    created_at:Date,
     comments?: Comment[],
     community_id?: string,
     type_community?: string,
     is_liked?:any,
     name_community?:string,
-    cover_picture?:string
+    cover_picture?:string,
   ) {
+    this.created_at = created_at;
     this.id = id;
     this.userInfo = userInfo;
     this.content = content;
@@ -58,6 +61,10 @@ export class Post {
         this.is_liked = true;
       }
     }
+  }
+
+  getCreatedAt(){
+    return this.created_at;
   }
 
   getNameComunity(){

@@ -37,7 +37,7 @@
                             }
                         </div>
                     </div>
-                    <span class="post-time">2 h · 🌎</span>
+                    <span class="post-time">{{postContent.getCreatedAt() | date:" d MMM y"}} · 🌎</span>
                 </div>
             </div>
             }@else {
@@ -79,7 +79,7 @@
                             }
                         </div>
                     </div>
-                    <span class="post-time">30 minutos · @if (postContent.getPrivacy() === 'public') {
+                    <span class="post-time">{{postContent.getCreatedAt() | date:" d MMM y"}} · @if (postContent.getPrivacy() === 'public') {
                         🌎}@else {
                         🔒
                         }</span>

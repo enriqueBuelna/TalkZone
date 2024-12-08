@@ -3,7 +3,7 @@ import { Tag } from './tag.model';
 export class UserPreference {
   private topic_id: number;
   private type: string;
-  private tag?: Tag[];
+  private tag: Tag[] = [];
   private topic_name: string;
   private id: number;
   constructor(
@@ -11,7 +11,7 @@ export class UserPreference {
     topic_id: number,
     type: string,
     topic_name: string,
-    tag?: Tag[]
+    tag: Tag[] = []
   ) {
     this.topic_id = topic_id;
     this.type = type;
@@ -36,7 +36,7 @@ export class UserPreference {
     return this.topic_id;
   }
 
-  getTags(): Tag[] | undefined {
+  getTags(): Tag[] {
     return this.tag;
   }
 

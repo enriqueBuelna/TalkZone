@@ -7,6 +7,7 @@ import { UserService } from '../../auth/services/user.service';
 import { GroupPresentationComponent } from '../group-presentation/group-presentation.component';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ButtonComponent } from "../../../utils/button/button.component";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-discover-groups',
   standalone: true,
@@ -19,7 +20,8 @@ export class DiscoverGroupsComponent {
   myGroups: GroupPresentation[] = [];
   constructor(
     private _userService: UserService,
-    private _groupService: CommunitieService
+    private _groupService: CommunitieService,
+    private _router: Router
   ) {}
   hasMoreGroups = signal(false);
   page = 1;
@@ -58,6 +60,10 @@ export class DiscoverGroupsComponent {
   showMore() {
     this.page++;
     this.loadPost();
+  }
+
+  goToCreate(){
+    this._router.navigate(['/home/groups/my-groups'])
   }
   //OCUPO DESCUBRIR LOS GRUPOS, CON RESPECTO A MIS USER_PREFERENCE
 }

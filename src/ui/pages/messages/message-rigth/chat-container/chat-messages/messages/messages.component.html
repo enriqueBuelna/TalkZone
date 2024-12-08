@@ -1,4 +1,13 @@
-<div class="message" [ngClass]="whosMessage">
+<!-- <div class="message" [ngClass]="whosMessage">
     <p>{{content}}</p>
     <span class="timestamp">10:01 AM</span>
-</div>
+</div> -->
+
+<div class="message" [ngClass]="whosMessage">
+    <div class="message-content">
+      {{content}}
+    </div>
+    <div class="message-time">
+      {{sentAt | date:'HH:mm'}}
+    </div>
+  </div>

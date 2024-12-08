@@ -42,7 +42,6 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this._userService.getUserId();
-    console.log(this.postContent.getTypeCommunity());
   }
 
   giveComment() {
