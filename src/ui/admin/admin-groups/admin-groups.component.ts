@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AdminService } from '../../../domain/services/admin.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ProgressSpinner, ProgressSpinnerModule } from 'primeng/progressspinner';
+import { Router, RouterOutlet } from '@angular/router';
 interface Community {
   id: number;
   name: string;
@@ -111,33 +115,56 @@ const MOCK_COMMUNITIES: Community[] = [
 @Component({
   selector: 'app-admin-groups',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ProgressSpinnerModule, RouterOutlet],
   templateUrl: './admin-groups.component.html',
   styleUrl: './admin-groups.component.css'
 })
 export class AdminGroupsComponent {
   communities: Community[] = MOCK_COMMUNITIES;
-  filteredCommunities: Community[] = [];
+  filteredCommunities: any[] = [];
 
+  onlyGroups = signal(true);
   // Filtros
   topicFilter: string = 'all';
   statusFilter: string = 'all';
   searchTerm: string = '';
 
+  constructor(private _adminService:AdminService, private _destroyRef:DestroyRef, private _router:Router){
+
+  }
+
   // Modal de edición
   selectedCommunity: Community | null = null;
-  
+  mostPopular: any;
+  mostPopularSpiner = signal(true);
+  allGroups: any;
+  checkRoute(){
+    this.onlyGroups.set(this._router.url === '/admin/groups');
+  }
   ngOnInit() {
-    this.applyFilters();
+    this.checkRoute();
+    this._adminService.getMostPopular().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
+      console.log(el);
+      this.mostPopularSpiner.set(false);
+      this.mostPopular = el;
+    })
+    this._adminService.getAllGroups().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
+      console.log(el);
+      this.allGroups = el;
+      this.filteredCommunities = this.allGroups;
+    })
+    this._router.events.subscribe(() => {
+      this.checkRoute();
+    });
   }
 
   applyFilters() {
-    this.filteredCommunities = this.communities.filter(community => {
+    this.filteredCommunities = this.allGroups.filter((community:any) => {
       const topicMatch = this.topicFilter === 'all' || community.mainTopic === this.topicFilter;
       const statusMatch = this.statusFilter === 'all' || community.status === this.statusFilter;
       const searchMatch = !this.searchTerm || 
-        community.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        community.description.toLowerCase().includes(this.searchTerm.toLowerCase());
+        community.getGroupName().toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+        community.getTopicName().toLowerCase().includes(this.searchTerm.toLowerCase())
       
       return topicMatch && statusMatch && searchMatch;
     });
@@ -147,8 +174,10 @@ export class AdminGroupsComponent {
     return [...new Set(this.communities.map(c => c.mainTopic))];
   }
 
-  openEditModal(community: Community) {
-    this.selectedCommunity = { ...community };
+  openEditModal(id:number) {
+    // this.selectedCommunity = { ...community };
+    this.onlyGroups.set(false);
+    this._router.navigate(['admin', 'groups', id]);
   }
 
   updateCommunity() {

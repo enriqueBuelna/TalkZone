@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-core',
@@ -10,5 +10,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './admin-core.component.css'
 })
 export class AdminCoreComponent {
-  
+  constructor(private _router:Router){
+
+  }
+
+  goToHome(){
+    this._router.navigate(['']);
+  }
 }

@@ -10,7 +10,7 @@
         <nav class="nav-menu">
             <ul>
                 <li class="nav-item active">
-                    <a  [routerLink]="['/admin']" routerLinkActive="router-link-active"  class="nav-link">
+                    <a [routerLink]="['/admin']" routerLinkActive="router-link-active" class="nav-link">
                         <i class="feather-home"></i>
                         <span>Inicio</span>
                     </a>
@@ -30,19 +30,13 @@
                 <li class="nav-item">
                     <a [routerLink]="['/admin/reports']" class="nav-link">
                         <i class="feather-bell"></i>
-                        <span>Reportes</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="feather-settings"></i>
-                        <span>Configuración</span>
+                        <span>Estadisticas</span>
                     </a>
                 </li>
             </ul>
         </nav>
         <div class="navbar-footer">
-            <a href="#" class="logout-link">
+            <a (click)="goToHome()" class="logout-link">
                 <i class="feather-log-out"></i>
                 <span>Cerrar Sesión</span>
             </a>

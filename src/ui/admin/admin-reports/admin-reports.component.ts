@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AdminService } from '../../../domain/services/admin.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CuriosStats } from '../../../domain/models/admin/CuriosStats.model';
+import { CountTopic } from '../../../domain/models/admin/topicPost.model';
+import { TopHosts } from '../../../domain/models/admin/TopHost.model';
 interface StatItem {
   name: string;
   count: number;
@@ -7,15 +14,22 @@ interface StatItem {
 @Component({
   selector: 'app-admin-reports',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ProgressSpinnerModule],
   templateUrl: './admin-reports.component.html',
   styleUrl: './admin-reports.component.css',
 })
-export class AdminReportsComponent {
+export class AdminReportsComponent implements OnInit {
   // User Statistics
+  constructor(
+    private _adminService: AdminService,
+    private _destroyRef: DestroyRef
+  ) {}
+  yetNoStats = signal(true);
   totalUsers: number = 0;
   activeUsers: number = 0;
-
+  userTimePeriod = '7days';
+  activityTimePeriod = '7days';
+  voiceRoomTimePeriod = '7days';
   // Recent Activity
   recentPublications: number = 0;
   recentRooms: number = 0;
@@ -30,10 +44,66 @@ export class AdminReportsComponent {
   openVoiceRooms: number = 0;
   voiceTopics: StatItem[] = [];
 
-  constructor() {}
+  allCuriosStats!: CuriosStats;
 
+  topFiveTopics = signal(true);
+  topFiveRoom = signal(true);
+  topFiveHost = signal(true);
+  topicFiveTopicsTheme!: CountTopic[];
+  topicFiveTopicsRoom!: CountTopic[];
+  topFiveHosts!: TopHosts[];
   ngOnInit(): void {
     this.loadStatistics();
+    this._adminService
+      .getCuriosStats()
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this.yetNoStats.set(false);
+          console.log(el);
+          this.allCuriosStats = el;
+        },
+        error: (error) => {},
+      });
+
+    this._adminService
+      .getTopFiveTopicTheme()
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this.topFiveTopics.set(false);
+          this.topicFiveTopicsTheme = el;
+        },
+        error: (error) => {},
+      });
+
+    this._adminService
+      .getTopFiveTopicRoom()
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this.topFiveRoom.set(false);
+          this.topicFiveTopicsRoom = el;
+        },
+        error: (error) => {},
+      });
+
+    this._adminService.getTopFiveHosts().pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        this.topFiveHost.set(false);
+        this.topFiveHosts = el;
+        console.log(el);
+      }, 
+      error: error => {
+        console.log(error);
+      }
+    })
+  }
+
+  generateStars(stars: number): string[] {
+    const fullStars = Array(stars).fill('★');
+    const emptyStars = Array(5 - stars).fill('☆');
+    return [...fullStars, ...emptyStars];
   }
 
   loadStatistics(): void {

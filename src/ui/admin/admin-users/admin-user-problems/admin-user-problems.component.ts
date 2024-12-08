@@ -1,29 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface ModerationReport {
-  id: number;
-  reporter_id: string;
-  reported_user_id: string;
-  post_id?: number;
-  comment_id?: number;
-  room_id?: number;
-  message_id?: number;
-  reason: string;
-  status: 'pending' | 'resolved' | 'dismissed';
-  created_at: Date;
-  resolved_at?: Date;
-  reporter_username?: string;
-  reported_username?: string;
-}
+import { AdminService } from '../../../../domain/services/admin.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ModerationReport } from '../../../../domain/models/admin/moderation_report.model';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+// interface ModerationReport {
+//   id: number;
+//   reporter_id: string;
+//   reported_user_id: string;
+//   post_id?: number;
+//   comment_id?: number;
+//   room_id?: number;
+//   message_id?: number;
+//   reason: string;
+//   status: 'pending' | 'resolved' | 'dismissed';
+//   created_at: Date;
+//   resolved_at?: Date;
+//   reporter_username?: string;
+//   reported_username?: string;
+// }
 @Component({
   selector: 'app-admin-user-problems',
   templateUrl: './admin-user-problems.component.html',
   styleUrls: ['./admin-user-problems.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ProgressSpinnerModule],
 })
 export class ModerationReportsComponent implements OnInit {
   MOCK_MODERATION_REPORTS = [
@@ -37,7 +40,7 @@ export class ModerationReportsComponent implements OnInit {
       reason: 'Contenido ofensivo y lenguaje inapropiado',
       status: 'pending',
       created_at: new Date('2024-02-15T10:30:00'),
-      resolved_at: null
+      resolved_at: null,
     },
     {
       id: 2,
@@ -49,7 +52,7 @@ export class ModerationReportsComponent implements OnInit {
       reason: 'Acoso y comentarios discriminatorios',
       status: 'pending',
       created_at: new Date('2024-02-14T15:45:00'),
-      resolved_at: null
+      resolved_at: null,
     },
     {
       id: 3,
@@ -61,7 +64,7 @@ export class ModerationReportsComponent implements OnInit {
       reason: 'Comportamiento inapropiado en sala de voz',
       status: 'resolved',
       created_at: new Date('2024-02-10T09:15:00'),
-      resolved_at: new Date('2024-02-12T11:20:00')
+      resolved_at: new Date('2024-02-12T11:20:00'),
     },
     {
       id: 4,
@@ -73,7 +76,7 @@ export class ModerationReportsComponent implements OnInit {
       reason: 'Spam y publicidad no autorizada',
       status: 'dismissed',
       created_at: new Date('2024-02-05T18:20:00'),
-      resolved_at: new Date('2024-02-08T14:30:00')
+      resolved_at: new Date('2024-02-08T14:30:00'),
     },
     {
       id: 5,
@@ -85,7 +88,7 @@ export class ModerationReportsComponent implements OnInit {
       reason: 'Información falsa y desinformación',
       status: 'pending',
       created_at: new Date('2024-02-12T20:10:00'),
-      resolved_at: null
+      resolved_at: null,
     },
     {
       id: 6,
@@ -97,21 +100,36 @@ export class ModerationReportsComponent implements OnInit {
       reason: 'Interrupciones continuas y falta de respeto',
       status: 'resolved',
       created_at: new Date('2024-02-08T16:55:00'),
-      resolved_at: new Date('2024-02-11T10:40:00')
-    }
+      resolved_at: new Date('2024-02-11T10:40:00'),
+    },
   ];
-  reports = this.MOCK_MODERATION_REPORTS;
-  filteredReports:any = [];
-  selectedReport: ModerationReport | null = null;
+  reports!: ModerationReport[];
+  filteredReports: ModerationReport[] = [];
+  selectedReport!: ModerationReport | null;
 
   // Filters
   statusFilter: string = 'all';
   searchTerm: string = '';
-
-  constructor(private http: HttpClient) {}
+  yetNo = signal(true);
+  constructor(
+    private _adminService: AdminService,
+    private _destroyRef: DestroyRef
+  ) {}
 
   ngOnInit() {
-    this.applyFilters();
+    this._adminService
+      .getAllModerationReports()
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this.yetNo.set(true);
+          this.reports = el;
+          this.applyFilters();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   fetchReports() {
@@ -131,47 +149,56 @@ export class ModerationReportsComponent implements OnInit {
     this.filteredReports = this.reports.filter((report) => {
       // Status filter
       const statusMatch =
-        this.statusFilter === 'all' || report.status === this.statusFilter;
+        this.statusFilter === 'all' || report.getStatus() === this.statusFilter;
 
       // Search term filter
       const searchMatch =
         !this.searchTerm ||
-        report.reporter_username
+        report
+          .getReporter()
           ?.toLowerCase()
           .includes(this.searchTerm.toLowerCase()) ||
-        report.reported_username
+        report
+          .getReported()
           ?.toLowerCase()
           .includes(this.searchTerm.toLowerCase()) ||
-        report.reason.toLowerCase().includes(this.searchTerm.toLowerCase());
+        report
+          .getReason()
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase());
 
       return statusMatch && searchMatch;
     });
   }
-
-  updateReportStatus(
-    report: ModerationReport,
-    status: 'resolved' | 'dismissed'
-  ) {
-    // Simulate status update - replace with actual API call
-    this.http
-      .patch(`/api/moderation-reports/${report.id}`, { status })
+  type = '';
+  yetNoDetails = signal(true);
+  publicationReported: any;
+  viewReportDetails(id: number, type: string, report:any) {
+    this.selectedReport = report;
+    this.type = type;
+    console.log(type);
+    this._adminService
+      .getModerationReportById(id, type)
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: () => {
-          report.status = status;
-          report.resolved_at = new Date();
-          this.applyFilters();
+        next: (el) => {
+          console.log(el);
+          this.yetNoDetails.set(false);
+          this.publicationReported = el;
+          this.yeah.set(true);
         },
-        error: (err) => {
-          console.error('Error updating report status', err);
+        error: (error) => {
+          console.log(error);
         },
       });
   }
-
-  viewReportDetails(report: ModerationReport) {
-    this.selectedReport = report;
-  }
+  yeah = signal(false);
 
   closeReportDetails() {
+    this.yeah.set(false);
+    this.publicationReported = null;
     this.selectedReport = null;
+    this.yetNoDetails.set(true);
+    this.type = '';
   }
 }

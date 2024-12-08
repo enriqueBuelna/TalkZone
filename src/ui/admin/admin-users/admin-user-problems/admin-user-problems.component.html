@@ -1,137 +1,245 @@
 <!-- moderation-reports.component.html -->
 <div class="moderation-reports-container">
-    <div class="reports-header">
-      <h1>Gestión de Reportes de Usuarios</h1>
-      
-      <div class="filters-container">
-        <div class="search-wrapper">
-          <input 
-            type="text" 
-            [(ngModel)]="searchTerm" 
-            (ngModelChange)="applyFilters()"
-            placeholder="Buscar reportes..." 
-            class="search-input"
-          >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="search-icon">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        
-        <select 
-          [(ngModel)]="statusFilter" 
-          (ngModelChange)="applyFilters()" 
-          class="status-filter"
-        >
-          <option value="all">Todos los Estados</option>
-          <option value="pending">Pendientes</option>
-          <option value="resolved">Resueltos</option>
-          <option value="dismissed">Descartados</option>
-        </select>
+  <div class="reports-header">
+    <h1>Gestión de Reportes de Usuarios</h1>
+
+    <div class="filters-container">
+      <div class="search-wrapper">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="Buscar reportes..."
+          class="search-input">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          class="search-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
       </div>
+
+      <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()" class="status-filter">
+        <option value="all">Todos los Estados</option>
+        <option value="pending">Pendientes</option>
+        <option value="resolved">Resueltos</option>
+        <option value="dismissed">Descartados</option>
+      </select>
     </div>
-  
-    <div class="reports-table-container">
-      <table class="reports-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Reportado Por</th>
-            <th>Usuario Reportado</th>
-            <th>Razón</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let report of filteredReports">
-            <td>{{ report.id }}</td>
-            <td>{{ report.reporter_username }}</td>
-            <td>{{ report.reported_username }}</td>
-            <td>{{ report.reason }}</td>
-            <td>
-              <span 
-                class="status-badge" 
-                [ngClass]="{
-                  'pending': report.status === 'pending',
-                  'resolved': report.status === 'resolved',
-                  'dismissed': report.status === 'dismissed'
-                }"
-              >
-                {{ report.status }}
-              </span>
-            </td>
-            <td>{{ report.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td>
-              <div class="action-buttons">
-                <button 
-                  *ngIf="report.status === 'pending'"
-                  class="btn-resolve"
-                  (click)="updateReportStatus(report, 'resolved')"
-                >
-                  Resolver
-                </button>
-                <button 
-                  *ngIf="report.status === 'pending'"
-                  class="btn-dismiss"
-                  (click)="updateReportStatus(report, 'dismissed')"
-                >
-                  Descartar
-                </button>
-                <button 
-                  class="btn-details"
-                  (click)="viewReportDetails(report)"
-                >
-                  Detalles
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <!-- Detalles del Reporte Modal -->
-    <div *ngIf="selectedReport" class="report-details-modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Detalles del Reporte #{{ selectedReport.id }}</h2>
-          <button class="close-btn" (click)="closeReportDetails()">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="detail-row">
-            <strong>Reportado Por:</strong> {{ selectedReport.reporter_username }}
-          </div>
-          <div class="detail-row">
-            <strong>Usuario Reportado:</strong> {{ selectedReport.reported_username }}
-          </div>
-          <div class="detail-row">
-            <strong>Razón:</strong> {{ selectedReport.reason }}
-          </div>
-          <div class="detail-row">
-            <strong>Fecha del Reporte:</strong> {{ selectedReport.created_at | date:'full' }}
-          </div>
-          <div class="detail-row">
-            <strong>Estado:</strong> 
-            <span 
-              class="status-badge" 
-              [ngClass]="selectedReport.status"
-            >
-              {{ selectedReport.status }}
+  </div>
+
+  <div class="reports-table-container">
+    <table class="reports-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Reportado Por</th>
+          <th>Usuario Reportado</th>
+          <th>Razón</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (report of filteredReports; track $index) {
+        <tr>
+          <td>{{ report.getId() }}</td>
+          <td>{{ report.getReporter() }}</td>
+          <td>{{ report.getReported() }}</td>
+          <td>{{ report.getReason() }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="{
+                    'pending': report.getStatus() === 'pending',
+                    'resolved': report.getStatus() === 'resolved',
+                    'dismissed': report.getStatus() === 'dismissed'
+                  }">
+              {{ report.getStatus() }}
             </span>
+          </td>
+          <td>{{ report.getDate() | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <div class="action-buttons">
+              <button *ngIf="report.getStatus() === 'pending'" class="btn-resolve">
+                Resolver
+              </button>
+              <button *ngIf="report.getStatus() === 'pending'" class="btn-dismiss">
+                Descartar
+              </button>
+              <button class="btn-details" (click)="viewReportDetails(report.getId(), report.getType(), report)">
+                Detalles
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Detalles del Reporte Modal -->
+  @if (yeah()) {
+  <div class="report-details-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Detalles del Reporte #{{ selectedReport?.getId() }}</h2>
+        <button class="close-btn" (click)="closeReportDetails()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-row">
+          <strong>Reportado Por:</strong> {{ selectedReport?.getReporter() }}
+        </div>
+        <div class="detail-row">
+          <strong>Usuario Reportado:</strong> {{ selectedReport?.getReported() }}
+        </div>
+        <div class="detail-row">
+          <strong>Razón:</strong> {{ selectedReport?.getReason() }}
+        </div>
+        <div class="detail-row">
+          <strong>Fecha del Reporte:</strong> {{ selectedReport?.getDate() | date:'full' }}
+        </div>
+        <div class="detail-row">
+          <strong>Estado:</strong>
+          <span class="status-badge" [ngClass]="selectedReport?.getStatus()">
+            {{ selectedReport?.getStatus() }}
+          </span>
+        </div>
+        @if (type === 'post') {
+        <div class="flex-type">
+          <h2>Publicacion reportada:</h2>
+        </div>
+        <div class="post-card">
+          <!-- Header -->
+          <div class="post-header">
+
+            <div class="user-info">
+              <div class="profile-image">
+                <img [src]="publicationReported.getUserInfo().getProfilePic()"
+                  [alt]="publicationReported.getUserInfo().getUsername()">
+              </div>
+              <div class="user-details">
+                <div class="user-top-line">
+                  <span class="username">{{publicationReported.getUserInfo().getUsername()}}</span>
+                  <div class="preference-badge">
+                    @if (publicationReported.getUserPreference()?.getType() === 'mentor') {
+                    <i>🧠</i>
+                    } @else if (publicationReported.getUserPreference()?.getType() === 'explorador') {
+                    <i>🔍</i>
+                    } @else if (publicationReported.getUserPreference()?.getType() === 'entusiasta') {
+                    <i>💡</i>
+                    }
+                    <span>{{publicationReported.getUserPreference()?.getTopicName()}}</span>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-          
-          <!-- Conditional rendering for context (posts, comments, etc.) -->
-          <div *ngIf="selectedReport.post_id" class="context-info">
-            <strong>Publicación Reportada:</strong> ID {{ selectedReport.post_id }}
-          </div>
-          <div *ngIf="selectedReport.comment_id" class="context-info">
-            <strong>Comentario Reportado:</strong> ID {{ selectedReport.comment_id }}
-          </div>
-          <div *ngIf="selectedReport.room_id" class="context-info">
-            <strong>Sala Reportada:</strong> ID {{ selectedReport.room_id }}
+
+          <!-- Content -->
+          <div class="div-post">
+            <p class="post-text">{{publicationReported.getContent()}}</p>
+            @if (publicationReported.getMediaUrl()) {
+            <div class="media-container">
+              <img [src]="publicationReported.getMediaUrl()" alt="Post media" class="post-media">
+            </div>
+            }
+            <div class="tags">
+              @if (publicationReported.getTags() && publicationReported.getTags().length > 0) {
+              <div class="post-tags">
+                <div class="tags-container">
+                  @for (tag of publicationReported.getTags(); track tag) {
+                  <span class="tag">{{tag.getTagName()}}</span>
+                  }
+                </div>
+              </div>
+              }
+            </div>
           </div>
         </div>
+        }@else if(type === 'comment'){
+          <div class="flex-type">
+            <h2>Comentario reportado:</h2>
+          </div>
+          <div class="comentario-container">
+            <img 
+              [src]="publicationReported.getUserInfo().getProfilePic()" 
+              alt="Avatar de {{publicationReported.getUserInfo().getUsername()}}" 
+              class="avatar"
+            >
+            <div class="comentario-contenido">
+              <div class="encabezado-comentario">
+                <span class="nombre-usuario">{{publicationReported.getUserInfo().getUsername()}}</span>
+              </div>
+              
+              <p class="texto-comentario">
+                {{publicationReported.getContent()}}
+              </p>
+              
+              
+            </div>
+          </div>
+        }@else if(type === 'room'){
+          <div class="flex-type">
+            <h2>Sala de voz reportada:</h2>
+          </div>
+          <div class="room-card">
+            <div class="room-header">
+                <div class="header-main">
+                    <h2 class="room-title">{{publicationReported.getVoiceRoomName()}}</h2>
+                    <div class="live-indicator">
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-content">
+                <div class="user-info">
+                    <div class="avatar-container">
+                        <img [src]="publicationReported.getPictureHost()" alt="User avatar" class="avatar-image">
+                    </div>
+                    <div class="user-details">
+                        <span class="username">{{publicationReported.getNameHost()}}</span>
+                        <span class="user-role">Host</span>
+                    </div>
+                </div>
+
+                <div class="tag-container">
+                    <span class="tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="tag-icon">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                        </svg>
+                        {{publicationReported.getTopicName()}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        }@else if(type === 'message'){
+          <div class="flex-type">
+            <h2>Mensaje reportado:</h2>
+          </div>
+          <div class="message">
+            <div class="message-content">
+              {{publicationReported.getContent()}}
+            </div>
+            <div class="message-time">
+              {{publicationReported.getSentAt() | date:'HH:mm'}}
+            </div>
+          </div>
+        }
+
       </div>
     </div>
   </div>
+  }@else{
+  @if (yetNoDetails() && type !== ''){
+  <div class="report-details-modal">
+    <div class="flex-type">
+      <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+        animationDuration=".5s" />
+    </div>
+  </div>
+  }
+  }
+
+</div>

@@ -340,3 +340,7 @@
       width: 100%;
     }
   }
+
+  .navbar-footer {
+    cursor: pointer;
+  }

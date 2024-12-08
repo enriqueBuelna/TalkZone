@@ -1,85 +1,188 @@
 <!-- statistics-dashboard.component.html -->
 <div class="statistics-container">
-    <h1 class="dashboard-title">Panel de Estadísticas</h1>
-  
-    <div class="stats-grid">
-      <!-- Usuarios -->
-      <div class="stat-card">
-        <div class="card-header">
-          <h3>Usuarios Registrados</h3>
-          <i class="fas fa-users"></i>
-        </div>
-        <div class="card-content">
-          <p class="primary-stat">{{ totalUsers }}</p>
-          <p class="secondary-stat">{{ activeUsers }} activos en 7 días</p>
-        </div>
+  <h1 class="dashboard-title">Panel de Estadísticas</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      @if (yetNoStats()) {
+      <div class="flex-style">
+        <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
       </div>
-  
-      <!-- Actividad Reciente -->
-      <div class="stat-card">
-        <div class="card-header">
-          <h3>Actividad Reciente</h3>
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <div class="card-content">
-          <p class="primary-stat">{{ recentPublications }} Publicaciones</p>
-          <p class="secondary-stat">{{ recentRooms }} Salas Creadas</p>
-        </div>
+      }@else {
+      <div class="card-header">
+        <h3>Usuarios totales</h3>
+        <i class="fas fa-users"></i>
       </div>
-  
-      <!-- Salas de Voz -->
-      <div class="stat-card">
-        <div class="card-header">
-          <h3>Salas de Voz Abiertas</h3>
-          <i class="fas fa-microphone"></i>
-        </div>
-        <div class="card-content">
-          <p class="primary-stat">{{ openVoiceRooms }}</p>
-        </div>
+      <div class="time-selector">
+        <select [(ngModel)]="userTimePeriod">
+          <option value="7days">Últimos 7 días</option>
+          <option value="1month">Último mes</option>
+          <option value="6months">Últimos 6 meses</option>
+        </select>
       </div>
+      <div class="card-content">
+        <p class="primary-stat">{{ allCuriosStats.getAllUsers() }}</p>
+        @if (userTimePeriod === '7days') {
+        <p class="secondary-stat">{{ allCuriosStats.getSevenUser() }} usuarios registrados estos ultimos 7 dias</p>
+        }@else if(userTimePeriod === '1month'){
+        <p class="secondary-stat">{{ allCuriosStats.getMonthUser() }} usuarios registrados este ultimo mes</p>
+        }@else {
+        <p class="secondary-stat">{{ allCuriosStats.getSixMonthUser() }} usuarios registrados estos ultimos 6 meses</p>
+        }
+      </div>
+      }
     </div>
-  
-    <div class="ranked-lists">
-      <!-- Top Temas -->
-      <div class="ranked-card">
-        <div class="card-header">
-          <h3>Top 5 Temas</h3>
-          <i class="fas fa-trophy"></i>
-        </div>
-        <ul class="ranked-list">
-          <li *ngFor="let topic of topTopics">
-            <span class="topic-name">{{ topic.name }}</span>
-            <span class="topic-count">{{ topic.count }}</span>
-          </li>
-        </ul>
+
+    <!-- Actividad Reciente -->
+    <div class="stat-card">
+      @if (yetNoStats()) {
+      <div class="flex-style">
+        <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
       </div>
-  
-      <!-- Top Etiquetas -->
-      <div class="ranked-card">
-        <div class="card-header">
-          <h3>Top Etiquetas</h3>
-          <i class="fas fa-hashtag"></i>
-        </div>
-        <ul class="ranked-list">
-          <li *ngFor="let tag of topTags">
-            <span class="tag-name">{{ tag.name }}</span>
-            <span class="tag-count">{{ tag.count }}</span>
-          </li>
-        </ul>
+      }@else {
+      <div class="card-header">
+        <h3>Publicaciones totales</h3>
+        <i class="fas fa-chart-line"></i>
       </div>
-  
-      <!-- Tendencias Salas de Voz -->
-      <div class="ranked-card">
-        <div class="card-header">
-          <h3>Tendencias Salas de Voz</h3>
-          <i class="fas fa-microphone-alt"></i>
-        </div>
-        <ul class="ranked-list">
-          <li *ngFor="let topic of voiceTopics">
-            <span class="voice-topic-name">{{ topic.name }}</span>
-            <span class="voice-topic-count">{{ topic.count }}</span>
-          </li>
-        </ul>
+      <div class="time-selector">
+        <select [(ngModel)]="activityTimePeriod">
+          <option value="7days">Últimos 7 días</option>
+          <option value="1month">Último mes</option>
+          <option value="6months">Últimos 6 meses</option>
+        </select>
       </div>
+      <div class="card-content">
+        <p class="primary-stat">{{ allCuriosStats.getAllPost() }}</p>
+        @if (activityTimePeriod === '7days') {
+        <p class="secondary-stat">{{ allCuriosStats.getSevenPost() }} publicaciones hechas estos ultimos 7 dias</p>
+        }@else if(activityTimePeriod === '1month'){
+        <p class="secondary-stat">{{ allCuriosStats.getMonthPost() }} publicaciones hechas este ultimo mes</p>
+        }@else {
+        <p class="secondary-stat">{{ allCuriosStats.getSixMonthPost() }} publicaciones hechas estos ultimos 6 meses</p>
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Salas de Voz -->
+    <div class="stat-card">
+      @if (yetNoStats()) {
+      <div class="flex-style">
+        <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
+      </div>
+      }@else {
+      <div class="card-header">
+        <h3>Salas de Voz Abiertas</h3>
+        <i class="fas fa-microphone"></i>
+      </div>
+      <div class="time-selector">
+        <select [(ngModel)]="voiceRoomTimePeriod">
+          <option value="7days">Últimos 7 días</option>
+          <option value="1month">Último mes</option>
+          <option value="6months">Últimos 6 meses</option>
+        </select>
+      </div>
+      <div class="card-content">
+        <p class="primary-stat">{{ allCuriosStats.getAllRoom() }}</p>
+        @if (voiceRoomTimePeriod === '7days') {
+        <p class="secondary-stat">{{ allCuriosStats.getSevenRoom() }} salas de voz hechas estos ultimos 7 dias</p>
+        }@else if(voiceRoomTimePeriod === '1month'){
+        <p class="secondary-stat">{{ allCuriosStats.getMonthRoom() }} salas de voz hechas este ultimo mes</p>
+        }@else {
+        <p class="secondary-stat">{{ allCuriosStats.getSixMonthRoom() }} salas de voz hechas estos ultimos 6 meses</p>
+        }
+      </div>
+      }
     </div>
   </div>
+</div>
+
+<div class="ranked-lists">
+  <!-- Top Temas -->
+  <div class="ranked-card">
+    @if (topFiveTopics()) {
+    <div class="flex-style">
+      <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
+    </div>
+    }@else {
+    <div class="card-header">
+      <h3>Top 5 temas usados en publicaciones</h3>
+      <i class="fas fa-trophy"></i>
+    </div>
+    <ul class="ranked-list">
+      @for (item of topicFiveTopicsTheme; track $index) {
+      <li>
+        <span class="topic-name">{{ item.getTopicName() }}</span>
+        <span class="topic-count">{{ item.getCount() }}</span>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+
+  <!-- Top Etiquetas -->
+  <div class="ranked-card">
+    @if (topFiveRoom()) {
+    <div class="flex-style">
+      <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
+    </div>
+    }@else {
+    <div class="card-header">
+      <h3>Top 5 temas usados en salas de voz</h3>
+      <i class="fas fa-hashtag"></i>
+    </div>
+    <ul class="ranked-list">
+      @for (item of topicFiveTopicsRoom; track $index) {
+      <li>
+        <span class="topic-name">{{ item.getTopicName() }}</span>
+        <span class="topic-count">{{ item.getCount() }}</span>
+      </li>
+      }
+    </ul>
+    }
+
+  </div>
+
+  <!-- Tendencias Salas de Voz -->
+  <div class="ranked-card top-voice-hosts">
+    @if (topFiveHost()) {
+    <div class="flex-style">
+      <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
+    </div>
+    }@else {
+    <div class="card-header">
+      <h3>Top Hosts de Salas de Voz</h3>
+      <i class="fas fa-microphone-alt"></i>
+    </div>
+    <ul class="ranked-list">
+      @for (host of topFiveHosts; track $index) {
+      <li class="host-item">
+        <div class="host-avatar">
+          <img [src]="host.getUserDemo().getProfilePic()" [alt]="host.getUserDemo().getUsername()">
+        </div>
+        <div class="host-details">
+          <span class="host-name">{{ host.getUserDemo().getUsername() }}</span>
+          <div class="host-stats">
+            <span class="host-rank-count">
+              Rankeado {{ host.getCountRate() }} veces
+            </span>
+            <div class="host-stars">
+              <span *ngFor="let star of generateStars(host.getAverageRating())">
+                {{ star }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      }
+    </ul>
+    }
+  </div>
+</div>

@@ -1,4 +1,5 @@
-<div class="community-management-container">
+@if (onlyGroups()) {
+  <div class="community-management-container">
     <h1>Gestión de Comunidades</h1>
   
     <div class="filters-container">
@@ -36,24 +37,22 @@
     </div>
   
     <div class="community-stats">
-      <div class="stats-card">
-        <h3>Comunidades más Activas</h3>
-        <ul>
-          <li *ngFor="let community of getMostActiveCommunities()">
-            {{ community.name }} 
-            ({{ community.memberCount }} miembros)
-          </li>
-        </ul>
-      </div>
-      <div class="stats-card">
-        <h3>Comunidades Inactivas</h3>
-        <ul>
-          <li *ngFor="let community of getInactiveCommunities()">
-            {{ community.name }} 
-            (Última actividad: {{ community.lastActivityDate | date:'shortDate' }})
-          </li>
-        </ul>
-      </div>
+      @if (mostPopularSpiner()) {
+        <div class="flex-type">
+          <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+            animationDuration=".5s" />
+        </div>
+      }@else {
+        <div class="stats-card">
+          <h3>Comunidades más seguidas</h3>
+          <ul>
+            <li *ngFor="let community of mostPopular">
+              {{ community.getGroupName() }} 
+              ({{ community.getMemberCount() }} miembros)
+            </li>
+          </ul>
+        </div>
+      }
     </div>
   
     <div class="communities-table">
@@ -70,29 +69,28 @@
         </thead>
         <tbody>
           <tr *ngFor="let community of filteredCommunities">
-            <td>{{ community.name }}</td>
-            <td>{{ community.mainTopic }}</td>
-            <td>{{ community.memberCount }}</td>
+            <td>{{ community.getGroupName() }}</td>
+            <td>{{ community.getTopicName() }}</td>
+            <td>{{ community.getMemberCount() }}</td>
             <td>
               <span 
                 class="status-badge" 
                 [ngClass]="{
-                  'active': community.status === 'active',
-                  'inactive': community.status === 'inactive',
-                  'suspended': community.status === 'suspended'
+                  'active': community.getStatus() === 'active',
+                  'suspended': community.getStatus() === 'suspended'
                 }"
               >
-                {{ community.status }}
+                {{ community.getStatus() }}
               </span>
             </td>
-            <td>{{ community.lastActivityDate | date:'shortDate' }}</td>
+            <td>{{ community.getLastActivity() | date:'shortDate' }}</td>
             <td>
               <div class="action-buttons">
                 <button 
                   class="btn-edit" 
-                  (click)="openEditModal(community)"
+                  (click)="openEditModal(community.getId())"
                 >
-                  Editar
+                  Ver estadisticas del grupo
                 </button>
                 <button 
                   *ngIf="community.status === 'active'"
@@ -114,53 +112,6 @@
         </tbody>
       </table>
     </div>
-  
-    <!-- Modal de Edición de Comunidad -->
-    <div *ngIf="selectedCommunity" class="modal-overlay">
-      <div class="modal-content">
-        <h2>Editar Comunidad</h2>
-        <form (ngSubmit)="updateCommunity()">
-          <div class="form-group">
-            <label>Nombre</label>
-            <input 
-              type="text" 
-              [(ngModel)]="selectedCommunity.name" 
-              name="name" 
-              required
-            >
-          </div>
-          <div class="form-group">
-            <label>Descripción</label>
-            <textarea 
-              [(ngModel)]="selectedCommunity.description" 
-              name="description" 
-              required
-            ></textarea>
-          </div>
-          <div class="form-group">
-            <label>Tema Principal</label>
-            <select 
-              [(ngModel)]="selectedCommunity.mainTopic" 
-              name="mainTopic"
-            >
-              <option *ngFor="let topic of getCommunityTopics()" [value]="topic">
-                {{ topic }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Moderadores</label>
-            <input 
-              type="text" 
-              [(ngModel)]="selectedCommunity.moderators" 
-              name="moderators"
-            >
-          </div>
-          <div class="modal-actions">
-            <button type="submit" class="btn-save">Guardar Cambios</button>
-            <button type="button" (click)="selectedCommunity = null" class="btn-cancel">Cancelar</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </div>
+}
+<router-outlet></router-outlet>
