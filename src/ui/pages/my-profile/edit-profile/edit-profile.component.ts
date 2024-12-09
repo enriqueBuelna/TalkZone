@@ -36,6 +36,7 @@ import { Tag } from '../../../../domain/models/tag.model';
 import { TopicsTagsService } from '../../welcome/services/topics-tags.service';
 import { Observable } from 'rxjs';
 import { TagService } from '../../../../domain/services/tag.service';
+import { ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
@@ -46,6 +47,7 @@ import { TagService } from '../../../../domain/services/tag.service';
     ButtonComponent,
     ModalUserPreferencesComponent,
     AutoCompleteModule,
+    ProgressBarModule
   ],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',
@@ -71,6 +73,7 @@ export class EditProfileComponent implements OnInit, OnDestroy, OnChanges {
   photoFile: File | null = null;
   coverFile: File | null = null;
   //
+  progressBar = signal(false);
   responseTags$?: Observable<Tag[]>; //aqui
   responseAddTag$?: Observable<Tag>; //aqui
   editTagModal = signal(false);
@@ -155,6 +158,7 @@ export class EditProfileComponent implements OnInit, OnDestroy, OnChanges {
       cover_picture.length > 0 ||
       profile_picture.length > 0
     ) {
+      this.progressBar.set(true);
       total++;
       let cover_picture$ = '',
         profile_picture$ = '';

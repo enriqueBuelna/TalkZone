@@ -23,7 +23,7 @@ import {
 import { MultiSelectModule } from 'primeng/multiselect';
 import { atLeastOneFieldRequired } from './validators/atLeastOne.validator';
 import { FollowerService } from '../../../domain/services/follower.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
 import { CardUserComponent } from './card-user/card-user.component';
 import { Tag } from '../../../domain/models/tag.model';
@@ -41,7 +41,6 @@ interface Gender {
   standalone: true,
   imports: [
     AsideComponent,
-    HeaderComponent,
     ButtonComponent,
     ChipModule,
     CommonModule,
@@ -52,12 +51,14 @@ interface Gender {
     MultiSelectModule,
     CardUserComponent,
     SkeletonModule,
+    HeaderComponent,
   ],
   templateUrl: './connect.component.html',
   styleUrl: './connect.component.css',
 })
 export class ConnectComponent implements OnInit {
   filterForm!: FormGroup;
+  formSearch!: FormGroup;
   responseUserPreference$?: Observable<UserPreferences[]>;
   responseMyUserPreferences$?: Observable<UserPreference[]>;
   myUserPreference: UserPreference[] = [];
@@ -73,6 +74,7 @@ export class ConnectComponent implements OnInit {
   topicsExplorador: FilterTopic[] = [];
   topicsEntusiasta: FilterTopic[] = [];
   modalShowInfo = signal(false);
+  correct = signal(true);
   genders: Gender[] = [
     {
       name: 'Hombre',
@@ -92,7 +94,8 @@ export class ConnectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _destroyRef: DestroyRef,
     private _followService: FollowerService,
-    private _router: Router
+    private _router: Router,
+    private _route: ActivatedRoute
   ) {
     this.filterForm = this.formBuilder.group(
       {
@@ -114,9 +117,19 @@ export class ConnectComponent implements OnInit {
       //   ]),
       // }
     );
+    this.formSearch = this.formBuilder.group({
+      search: ['', [Validators.required]],
+    });
+  }
+  checkRoute() {
+    this.correct.set(this._router.url === '/home/connect');
+  }
+  ngOnInit(): void {
+    this.isCorrect();
   }
 
-  ngOnInit(): void {
+  isCorrect() {
+    console.log('chivooo');
     this.filterForm.get('topicsMentores')?.valueChanges.subscribe((value) => {
       if (value.length > 0) {
         this.isTopicsMentor.set(true);
@@ -288,9 +301,39 @@ export class ConnectComponent implements OnInit {
     if (tags) {
       this.userPref = tags;
       this.showTags.set(true);
-    }else{
+    } else {
       this.userPref = undefined;
       this.showTags.set(false);
     }
+  }
+
+  search() {
+    let { search } = this.formSearch.value;
+    if (search) {
+      this.searchContent.set(true);
+      this.searchUsers(search);
+    }
+  }
+
+  searchUsers(search: string) {
+    this.yetNo.set(true);
+    this._userPreferenceService
+      .searchConnect(search, this._userService.getUserId())
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this.yetNo.set(false);
+          this.allUserPreferences = el;
+        },
+        error: (error) => {},
+      });
+  }
+
+  searchContent = signal(false);
+
+  goToHome(){
+    this.searchContent.set(false);
+    this.isCorrect();
+    console.log('chivo');
   }
 }

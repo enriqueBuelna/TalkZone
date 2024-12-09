@@ -18,6 +18,5 @@ export class AsideComponent implements OnInit {
       navbarLeft -= 7;
     }
     this.widthAside = navbarLeft ? `${navbarLeft}px` : 'auto';
-    console.log(this.widthAside);
   }
 }

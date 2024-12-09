@@ -17,6 +17,8 @@ import { UserPreferenceSignalService } from './services/user_preferences.service
 import { ActivatedRoute } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-my-profile',
@@ -27,7 +29,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     PostProfileComponent,
     InformationProfileComponent,
     SkeletonModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
   ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css',

@@ -12,7 +12,7 @@ import { MyUserInformation } from '../services/information_user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentsCService } from '../services/comment.service';
 import { Comment } from '../../../../domain/models/comment.model';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'app-detail-post',
   standalone: true,
@@ -21,6 +21,7 @@ import { Comment } from '../../../../domain/models/comment.model';
     PostComponent,
     CommentComponent,
     CreatePostComponent,
+    ProgressSpinnerModule
   ],
   templateUrl: './detail-post.component.html',
   styleUrl: './detail-post.component.css',
@@ -36,23 +37,36 @@ export class DetailPostComponent implements OnInit {
     private _postService: PostService,
     private _route: ActivatedRoute,
     private _userService: UserService,
-     public _commentService:CommentsCService,
-     private _router:Router
+    public _commentService: CommentsCService,
+    private _router: Router
   ) {}
-
+  yetNo = signal(true);
+  postNotFound = signal(false);
   ngOnInit(): void {
     this.myUserInformation = this._myUserInformation.getMyUserInformation();
-
     const postId = this._route.snapshot.paramMap.get('id') ?? 'defaultRoomId';
-    this.postObservable = this._postService.getPostById(postId, this._userService.getUserId());
+    this.postObservable = this._postService.getPostById(
+      postId,
+      this._userService.getUserId()
+    );
 
-    this.postObservable.subscribe((el) => {
-      this.post = el;
-      this._commentService.setComment(this.post.getComment());
+    this.postObservable.subscribe({
+      next: (el) => {
+        if (el) {
+          this.yetNo.set(false);
+          this.postNotFound.set(false);
+          this.post = el;
+          this._commentService.setComment(this.post.getComment());
+        }else{
+          this.postNotFound.set(true);
+          this.yetNo.set(false);
+        }
+      },
+      error: (error) => {},
     });
   }
 
-  goToHome(){
-    this._router.navigate(['home','posts']);
+  goToHome() {
+    this._router.navigate(['home', 'posts']);
   }
 }

@@ -9,6 +9,7 @@ import { ITopic } from '../entities/topics/topic.interface';
 import { Topic } from '../models/topic.model';
 import { AddUserPreferences } from '../use_cases/user_preferences/addUserPreferences.use_case';
 import { DeleteUserPreferences } from '../use_cases/user_preferences/deleteUserPreference.use_case';
+import { SearchConnect } from '../use_cases/user_preferences/searchConnect.use_case';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,8 +19,16 @@ export class UserPreferenceService {
     private _getMyUserPreference: GetMyUserPreferences,
     private _getUserByPreferencesFiltered: GetMyUserPreferencesFiltered,
     private _addUserPreference: AddUserPreferences,
-    private _deleteUserPreference: DeleteUserPreferences
+    private _deleteUserPreference: DeleteUserPreferences,
+    private _searchConnect: SearchConnect
   ) {}
+
+  searchConnect(
+    search: string,
+    user_id: string
+  ): Observable<UserPreferences[]> {
+    return this._searchConnect.execute(search, user_id);
+  }
 
   getUsersByPreferences(user_id: string): Observable<UserPreferences[]> {
     return this._getUsersByPreferences.execute(user_id);

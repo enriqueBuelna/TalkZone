@@ -10,11 +10,20 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../utils/button/button.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-post-profile',
   standalone: true,
-  imports: [PostComponent, CommonModule, ButtonComponent, SkeletonModule],
+  imports: [
+    PostComponent,
+    CommonModule,
+    ButtonComponent,
+    SkeletonModule,
+    ToastModule,
+  ],
   templateUrl: './post-profile.component.html',
+  providers: [MessageService],
   styleUrl: './post-profile.component.css',
 })
 export class PostProfileComponent {
@@ -32,7 +41,8 @@ export class PostProfileComponent {
     private _postService: PostService,
     private _postCService: PostCService,
     private _userService: UserService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _messageService: MessageService
   ) {}
   ngOnInit(): void {
     this._route.paramMap.subscribe((params) => {
@@ -105,5 +115,13 @@ export class PostProfileComponent {
     this.forAll.set(!this.forAll());
     this.page = 1;
     this.loadPosts();
+  }
+
+  showMessage() {
+    this._messageService.add({
+      severity: 'success',
+      summary: 'Exito',
+      detail: 'La publicacion se ha elminiado correctamente',
+    });
   }
 }

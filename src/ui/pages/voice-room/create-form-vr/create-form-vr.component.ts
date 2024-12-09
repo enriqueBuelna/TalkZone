@@ -15,10 +15,11 @@ import { ButtonComponent } from '../../../utils/button/button.component';
 import { VoiceRoomService } from '../../../../domain/services/voice_room.service';
 import { Route, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'app-create-form-vr',
   standalone: true,
-  imports: [ReactiveFormsModule, DropdownModule, ButtonComponent],
+  imports: [ReactiveFormsModule, DropdownModule, ButtonComponent, ProgressBarModule],
   templateUrl: './create-form-vr.component.html',
   styleUrl: './create-form-vr.component.css',
 })
@@ -30,6 +31,7 @@ export class CreateFormVRComponent {
   entusiastaTopics!: UserPreference[];
   topicPrincipalList!: UserPreference[];
   formCreateGroup!: FormGroup;
+  progressBar = signal(false);
   onClick() {
     throw new Error('Method not implemented.');
   }
@@ -37,6 +39,7 @@ export class CreateFormVRComponent {
     let form = this.formCreateGroup.valid;
 
     if (form) {
+      this.progressBar.set(true);
       let { name, topic_id, type } = this.formCreateGroup.value;
       console.log(topic_id);
       this._voiceRoomService

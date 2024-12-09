@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, HostListener, Input, OnInit, Output, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Post } from '../../../../domain/models/post.model';
 import { UserService } from '../../auth/services/user.service';
@@ -6,7 +6,10 @@ import { PostService } from '../../../../domain/services/post.service';
 import { CommonModule } from '@angular/common';
 import { ModalPostComponent } from '../create-post/modal-post/modal-post.component';
 import { UserDemo } from '../../../../domain/models/user-demo.model';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PostCService } from '../services/post.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-post',
   standalone: true,
@@ -24,7 +27,9 @@ export class PostComponent implements OnInit {
   constructor(
     private _userService: UserService,
     private _postService: PostService,
-    private _router: Router
+    private _router: Router,
+    private _destroyRef: DestroyRef,
+    private _postCService: PostCService,
   ) {}
   giveLike() {
     //conseguir el post_id, el user_id,
@@ -89,5 +94,26 @@ export class PostComponent implements OnInit {
   publicationEdit = signal(false);
   editPublication() {
     this.publicationEdit.set(!this.publicationEdit());
+  }
+
+  publicationDelete = signal(false);
+
+  deletePublication(){
+    this.publicationDelete.set(!this.publicationDelete());
+  }
+  @Output() clickEvent = new EventEmitter<void>(); // Evento de clic
+
+  deleteForReal(){
+    this._postService.deletePost(parseInt(this.postContent.getId())).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        if(el){
+          this._postCService.removePost(this.postContent.getId());
+          this.clickEvent.emit();
+        }
+      },
+      error: error => {
+
+      }
+    })
   }
 }

@@ -24,4 +24,5 @@ export abstract class UserPreferenceRepository {
     userPreferences: UserPreference
   ): Observable<UserPreference>;
   abstract deleteUserPreference(user_preference_id:number):Observable<any>;
+  abstract searchConnect(search:string, user_id: string):Observable<UserPreferences[]>;
 }

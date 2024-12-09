@@ -36,6 +36,7 @@ import { AdminDetailUserComponent } from './ui/admin/admin-users/admin-detail-us
 import { ModerationReportsComponent } from './ui/admin/admin-users/admin-user-problems/admin-user-problems.component';
 import { UserCardStatsComponent } from './ui/admin/admin-users/admin-detail-user/user-card-stats/user-card-stats.component';
 import { GroupCardStatsComponent } from './ui/admin/admin-groups/group-card-stats/group-card-stats.component';
+import { SearchConnectComponent } from './ui/pages/connect/search-connect/search-connect.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent },
@@ -73,6 +74,11 @@ export const routes: Routes = [
       {
         path: 'connect',
         component: ConnectComponent,
+        // children: [
+        //   {
+        //     path: 'search', component: SearchConnectComponent
+        //   }
+        // ]
       },
       {
         path: 'messages',

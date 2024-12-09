@@ -15,6 +15,7 @@ import { UpdatePost } from '../use_cases/post/updatePost.use_case';
 import { UpdatePostGroup } from '../use_cases/post/updatePostGroup.use_case';
 import { GetPostLike } from '../use_cases/post/getPostLike.use_case';
 import { SearchPost } from '../use_cases/post/searchPost.use_case';
+import { DeletePost } from '../use_cases/post/deletePost.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +34,13 @@ export class PostService {
     private _updatePost: UpdatePost,
     private _updatePostGroup: UpdatePostGroup,
     private _getPostLike: GetPostLike,
-    private _searchPost: SearchPost
+    private _searchPost: SearchPost,
+    private _deletePost: DeletePost
   ) {}
+
+  deletePost(id:number):Observable<boolean>{
+    return this._deletePost.execute(id);
+  }
 
   searchPost(
     user_id: string,

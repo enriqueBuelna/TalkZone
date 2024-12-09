@@ -28,6 +28,9 @@
         </div>
   
       </div>
+      @if(progressBar()){
+        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+      }
       <div class="post-footer">
         <app-button text="Crear sala" (clickEvent)="saveChanges()"></app-button>
       </div>

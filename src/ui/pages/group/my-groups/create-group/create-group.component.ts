@@ -14,6 +14,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CommunitieService } from '../../../../../domain/services/communitie.service';
 import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
+import { ProgressBar, ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'app-create-group',
   standalone: true,
@@ -22,6 +23,7 @@ import { InputTextModule } from 'primeng/inputtext';
     DropdownModule,
     ReactiveFormsModule,
     InputTextModule,
+    ProgressBarModule
   ],
   templateUrl: './create-group.component.html',
   styleUrl: './create-group.component.css',
@@ -33,6 +35,7 @@ export class CreateGroupComponent implements OnInit {
   otherTopics!: UserPreference[];
   topicPrincipalList!: UserPreference[];
   formCreateGroup!: FormGroup;
+  progressBar = signal(false);
   constructor(
     private _userService: UserService,
     private _userPreferences: UserPreferenceService,
@@ -55,6 +58,7 @@ export class CreateGroupComponent implements OnInit {
     let form = this.formCreateGroup.valid;
 
     if (form) {
+      this.progressBar.set(true);
       let { group_name, privacy, topic_id, type } = this.formCreateGroup.value;
       if (type === 'other') {
         type = 'entusiasta';

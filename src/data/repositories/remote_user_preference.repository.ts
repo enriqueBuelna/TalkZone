@@ -14,6 +14,49 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
   private readonly API_URL = 'http://localhost:3000/';
   private _http = inject(HttpClient);
 
+  override searchConnect(
+    search: string,
+    user_id: string
+  ): Observable<UserPreferences[]> {
+    const params = new HttpParams()
+      .set('user_id', user_id)
+      .set('search', search);
+    return this._http
+      .get<UserPreferences[]>(`${this.API_URL}searchConnect`, { params })
+      .pipe(
+        map((userPreferences: any[]) => {
+          if (!Array.isArray(userPreferences) || userPreferences.length === 0) {
+            return []; // Devuelve un array vacío si no hay conversaciones
+          }
+          return userPreferences.map(
+            (_userPreference) =>
+              new UserPreferences(
+                _userPreference.userPreferences.map(
+                  (user_preference: any) =>
+                    new UserPreference(
+                      user_preference.id,
+                      user_preference.topic.id,
+                      user_preference.type,
+                      user_preference.topic.topic_name,
+                      user_preference.userPreferenceTags.map(
+                        (tag: any) =>
+                          new Tag(
+                            tag.tag.tag_name,
+                            tag.tag_id,
+                            user_preference.topic_id
+                          )
+                      )
+                    )
+                ),
+                _userPreference.userInformation,
+                _userPreference.matchPercentage,
+                _userPreference.user_id
+              )
+          );
+        })
+      );
+  }
+
   getUsersByPreferences(user_id: string): Observable<UserPreferences[]> {
     const params = new HttpParams().set('user_id', user_id);
     return this._http

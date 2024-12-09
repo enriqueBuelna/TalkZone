@@ -69,3 +69,68 @@
     cursor: pointer;
   }
 
+  .post-not-found-container {
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+}
+
+.broken-post-icon {
+    font-size: 100px;
+    color: #a0a0a0;
+    margin-bottom: 20px;
+}
+
+.error-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.error-description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-home {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-home:hover {
+    background-color: #2980b9;
+}
+
+.btn-feed {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.btn-feed:hover {
+    background-color: #27ae60;
+}
+
+
+.flex-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

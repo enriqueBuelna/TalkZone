@@ -21,6 +21,10 @@ export class PostCService {
     this.posts.update((pst) => [post, ...pst]);
   }
 
+  removePost(postId: string) {
+    this.posts.update((pst) => pst.filter(post => post.getId() !== postId));
+  }
+
   addPosts(post: Post[]) {
     this.posts.update((pst) => [...pst, ...post]);
   }

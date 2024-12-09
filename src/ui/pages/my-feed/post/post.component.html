@@ -79,7 +79,8 @@
                             }
                         </div>
                     </div>
-                    <span class="post-time">{{postContent.getCreatedAt() | date:" d MMM y"}} · @if (postContent.getPrivacy() === 'public') {
+                    <span class="post-time">{{postContent.getCreatedAt() | date:" d MMM y"}} · @if
+                        (postContent.getPrivacy() === 'public') {
                         🌎}@else {
                         🔒
                         }</span>
@@ -94,7 +95,7 @@
                 <button class="dropdown-item" (click)="editPublication()">
                     <i class="pi pi-pencil"></i> Editar publicación
                 </button>
-                <button class="dropdown-item">
+                <button class="dropdown-item" (click)="deletePublication()">
                     <i class="pi pi-trash"></i> Eliminar publicación
                 </button>
             </div>
@@ -104,8 +105,17 @@
             <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
             @if (isOptionsMenuOpen) {
             <div class="options-dropdown" (click)="$event.stopPropagation()">
-                <button class="dropdown-item">
+                <button class="dropdown-item" (click)="deletePublication()">
                     <i class="pi pi-trash"></i> Eliminar publicación
+                </button>
+            </div>
+            }
+            }@else {
+            <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
+            @if (isOptionsMenuOpen) {
+            <div class="options-dropdown" (click)="$event.stopPropagation()">
+                <button class="dropdown-item" (click)="editPublication()">
+                    <i class="pi pi-pencil"></i> Reportar publicacion
                 </button>
             </div>
             }
@@ -122,14 +132,14 @@
             }
             <div class="tags">
                 @if (postContent.getTags() && postContent.getTags().length > 0) {
-                    <div class="post-tags">
-                        <div class="tags-container">
-                            @for (tag of postContent.getTags(); track tag) {
-                                <span class="tag">{{tag.getTagName()}}</span>
-                            }
-                        </div>
+                <div class="post-tags">
+                    <div class="tags-container">
+                        @for (tag of postContent.getTags(); track tag) {
+                        <span class="tag">{{tag.getTagName()}}</span>
+                        }
                     </div>
-                    }
+                </div>
+                }
             </div>
         </div>
 
@@ -158,4 +168,17 @@
 }@else if (publicationEdit() && type === 'group') {
 <app-modal-post [myUser]="userDemo" [editable]="true" [postContent]="postContent" [type]="'group'"
     (clickEvent)="editPublication()"></app-modal-post>
+}
+
+@if (publicationDelete()) {
+<div class="modal-overlay">
+    <div class="modal-content">
+        <h2>Eliminar publicacion</h2>
+        <p>¿Estás seguro de eliminar esta publicacion? Esta acción no se puede deshacer.</p>
+        <div class="modal-buttons">
+            <button class="btn btn-cancel" (click)="deletePublication()">Cancelar</button>
+            <button class="btn btn-delete" (click)="deleteForReal()">Eliminar</button>
+        </div>
+    </div>
+</div>
 }

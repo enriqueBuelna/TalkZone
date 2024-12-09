@@ -36,4 +36,5 @@ export abstract class PostRepository {
   ):Observable<boolean>;
   abstract getPostLike(user_id:string, page:number):Observable<Post[]>;
   abstract searchPost(user_id:string, page:number, post_content:string):Observable<Post[]>;
+  abstract deletePost(id:number):Observable<boolean>;
 }

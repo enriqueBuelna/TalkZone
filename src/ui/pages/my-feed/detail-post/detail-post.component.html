@@ -1,3 +1,10 @@
+@if (yetNo()) {
+<div class="flex-type">
+    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+        animationDuration=".5s" />
+
+</div>
+}@else {
 @if (post) {
 <div class="contenedor">
     <app-header>
@@ -12,4 +19,16 @@
     <app-comment [comment]="comment"></app-comment>
     }
 </div>
+}@else if(postNotFound()){
+<div class="post-not-found-container">
+    <div class="broken-post-icon">🕳️</div>
+    <h1 class="error-title">Publicación no encontrada</h1>
+    <p class="error-description">Parece que la publicación que buscas ha sido eliminada, es privada o nunca existió.
+        Puede que haya sido removida por el autor o no tengas permisos para verla.</p>
+    <div class="action-buttons">
+        <a href="/" class="btn btn-home">Ir al Inicio</a>
+        <a href="/feed" class="btn btn-feed">Ver Feed</a>
+    </div>
+</div>
+}
 }
