@@ -4,6 +4,7 @@ import { GetAllMessagesFromConversation } from '../use_cases/messages/getAllMess
 import { Message } from '../models/message.model';
 import { GetMyConversation } from '../use_cases/messages/getMyConversations.use_case';
 import { Conversation } from '../models/conversation.model';
+import { ReportMessage } from '../use_cases/messages/reportMessage.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,25 @@ import { Conversation } from '../models/conversation.model';
 export class MessageService {
   constructor(
     private _getAllMessagesFromConversation: GetAllMessagesFromConversation,
-    private _getMyConversations: GetMyConversation
+    private _getMyConversations: GetMyConversation,
+    private _reportMessage: ReportMessage
   ) {}
+
+  reportMessage(
+    reason: string,
+    details: string,
+    reported_user_id: string,
+    reporter_id: string,
+    message_id: string
+  ): Observable<boolean> {
+    return this._reportMessage.execute(
+      reason,
+      details,
+      reported_user_id,
+      reporter_id,
+      message_id
+    );
+  }
 
   getAllMessagesFromConversation(
     myUser_id: string,

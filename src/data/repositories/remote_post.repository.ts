@@ -13,9 +13,30 @@ import { Tag } from '../../domain/models/tag.model';
   providedIn: 'root',
 })
 export class RemotePostRespository extends PostRepository {
+  override reportPost(
+    reason: string,
+    details: string,
+    reported_user_id: string,
+    reporter_id: string,
+    post_id: string
+  ): Observable<boolean> {
+    const payload = {
+      reason,
+      details,
+      reported_user_id,
+      reporter_id,
+      post_id,
+    };
+    return this._http.post<boolean>(
+      `${this.API_URL}/posts/reportPost`,
+      payload
+    );
+  }
   override deletePost(id: number): Observable<boolean> {
     const params = new HttpParams().set('id', id);
-    return this._http.delete<boolean>(`${this.API_URL}/posts/deletePost`, {params})
+    return this._http.delete<boolean>(`${this.API_URL}/posts/deletePost`, {
+      params,
+    });
   }
   override searchPost(
     user_id: string,

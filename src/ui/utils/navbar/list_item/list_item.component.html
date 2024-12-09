@@ -5,6 +5,8 @@
     }@else {
     @if (label === 'Notificaciones' && _notService.getUnreadNotifications() > 0) {
     <span class="navbar-icon" [ngClass]="icon" pBadge [value]="_notService.getUnreadNotifications()"></span>
+    }@else if(label === 'Mensajes' && _notService.getUnreadMessages() > 0){
+    <span class="navbar-icon" [ngClass]="icon" pBadge [value]="_notService.getUnreadMessages()"></span>
     }@else {
     <span class="navbar-icon" [ngClass]="icon"></span>
     }

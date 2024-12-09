@@ -18,7 +18,6 @@ import { TopicsTagsService } from '../../welcome/services/topics-tags.service';
   selector: 'app-information-profile',
   standalone: true,
   imports: [
-    ButtonComponent,
     ChipModule,
     EditProfileComponent,
     DialogModule,

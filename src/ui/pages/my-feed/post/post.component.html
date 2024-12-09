@@ -114,8 +114,8 @@
             <button class="options-button" (click)="toggleOptionsMenu($event)">•••</button>
             @if (isOptionsMenuOpen) {
             <div class="options-dropdown" (click)="$event.stopPropagation()">
-                <button class="dropdown-item" (click)="editPublication()">
-                    <i class="pi pi-pencil"></i> Reportar publicacion
+                <button class="dropdown-item" (click)="reportPublication()">
+                    <i class="pi pi-flag"></i> Reportar publicacion
                 </button>
             </div>
             }
@@ -181,4 +181,35 @@
         </div>
     </div>
 </div>
+}
+
+@if (publicationReport()) {
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Reportar Publicación</h2>
+                <button class="modal-close" (click)="reportPublication()">&times;</button>
+            </div>
+            <form class="modal-form" [formGroup]="formReport">
+                <label for="reportReason">Motivo del Reporte</label>
+                <select id="reportReason" formControlName="reason">
+                    <option value="" disabled>Selecciona un motivo</option>
+                    <option value="Contenido inapropiado">Contenido inapropiado</option>
+                    <option value="Acoso o intimidación">Acoso o intimidación</option>
+                    <option value="Contenido engañoso o falso">Contenido engañoso o falso</option>
+                    <option value="Spam o publicidad no autorizada">Spam o publicidad no autorizada</option>
+                    <option value="Contenido no relacionado con el tema">Contenido no relacionado con el tema</option>
+                    <option value="Otro">Otro</option>
+                </select>
+
+                <label for="reportDetails">Detalles del Reporte</label>
+                <textarea id="reportDetails" placeholder="Describe el motivo de tu reporte..." formControlName="details"></textarea>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" (click)="reportPublication()">Cancelar</button>
+                    <button class="btn btn-report" (click)="sendReport()">Enviar Reporte</button>
+                </div>
+            </form>
+        </div>
+    </div>
 }

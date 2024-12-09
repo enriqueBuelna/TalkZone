@@ -18,7 +18,7 @@
                 <div class="topic-container">
                     @for (userPref of userPreferences(); track $index) {
                     @if (userPref.getType() === "mentor" && userPref.getId() !== 0) {
-                    <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
+                    <div class="topic-label" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
                     }
                     }
                 </div>
@@ -29,7 +29,7 @@
                 <div class="topic-container">
                     @for (userPref of userPreferences(); track $index) {
                     @if (userPref.getType() === "entusiasta" && userPref.getId() !== 0) {
-                    <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
+                    <div class="topic-label" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
                     }
                     }
                 </div>
@@ -37,10 +37,10 @@
 
             <div class="topic-section">
                 <h3 class="section-title">Explorador:</h3>
-                <div class="topic-container">
+                <div class="topic-container">   
                     @for (userPref of userPreferences(); track $index) {
                     @if (userPref.getType() === "explorador" && userPref.getId() !== 0) {
-                    <div class="topic-chip" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
+                    <div class="topic-label" (click)="showInformation(userPref)">{{userPref.getTopicName()}}</div>
                     }
                     }
                 </div>

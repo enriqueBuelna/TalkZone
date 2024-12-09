@@ -15,7 +15,7 @@ export class GroupComplete extends GroupPresentation {
   private topic_id!: string;
   constructor(
     id: number,
-    status:string,
+    status: string,
     group_name: string,
     privacy: boolean,
     topic_name: string,
@@ -43,7 +43,7 @@ export class GroupComplete extends GroupPresentation {
     this.status = status;
   }
 
-  getStatus(){
+  getStatus() {
     return this.status;
   }
 
@@ -114,5 +114,34 @@ export class GroupComplete extends GroupPresentation {
     this.tags =
       this.tags?.filter((existingTag) => !ids.includes(existingTag.getId())) ||
       [];
+  }
+
+  editGroup(
+    privacy: boolean,
+    about_communitie: string,
+    cover_picture: string,
+    profile_picture: string,
+    status:string
+  ) {
+    this.setStatus(status);
+    this.setPrivacy(privacy);
+    if (about_communitie) {
+      this.setAboutCommunitie(about_communitie);
+    }
+    if (cover_picture) {
+      this.setCoverPicture(cover_picture);
+    }
+
+    if (profile_picture) {
+      this.setProfilePicture(profile_picture);
+    }
+  }
+
+  setAboutCommunitie(about: string) {
+    this.description = about;
+  }
+
+  setStatus(status:string){
+    this.status = status;
   }
 }

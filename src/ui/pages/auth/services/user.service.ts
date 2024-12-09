@@ -26,6 +26,18 @@ export class UserService {
       return decodedToken.is_profile_complete;
     }
   }
+
+  whatType() {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      if (decodedToken.user_role === 'admin') {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
   //newUser
   isNewUser(): boolean {
     return this.currentUser.is_profile_complete;

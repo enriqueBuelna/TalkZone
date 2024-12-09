@@ -64,6 +64,11 @@
                 </div>
                 }
             </div>
+            @if (submitEnter()) {
+                <div class="card">
+                    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+                </div>
+            }
             <div class="post-footer">
                 <div class="post-actions">
                     <label for="imageInput" class="action-btn">

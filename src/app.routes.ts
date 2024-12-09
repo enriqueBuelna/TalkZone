@@ -4,7 +4,7 @@ import { AuthComponent } from './ui/pages/auth/auth.component';
 import { WelcomeComponent } from './ui/pages/welcome/welcome.component';
 import { HomeComponent } from './ui/pages/home/home.component';
 import { VoiceRoomComponent } from './ui/pages/voice-room/voice-room.component';
-import { authGuard } from './guards/auth-guard.guard';
+import { adminGuard, authGuard, isVerify } from './guards/auth-guard.guard';
 import { ConnectComponent } from './ui/pages/connect/connect.component';
 import { MessagesComponent } from './ui/pages/messages/messages.component';
 import { MessageRigthComponent } from './ui/pages/messages/message-rigth/message-rigth.component';
@@ -36,10 +36,9 @@ import { AdminDetailUserComponent } from './ui/admin/admin-users/admin-detail-us
 import { ModerationReportsComponent } from './ui/admin/admin-users/admin-user-problems/admin-user-problems.component';
 import { UserCardStatsComponent } from './ui/admin/admin-users/admin-detail-user/user-card-stats/user-card-stats.component';
 import { GroupCardStatsComponent } from './ui/admin/admin-groups/group-card-stats/group-card-stats.component';
-import { SearchConnectComponent } from './ui/pages/connect/search-connect/search-connect.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
-  { path: '', component: AuthComponent },
+  { path: '', component: AuthComponent, canActivate: [isVerify] },
   // Ruta para el layout con las rutas hijas
   {
     path: 'home',
@@ -146,6 +145,7 @@ export const routes: Routes = [
       },
       { path: 'reports', component: AdminReportsComponent },
     ],
+    canActivate: [adminGuard],
   },
   { path: 'voice_room/:room_id', component: RoomContainerComponent },
   // Ruta wildcard para redirigir

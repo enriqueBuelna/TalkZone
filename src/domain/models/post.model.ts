@@ -166,4 +166,12 @@ export class Post {
   setTags(tags: Tag[]){
     this.tags = tags;
   }
+
+  setNameCommunity(name:string){
+    this.name_community = name;
+  }
+
+  setCoverPicture(pic:string){
+    this.cover_picture = pic;
+  }
 }

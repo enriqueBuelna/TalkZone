@@ -7,6 +7,7 @@ import { GetAllMyNotifications } from '../use_cases/notifications/getAllMyNotifi
 import { Notification } from '../models/notifications.model';
 import { GetCantNotifications } from '../use_cases/notifications/getCantNotifications.use_case';
 import { MarkAsRead } from '../use_cases/notifications/markAsRead.use_case';
+import { GetCantMessages } from '../use_cases/notifications/getCantMessages.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,13 @@ export class NotificationService {
   constructor(
     private _getAllMyNotifications: GetAllMyNotifications,
     private _getCantNotifications: GetCantNotifications,
-    private _markAsRead: MarkAsRead
+    private _markAsRead: MarkAsRead,
+    private _getCantMessages: GetCantMessages
   ) {}
+
+  getCantMessages(user_id:string):Observable<number>{
+    return this._getCantMessages.execute(user_id);
+  }
 
   getAllMyNotifications(user_id: string): Observable<Notification[]> {
     return this._getAllMyNotifications.execute(user_id);

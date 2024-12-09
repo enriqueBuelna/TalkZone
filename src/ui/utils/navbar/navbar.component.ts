@@ -1,8 +1,10 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   HostListener,
+  OnInit,
   Output,
   Renderer2,
 } from '@angular/core';
@@ -10,7 +12,9 @@ import { List_itemApp } from './list_item/list_item.component';
 import { UserService } from '../../pages/auth/services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { AuthService } from '../../../domain/services/auth.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserDemo } from '../../../domain/models/user-demo.model';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -18,7 +22,7 @@ import { Router } from '@angular/router';
   imports: [List_itemApp, CommonModule],
   styleUrl: './navbar.component.css',
 })
-export class NavbarApp {
+export class NavbarApp implements OnInit{
   goToHome() {
     this._router.navigate(['home','posts']);
   }
@@ -28,7 +32,9 @@ export class NavbarApp {
     private _userService: UserService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private _router: Router
+    private _router: Router,
+    private _authService : AuthService,
+    private _destroyRef: DestroyRef
   ) {
     this.options = [
       {
@@ -73,15 +79,23 @@ export class NavbarApp {
         icon: 'pi pi-user',
         badge: false,
       },
-      {
-        name: 'Configuración',
-        where: '/home/configuration',
-        icon: 'pi pi-cog',
-        badge: false,
-      },
+      // {
+      //   name: 'Configuración',
+      //   where: '/home/configuration',
+      //   icon: 'pi pi-cog',
+      //   badge: false,
+      // },
     ];
   }
   showTooltip = false;
+  userDemo !: UserDemo;
+  ngOnInit(): void {
+    this._authService.getBasicInfo(this._userService.getUserId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => { 
+        this.userDemo = el;
+      }
+    })
+  }
 
   toggleTooltip() {
     this.showTooltip = !this.showTooltip;

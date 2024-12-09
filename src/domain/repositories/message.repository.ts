@@ -8,4 +8,11 @@ export abstract class MessageRepository {
     user_id: string
   ): Observable<Message[]>;
   abstract getMyConversations(user_id: string): Observable<Conversation[]>;
+  abstract reportMessage(
+    reason: string,
+    details: string,
+    reported_user_id: string,
+    reporter_id: string,
+    message_id: string
+  ): Observable<boolean>;
 }

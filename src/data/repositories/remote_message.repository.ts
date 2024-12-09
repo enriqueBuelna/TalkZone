@@ -13,6 +13,21 @@ export class RemoteMessageRepository extends MessageRepository {
   private readonly API_URL = 'http://localhost:3000/messages';
   private _http = inject(HttpClient);
 
+  override reportMessage(reason: string, details: string, reported_user_id: string, reporter_id: string, message_id: string): Observable<boolean> {
+    const payload = {
+      reason,
+      details,
+      reported_user_id,
+      reporter_id,
+      message_id,
+    };
+    console.log(message_id);
+    return this._http.post<boolean>(
+      `${this.API_URL}/reportMessage`,
+      payload
+    );
+  }
+
   getAllMessagesFromConversation(
     myUser_id: string,
     user_id: string

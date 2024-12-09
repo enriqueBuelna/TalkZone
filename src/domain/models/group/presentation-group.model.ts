@@ -43,4 +43,15 @@ export class GroupPresentation {
   getId() {
     return this.id;
   }
+
+  setPrivacy(privacy: boolean) {
+    this.privacy = privacy;
+  }
+
+  setCoverPicture(pic: string) {
+    this.cover_picture = pic;
+  }
+  setProfilePicture(pic:string){
+    this.profile_picture = pic;
+  }
 }

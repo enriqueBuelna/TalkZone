@@ -20,7 +20,38 @@
                 </div>
                 <!-- aqui -->
                 <textarea placeholder="¿Qué estás pensando?" class="post-textarea" formControlName="content"></textarea>
+                <div class="tags-toggle-section">
+                    @if (!showTagsInput) {
+                    <button class="add-tags-btn" (click)="toggleTagsInput()">
+                        + Añadir etiquetas
+                    </button>
+                    } @else {
+                    <div class="tags-input-container">
+                        <div class="tags-header">
+                            <span>Etiquetas</span>
+                            <button class="close-tags-btn" (click)="toggleTagsInput()">&times;</button>
+                        </div>
+                        <input type="text" class="tags-input" placeholder="Escriba etiquetas separadas por comas"
+                            formControlName="tags" (keydown.enter)="onEnter($event)" />
+                        <div class="tags-list">
+                            @if (formPost.get('tags')?.value) {
+                            @for (tag of formatTags(formPost.get('tags')?.value); track $index) {
+                            <span class="tag">
+                                {{tag.trim()}}
+                                <button class="remove-tag" (click)="removeTag($index)">&times;</button>
+                            </span>
+                            }
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
             </div>
+            @if (submitEnter()) {
+                <div class="card">
+                    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+                </div>
+            }
             <div class="post-footer">
                 <div class="post-actions">
                     <label for="imageInput" class="action-btn">
@@ -28,9 +59,10 @@
                         <input type="file" (change)="onImageSelected($event)" />
                     </label>
 
-                    <button class="action-btn">😊</button>
                 </div>
-                <button class="post-button" (click)="addPost()">Postear</button>
+                <button class="post-button" (click)="addPost()">
+                    Postear
+                </button>
             </div>
         </div>
     </form>

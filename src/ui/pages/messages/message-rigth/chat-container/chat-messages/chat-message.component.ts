@@ -67,6 +67,7 @@ export class ChatMessageComponent implements OnInit {
         this.responseAllMessages
           .pipe(takeUntilDestroyed(this._destroyRefe))
           .subscribe((el) => {
+            console.log(el);
             this._messages.setMessages(el);
             // this.allMessages = this._messages.getMessages();
             this.hasNewMessages = true; // Indicar que hay nuevos mensajes

@@ -3,7 +3,9 @@
       <app-message 
         [content]="message.getContent()"
         [whosMessage]="message.getSenderId() === idOtherUser ? 'received' : 'sent'"
-        [sentAt]="message.getSentAt()">
+        [sentAt]="message.getSentAt()"
+        [senderId]="message.getSenderId()"
+        [id]="message.getId()">
       </app-message>
     }
   </div>

@@ -4,16 +4,28 @@ import { Post } from '../models/post.model';
 import { Tag } from '../models/tag.model';
 export abstract class PostRepository {
   abstract newPost(info: IPost): Observable<Post>;
-  abstract getForYouPost(user_id: string, page: number, other_user_id:string): Observable<Post[]>;
+  abstract getForYouPost(
+    user_id: string,
+    page: number,
+    other_user_id: string
+  ): Observable<Post[]>;
   abstract getPostById(id: string, user_id: string): Observable<Post>;
   abstract getPostFriends(user_id: string, page: number): Observable<Post[]>;
-  abstract getYourPost(user_id: string, page: number, other_user_id:string): Observable<Post[]>;
+  abstract getYourPost(
+    user_id: string,
+    page: number,
+    other_user_id: string
+  ): Observable<Post[]>;
   abstract giveLike(
     user_id: string,
     post_id: string,
     comment_id?: string
   ): Observable<boolean>;
-  abstract getPostGroup(community_id: string, page: number, user_id:string): Observable<Post[]>;
+  abstract getPostGroup(
+    community_id: string,
+    page: number,
+    user_id: string
+  ): Observable<Post[]>;
   abstract getAllPostGroup(user_id: string, page: number): Observable<Post[]>;
   abstract createComment(
     user_id: string,
@@ -26,15 +38,26 @@ export abstract class PostRepository {
     media_url: string,
     visibility: string,
     topic_id: string,
-    tags:string[]
+    tags: string[]
   ): Observable<Tag[]>;
   abstract updatePostGroup(
-    id:string, 
-    content:string,
-    media_url:string,
-    visibility:string
-  ):Observable<boolean>;
-  abstract getPostLike(user_id:string, page:number):Observable<Post[]>;
-  abstract searchPost(user_id:string, page:number, post_content:string):Observable<Post[]>;
-  abstract deletePost(id:number):Observable<boolean>;
+    id: string,
+    content: string,
+    media_url: string,
+    visibility: string
+  ): Observable<boolean>;
+  abstract getPostLike(user_id: string, page: number): Observable<Post[]>;
+  abstract searchPost(
+    user_id: string,
+    page: number,
+    post_content: string
+  ): Observable<Post[]>;
+  abstract deletePost(id: number): Observable<boolean>;
+  abstract reportPost(
+    reason: string,
+    details: string,
+    reported_user_id: string,
+    reporter_id: string,
+    post_id: string
+  ): Observable<boolean>;
 }

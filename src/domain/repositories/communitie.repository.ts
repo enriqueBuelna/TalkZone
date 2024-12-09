@@ -25,7 +25,7 @@ export abstract class CommunitieRepository {
   abstract getInGroup(user_id: string, group_id: string): Observable<boolean>;
   abstract getPendingApplies(group_id: string): Observable<ApplyGroup[]>;
   abstract responseApply(user_id:string, group_id:string, status:string):Observable<any>;
-  abstract editGroup(group_id:string, privacy:string,about_communitie:string, cover_picture:string, profile_picture:string):Observable<boolean>;
+  abstract editGroup(group_id:string, privacy:string,about_communitie:string, cover_picture:string, profile_picture:string, status:string):Observable<boolean>;
   abstract viewIfOnePending(user_id:string, group_id:string):Observable<boolean>;
   abstract deleteApply(user_id:string, group_id:string):Observable<boolean>;
   abstract getOutGroup(user_id: string, group_id: string): Observable<boolean>;

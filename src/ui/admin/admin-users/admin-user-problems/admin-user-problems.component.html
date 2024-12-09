@@ -55,7 +55,7 @@
           <td>{{ report.getDate() | date:'dd/MM/yyyy HH:mm' }}</td>
           <td>
             <div class="action-buttons">
-              <button *ngIf="report.getStatus() === 'pending'" class="btn-resolve">
+              <button *ngIf="report.getStatus() === 'pending'" class="btn-resolve" (click)="resolveProblem(report.getId())">
                 Resolver
               </button>
               <button *ngIf="report.getStatus() === 'pending'" class="btn-dismiss">
@@ -154,78 +154,75 @@
           </div>
         </div>
         }@else if(type === 'comment'){
-          <div class="flex-type">
-            <h2>Comentario reportado:</h2>
-          </div>
-          <div class="comentario-container">
-            <img 
-              [src]="publicationReported.getUserInfo().getProfilePic()" 
-              alt="Avatar de {{publicationReported.getUserInfo().getUsername()}}" 
-              class="avatar"
-            >
-            <div class="comentario-contenido">
-              <div class="encabezado-comentario">
-                <span class="nombre-usuario">{{publicationReported.getUserInfo().getUsername()}}</span>
-              </div>
-              
-              <p class="texto-comentario">
-                {{publicationReported.getContent()}}
-              </p>
-              
-              
+        <div class="flex-type">
+          <h2>Comentario reportado:</h2>
+        </div>
+        <div class="comentario-container">
+          <img [src]="publicationReported.getUserInfo().getProfilePic()"
+            alt="Avatar de {{publicationReported.getUserInfo().getUsername()}}" class="avatar">
+          <div class="comentario-contenido">
+            <div class="encabezado-comentario">
+              <span class="nombre-usuario">{{publicationReported.getUserInfo().getUsername()}}</span>
             </div>
+
+            <p class="texto-comentario">
+              {{publicationReported.getContent()}}
+            </p>
+
+
           </div>
+        </div>
         }@else if(type === 'room'){
-          <div class="flex-type">
-            <h2>Sala de voz reportada:</h2>
+        <div class="flex-type">
+          <h2>Sala de voz reportada:</h2>
+        </div>
+        <div class="room-card">
+          <div class="room-header">
+            <div class="header-main">
+              <h2 class="room-title">{{publicationReported.getVoiceRoomName()}}</h2>
+              <div class="live-indicator">
+              </div>
+            </div>
           </div>
-          <div class="room-card">
-            <div class="room-header">
-                <div class="header-main">
-                    <h2 class="room-title">{{publicationReported.getVoiceRoomName()}}</h2>
-                    <div class="live-indicator">
-                    </div>
-                </div>
+
+          <div class="room-content">
+            <div class="user-info">
+              <div class="avatar-container">
+                <img [src]="publicationReported.getPictureHost()" alt="User avatar" class="avatar-image">
+              </div>
+              <div class="user-details">
+                <span class="username">{{publicationReported.getNameHost()}}</span>
+                <span class="user-role">Host</span>
+              </div>
             </div>
 
-            <div class="room-content">
-                <div class="user-info">
-                    <div class="avatar-container">
-                        <img [src]="publicationReported.getPictureHost()" alt="User avatar" class="avatar-image">
-                    </div>
-                    <div class="user-details">
-                        <span class="username">{{publicationReported.getNameHost()}}</span>
-                        <span class="user-role">Host</span>
-                    </div>
-                </div>
-
-                <div class="tag-container">
-                    <span class="tag">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="tag-icon">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
-                        </svg>
-                        {{publicationReported.getTopicName()}}
-                    </span>
-                </div>
+            <div class="tag-container">
+              <span class="tag">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="tag-icon">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                  <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                  <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                </svg>
+                {{publicationReported.getTopicName()}}
+              </span>
             </div>
+          </div>
         </div>
         }@else if(type === 'message'){
-          <div class="flex-type">
-            <h2>Mensaje reportado:</h2>
+        <div class="flex-type">
+          <h2>Mensaje reportado:</h2>
+        </div>
+        <div class="message">
+          <div class="message-content">
+            {{publicationReported.getContent()}}
           </div>
-          <div class="message">
-            <div class="message-content">
-              {{publicationReported.getContent()}}
-            </div>
-            <div class="message-time">
-              {{publicationReported.getSentAt() | date:'HH:mm'}}
-            </div>
+          <div class="message-time">
+            {{publicationReported.getSentAt() | date:'HH:mm'}}
           </div>
+        </div>
         }
 
       </div>
@@ -243,3 +240,23 @@
   }
 
 </div>
+
+@if(resolveProblemo()){
+<div class="report-details-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Moderación de Contenido</h2>
+      <button class="close-btn" (click)="resolveProblem(-1)">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-description">Seleccione una acción para el contenido reportado:</p>
+      <div class="action-buttons">
+        <button class="btn btn-danger">Eliminar contenido</button>
+        <button class="btn btn-warning">Advertir al usuario</button>
+        <button class="btn btn-info">Suspender temporalmente</button>
+        <button class="btn btn-success">Banear permanentemente</button>
+      </div>
+    </div>
+  </div>
+</div>
+}

@@ -30,5 +30,8 @@ export class NotificationComponent {
       }
       this._router.navigate(['home', 'posts', 'detail_post', aux]);
     }
+    if(this.notification.getComment()){
+      this._router.navigate(['home','posts', 'detail_post', this.notification.getPostId()])
+    }
   }
 }

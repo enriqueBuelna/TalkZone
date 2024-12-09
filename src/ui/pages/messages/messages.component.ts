@@ -15,6 +15,7 @@ import { UserDemo } from '../../../domain/models/user-demo.model';
 import { Conversation } from '../../../domain/models/conversation.model';
 import { ChatService } from './services/chatService.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NotService } from '../notifications/services/notifications.service';
 @Component({
   selector: 'app-messages',
   standalone: true,
@@ -31,7 +32,8 @@ export class MessagesComponent {
     private _userService: UserService,
     private _userAService: AuthService,
     private _chatService: ChatService,
-    private _destroyRef:DestroyRef
+    private _destroyRef:DestroyRef,
+    private _notService :NotService
   ) {}
   howMany = 0;
   ngOnInit() {
@@ -74,20 +76,11 @@ export class MessagesComponent {
             newMessage.getSenderId() !== this._userService.getUserId()
           ) {
             this._conversationService.findConversation(el[1].id)?.plusNoRead();
+            this._notService.addMessage();
           }
           this._conversationService
             .findConversation(el[1].id)
             ?.setNewMessage(newMessage);
-          console.log(
-            'HOLAAAAAAAAAA',
-            this._chatService.getAmHereId(),
-            newMessage.getReceiverId()
-          );
-          console.log(
-            'HOLAAAAAAAAAAAA2',
-            this._userService.getUserId(),
-            newMessage.getSenderId()
-          );
           if (
             this._chatService.getAmHereId() === newMessage.getReceiverId() ||
             newMessage.getSenderId() === this._chatService.getAmHereId()

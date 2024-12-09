@@ -68,7 +68,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
     privacy: string,
     about_communitie: string,
     cover_picture: string,
-    profile_picture: string
+    profile_picture: string,
+    status:string
   ): Observable<boolean> {
     const payload = {
       group_id,
@@ -76,6 +77,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
       about_communitie,
       cover_picture,
       profile_picture,
+      status
     };
 
     return this._http

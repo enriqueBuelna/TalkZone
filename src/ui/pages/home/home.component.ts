@@ -31,17 +31,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     // this.googleGeminiPro.initialize('AIzaSyDrFMvd5Z1TFrXLnzZ8uX_NctKsUtGaFko');
   }
   ngOnInit(): void {
+    console.log(this._authService.whatType());
     this._notificationService
       .getCantNotifications(this._authService.getUserId())
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (el) => {
-          if(el){
+          if (el) {
             this._notService.setUnreadNotifications(el);
           }
         },
-        error: (el) => {}
+        error: (el) => {},
       });
+      this._notificationService.getCantMessages(this._authService.getUserId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+        next: el => {
+          if(el){
+            this._notService.setUnreadMessages(el);
+          }
+        },
+        error: error => {
+
+        }
+      })
     if (!this._authService.isProfileComplete()) {
       this._router.navigate(['home', 'welcome']);
     }

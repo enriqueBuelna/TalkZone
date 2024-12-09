@@ -633,7 +633,7 @@ h4 {
   cursor: pointer;
 }
 
-.modal {
+.modall {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -647,7 +647,7 @@ h4 {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.modall-content {
   background-color: #fff;
   padding: 30px;
   border-radius: 8px;
@@ -656,21 +656,21 @@ h4 {
   max-width: 500px;
 }
 
-.modal-header {
+.modall-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.modal-header h2 {
+.modall-header h2 {
   font-size: 20px;
   font-weight: 600;
   color: #333;
   margin: 0;
 }
 
-.modal-close {
+.modall-close {
   color: #aaa;
   font-size: 24px;
   font-weight: bold;
@@ -678,18 +678,18 @@ h4 {
   transition: color 0.3s;
 }
 
-.modal-close:hover,
-.modal-close:focus {
+.modall-close:hover,
+.modall-close:focus {
   color: #666;
 }
 
-.modal-body {
+.modall-body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   grid-gap: 12px;
 }
 
-.modal-body button {
+.modall-body button {
   background-color: #f5f5f5;
   border: none;
   color: #444;
@@ -702,7 +702,7 @@ h4 {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.modal-body button:hover {
+.modall-body button:hover {
   background-color: #e9e9e9;
   color: #333;
 }

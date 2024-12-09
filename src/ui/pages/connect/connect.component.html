@@ -300,18 +300,18 @@
 }
 
 @if(showTags()){
-<div class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
+<div class="modall">
+  <div class="modall-content">
+    <div class="modall-header">
       <h2>{{userPref?.getTopicName()}}</h2>
-      <span class="modal-close" (click)="showTagss(undefined)">&times;</span>
+      <span class="modall-close" (click)="showTagss(undefined)">&times;</span>
     </div>
     @if (userPref?.getTags()!.length > 0) {
     <div class="title">
       <h3>Etiquetas relacionadas:</h3>
     </div>
     }
-    <div class="modal-body">
+    <div class="modall-body">
       @if (userPref?.getTags()!.length > 0) {
       @for (item of userPref?.getTags(); track $index) {
       <button>{{item.getTagName()}}</button>

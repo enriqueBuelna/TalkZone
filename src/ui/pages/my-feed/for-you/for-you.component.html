@@ -58,7 +58,7 @@
     }@else {
     @if (allPost().length > 0) {
     @for (post of allPost(); track post.getId()) {
-    <app-post [postContent]="post"></app-post>
+    <app-post [postContent]="post" (clickEvent)="showMessage()"></app-post>
     }
     }@else {
     @if (forAll()) {

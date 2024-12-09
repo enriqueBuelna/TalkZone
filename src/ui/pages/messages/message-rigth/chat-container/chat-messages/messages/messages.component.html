@@ -4,10 +4,61 @@
 </div> -->
 
 <div class="message" [ngClass]="whosMessage">
-    <div class="message-content">
-      {{content}}
-    </div>
+  <div class="message-content">
+    {{content}}
+  </div>
+  <div class="message-options-container">
     <div class="message-time">
       {{sentAt | date:'HH:mm'}}
     </div>
+    <div *ngIf="whosMessage === 'received'" class="message-more-options" (click)="toggleOptionsMenu($event)"> <span
+        class="more-options-dots">&#8230;</span> </div>
+
+    @if (isOptionsMenuOpen) {
+    <div class="options-dropdown" (click)="$event.stopPropagation()">
+      <button class="dropdown-item" (click)="reportMessage()">
+        <i class="pi pi-flag"></i> Reportar mensaje
+      </button>
+    </div>
+    }
   </div>
+</div>
+
+
+@if (messageReport()) {
+  <div class="modal-overlay">
+      <div class="modal-container">
+          <div class="modal-header">
+              <h2>Reportar Publicación</h2>
+              <button class="modal-close" (click)="reportMessage()">&times;</button>
+          </div>
+          <form class="modal-form" [formGroup]="formReport">
+              <label for="reportReason">Motivo del Reporte</label>
+              <select id="reportReason" formControlName="reason">
+                <option value="Contenido inapropiado">Contenido inapropiado</option>
+                <option value="Acoso o intimidación">Acoso o intimidación</option>
+                <option value="Mensajes ofensivos o amenazantes">Mensajes ofensivos o amenazantes</option>
+                <option value="Spam o mensajes no deseados">Spam o mensajes no deseados</option>
+                <option value="Información personal compartida sin consentimiento">Información personal compartida sin consentimiento</option>
+                <option value="Otro">Otro</option>
+              </select>
+
+              <label for="reportDetails">Detalles del Reporte</label>
+              <textarea id="reportDetails" placeholder="Describe el motivo de tu reporte..." formControlName="details"></textarea>
+              @if (submitEnter()) {
+                <div class="card">
+                    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+                </div>
+            }
+              <div class="modal-actions">
+                  <button type="button" class="btn btn-cancel" (click)="reportMessage()">Cancelar</button>
+                  <button class="btn btn-report" (click)="sendReport()">Enviar Reporte</button>
+              </div>
+          </form>
+      </div>
+  </div>
+}
+
+<p-toast>
+  
+</p-toast>

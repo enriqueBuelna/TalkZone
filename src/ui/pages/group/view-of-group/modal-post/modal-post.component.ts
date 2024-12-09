@@ -31,6 +31,7 @@ import { GroupComplete } from '../../../../../domain/models/group/groupComplete.
 import { CommunitieService } from '../../../../../domain/services/communitie.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApplyGroup } from '../../../../../domain/models/group/apply_group.model';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-modal-post-group',
@@ -41,6 +42,7 @@ import { ApplyGroup } from '../../../../../domain/models/group/apply_group.model
     SelectButtonModule,
     ReactiveFormsModule,
     CommonModule,
+    ProgressBarModule
   ],
   templateUrl: './modal-post.component.html',
   styleUrl: './modal-post.component.css',
@@ -72,10 +74,25 @@ export class ModalPostGroupComponent implements OnInit {
     this.formPost = this._formBuilder.group({
       content: ['', [Validators.required]],
       visibility: ['', [Validators.required]],
-      tags:['']
+      tags: [''],
     });
   }
+  showTagsInput = false;
 
+  toggleTagsInput() {
+    this.showTagsInput = !this.showTagsInput;
+    if (!this.showTagsInput) {
+      // Limpiar las etiquetas cuando se oculta
+      this.formPost.get('tags')?.setValue('');
+    }
+  }
+
+  removeTag(index: number) {
+    const tagsControl = this.formPost.get('tags');
+    const currentTags = tagsControl?.value.split(',');
+    currentTags.splice(index, 1);
+    tagsControl?.setValue(currentTags.join(','));
+  }
   ngOnInit(): void {
     if (this.applies()) {
       const roomId = this._route.snapshot.paramMap.get('id') ?? '';
@@ -112,15 +129,28 @@ export class ModalPostGroupComponent implements OnInit {
     // Previene el clic si el botón está deshabilitado
     this.clickEvent.emit();
   }
-
+  submitEnter= signal(false);
   async addPost() {
     if (this.formPost.valid) {
+      this.submitEnter.set(true);
       let { content, visibility } = this.formPost.value;
       let aux2 = visibility.value;
       let downloadURL;
       if (this.photoFile) {
         downloadURL = await uploadFile(this.photoFile);
       }
+      let noMore;
+        if (Array.isArray(this.formPost.get('tags')?.value)) {
+          noMore = this.formPost.get('tags')?.value.join(',');
+        } else {
+          noMore = this.formPost.get('tags')?.value;
+        }
+
+        const rawTags = noMore; // Obtener el valor del campo
+        const cleanedTags = rawTags
+          .split(',') // Separar por comas
+          .map((tag: any) => tag.trim()) // Eliminar espacios al inicio y al final de cada elemento
+          .filter((tag: any) => tag !== ''); // Eliminar valores vacíos si los hay
       let payload: IPost = {
         user_id: this.userInformation.getUserId(),
         content,
@@ -129,10 +159,12 @@ export class ModalPostGroupComponent implements OnInit {
         media_url: downloadURL,
         community_id: this.group.getId().toString(),
         type_community: aux2,
-        tags: this.formPost.get('tags')?.value.split(','),
+        tags: cleanedTags,
       };
 
       this._postService.newPost(payload).subscribe((el) => {
+        el.setNameCommunity(this.group.getGroupName());
+        el.setCoverPicture(this.group.getCoverPicture());
         this._postCService.addNewPost(el);
         this.onClick();
       });
@@ -155,15 +187,30 @@ export class ModalPostGroupComponent implements OnInit {
       reader.readAsDataURL(file); // Convierte el archivo a Base64 para la previsualización (opcional)
     }
   }
+  formatTags(tags: any): string[] {
+    if (Array.isArray(tags)) {
+      // If it's already an array, return it as is
+      return tags.map((tag) =>
+        typeof tag === 'object' && tag.getTagName ? tag.getTagName() : tag
+      );
+    }
+    if (typeof tags === 'string') {
+      // If it's a string, split it
+      return tags.split(',');
+    }
+    // If it's neither an array nor a string, return an empty array
+    return [];
+  }
+  onEnter(event: any): void {
+    event.preventDefault(); // Previene que el formulario se envíe o se cierre
+  }
 
   responseApply(option: string, id: string) {
     const roomId = this._route.snapshot.paramMap.get('id') ?? '';
     this._communityService.responseApply(id, roomId, option).subscribe((el) => {
-      console.log(el, "hola");
+      console.log(el, 'hola');
       this.applyGroups.set(
-        this.applyGroups().filter(
-          (el) => el.getUserDemo().getUserId() !== id
-        )
+        this.applyGroups().filter((el) => el.getUserDemo().getUserId() !== id)
       );
     });
   }

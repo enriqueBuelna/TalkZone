@@ -3,6 +3,7 @@ import { UserDemo } from '../../../../../../domain/models/user-demo.model';
 import { Message } from '../../../../../../domain/models/message.model';
 import { Router } from '@angular/router';
 import { ConversationCService } from '../../services/conversation.service';
+import { NotService } from '../../../../notifications/services/notifications.service';
 
 @Component({
   selector: 'app-conversation',
@@ -17,9 +18,10 @@ export class ConversationComponent {
   @Input() unread!:number;
   @Input() id!:string;
 
-  constructor(private _router: Router, private _conversationService:ConversationCService) {}
+  constructor(private _router: Router, private _conversationService:ConversationCService, private _notService:NotService) {}
 
   goToChat() {
+    this._notService.readMessages(this._conversationService.findConversation(parseInt(this.id))?.getUnreadCount())
     this._conversationService.findConversation(parseInt(this.id))?.readMessage();
     this._router.navigate(['home/messages', this.userDemo.getUserId()]); // Redirigir a la página de bienvenida
   }

@@ -14,6 +14,7 @@ export class Notification {
   private like?: Like;
   private type:string;
   private follower_id !: string;
+  private if_comment?:string;
   constructor(
     id: number,
     type:string,
@@ -24,7 +25,8 @@ export class Notification {
     related_room_open_id: string,
     related_like_id: string,
     follower_id:string,
-    like?: Like
+    like?: Like,
+    if_comment?:string
   ) {
     this.id = id;
     this.userDemo = userDemo;
@@ -36,11 +38,13 @@ export class Notification {
     this.type = type;
     this.like = like;
     this.follower_id = follower_id;
+    this.if_comment = if_comment;
     if (this.related_comment_id) {
       this.message = `ha hecho un comentario en tu publicacion`;
       this.action = 'Ven a echarle un vistazo';
     } else if (this.related_like_id) {
       if (this.like?.getCommentId()) {
+
         this.message = ' ha dado un me gusta a tu comentario';
       } else if (this.like?.getPostId()) {
         this.message = ' ha dado un me gusta en tu publicacion';
@@ -92,5 +96,13 @@ export class Notification {
 
   getFollower(){
     return this.follower_id;
+  }
+
+  getComment(){
+    return this.related_comment_id;
+  }
+
+  getPostId(){
+    return this.if_comment;
   }
 }

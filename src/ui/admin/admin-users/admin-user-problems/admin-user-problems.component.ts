@@ -201,4 +201,17 @@ export class ModerationReportsComponent implements OnInit {
     this.yetNoDetails.set(true);
     this.type = '';
   }
+  resolveProblemo = signal(false);
+  resolveProblem(id:number){
+    if(id > 0){
+      this.idProblem = id;
+    }else {
+      this.idProblem = 0;
+    }
+    this.resolveProblemo.set(!this.resolveProblemo());
+  }
+  idProblem !:number;
+  warningUser(){
+    
+  }
 }

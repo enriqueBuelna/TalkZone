@@ -12,6 +12,8 @@ import { UserService } from '../../auth/services/user.service';
 import { PostCService } from '../services/post.service';
 import { Router } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-for-you',
   standalone: true,
@@ -21,9 +23,11 @@ import { SkeletonModule } from 'primeng/skeleton';
     CreatePostComponent,
     PostComponent,
     SkeletonModule,
+    ToastModule
   ],
   templateUrl: './for-you.component.html',
   styleUrl: './for-you.component.css',
+  providers: [MessageService]
 })
 export class ForYouComponent implements OnInit {
   myUserInformation = signal<UserDemo>(new UserDemo('', '', '', ''));
@@ -39,7 +43,8 @@ export class ForYouComponent implements OnInit {
     private _postService: PostService,
     private _userService: UserService,
     private _postCService: PostCService,
-    private _router: Router
+    private _router: Router,
+    private _messageService:MessageService
   ) {
     this.myUserInformation = this._myUserInformation.getMyUserInformation();
   }
@@ -113,5 +118,13 @@ export class ForYouComponent implements OnInit {
 
   goToConnect() {
     this._router.navigate(['home', 'connect']);
+  }
+
+  showMessage(){
+    this._messageService.add({
+      severity: 'success',
+      summary: 'Exito',
+      detail: 'La publicacion ha sido reportada correctamente',
+    });
   }
 }

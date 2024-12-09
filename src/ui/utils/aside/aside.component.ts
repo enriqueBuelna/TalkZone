@@ -13,10 +13,10 @@ export class AsideComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    let navbarLeft = document.getElementById('aside')?.clientWidth;
-    if(navbarLeft){
-      navbarLeft -= 7;
-    }
-    this.widthAside = navbarLeft ? `${navbarLeft}px` : 'auto';
+    // let navbarLeft = document.getElementById('aside')?.clientWidth;
+    // if(navbarLeft){
+    //   navbarLeft -= 7;
+    // }
+    // this.widthAside = navbarLeft ? `${navbarLeft}px` : 'auto';
   }
 }

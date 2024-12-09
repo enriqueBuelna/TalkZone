@@ -9,6 +9,14 @@ import { Like } from '../../domain/models/like.model';
   providedIn: 'root',
 })
 export class RemoteNotificationRepository extends NotificationRepository {
+  override getCantMessages(user_id: string): Observable<number> {
+    const params = new HttpParams().set('user_id', user_id);
+    return this._http
+      .get<number>(`${this.API_URL}/messages/getUnreadMessages`, {
+        params,
+      })
+      .pipe(map((el) => el));
+  }
   private readonly API_URL = 'http://localhost:3000';
   private _http = inject(HttpClient);
   getAllMyNotifications(user_id: string): Observable<Notification[]> {
@@ -45,7 +53,8 @@ export class RemoteNotificationRepository extends NotificationRepository {
                   n.like?.post_id,
                   n.like?.comment_id,
                   n.like?.comment?.postss.id
-                )
+                ),
+                n?.comment?.post_id
               )
           );
         })

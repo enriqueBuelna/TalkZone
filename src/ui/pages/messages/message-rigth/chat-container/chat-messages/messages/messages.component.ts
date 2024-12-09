@@ -1,15 +1,88 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-
+import { Component, DestroyRef, HostListener, Input, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService } from '../../../../../auth/services/user.service';
+import { MessageService } from '../../../../../../../domain/services/message.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { MessageService as MS } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, ProgressBarModule, ToastModule],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
+  providers: [MS]
 })
 export class MessagesComponent {
   @Input() content: string = '';
   @Input() whosMessage: string = '';
-  @Input() sentAt!:Date;
+  @Input() sentAt!: Date;
+  @Input() senderId!:string;
+  @Input() id!:any;
+  formReport!: FormGroup;
+
+  constructor(private _userService:UserService, private _formBuilder:FormBuilder, private _messageService:MessageService, private _destroyRef:DestroyRef, private _ms : MS){
+    this.formReport = this._formBuilder.group({
+      reason: ['', [Validators.required]],
+      details: ['', []]
+    })
+  }
+
+  toggleOptionsMenu(event: Event) {
+    event.stopPropagation(); // Prevenir propagación
+    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
+    console.log(this.isOptionsMenuOpen);
+  }
+  isOptionsMenuOpen = false;
+
+  // Listener para clicks globales
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    // Verificar si el click NO está dentro del menú de opciones
+    const optionsButton = event.target as HTMLElement;
+    const optionsMenu = document.querySelector('.options-dropdown');
+
+    if (
+      this.isOptionsMenuOpen &&
+      !optionsButton.closest('.options-menu-container') &&
+      !optionsMenu?.contains(event.target as Node)
+    ) {
+      this.isOptionsMenuOpen = false;
+    }
+  }
+
+  messageReport = signal(false);
+  reportMessage() {
+    this.messageReport.set(!this.messageReport());
+  }
+
+  submitEnter = signal(false);
+  sendReport(){
+    if(this.formReport.valid){
+      this.submitEnter.set(true);
+      let {reason, details} = this.formReport.value;
+      let reported_user_id = this.senderId;
+      let reporter_id = this._userService.getUserId();
+      let post_id = this.id;
+      console.log(post_id, reported_user_id, reporter_id);
+      this._messageService.reportMessage(reason, details, reported_user_id, reporter_id, post_id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+        next: el => {
+          if(el){
+            this.reportMessage();
+            this._ms.add({
+              severity: 'success',
+              summary: 'Exito',
+              detail:
+                'Mensaje reportado correctamente',
+            });
+          }
+        }, 
+        error: error => {
+
+        }
+      })
+    }
+  }
 }

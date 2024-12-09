@@ -32,6 +32,8 @@ import {
 import { Observable } from 'rxjs';
 import { Tag } from '../../../../../domain/models/tag.model';
 import { TagService } from '../../../../../domain/services/tag.service';
+import { ProgressSpinner, ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'app-edit-group',
   standalone: true,
@@ -42,6 +44,8 @@ import { TagService } from '../../../../../domain/services/tag.service';
     ButtonComponent,
     ModalUserPreferencesComponent,
     AutoCompleteModule,
+    ProgressSpinnerModule,
+    ProgressBarModule
   ],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',
@@ -105,6 +109,7 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.group.getStatus());
     this.profilePhotoPreview = this.group.getProfilePicture();
     this.coverPhotoPreview = this.group.getCoverPicture();
     this.formEditProfile = this._formBuilder.group({
@@ -112,6 +117,7 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       cover_picture: [''],
       privacy: [this.group.getPrivacy() ? 'private' : 'public'],
       about_communitie: [this.group.getDescription()],
+      status: [this.group.getStatus()]
     });
     this.formTopics = this._formBuilder.group({
       tag: [''],
@@ -136,7 +142,7 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
     let total =
       userPreferencesNotSave.length + this.userPreferencesDeleted.length;
 
-    let { privacy, about_communitie, cover_picture, profile_picture } =
+    let { privacy, about_communitie, cover_picture, profile_picture, status } =
       this.formEditProfile.value;
     if (
       cover_picture.length > 0 ||
@@ -144,6 +150,7 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       privacy.length > 0 ||
       about_communitie > 0
     ) {
+      this.submit.set(true);
       let cover_picture$ = '',
         profile_picture$ = '';
       if (this.coverFile) {
@@ -152,9 +159,9 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       if (this.photoFile) {
         profile_picture$ = await uploadFile(this.photoFile);
       }
-      if(privacy === 'private'){
+      if (privacy === 'private') {
         privacy = true;
-      }else{
+      } else {
         privacy = false;
       }
       this._communityService
@@ -163,9 +170,21 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
           privacy,
           about_communitie,
           cover_picture$,
-          profile_picture$
+          profile_picture$,
+          status
         )
-        .subscribe((el) => console.log(el));
+        .subscribe((el) => {
+          if (el) {
+            this.group.editGroup(
+              privacy,
+              about_communitie,
+              cover_picture$,
+              profile_picture$,
+              status
+            );
+            this.onClick();
+          }
+        });
     }
   }
 
@@ -193,7 +212,7 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       userPreference.forEach((el) => {
         this._TopicTagsService.addTagAdded(el);
       });
-      console.log("HOLA",this.group.getTopicId());
+      console.log('HOLA', this.group.getTopicId());
       this.responseTags$ = this._tagService.getAllTag(
         parseInt(this.group.getTopicId())
       );
@@ -274,7 +293,7 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
   tagRemove(tag_name: number) {
     this._TopicTagsService.tagRemove(tag_name);
   }
-
+  submit = signal(false);
   markFieldsAsTouchedAndValidate(form: FormGroup, fields: string[]): boolean {
     // Recorre los campos proporcionados
     fields.forEach((field) => {

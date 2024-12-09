@@ -62,14 +62,16 @@ export class CommunitieService {
     privacy: string,
     about_communitie: string,
     cover_picture: string,
-    profile_picture: string
+    profile_picture: string,
+    status: string
   ): Observable<boolean> {
     return this._editGroup.execute(
       group_id,
       privacy,
       about_communitie,
       cover_picture,
-      profile_picture
+      profile_picture,
+      status
     );
   }
 
