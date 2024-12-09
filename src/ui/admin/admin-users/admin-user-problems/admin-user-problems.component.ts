@@ -182,7 +182,6 @@ export class ModerationReportsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (el) => {
-          console.log(el);
           this.yetNoDetails.set(false);
           this.publicationReported = el;
           this.yeah.set(true);
@@ -202,16 +201,30 @@ export class ModerationReportsComponent implements OnInit {
     this.type = '';
   }
   resolveProblemo = signal(false);
-  resolveProblem(id:number){
-    if(id > 0){
-      this.idProblem = id;
+  resolveProblem(id:ModerationReport | undefined){
+    if(id){
+      this.moderationReport = id;
     }else {
-      this.idProblem = 0;
+      this.moderationReport = undefined;
     }
     this.resolveProblemo.set(!this.resolveProblemo());
   }
-  idProblem !:number;
-  warningUser(){
+  moderationReport !:ModerationReport | undefined;
+  deleteContent(){
+    let type = this.moderationReport?.getType() || '';
+    let id = this.moderationReport?.getId() || 0;
+
+    this._adminService.deleteContent(type, id.toString()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        if(el){
+          this.resolveProblemo.set(!this.resolveProblemo());
+          this.moderationReport?.setStatus();
+        }
+      }
+    });
+  }
+
+  sendMessage(){
     
   }
 }

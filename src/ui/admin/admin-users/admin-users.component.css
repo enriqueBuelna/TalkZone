@@ -55,10 +55,6 @@
     transition: transform 0.3s ease;
   }
   
-  .module-card:hover {
-    transform: translateY(-10px);
-  }
-  
   .module-icon {
     display: flex;
     justify-content: center;
@@ -85,11 +81,10 @@
     margin-top: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    outline: none;
+    text-decoration: none;
   }
   
-  .module-action:hover {
-    background-color: var(--secondary-color);
-  }
   
   .dashboard-footer {
     text-align: center;

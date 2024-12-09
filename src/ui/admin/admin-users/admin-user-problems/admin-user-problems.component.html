@@ -55,7 +55,7 @@
           <td>{{ report.getDate() | date:'dd/MM/yyyy HH:mm' }}</td>
           <td>
             <div class="action-buttons">
-              <button *ngIf="report.getStatus() === 'pending'" class="btn-resolve" (click)="resolveProblem(report.getId())">
+              <button *ngIf="report.getStatus() === 'pending'" class="btn-resolve" (click)="resolveProblem(report)">
                 Resolver
               </button>
               <button *ngIf="report.getStatus() === 'pending'" class="btn-dismiss">
@@ -246,14 +246,13 @@
   <div class="modal-content">
     <div class="modal-header">
       <h2 class="modal-title">Moderación de Contenido</h2>
-      <button class="close-btn" (click)="resolveProblem(-1)">&times;</button>
+      <button class="close-btn" (click)="resolveProblem(undefined)">&times;</button>
     </div>
     <div class="modal-body">
       <p class="modal-description">Seleccione una acción para el contenido reportado:</p>
       <div class="action-buttons">
-        <button class="btn btn-danger">Eliminar contenido</button>
-        <button class="btn btn-warning">Advertir al usuario</button>
-        <button class="btn btn-info">Suspender temporalmente</button>
+        <button class="btn btn-danger" (click)="deleteContent()">Eliminar contenido</button>
+        <button class="btn btn-warning" (click)="sendMessage()">Advertir al usuario</button>
         <button class="btn btn-success">Banear permanentemente</button>
       </div>
     </div>

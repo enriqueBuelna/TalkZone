@@ -23,6 +23,13 @@ import { TopHosts } from '../../domain/models/admin/TopHost.model';
   providedIn: 'root',
 })
 export class RemoteAdminRepository extends AdminRepository {
+  override deleteContent(type: string, report_id: string): Observable<boolean> {
+    const payload = {
+      type, 
+      report_id
+    }
+    return this._http.post<boolean>(`${this.API_URL}/deleteContent`, payload);
+  }
   private readonly API_URL = 'http://localhost:3000/admin';
   private _http = inject(HttpClient);
 

@@ -26,7 +26,11 @@ export abstract class AdminRepository {
   abstract getAllGroups(): Observable<GroupView[]>;
   abstract getGroupStats(id: number): Observable<DetailGroup>;
   abstract getCuriosStats(): Observable<CuriosStats>;
-  abstract getTopFiveTopicTheme():Observable<CountTopic[]>;
-  abstract getTopFiveTopicRoom():Observable<CountTopic[]>;
-  abstract getTopFiveHosts():Observable<TopHosts[]>;
+  abstract getTopFiveTopicTheme(): Observable<CountTopic[]>;
+  abstract getTopFiveTopicRoom(): Observable<CountTopic[]>;
+  abstract getTopFiveHosts(): Observable<TopHosts[]>;
+  abstract deleteContent(
+    type: string,
+    report_id: string
+  ): Observable<boolean>;
 }

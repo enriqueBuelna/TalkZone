@@ -51,4 +51,8 @@ export class ModerationReport {
   getDate() {
     return this.date;
   }
+
+  setStatus(){
+    this.status = 'resolved';
+  }
 }

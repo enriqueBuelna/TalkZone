@@ -26,6 +26,7 @@ import { GetTopFiveHosts } from '../use_cases/admin/getTopFiveHosts.use_case';
 import { CuriosStats } from '../models/admin/CuriosStats.model';
 import { CountTopic } from '../models/admin/topicPost.model';
 import { TopHosts } from '../models/admin/TopHost.model';
+import { DeleteContent } from '../use_cases/admin/deleteContent.use_case';
 @Injectable({
   providedIn: 'root',
 })
@@ -38,51 +39,62 @@ export class AdminService {
     private _getAllModerationReports: GetAllModerationReport,
     private _getModerationReportById: GetModerationReportById,
     private _getAllGroups: GetAllGroups,
-    private _getMostPopular:GetMostPopular,
+    private _getMostPopular: GetMostPopular,
     private _getGroupStats: GetGroupStats,
     private _getCuriosStats: GetCuriosStats,
-    private _getTopFiveTopicTheme:GetTopFiveTopicTheme,
-    private _getTopFiveTopicRoom:GetTopFiveTopicRoom,
-    private _getTopicFiveHosts:GetTopFiveHosts
+    private _getTopFiveTopicTheme: GetTopFiveTopicTheme,
+    private _getTopFiveTopicRoom: GetTopFiveTopicRoom,
+    private _getTopicFiveHosts: GetTopFiveHosts,
+    private _deleteContent: DeleteContent
   ) {}
 
-  getCuriosStats():Observable<CuriosStats>{
+  deleteContent(
+    type: string,
+    report_id: string
+  ): Observable<boolean> {
+    return this._deleteContent.execute(type, report_id);
+  }
+
+  getCuriosStats(): Observable<CuriosStats> {
     return this._getCuriosStats.execute();
   }
 
-  getTopFiveTopicTheme():Observable<CountTopic[]>{
+  getTopFiveTopicTheme(): Observable<CountTopic[]> {
     return this._getTopFiveTopicTheme.execute();
   }
 
-  getTopFiveHosts():Observable<TopHosts[]>{
+  getTopFiveHosts(): Observable<TopHosts[]> {
     return this._getTopicFiveHosts.execute();
   }
 
-  getTopFiveTopicRoom():Observable<CountTopic[]>{
+  getTopFiveTopicRoom(): Observable<CountTopic[]> {
     return this._getTopFiveTopicRoom.execute();
   }
 
-  getGroupStats(id:number):Observable<DetailGroup>{
+  getGroupStats(id: number): Observable<DetailGroup> {
     return this._getGroupStats.execute(id);
   }
 
-  getMostPopular():Observable<GroupView[]>{
+  getMostPopular(): Observable<GroupView[]> {
     return this._getMostPopular.execute();
   }
 
-  getAllGroups():Observable<GroupView[]>{
+  getAllGroups(): Observable<GroupView[]> {
     return this._getAllGroups.execute();
   }
 
-  getModerationReportById(id:number, type:string):Observable<number | Post | Comment | VoiceRoom | Message>{
+  getModerationReportById(
+    id: number,
+    type: string
+  ): Observable<number | Post | Comment | VoiceRoom | Message> {
     return this._getModerationReportById.execute(id, type);
   }
 
-  getAllModerationReports():Observable<ModerationReport[]>{
+  getAllModerationReports(): Observable<ModerationReport[]> {
     return this._getAllModerationReports.execute();
   }
 
-  getDetailUser(user_id:string): Observable<DetailUser> {
+  getDetailUser(user_id: string): Observable<DetailUser> {
     return this._getDetailUser.execute(user_id);
   }
 

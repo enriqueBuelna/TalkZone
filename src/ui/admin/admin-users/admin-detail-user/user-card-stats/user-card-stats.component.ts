@@ -27,7 +27,7 @@ export class UserCardStatsComponent implements OnInit {
     this._route.paramMap.subscribe((params) => {
       this.yetNo.set(true);
       this.userId.set(params.get('user_id') || '');
-      if (this.userId().length === 36) {
+      if (this.userId()) {
         this.loadProfileData(); // Método para recargar la información
       } else {
         this.yetNo.set(false);
