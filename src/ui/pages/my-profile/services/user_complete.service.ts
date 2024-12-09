@@ -9,7 +9,7 @@ import { UserPreference } from '../../../../domain/models/user_preference.model'
 export class UserCompleteProfile {
   myUser = signal<UserComplete>(
     new UserComplete(
-      new UserDemo('', '', '', '', ''),
+      new UserDemo('', '', '', '', false),
       [new UserPreference(0, 0, '', '')],
       '',
       '',

@@ -61,3 +61,14 @@
     font-weight: bold;
     color: #6c757d;
   }
+
+  .twitter-verified {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('https://www.enriquedans.com/wp-content/uploads/2023/04/Twitter-verified.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-left: 10px;
+  }

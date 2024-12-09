@@ -4,17 +4,20 @@ import { TableModule } from 'primeng/table';
 import { AdminService } from '../../../../domain/services/admin.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from "../../../utils/button/button.component";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-all-users',
   standalone: true,
-  imports: [TableModule, SkeletonModule, CommonModule],
+  imports: [TableModule, SkeletonModule, CommonModule, ButtonComponent],
   templateUrl: './admin-all-users.component.html',
   styleUrl: './admin-all-users.component.css',
 })
 export class AdminAllUsersComponent implements OnInit {
   constructor(
     private _adminService: AdminService,
-    private _destroyRef: DestroyRef
+    private _destroyRef: DestroyRef,
+    private _router:Router
   ) {}
   yetNo = signal(true);
   ngOnInit(): void {
@@ -57,4 +60,8 @@ export class AdminAllUsersComponent implements OnInit {
   }
   showTopFollowed = false;
   users: any = [];
+
+  goToUser(id:string){
+    this._router.navigate(['/admin/users/detail-user', id]);
+  }
 }

@@ -16,10 +16,7 @@
     overflow: hidden;
     transition: all 0.3s ease;
   }
-  
-  .search-wrapper:focus-within {
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-  }
+ 
   
   .search-input {
     flex-grow: 1;

@@ -5,7 +5,7 @@ import { UserDemo } from '../../../../domain/models/user-demo.model';
   providedIn: 'root',
 })
 export class MyUserInformation {
-  myUserInformation = signal<UserDemo>(new UserDemo('', '', '', ''));
+  myUserInformation = signal<UserDemo>(new UserDemo('', '', '', '', false));
 
   setMyUserInformation(user:UserDemo){
     this.myUserInformation.set(user);

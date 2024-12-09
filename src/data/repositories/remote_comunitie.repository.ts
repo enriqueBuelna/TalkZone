@@ -111,7 +111,6 @@ export class RemoteComunitieRepository extends CommunitieRepository {
         map((groups: any[]) => {
           // Verifica si conversations es un array vacío
           if (!Array.isArray(groups) || groups.length === 0) {
-            console.log('df');
             return []; // Devuelve un array vacío si no hay conversaciones
           }
           return groups.map(
@@ -123,7 +122,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                   group.users.id,
                   group.users.username,
                   group.users.gender,
-                  group.users.profile_picture
+                  group.users.profile_picture,
+                  group.users.is_verified
                 )
               )
           );
@@ -280,7 +280,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                     cM.users.id,
                     cM.users.username,
                     cM.users.gender,
-                    cM.users.profile_picture
+                    cM.users.profile_picture,
+                    cM.users.is_verified
                   ),
                   cM.type,
                   cM.role

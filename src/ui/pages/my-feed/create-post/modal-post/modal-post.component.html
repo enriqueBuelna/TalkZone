@@ -13,7 +13,7 @@
             <div class="post-content">
                 <div class="user-info">
                     <div class="info">
-                        <img [src]="myUser.getProfilePic()" alt="User Photo" class="user-photo">
+                        <img [src]="myUser.getProfilePic() || '/images/user.webp'" alt="User Photo" class="user-photo">
                         <div class="user-name">{{myUser.getUsername()}}</div>
                     </div>
                     <div class="privacy">
@@ -109,7 +109,7 @@
             <div class="post-content">
                 <div class="user-info">
                     <div class="info">
-                        <img [src]="myUser.getProfilePic()" alt="User Photo" class="user-photo">
+                        <img [src]="myUser.getProfilePic() || '/images/user.webp'" alt="User Photo" class="user-photo">
                         <div class="user-name">{{myUser.getUsername()}}</div>
                     </div>
                     <div class="privacy">

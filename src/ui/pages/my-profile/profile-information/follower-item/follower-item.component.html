@@ -1,7 +1,7 @@
 @if (type !== 'member') {
 <li class="follower-item">
   <div class="follower-avatar">
-    <img [src]="follower.getProfilePic()">
+    <img [src]="follower.getProfilePic() || '/images/user.webp'">
   </div>
   <div class="follower-info">
     <h3>{{ follower.getUsername() }}</h3>
@@ -12,7 +12,7 @@
 }@else {
 <li class="follower-item">
   <div class="follower-avatar">
-    <img [src]="member.getUserDemo().getProfilePic()">
+    <img [src]="member.getUserDemo().getProfilePic() || '/images/user.webp'">
   </div>
   <div class="follower-info">
     <h3>{{ member.getUserDemo().getUsername() }}</h3>

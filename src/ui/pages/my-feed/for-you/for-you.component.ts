@@ -30,7 +30,7 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class ForYouComponent implements OnInit {
-  myUserInformation = signal<UserDemo>(new UserDemo('', '', '', ''));
+  myUserInformation = signal<UserDemo>(new UserDemo('', '', '', '', false));
   postObservableAll!: Observable<any>;
   postObservableFriends!: Observable<any>;
   allPost = signal<Post[]>([]);

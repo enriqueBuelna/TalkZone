@@ -38,7 +38,7 @@ export class MyProfileComponent implements OnInit {
   myObservable!: Observable<any>;
   myUser = signal<UserComplete>(
     new UserComplete(
-      new UserDemo('', '', '', '', ''),
+      new UserDemo('', '', '', '', false),
       [new UserPreference(0, 0, '', '')],
       '',
       '',

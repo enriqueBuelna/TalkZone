@@ -77,6 +77,7 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
                         profile_picture:
                           user.user_information_voice_room.profile_picture,
                         id: user.user_information_voice_room.id,
+                        is_verified: user.user_information_voice_room.is_verified
                       }
                     )
                 ),

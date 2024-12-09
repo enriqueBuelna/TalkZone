@@ -193,4 +193,8 @@ export class VoiceRoom {
   getRating() {
     return this.rating;
   }
+
+  isVerify(){
+    return this.host_user.is_verified;
+  }
 }

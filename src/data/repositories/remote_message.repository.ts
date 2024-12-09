@@ -85,7 +85,8 @@ export class RemoteMessageRepository extends MessageRepository {
                   conversation.other_user.id,
                   conversation.other_user.username,
                   '',
-                  conversation.other_user.profile_picture
+                  conversation.other_user.profile_picture,
+                  conversation.other_user.is_verified
                 ),
                 conversation.unread_count
               )

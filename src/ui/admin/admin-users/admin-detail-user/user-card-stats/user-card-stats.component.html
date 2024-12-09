@@ -53,14 +53,23 @@
     </div>
   </div>
 </div>
+@if (user.getVerified()) {
+<div class="confirmation-text">
+  <h2>Este usuario es un usuario verificado</h2>
+</div>
+
+<div class="action-buttons">
+  <button class="btn btn-cancel" (click)="unverifyUser()">Quitar verificacion</button>
+</div>
+}@else {
 <div class="confirmation-text">
   <h2>¿Deseas verificar a este usuario o añadirle un emblema de usuario activo?</h2>
 </div>
 
 <div class="action-buttons">
-  <button class="btn btn-cancel">Cancelar</button>
-  <button class="btn btn-confirm">Verificar Usuario</button>
+  <button class="btn btn-confirm" (click)="verifyUser()">Verificar usuario</button>
 </div>
+}
 }
 
 @if(notFound()){

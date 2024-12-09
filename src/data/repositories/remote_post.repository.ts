@@ -62,7 +62,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,
@@ -173,7 +173,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,
@@ -231,7 +231,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,
@@ -283,7 +283,7 @@ export class RemotePostRespository extends PostRepository {
               post.post_user.username,
               post.post_user.gender,
               post.post_user.profile_picture,
-              ''
+              post.post_user.is_verified
             ),
             post.content,
             post.likes_count,
@@ -340,7 +340,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,
@@ -386,7 +386,7 @@ export class RemotePostRespository extends PostRepository {
               post.post_user.username,
               post.post_user.gender,
               post.post_user.profile_picture,
-              ''
+              post.post_user.is_verified
             ),
             post.content,
             post.likes_count,
@@ -417,7 +417,7 @@ export class RemotePostRespository extends PostRepository {
                     coment.userss.username,
                     coment.userss.gender,
                     coment.userss.profile_picture,
-                    ''
+                    coment.userss.is_verified
                   ),
                   coment.content,
                   coment.likes_count
@@ -451,7 +451,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,
@@ -507,7 +507,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,
@@ -571,7 +571,7 @@ export class RemotePostRespository extends PostRepository {
                 post.post_user.username,
                 post.post_user.gender,
                 post.post_user.profile_picture,
-                ''
+                post.post_user.is_verified
               ),
               post.content,
               post.likes_count,

@@ -1,7 +1,7 @@
 @if (comment) {
 <div class="tweet-container">
     <div class="profile-pic">
-        <a href=""><img [src]="comment.getUserInfo().getProfilePic()" alt="Profile Picture"></a>
+        <a href=""><img [src]="comment.getUserInfo().getProfilePic() || '/images/user.webp'" alt="Profile Picture"></a>
     </div>
     <div class="tweet-content">
         <div>

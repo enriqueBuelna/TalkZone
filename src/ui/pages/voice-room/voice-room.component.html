@@ -81,12 +81,15 @@
                 <div class="room-content">
                     <div class="user-info">
                         <div class="avatar-container">
-                            <img [src]="item.getPictureHost()" alt="User avatar" class="avatar-image">
+                            <img [src]="item.getPictureHost() || '/images/user.webp'" alt="User avatar" class="avatar-image">
                             <div class="speaking-indicator"></div>
                         </div>
                         <div class="user-details">
                             <span class="username">{{item.getNameHost()}}</span>
                             <span class="user-role">Host</span>
+                            @if (item.isVerify()) {
+                                <span class="twitter-verified"></span>
+                            }
                         </div>
                     </div>
 
@@ -210,11 +213,15 @@
                     <!-- Participante Anfitrión -->
                     <div class="participant-card">
                         <div class="avatar-container">
-                            <img [src]="vrChoosen.getPictureHost()" alt="Participant avatar" class="avatar-image">
+                            <img [src]="vrChoosen.getPictureHost() || '/images/user.webp'" alt="Participant avatar" class="avatar-image">
                             <div class="speaking-indicator"></div>
                         </div>
                         <div>
                             <span class="participant-name">{{vrChoosen.getNameHost()}}</span>
+                            @if (vrChoosen.isVerify()) {
+                                <span class="twitter-verified"></span>
+
+                            }
                             <!-- <span class="participant-role">Anfitrión</span> -->
                         </div>
                     </div>
@@ -227,7 +234,7 @@
                     <div *ngFor="let participant of vrChoosen.getUsers()" class="participant-card">
                         @if(participant.getUsername() !== vrChoosen.getNameHost()){
                         <div class="avatar-container">
-                            <img [src]="participant.getProfilePicture()" alt="Participant avatar" class="avatar-image">
+                            <img [src]="participant.getProfilePicture() || '/images/user.webp'" alt="Participant avatar" class="avatar-image">
                         </div>
                         <div>
                             <span class="participant-name">{{participant.getUsername()}}</span>

@@ -27,6 +27,8 @@ import { CuriosStats } from '../models/admin/CuriosStats.model';
 import { CountTopic } from '../models/admin/topicPost.model';
 import { TopHosts } from '../models/admin/TopHost.model';
 import { DeleteContent } from '../use_cases/admin/deleteContent.use_case';
+import { VerifyUser } from '../use_cases/admin/verifyUser.use_case';
+import { UnverifyUser } from '../use_cases/admin/unverifyUser.use_case';
 @Injectable({
   providedIn: 'root',
 })
@@ -45,8 +47,18 @@ export class AdminService {
     private _getTopFiveTopicTheme: GetTopFiveTopicTheme,
     private _getTopFiveTopicRoom: GetTopFiveTopicRoom,
     private _getTopicFiveHosts: GetTopFiveHosts,
-    private _deleteContent: DeleteContent
+    private _deleteContent: DeleteContent,
+    private _verifyUser:VerifyUser,
+    private _unverifyUser: UnverifyUser
   ) {}
+
+  verifyUser(user_id:string):Observable<boolean>{
+    return this._verifyUser.execute(user_id);
+  }
+
+  unverifyUser(user_id:string):Observable<boolean>{
+    return this._unverifyUser.execute(user_id);
+  }
 
   deleteContent(
     type: string,

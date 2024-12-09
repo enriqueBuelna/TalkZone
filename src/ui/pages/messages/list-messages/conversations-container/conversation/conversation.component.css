@@ -38,6 +38,7 @@
   font-weight: bold;
   font-size: 1em;
   color: #333;
+  display: flex;
 }
 
 /* Último mensaje */
@@ -55,4 +56,16 @@
   font-size: 0.8em;
   color: #999;
   margin-left: auto;
+}
+
+.twitter-verified {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url('https://www.enriquedans.com/wp-content/uploads/2023/04/Twitter-verified.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-top: 1rem;
 }

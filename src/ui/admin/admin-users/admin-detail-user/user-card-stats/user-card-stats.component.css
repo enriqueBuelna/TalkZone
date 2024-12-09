@@ -9,9 +9,7 @@
     transition: transform 0.3s ease;
   }
   
-  .user-stats-card:hover {
-    transform: scale(1.02);
-  }
+  
   
   .card-header {
     background-color: #3498db;

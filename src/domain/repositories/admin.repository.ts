@@ -33,4 +33,6 @@ export abstract class AdminRepository {
     type: string,
     report_id: string
   ): Observable<boolean>;
+  abstract verifyUser(user_id:string):Observable<boolean>;
+  abstract unverifyUser(user_id:string):Observable<boolean>;
 }

@@ -1,10 +1,13 @@
 <div class="chat-item" (click)="goToChat()">
     <div class="profile-pic">
-        <img [src]="userDemo.getProfilePic()" alt="">
+        <img [src]="userDemo.getProfilePic() || '/images/user.webp'" alt="">
     </div>
     <div class="chat-info">
         <div class="chat-name">
             <p>{{userDemo.getUsername()}}</p>
+            @if (userDemo.isVerify()) {
+                <span class="twitter-verified"></span>
+            }
         </div>
         <div class="last-message">
             <p>{{last_message.getContent()}}</p>

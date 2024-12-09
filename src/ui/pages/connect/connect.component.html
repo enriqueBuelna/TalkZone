@@ -1,158 +1,163 @@
 <div class="contenedor">
   @if (searchContent()) {
-    <div class="main-content">
-      <app-header>
-        <div class="header">
-          <i class="pi pi-arrow-left left" style="font-size: 1.5rem" (click)="goToHome()"></i>
-          <h2>Resultados de la busqueda: </h2>
-        </div>
-      </app-header>
-  
-      @if (yetNo()) {
-      <div class="container-power">
-        <div class="card-containerrr">
-          <div class="flex mb-3">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
-            <div class="mr-2">
-              <p-skeleton width="15rem" styleClass="mb-2" class="" />
-            </div>
+  <div class="main-content">
+    <app-header>
+      <div class="header">
+        <i class="pi pi-arrow-left left" style="font-size: 1.5rem" (click)="goToHome()"></i>
+        <h2>Resultados de la busqueda: </h2>
+      </div>
+    </app-header>
+
+    @if (yetNo()) {
+    <div class="container-power">
+      <div class="card-containerrr">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+          <div class="mr-2">
+            <p-skeleton width="15rem" styleClass="mb-2" class="" />
           </div>
-          <p-skeleton width="100%" height="150px" />
         </div>
+        <p-skeleton width="100%" height="150px" />
       </div>
-      <div class="container-power">
-        <div class="card-containerrr">
-          <div class="flex mb-3">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
-            <div class="mr-2">
-              <p-skeleton width="15rem" styleClass="mb-2" class="" />
-            </div>
-          </div>
-          <p-skeleton width="100%" height="150px" />
-        </div>
-      </div>
-      <div class="container-power">
-        <div class="card-containerrr">
-          <div class="flex mb-3">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
-            <div class="mr-2">
-              <p-skeleton width="15rem" styleClass="mb-2" class="" />
-            </div>
-          </div>
-          <p-skeleton width="100%" height="150px" />
-        </div>
-      </div>
-      }@else {
-      @if(allUserPreferences.length > 0){
-  
-      <div class="cards-container">
-        @for (item of allUserPreferences; track $index) {
-        <app-card-user [userPreference]="item" (clickEvent)="selectCard($event)"
-          [myPreferences]="myUserPreference"></app-card-user>
-        }
-      </div>
-      }@else {
-      <div class="no-connections-state">
-        <div class="no-connections-content">
-          <h2>No encontramos a nadie para conectar</h2>
-          <p>Los resultados de la busqueda no fueron los esperados.</p>
-        </div>
-      </div>
-      }
-      }
-  
-  
     </div>
+    <div class="container-power">
+      <div class="card-containerrr">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+          <div class="mr-2">
+            <p-skeleton width="15rem" styleClass="mb-2" class="" />
+          </div>
+        </div>
+        <p-skeleton width="100%" height="150px" />
+      </div>
+    </div>
+    <div class="container-power">
+      <div class="card-containerrr">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+          <div class="mr-2">
+            <p-skeleton width="15rem" styleClass="mb-2" class="" />
+          </div>
+        </div>
+        <p-skeleton width="100%" height="150px" />
+      </div>
+    </div>
+    }@else {
+    @if(allUserPreferences.length > 0){
+
+    <div class="cards-container">
+      @for (item of allUserPreferences; track $index) {
+      <app-card-user [userPreference]="item" (clickEvent)="selectCard($event)"
+        [myPreferences]="myUserPreference"></app-card-user>
+      }
+    </div>
+    }@else {
+    <div class="no-connections-state">
+      <div class="no-connections-content">
+        <h2>No encontramos a nadie para conectar</h2>
+        <p>Los resultados de la busqueda no fueron los esperados.</p>
+      </div>
+    </div>
+    }
+    }
+
+
+  </div>
   }@else {
-    <div class="main-content">
-      <app-header>
-        <div class="header">
-          <h2>Conectar</h2>
-        </div>
-      </app-header>
-  
-      @if (yetNo()) {
-      <div class="container-power">
-        <div class="card-containerrr">
-          <div class="flex mb-3">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
-            <div class="mr-2">
-              <p-skeleton width="15rem" styleClass="mb-2" class="" />
-            </div>
+  <div class="main-content">
+    <app-header>
+      <div class="header">
+        <h2>Conectar</h2>
+      </div>
+    </app-header>
+
+    @if (yetNo()) {
+    <div class="container-power">
+      <div class="card-containerrr">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+          <div class="mr-2">
+            <p-skeleton width="15rem" styleClass="mb-2" class="" />
           </div>
-          <p-skeleton width="100%" height="150px" />
         </div>
+        <p-skeleton width="100%" height="150px" />
       </div>
-      <div class="container-power">
-        <div class="card-containerrr">
-          <div class="flex mb-3">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
-            <div class="mr-2">
-              <p-skeleton width="15rem" styleClass="mb-2" class="" />
-            </div>
-          </div>
-          <p-skeleton width="100%" height="150px" />
-        </div>
-      </div>
-      <div class="container-power">
-        <div class="card-containerrr">
-          <div class="flex mb-3">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
-            <div class="mr-2">
-              <p-skeleton width="15rem" styleClass="mb-2" class="" />
-            </div>
-          </div>
-          <p-skeleton width="100%" height="150px" />
-        </div>
-      </div>
-      }@else {
-      @if(allUserPreferences.length > 0){
-      <div class="btnFiltros">
-        <app-button buttonClass="small-button" text="Tipos de conexiones" (clickEvent)="showDialogType()"></app-button>
-        <app-button buttonClass="small-button" text="Filtros" (clickEvent)="showDialog()"></app-button>
-      </div>
-  
-      <div class="cards-container">
-        @for (item of allUserPreferences; track $index) {
-        <app-card-user [userPreference]="item" (clickEvent)="selectCard($event)"
-          [myPreferences]="myUserPreference"></app-card-user>
-        }
-      </div>
-      }@else {
-      <div class="no-connections-state">
-        <div class="no-connections-content">
-          <h2>No encontramos a nadie para conectar</h2>
-          <p>Intenta ajustar tus filtros o vuelve a intentarlo más tarde.</p>
-          <button class="refresh-button" (click)="showDialog()">Volver a buscar</button>
-        </div>
-      </div>
-      }
-      }
-  
-  
     </div>
+    <div class="container-power">
+      <div class="card-containerrr">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+          <div class="mr-2">
+            <p-skeleton width="15rem" styleClass="mb-2" class="" />
+          </div>
+        </div>
+        <p-skeleton width="100%" height="150px" />
+      </div>
+    </div>
+    <div class="container-power">
+      <div class="card-containerrr">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2" />
+          <div class="mr-2">
+            <p-skeleton width="15rem" styleClass="mb-2" class="" />
+          </div>
+        </div>
+        <p-skeleton width="100%" height="150px" />
+      </div>
+    </div>
+    }@else {
+    @if(allUserPreferences.length > 0){
+    <div class="btnFiltros">
+      <app-button buttonClass="small-button" text="Tipos de conexiones" (clickEvent)="showDialogType()"></app-button>
+      <app-button buttonClass="small-button" text="Filtros" (clickEvent)="showDialog()"></app-button>
+    </div>
+
+    <div class="cards-container">
+      @for (item of allUserPreferences; track $index) {
+      <app-card-user [userPreference]="item" (clickEvent)="selectCard($event)"
+        [myPreferences]="myUserPreference"></app-card-user>
+      }
+    </div>
+    }@else {
+    <div class="no-connections-state">
+      <div class="no-connections-content">
+        <h2>No encontramos a nadie para conectar</h2>
+        <p>Intenta ajustar tus filtros o vuelve a intentarlo más tarde.</p>
+        <button class="refresh-button" (click)="showDialog()">Volver a buscar</button>
+      </div>
+    </div>
+    }
+    }
+
+
+  </div>
   }
   <div id="aside">
     <app-aside>
       <div class="flex">
         <form [formGroup]="formSearch">
-            <div class="search-container">
-                <input type="text" placeholder="Buscar en TalkZone" class="search-input" formControlName="search" (keydown.enter)="search()">
-                <button class="search-button" (click)="search()">
-                    <i class="pi 
+          <div class="search-container">
+            <input type="text" placeholder="Buscar en TalkZone" class="search-input" formControlName="search"
+              (keydown.enter)="search()">
+            <button class="search-button" (click)="search()">
+              <i class="pi 
                       pi-search"></i>
-                </button>
-            </div>
+            </button>
+          </div>
         </form>
-    </div>
+      </div>
       @if (showInfo()) {
       <div class="information-user">
         <div class="image-container">
-          <img [src]="userPreferenceInformation?.userInformation?.profile_picture" alt="" class="profile-image">
+          <img [src]="userPreferenceInformation?.userInformation?.profile_picture || '/images/user.webp'" alt="" class="profile-image">
         </div>
         <div class="username">
           <h3>{{userPreferenceInformation?.userInformation?.username}}</h3>
+          @if (userPreferenceInformation?.userInformation?.is_verified) {
+            <span class="twitter-verified"></span>
+            }
         </div>
+        
         <div class="topics">
           <div class="topic-section">
             <h4>Mentor:</h4>

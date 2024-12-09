@@ -4,10 +4,13 @@
             <div class="information-user">
                 <div class="info-user">
                     <div class="img">
-                        <img [src]="userDemoInfo?.getProfilePic()" alt="">
+                        <img [src]="userDemoInfo?.getProfilePic() || '/images/user.webp'" alt="">
                     </div>
                     <div class="username">
                         <p>{{userDemoInfo?.getUsername()}}</p>
+                        @if (userDemoInfo?.isVerify()) {
+                            <span class="twitter-verified"></span>
+                        }
                     </div>
                 </div>
                 <div class="config-user">

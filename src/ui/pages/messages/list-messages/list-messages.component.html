@@ -81,7 +81,7 @@
             [showEmptyMessage]="false">
             <ng-template let-user pTemplate="item">
                 <div class="flex align-items-center gap-2">
-                    <img [src]="user.profile_picture" style="width: 18px" />
+                    <img [src]="user.profile_picture || '/images/user.webp'" style="width: 18px" />
                     <div>{{ user.username }}</div>
                 </div>
             </ng-template>

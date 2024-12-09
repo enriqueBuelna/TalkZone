@@ -10,25 +10,28 @@
     }
   </ul>
   @if (userDemo) {
-    <div class="tweet-container">
-      <div class="profile-info" (click)="toggleTooltip()">
-        <div class="profile-image">
-          <img [src]="userDemo.getProfilePic()" alt="Enrique's profile picture">
-        </div>
-        <div class="username-container">
-          <span class="username">{{userDemo.getUsername()}}</span>
-        </div>
-        <div class="options-button">
-          <i class="fas fa-ellipsis-h"></i>
-        </div>
+  <div class="tweet-container">
+    <div class="profile-info" (click)="toggleTooltip()">
+      <div class="profile-image">
+        <img [src]="userDemo.getProfilePic() || '/images/user.webp'" alt="Enrique's profile picture">
       </div>
-  
-      <div class="tooltip" *ngIf="showTooltip" [style.display]="showTooltip ? 'block' : 'none'">
-        <div class="tooltip-content">
-          <span class="tweet-text">Cerrar la sesión de {{userDemo.getUsername()}}</span>
-          <button class="tooltip-button" (click)="closeSesion()">Cerrar sesión</button>
-        </div>
+      <div class="username-container">
+        <span class="username">{{userDemo.getUsername()}}</span>
+        @if (userDemo.isVerify()) {
+        <span class="twitter-verified"></span>
+        }
+      </div>
+      <div class="options-button">
+        <i class="fas fa-ellipsis-h"></i>
       </div>
     </div>
+
+    <div class="tooltip" *ngIf="showTooltip" [style.display]="showTooltip ? 'block' : 'none'">
+      <div class="tooltip-content">
+        <span class="tweet-text">Cerrar la sesión de {{userDemo.getUsername()}}</span>
+        <button class="tooltip-button" (click)="closeSesion()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
   }
 </nav>

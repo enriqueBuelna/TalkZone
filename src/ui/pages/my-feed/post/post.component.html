@@ -8,7 +8,7 @@
                 <div class="profile-container">
                     <img [src]="postContent.getCoverPicture()" class="profile-image">
                     <div class="group-image">
-                        <img [src]="postContent.getUserInfo().getProfilePic()"
+                        <img [src]="postContent.getUserInfo().getProfilePic() || '/images/user.webp'"
                             [alt]="postContent.getUserInfo().getUsername()" alt="Group Image">
                     </div>
                 </div>
@@ -17,6 +17,9 @@
                         <div class="group-name">
                             <p class="group">{{postContent.getNameComunity()}}</p>
                             <span class="username">{{postContent.getUserInfo().getUsername()}}</span>
+                            @if (postContent.getUserInfo().isVerify()) {
+                                <span class="twitter-verified"></span>
+                            }
                         </div>
                         <div class="preference-badge">
                             @if (postContent.getTypeCommunity() === 'questions') {
@@ -43,12 +46,15 @@
             }@else {
             <div class="user-info">
                 <div class="profile-image">
-                    <img [src]="postContent.getUserInfo().getProfilePic()"
+                    <img [src]="postContent.getUserInfo().getProfilePic() || '/images/user.webp'"
                         [alt]="postContent.getUserInfo().getUsername()">
                 </div>
                 <div class="user-details">
                     <div class="user-top-line">
                         <span class="username" (click)="goProfile()">{{postContent.getUserInfo().getUsername()}}</span>
+                        @if(postContent.getUserInfo().isVerify()){
+                        <span class="twitter-verified"></span>
+                        }
                         <div class="preference-badge">
                             @if (postContent.getCommunityId()) {
                             @if (postContent.getTypeCommunity() === 'questions') {
@@ -184,32 +190,33 @@
 }
 
 @if (publicationReport()) {
-    <div class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2>Reportar Publicación</h2>
-                <button class="modal-close" (click)="reportPublication()">&times;</button>
-            </div>
-            <form class="modal-form" [formGroup]="formReport">
-                <label for="reportReason">Motivo del Reporte</label>
-                <select id="reportReason" formControlName="reason">
-                    <option value="" disabled>Selecciona un motivo</option>
-                    <option value="Contenido inapropiado">Contenido inapropiado</option>
-                    <option value="Acoso o intimidación">Acoso o intimidación</option>
-                    <option value="Contenido engañoso o falso">Contenido engañoso o falso</option>
-                    <option value="Spam o publicidad no autorizada">Spam o publicidad no autorizada</option>
-                    <option value="Contenido no relacionado con el tema">Contenido no relacionado con el tema</option>
-                    <option value="Otro">Otro</option>
-                </select>
-
-                <label for="reportDetails">Detalles del Reporte</label>
-                <textarea id="reportDetails" placeholder="Describe el motivo de tu reporte..." formControlName="details"></textarea>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-cancel" (click)="reportPublication()">Cancelar</button>
-                    <button class="btn btn-report" (click)="sendReport()">Enviar Reporte</button>
-                </div>
-            </form>
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Reportar Publicación</h2>
+            <button class="modal-close" (click)="reportPublication()">&times;</button>
         </div>
+        <form class="modal-form" [formGroup]="formReport">
+            <label for="reportReason">Motivo del Reporte</label>
+            <select id="reportReason" formControlName="reason">
+                <option value="" disabled>Selecciona un motivo</option>
+                <option value="Contenido inapropiado">Contenido inapropiado</option>
+                <option value="Acoso o intimidación">Acoso o intimidación</option>
+                <option value="Contenido engañoso o falso">Contenido engañoso o falso</option>
+                <option value="Spam o publicidad no autorizada">Spam o publicidad no autorizada</option>
+                <option value="Contenido no relacionado con el tema">Contenido no relacionado con el tema</option>
+                <option value="Otro">Otro</option>
+            </select>
+
+            <label for="reportDetails">Detalles del Reporte</label>
+            <textarea id="reportDetails" placeholder="Describe el motivo de tu reporte..."
+                formControlName="details"></textarea>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-cancel" (click)="reportPublication()">Cancelar</button>
+                <button class="btn btn-report" (click)="sendReport()">Enviar Reporte</button>
+            </div>
+        </form>
     </div>
+</div>
 }

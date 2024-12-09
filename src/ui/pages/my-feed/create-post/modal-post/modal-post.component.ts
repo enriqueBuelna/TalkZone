@@ -341,7 +341,8 @@ export class ModalPostComponent implements OnInit {
                   el.comment.userss.id,
                   el.comment.userss.username,
                   el.comment.userss.gender,
-                  el.comment.userss.profile_picture
+                  el.comment.userss.profile_picture,
+                  el.comment.userss.is_verified
                 ),
                 el.comment.content,
                 el.comment.likes_count

@@ -68,7 +68,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             ele.id,
             ele.username,
             ele.gender,
-            ele.profile_picture
+            ele.profile_picture,
+            ele.is_verified
           );
           aux.push(aux2);
         });

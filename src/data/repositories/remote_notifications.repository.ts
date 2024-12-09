@@ -41,7 +41,8 @@ export class RemoteNotificationRepository extends NotificationRepository {
                   n.userSender.id,
                   n.userSender.username,
                   n.userSender.gender,
-                  n.userSender.profile_picture
+                  n.userSender.profile_picture,
+                  n.userSender.is_verified
                 ),
                 n.related_message_id,
                 n.related_comment_id,

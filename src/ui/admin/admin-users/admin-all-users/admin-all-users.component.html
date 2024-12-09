@@ -73,10 +73,7 @@
                         <td>{{ customer.getEmail() }}</td>
                         <td>{{ customer.getActive() ? 'Si' : 'No' }}</td>
                         <td> {{customer.getDate() | date:'short'}}</td>
-                        <td><button class="user-info-btn">
-                            <i class="fa-solid fa-user"></i>
-                            Información del Usuario
-                        </button></td>
+                        <td><app-button text="Información del Usuario" [buttonClass]="'btn-small'" (clickEvent)="goToUser(customer.getId())"></app-button></td>
                     </tr>
                 </ng-template>
             </p-table>

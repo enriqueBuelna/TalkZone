@@ -51,4 +51,26 @@ export class UserCardStatsComponent implements OnInit {
         },
       });
   }
+
+  verifyUser(){
+    this._adminService.verifyUser(this.userId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        this.user.setVerify(true);
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  unverifyUser(){
+    this._adminService.unverifyUser(this.userId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        this.user.setVerify(false);
+      },
+      error: error => {
+
+      }
+    })
+  }
 }

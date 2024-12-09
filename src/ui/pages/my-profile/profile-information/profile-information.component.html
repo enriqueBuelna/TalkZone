@@ -5,10 +5,15 @@
   </div>
   <div class="profile-content">
     <div class="profile-image">
-      <img [src]="myUser.getUserDemo().getProfilePic()" alt="Enrique's profile picture">
+      <img [src]="myUser.getUserDemo().getProfilePic() || '/images/user.webp'" alt="Enrique's profile picture">
     </div>
     <div class="info">
-      <p class="username">{{myUser.getUserDemo().getUsername()}}</p>
+      <div class="flex">
+        <p class="username">{{myUser.getUserDemo().getUsername()}}</p>
+        @if (myUser.getUserDemo().isVerify()) {
+        <span class="twitter-verified"></span>
+        }
+      </div>
       @if (type ==='user') {
       <div class="stats">
         @if (access) {
@@ -20,11 +25,7 @@
         }
       </div>
       @if (!access) {
-        <button 
-        class="follow-btn"
-        [ngClass]="{'following': isFollowing}"
-        (click)="toggleFollow()"
-      >
+      <button class="follow-btn" [ngClass]="{'following': isFollowing}" (click)="toggleFollow()">
         {{ isFollowing ? 'Dejar de Seguir' : 'Seguir' }}
       </button>
       }
@@ -37,7 +38,7 @@
   </div>
   <div class="profile-content">
     <div class="profile-image">
-      <img [src]="myGroup.getProfilePicture()" alt="profile picture">
+      <img [src]="myGroup.getProfilePicture() || '/images/user.webp'" alt="profile picture">
     </div>
     <div class="info">
       <p class="username">{{myGroup.getGroupName()}}</p>
@@ -73,7 +74,8 @@
     <div class="modal-body">
       <ul class="followers-list">
         @for (follower of myUser.getFollowers(); track $index) {
-        <app-follower-item [follower]="follower" type="follower" [userComplete]="myUser" (clickEvent)="viewFollowerss()"></app-follower-item>
+        <app-follower-item [follower]="follower" type="follower" [userComplete]="myUser"
+          (clickEvent)="viewFollowerss()"></app-follower-item>
         }
       </ul>
     </div>
@@ -91,7 +93,8 @@
     <div class="modal-body">
       <ul class="followers-list">
         @for (follower of myUser.getFollowing(); track $index) {
-        <app-follower-item [follower]="follower" type="following" [userComplete]="myUser" (clickEvent)="viewFollowingg()"></app-follower-item>
+        <app-follower-item [follower]="follower" type="following" [userComplete]="myUser"
+          (clickEvent)="viewFollowingg()"></app-follower-item>
         }
       </ul>
     </div>
@@ -112,7 +115,8 @@
           <app-follower-item [follower]="follower" type="following" [userComplete]="myUser"></app-follower-item>
           } -->
         @for (members of myGroup.getAllMembers(); track $index) {
-        <app-follower-item [member]="members" type="member" [hostMember]="myGroup.getAdminUser()" [group]="myGroup"></app-follower-item>
+        <app-follower-item [member]="members" type="member" [hostMember]="myGroup.getAdminUser()"
+          [group]="myGroup"></app-follower-item>
         }
       </ul>
     </div>

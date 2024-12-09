@@ -180,7 +180,8 @@ export class RemoteUserRepository extends UserRepository {
               user.id,
               user.username,
               user.gender,
-              user.profile_picture
+              user.profile_picture,
+              user.is_verified
             )
         )
       );
@@ -198,7 +199,8 @@ export class RemoteUserRepository extends UserRepository {
               user.id,
               user.username,
               user.gender,
-              user.profile_picture
+              user.profile_picture,
+              user.is_verified
             ),
             user.user_to_user_preference.map(
               (user_preference: any) =>
@@ -219,8 +221,8 @@ export class RemoteUserRepository extends UserRepository {
             ),
             user.about_me,
             user.cover_picture,
-            user.followers.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture)),
-            user.following.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture))
+            user.followers.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture, f.is_verified)),
+            user.following.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture, f.is_verified))
           );
         })
       );

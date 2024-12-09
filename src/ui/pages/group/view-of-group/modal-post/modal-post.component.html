@@ -10,7 +10,7 @@
                 <div class="user-info">
                     @if (userInformation) {
                     <div class="info">
-                        <img [src]="userInformation.getProfilePic()" alt="User Photo" class="user-photo">
+                        <img [src]="userInformation.getProfilePic() || '/images/user.webp'" alt="User Photo" class="user-photo">
                         <div class="user-name">{{userInformation.getUsername()}}</div>
                     </div>
                     }
@@ -82,7 +82,7 @@
                 <div class="member">
                     <div class="img">
                         @if(item.getUserDemo().getProfilePic()){
-                            <img [src]="item.getUserDemo().getProfilePic()" alt="">
+                            <img [src]="item.getUserDemo().getProfilePic() || '/images/user.webp'" alt="">
                         }
                     </div>
                     <div class="username">

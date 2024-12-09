@@ -10,7 +10,7 @@
 <div class="tweet-box" (click)="showModal()">
     <div class="tweet-input">
         <div class="profile-pic">
-            <img [src]="myUser.getProfilePic()" alt="Profile Picture">
+            <img [src]="myUser.getProfilePic() || '/images/user.webp'" alt="Profile Picture">
         </div>
         <p class="input-field">¿Qué está pasando!?</p>
         <!-- <input type="text" class="input-field" placeholder="¿Qué está pasando?!"> -->

@@ -108,7 +108,8 @@ export class MessagesComponent {
             user.id,
             user.username,
             '',
-            user.profile_picture
+            user.profile_picture,
+            user.is_verified
           );
           // let unread_messages = user.unre
           this._conversationService.addNewConversation(

@@ -27,7 +27,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   styleUrl: './detail-post.component.css',
 })
 export class DetailPostComponent implements OnInit {
-  myUserInformation = signal<UserDemo>(new UserDemo('', '', '', ''));
+  myUserInformation = signal<UserDemo>(new UserDemo('', '', '', '', false));
   postObservable!: Observable<any>;
   post!: Post;
   comments = signal<Comment[]>([]);

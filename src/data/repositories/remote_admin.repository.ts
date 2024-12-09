@@ -23,6 +23,21 @@ import { TopHosts } from '../../domain/models/admin/TopHost.model';
   providedIn: 'root',
 })
 export class RemoteAdminRepository extends AdminRepository {
+
+  override unverifyUser(user_id: string): Observable<boolean> {
+    const payload = {
+      user_id
+    }
+    return this._http.post<boolean>(`${this.API_URL}/unverifyUser`, payload);
+  }
+
+  override verifyUser(user_id: string): Observable<boolean> {
+    const payload = {
+      user_id
+    }
+    return this._http.post<boolean>(`${this.API_URL}/verifyUser`, payload);
+  }
+
   override deleteContent(type: string, report_id: string): Observable<boolean> {
     const payload = {
       type, 
@@ -45,7 +60,8 @@ export class RemoteAdminRepository extends AdminRepository {
                   el.users.id,
                   el.users.username,
                   el.users.gender,
-                  el.users.profile_picture
+                  el.users.profile_picture,
+                  el.is_verified
                 ),
                 el.average_rating,
                 el.total_ratings
@@ -193,7 +209,8 @@ export class RemoteAdminRepository extends AdminRepository {
                 el.post_user.id,
                 el.post_user.username,
                 el.post_user.gender,
-                el.post_user.profile_picture
+                el.post_user.profile_picture,
+                el.post_user.is_verified
               ),
               el.content,
               0,
@@ -224,7 +241,8 @@ export class RemoteAdminRepository extends AdminRepository {
                 el.userss.id,
                 el.userss.username,
                 el.userss.gender,
-                el.userss.profile_picture
+                el.userss.profile_picture,
+                el.userss.is_verified
               ),
               el.content,
               0,
@@ -303,7 +321,8 @@ export class RemoteAdminRepository extends AdminRepository {
                     ele.topic.topic_name
                   )
               ),
-              el.username
+              el.username,
+              el.is_verified
             )
         )
       );

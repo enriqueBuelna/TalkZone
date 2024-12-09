@@ -1,11 +1,15 @@
 <div class="card" (click)="selectCard(userPreference)">
   <div class="card-header">
     <div class="user-avatar">
-      <img [src]="userPreference.userInformation?.profile_picture" alt="">
+      <img [src]="userPreference.userInformation?.profile_picture || '/images/user.webp'" alt="">
     </div>
     <div class="username">
       <p>{{userPreference.userInformation?.username}}</p>
+
     </div>
+    @if (userPreference.userInformation?.is_verified) {
+    <span class="twitter-verified"></span>
+    }
   </div>
   <div class="card-body">
     <div class="user-topics">

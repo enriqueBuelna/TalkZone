@@ -17,7 +17,7 @@
       <div class="user-info">
         <div class="avatar-container">
           <div class="avatar">
-            <img [src]="user.getProfilePic()" alt="">
+            <img [src]="user.getProfilePic() || '/images/user.webp'" alt="">
           </div>
           <!-- <div class="online-indicator"></div> -->
         </div>

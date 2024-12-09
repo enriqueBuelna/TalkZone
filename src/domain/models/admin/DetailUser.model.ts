@@ -10,7 +10,7 @@ export class DetailUser {
   private cant_likes_received = 0;
   private themes: UserPreference[] = [];
   private username = '';
-
+  private is_verified = false;
   constructor(
     cant_posts: number,
     cant_comm: number,
@@ -20,8 +20,10 @@ export class DetailUser {
     cant_likes_gived: number,
     cant_likes_received: number,
     themes: UserPreference[],
-    username: ''
+    username: '',
+    is_verified: boolean
   ) {
+    this.is_verified = is_verified;
     this.cant_posts = cant_posts;
     this.cant_comm = cant_comm;
     this.cant_followers = cant_followers;
@@ -31,6 +33,14 @@ export class DetailUser {
     this.cant_likes_received = cant_likes_received;
     this.themes = themes;
     this.username = username;
+  }
+
+  setVerify(opt:boolean){
+    this.is_verified = opt;
+  }
+
+  getVerified(){
+    return this.is_verified;
   }
 
   getCantVr(){

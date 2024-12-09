@@ -51,7 +51,6 @@ a {
 
 .username-container {
   display: flex;
-  flex-direction: column;
   margin-left: 12px;
 }
 
@@ -134,4 +133,16 @@ a {
 .zone-part {
   color: #34495e;
   font-weight: 900;
+}
+
+.twitter-verified {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url('https://www.enriquedans.com/wp-content/uploads/2023/04/Twitter-verified.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  margin-left: 6px;
+  margin-top: 2px;
 }
