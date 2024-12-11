@@ -29,6 +29,9 @@ import { TopHosts } from '../models/admin/TopHost.model';
 import { DeleteContent } from '../use_cases/admin/deleteContent.use_case';
 import { VerifyUser } from '../use_cases/admin/verifyUser.use_case';
 import { UnverifyUser } from '../use_cases/admin/unverifyUser.use_case';
+import { SendWarning } from '../use_cases/admin/sendWarning.use_case';
+import { GetTopTags } from '../use_cases/admin/getTopTags.use_case';
+import { CountTag } from '../models/admin/tagPost.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -48,22 +51,33 @@ export class AdminService {
     private _getTopFiveTopicRoom: GetTopFiveTopicRoom,
     private _getTopicFiveHosts: GetTopFiveHosts,
     private _deleteContent: DeleteContent,
-    private _verifyUser:VerifyUser,
-    private _unverifyUser: UnverifyUser
+    private _verifyUser: VerifyUser,
+    private _unverifyUser: UnverifyUser,
+    private _sendWarning: SendWarning,
+    private _getTopTags: GetTopTags
   ) {}
 
-  verifyUser(user_id:string):Observable<boolean>{
+  getTopTags(): Observable<CountTag[]> {
+    return this._getTopTags.execute();
+  }
+
+  sendWarning(
+    message: string,
+    reported_user_id: string,
+    id: string
+  ): Observable<any> {
+    return this._sendWarning.execute(message, reported_user_id, id);
+  }
+
+  verifyUser(user_id: string): Observable<boolean> {
     return this._verifyUser.execute(user_id);
   }
 
-  unverifyUser(user_id:string):Observable<boolean>{
+  unverifyUser(user_id: string): Observable<boolean> {
     return this._unverifyUser.execute(user_id);
   }
 
-  deleteContent(
-    type: string,
-    report_id: string
-  ): Observable<boolean> {
+  deleteContent(type: string, report_id: string): Observable<boolean> {
     return this._deleteContent.execute(type, report_id);
   }
 
@@ -98,7 +112,7 @@ export class AdminService {
   getModerationReportById(
     id: number,
     type: string
-  ): Observable<number | Post | Comment | VoiceRoom | Message> {
+  ): Observable<number | Post | Comment | VoiceRoom | Message | any> {
     return this._getModerationReportById.execute(id, type);
   }
 

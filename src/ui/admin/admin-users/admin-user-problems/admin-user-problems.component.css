@@ -791,3 +791,82 @@
   font-weight: bold;
 }
 
+.warning-form {
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.priority-levels {
+  display: flex;
+  gap: 10px;
+}
+
+.priority-levels label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.priority-levels input[type="radio"] {
+  margin-right: 5px;
+  width: auto;
+}
+
+.submit-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #ff3333;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form-header h2 {
+  margin: 0;
+  color: #ff4d4d;
+}

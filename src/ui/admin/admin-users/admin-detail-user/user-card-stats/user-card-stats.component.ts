@@ -42,6 +42,7 @@ export class UserCardStatsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (el) => {
+          console.log(el);
           this.yetNo.set(false);
           this.notFound.set(false);
           this.user = el;

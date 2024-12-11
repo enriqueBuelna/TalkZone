@@ -36,6 +36,7 @@ import { AdminDetailUserComponent } from './ui/admin/admin-users/admin-detail-us
 import { ModerationReportsComponent } from './ui/admin/admin-users/admin-user-problems/admin-user-problems.component';
 import { UserCardStatsComponent } from './ui/admin/admin-users/admin-detail-user/user-card-stats/user-card-stats.component';
 import { GroupCardStatsComponent } from './ui/admin/admin-groups/group-card-stats/group-card-stats.component';
+import { IsBannedComponent } from './ui/pages/banned/is-banned/is-banned.component';
 export const routes: Routes = [
   // Ruta para la autenticación, antes de iniciar sesión
   { path: '', component: AuthComponent, canActivate: [isVerify] },
@@ -148,6 +149,9 @@ export const routes: Routes = [
     canActivate: [adminGuard],
   },
   { path: 'voice_room/:room_id', component: RoomContainerComponent },
+  {
+    path: 'banned', component: IsBannedComponent
+  }
   // Ruta wildcard para redirigir
   // { path: '**', redirectTo: '' }
 ];

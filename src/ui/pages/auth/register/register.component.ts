@@ -101,6 +101,7 @@ export class RegisterApp {
         password,
         is_profile_complete: false,
         profile_pic: null,
+        is_banned: false
       };
       this._authService
         .register(user)

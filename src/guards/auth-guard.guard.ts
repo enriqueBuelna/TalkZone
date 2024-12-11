@@ -6,6 +6,10 @@ export const authGuard: CanActivateFn = (route, state) => {
   const _authService = inject(UserService);
   const router = inject(Router);
   if (_authService.getToken()) {
+    if(_authService.isBanned()){
+      router.navigateByUrl('banned');
+      return false;
+    }
     if (_authService.whatType()) {
       router.navigateByUrl('');
       return false;

@@ -7,6 +7,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CuriosStats } from '../../../domain/models/admin/CuriosStats.model';
 import { CountTopic } from '../../../domain/models/admin/topicPost.model';
 import { TopHosts } from '../../../domain/models/admin/TopHost.model';
+import { ButtonComponent } from "../../utils/button/button.component";
+import { Route, Router } from '@angular/router';
+import { CountTag } from '../../../domain/models/admin/tagPost.model';
 interface StatItem {
   name: string;
   count: number;
@@ -14,7 +17,7 @@ interface StatItem {
 @Component({
   selector: 'app-admin-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProgressSpinnerModule],
+  imports: [CommonModule, FormsModule, ProgressSpinnerModule, ButtonComponent],
   templateUrl: './admin-reports.component.html',
   styleUrl: './admin-reports.component.css',
 })
@@ -22,7 +25,8 @@ export class AdminReportsComponent implements OnInit {
   // User Statistics
   constructor(
     private _adminService: AdminService,
-    private _destroyRef: DestroyRef
+    private _destroyRef: DestroyRef,
+    private _router:Router
   ) {}
   yetNoStats = signal(true);
   totalUsers: number = 0;
@@ -38,14 +42,14 @@ export class AdminReportsComponent implements OnInit {
   topTopics: StatItem[] = [];
 
   // Top Tags
-  topTags: StatItem[] = [];
+  topTags!: CountTag[];
 
   // Voice Rooms
   openVoiceRooms: number = 0;
   voiceTopics: StatItem[] = [];
 
   allCuriosStats!: CuriosStats;
-
+  topFiveTags = signal(true);
   topFiveTopics = signal(true);
   topFiveRoom = signal(true);
   topFiveHost = signal(true);
@@ -98,6 +102,16 @@ export class AdminReportsComponent implements OnInit {
         console.log(error);
       }
     })
+
+    this._adminService.getTopTags().pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        this.topFiveTags.set(false);
+        this.topTags = el;
+      },
+      error: error => {
+        console.log(error);
+      }
+    })
   }
 
   generateStars(stars: number): string[] {
@@ -121,15 +135,6 @@ export class AdminReportsComponent implements OnInit {
       { name: 'Cine', count: 76 },
       { name: 'Videojuegos', count: 65 },
     ];
-
-    this.topTags = [
-      { name: '#innovación', count: 56 },
-      { name: '#startup', count: 42 },
-      { name: '#desarrolladores', count: 38 },
-      { name: '#ai', count: 33 },
-      { name: '#tech', count: 29 },
-    ];
-
     this.voiceTopics = [
       { name: 'Programación', count: 45 },
       { name: 'Diseño', count: 32 },
@@ -137,5 +142,9 @@ export class AdminReportsComponent implements OnInit {
       { name: 'Gaming', count: 25 },
       { name: 'Ciencia', count: 20 },
     ];
+  }
+
+  goToUser(id:string){
+    this._router.navigate(['/admin/users/detail-user', id]);
   }
 }

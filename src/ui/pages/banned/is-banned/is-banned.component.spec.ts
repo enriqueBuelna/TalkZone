@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminReportsComponent } from './admin-reports.component';
+import { IsBannedComponent } from './is-banned.component';
 
-describe('AdminReportsComponent', () => {
-  let component: AdminReportsComponent;
-  let fixture: ComponentFixture<AdminReportsComponent>;
+describe('IsBannedComponent', () => {
+  let component: IsBannedComponent;
+  let fixture: ComponentFixture<IsBannedComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminReportsComponent]
+      imports: [IsBannedComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AdminReportsComponent);
+    fixture = TestBed.createComponent(IsBannedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

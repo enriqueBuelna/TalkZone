@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AdminService } from '../../../../domain/services/admin.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ModerationReport } from '../../../../domain/models/admin/moderation_report.model';
@@ -26,7 +32,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   templateUrl: './admin-user-problems.component.html',
   styleUrls: ['./admin-user-problems.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ProgressSpinnerModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ProgressSpinnerModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ModerationReportsComponent implements OnInit {
   MOCK_MODERATION_REPORTS = [
@@ -113,8 +124,13 @@ export class ModerationReportsComponent implements OnInit {
   yetNo = signal(true);
   constructor(
     private _adminService: AdminService,
-    private _destroyRef: DestroyRef
-  ) {}
+    private _destroyRef: DestroyRef,
+    private _formBuilder: FormBuilder
+  ) {
+    this.formMessage = this._formBuilder.group({
+      message: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit() {
     this._adminService
@@ -173,18 +189,38 @@ export class ModerationReportsComponent implements OnInit {
   type = '';
   yetNoDetails = signal(true);
   publicationReported: any;
-  viewReportDetails(id: number, type: string, report:any) {
+  contentRemove = signal(false);
+  messageRead = signal(false);
+  viewReportDetails(id: number, type: string, report: any) {
+    this.messageRead.set(false);
     this.selectedReport = report;
     this.type = type;
-    console.log(type);
+    if (this.type === null) {
+      type = 'remove';
+      this.type = 'remove';
+    }
     this._adminService
       .getModerationReportById(id, type)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (el) => {
-          this.yetNoDetails.set(false);
-          this.publicationReported = el;
-          this.yeah.set(true);
+          if (el.length === 2) {
+            this.messageRead.set(true);
+            console.log(el[0]);
+            this.contentRemove.set(true);
+            this.publicationReported = el[0];
+            this.publicationReported
+            this.yetNoDetails.set(false);
+            this.yeah.set(true);
+          } else {
+            if (el.action) {
+              this.contentRemove.set(true);
+            } else {
+              this.publicationReported = el;
+            }
+            this.yetNoDetails.set(false);
+            this.yeah.set(true);
+          }
         },
         error: (error) => {
           console.log(error);
@@ -201,30 +237,60 @@ export class ModerationReportsComponent implements OnInit {
     this.type = '';
   }
   resolveProblemo = signal(false);
-  resolveProblem(id:ModerationReport | undefined){
-    if(id){
+  resolveProblem(id: ModerationReport | undefined) {
+    if (id) {
       this.moderationReport = id;
-    }else {
+    } else {
       this.moderationReport = undefined;
     }
     this.resolveProblemo.set(!this.resolveProblemo());
   }
-  moderationReport !:ModerationReport | undefined;
-  deleteContent(){
+  moderationReport!: ModerationReport | undefined;
+  deleteContent() {
     let type = this.moderationReport?.getType() || '';
     let id = this.moderationReport?.getId() || 0;
 
-    this._adminService.deleteContent(type, id.toString()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: el => {
-        if(el){
-          this.resolveProblemo.set(!this.resolveProblemo());
-          this.moderationReport?.setStatus();
-        }
-      }
-    });
+    this._adminService
+      .deleteContent(type, id.toString())
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          if (el) {
+            this.resolveProblemo.set(!this.resolveProblemo());
+            this.moderationReport?.setStatus();
+          }
+        },
+      });
+  }
+  sendDm = signal(false);
+  sendMessage() {
+    this.sendDm.set(!this.sendDm());
   }
 
-  sendMessage(){
-    
+  bannedUser = signal(false);
+  bannUser(){
+    this.bannedUser.set(!this.bannedUser());
+  }
+  rejReport = signal(false);
+  rejectReport(){ 
+    this.rejReport.set(!this.rejReport());
+  }
+  formMessage!: FormGroup;
+
+  sendWarning() {
+    if (this.formMessage.valid) {
+      let { message } = this.formMessage.value;
+      let report_user_id = this.moderationReport?.getReportedId() || '';
+      let id = this.moderationReport?.getId() || 0;
+      this._adminService
+        .sendWarning(message, report_user_id, id.toString())
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe({
+          next: (el) => {
+            this.resolveProblemo.set(!this.resolveProblemo());
+            this.moderationReport?.setStatus();
+          },
+        });
+    }
   }
 }

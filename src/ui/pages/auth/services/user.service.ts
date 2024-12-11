@@ -38,6 +38,20 @@ export class UserService {
     }
     return false;
   }
+
+  isBanned(){
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      console.log(decodedToken);
+      if (decodedToken.is_banned) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
   //newUser
   isNewUser(): boolean {
     return this.currentUser.is_profile_complete;
@@ -60,6 +74,7 @@ export class UserService {
       gender: null,
       is_profile_complete: false,
       profile_pic: null,
+      is_banned: false
     };
   }
 

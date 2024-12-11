@@ -93,6 +93,11 @@
         <div class="detail-row">
           <strong>Fecha del Reporte:</strong> {{ selectedReport?.getDate() | date:'full' }}
         </div>
+        @if (messageRead()) {
+        <div class="detail-row">
+          <strong>Accion final:</strong> Advertencia enviada
+        </div>
+        }
         <div class="detail-row">
           <strong>Estado:</strong>
           <span class="status-badge" [ngClass]="selectedReport?.getStatus()">
@@ -223,6 +228,10 @@
             {{publicationReported.getSentAt() | date:'HH:mm'}}
           </div>
         </div>
+        }@else if(type === 'remove'){
+        <div class="detail-row">
+          <strong>Accion final:</strong> Contenido borrado
+        </div>
         }
 
       </div>
@@ -253,8 +262,52 @@
       <div class="action-buttons">
         <button class="btn btn-danger" (click)="deleteContent()">Eliminar contenido</button>
         <button class="btn btn-warning" (click)="sendMessage()">Advertir al usuario</button>
-        <button class="btn btn-success">Banear permanentemente</button>
+        <button class="btn btn-success" (click)="bannUser()">Banear permanentemente</button>
       </div>
+      @if (sendDm()) {
+      <form class="warning-form" [formGroup]="formMessage">
+        <div class="form-header">
+          <h2>Formulario de Advertencia</h2>
+          <p>Complete los detalles de la advertencia</p>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Mensaje de Advertencia</label>
+          <textarea id="message" name="message" formControlName="message" required
+            placeholder="Escriba el detalle de la advertencia"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" (click)="sendWarning()">Enviar Advertencia</button>
+      </form>
+      }
+      @if (bannedUser()) {
+      <form class="warning-form">
+        <div class="form-header">
+          <h2>Antes de proceder</h2>
+          <p>¿Estas seguro?</p>
+        </div>
+
+        <div class="form-group">
+          <button>Si</button>
+          <button (click)="bannUser()">Cancelar</button>
+        </div>
+      </form>
+      }
+    </div>
+  </div>
+</div>
+}
+
+@if (rejReport()) {
+<div class="report-details-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Estas seguro?</h2>
+      <button class="close-btn" (click)="resolveProblem(undefined)">&times;</button>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-danger" (click)="deleteContent()">Si</button>
+      <button class="btn btn-warning" (click)="sendMessage()">No</button>
     </div>
   </div>
 </div>

@@ -2,6 +2,8 @@ export class ModerationReport {
   private id = 0;
   private reporter_username = '';
   private reported_username = '';
+  private reporter_id = '';
+  private reported_user_id = '';
   private status = '';
   private reason = '';
   private type: string;
@@ -13,8 +15,12 @@ export class ModerationReport {
     status: string,
     reason: string,
     date: Date,
-    type: string
+    type: string,
+    reporter_id:string,
+    reported_user_id:string
   ) {
+    this.reported_user_id = reported_user_id;
+    this.reporter_id = reporter_id;
     this.id = id;
     this.reported_username = reported_username;
     this.reporter_username = reporter_username;
@@ -22,6 +28,10 @@ export class ModerationReport {
     this.reason = reason;
     this.date = date;
     this.type = type;
+  }
+
+  getReportedId(){
+    return this.reported_user_id;
   }
 
   getType() {

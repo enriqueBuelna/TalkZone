@@ -178,9 +178,41 @@
               </span>
             </div>
           </div>
+          <div class="mt-5">
+            <app-button text="Información del Usuario" [buttonClass]="'btn-small'"
+              (clickEvent)="goToUser(host.getUserDemo().getUserId())"></app-button>
+          </div>
         </div>
       </li>
 
+      }
+    </ul>
+    }
+  </div>
+
+  <div class="ranked-card top-voice-hosts">
+    @if (topFiveTags()) {
+    <div class="flex-style">
+      <p-progressSpinner class="spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+
+    </div>
+    }@else {
+    <div class="card-header">
+      <h3>Top 10 etiquetas mas usadas en publicaciones</h3>
+      <i class="fas fa-microphone-alt"></i>
+    </div>
+    <ul class="ranked-list">
+      <li class="list-header">
+        <span class="header-tag">Nombre de la etiqueta</span>
+        <span class="header-topic">Tema principal</span>
+        <span class="header-count">Cantidad veces usadas</span>
+      </li>
+      @for (item of topTags; track $index) {
+      <li>
+        <span class="topic-name">{{ item.getTagName() }}</span>
+        <span class="topic-name">{{ item.getTopicName() }}</span>
+        <span class="topic-count">{{ item.getCount() }}</span>
+      </li>
       }
     </ul>
     }

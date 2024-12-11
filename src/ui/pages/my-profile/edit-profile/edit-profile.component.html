@@ -10,7 +10,7 @@
           <!-- Foto de Portada -->
           <div class="cover-photo-section">
             <label for="coverPhotoInput" class="cover-photo-label">
-              <img [src]="coverPhotoPreview" alt="Foto de Portada" class="cover-photo">
+              <img [src]="coverPhotoPreview || 'images/background.jpg'" alt="Foto de Portada" class="cover-photo">
               <div class="camera-icon larger-icon"></div>
             </label>
             <input id="coverPhotoInput" type="file" hidden (change)="onImageSelected($event, 'cover')"
@@ -20,7 +20,7 @@
           <!-- Foto de Perfil -->
           <div class="profile-photo-section">
             <label for="profilePhotoInput" class="profile-photo-label">
-              <img [src]="profilePhotoPreview" alt="Foto de Perfil" class="profile-photo">
+              <img [src]="profilePhotoPreview || 'images/user.webp'" alt="Foto de Perfil" class="profile-photo">
               <div class="camera-icon larger-icon"></div>
             </label>
             <input id="profilePhotoInput" type="file" hidden (change)="onImageSelected($event, 'profile')"
@@ -39,7 +39,7 @@
         <!-- Descripción -->
         <div class="form-group">
           <label for="descriptionInput">Descripción</label>
-          <textarea id="descriptionInput" class="form-control" [placeholder]="user.getAboutMe()"
+          <textarea id="descriptionInput" class="form-control" [placeholder]="user.getAboutMe() || 'Aún no se ha añadido una descripción'"
             formControlName="about_me"></textarea>
         </div>
       </form>

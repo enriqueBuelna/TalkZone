@@ -20,7 +20,7 @@
 
                 <div class="role">
                     <h2>Mentores</h2>
-                    <p>Si eres experto en algún tema, comparte tu conocimiento con los demás y ayuda a los Exploradores
+                    <p>Si eres experto en algún tema, comparte tu conocimiento con los demás y ayuda a los personas
                         a crecer.</p>
                 </div>
 
@@ -34,7 +34,7 @@
             <div class="footer">
                 <p>¡Elige tus temas y conecta con otros! Puedes cambiar de rol y explorar lo que más te interese.
                     ¡Disfruta de la experiencia en TalkZone!</p>
-                <div class="btn">
+                <div class="flex-type">
                     <app-button buttonClass="medium-button" text="Configurar mi perfil" (click)="changeStep()" />
                 </div>
             </div>
@@ -81,11 +81,17 @@
                 <textarea class="description-box" placeholder="Añade una descripción acerca de ti"></textarea>
 
                 <div class="role-section">
-                    <div class="role-title">Explorador:</div>
+                    <div class="role-title">Explorador:
+                        <div class="tooltip-container"
+                            pTooltip="Si deseas aprender, selecciona los temas que te interesan y comienza a descubrir nuevas ideas"
+                            tooltipPosition="right" placeholder="Right">
+                            <span class="tooltip-icon">?</span>
+                        </div>
+                    </div>
                     <div class="topics">
                         @for (item of getUserPreferences('explorador'); track item) {
                         <p-chip [label]="item.getTopicName()" [removable]="true"
-                            (onRemove)="deleteUserPreference(item.getTopicName())" class="right"/>
+                            (onRemove)="deleteUserPreference(item.getTopicName())" class="right" />
                         }
                     </div>
                     <app-button buttonClass="small-button" text="Elegir tema" (click)="showDialog(0, 'explorador')" />
@@ -93,7 +99,13 @@
                 </div>
 
                 <div class="role-section">
-                    <div class="role-title">Mentor:</div>
+                    <div class="role-title">Mentor:
+                        <div class="tooltip-container" pTooltip="Si eres experto en algún tema, comparte tu conocimiento con los demás y ayuda a los personas
+                        a crecer" tooltipPosition="right" placeholder="Right">
+                            <span class="tooltip-icon">?</span>
+                        </div>
+                    </div>
+
                     <div class="topics">
                         @for (item of getUserPreferences('mentor'); track item) {
                         <p-chip [label]="item.getTopicName()" [removable]="true"
@@ -104,7 +116,12 @@
                 </div>
 
                 <div class="role-section">
-                    <div class="role-title">Entusiasta:</div>
+                    <div class="role-title">Entusiasta:
+                        <div class="tooltip-container" pTooltip="Si te apasiona participar en conversaciones, pero no te enfocas en enseñar ni aprender
+                        formalmente, este rol es para ti" tooltipPosition="right" placeholder="Right">
+                            <span class="tooltip-icon">?</span>
+                        </div>
+                    </div>
                     <div class="topics">
                         @for (item of getUserPreferences('entusiasta'); track item) {
                         <p-chip [label]="item.getTopicName()" [removable]="true"
@@ -115,18 +132,26 @@
                 </div>
             </div>
 
-            <div class="profile-section">
-                <div class="profile-photo">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 8v8m-4-4h8M12 3c7.2 0 9 1.8 9 9s-1.8 9-9 9-9-1.8-9-9 1.8-9 9-9z' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"
-                        alt="Añadir foto">
+            <form [formGroup]="formPicture">
+                <div class="profile-photo-section">
+                    <label for="profilePhotoInput" class="profile-photo-label">
+                        <img [src]="profilePhotoPreview" class="profile-photo">
+                        <div class="camera-icon larger-icon"></div>
+                    </label>
+                    <input id="profilePhotoInput" type="file" hidden (change)="onImageSelected($event)"
+                        formControlName="profile_picture">
                 </div>
-                <button class="save-button">Guardar perfil</button>
-            </div>
+            </form>
+
         </div>
+        <div class="flex-type">
+            <app-button text="Guardar perfil" buttonClass="btn-large" (clickEvent)="uploadInformation()"></app-button>
+        </div>
+        <div class="flex-type"></div>
         }
     </div>
 </div>
-<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="close()"
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="true"
     [dismissableMask]="true" [draggable]="false">
     <form [formGroup]="formTopics">
         <div class="flex justify-content-center">
@@ -178,16 +203,22 @@
                     <ng-template pTemplate="content">
                         <div class="container text-center">
                             <h2>Personaliza tu selección con palabras clave</h2>
+                            <div class="tooltip-container" (click)="openDial()">
+                                <span class="tooltip-icon">?</span>
+                            </div>
                         </div>
 
                         <div class="input-group text-center">
                             <p-autoComplete [suggestions]="filteredTags" optionLabel="tag_name"
-                                (completeMethod)="filterTags($event)" formControlName="tag"
-                                [showEmptyMessage]="false" />
+                                (completeMethod)="filterTags($event)" formControlName="tag" [showEmptyMessage]="false"
+                                [style]='{width:"100%"}' [inputStyle]="{width:'100%'}" />
 
 
 
-                            <app-button buttonClass="medium-button" text="Añadir" (clickEvent)="addTag()"></app-button>
+                            <div class="flex-type">
+                                <app-button buttonClass="medium-button" text="Añadir"
+                                    (clickEvent)="addTag()"></app-button>
+                            </div>
                         </div>
 
                         <div class="flex align-items-center gap-2 flex-wrap">
@@ -211,3 +242,49 @@
     <h2>Haz alcanzado el maximo de preferencias para el tipo {{maximo}}</h2>
     <app-button buttonClass="medium-button" text="Aceptar" (clickEvent)="okey()"></app-button>
 </p-dialog>
+
+
+@if (openShow()) {
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-body">
+            <button class="close-button" (click)="openDial()">&times;</button>
+
+            <section class="tag-benefits-section">
+                <h4>Beneficios de las Etiquetas</h4>
+
+                <p>Las etiquetas te permiten personalizar aún más tus intereses y habilidades dentro de TalkZone. Al
+                    añadir etiquetas relacionadas con los temas que conoces o deseas aprender:</p>
+
+                <ul>
+                    <li class="flex items-start">
+                        <span>•</span>
+                        <div>
+                            <h5>Precisión en las conexiones</h5>
+                            <p>Ayudamos a que encuentres personas con intereses y conocimientos específicos que
+                                coincidan contigo.</p>
+                        </div>
+                    </li>
+
+                    <li class="flex items-start">
+                        <span>•</span>
+                        <div>
+                            <h5>Contenido relevante</h5>
+                            <p>Recibirás publicaciones, sugerencias de salas de voz y grupos.</p>
+                        </div>
+                    </li>
+
+                    <li class="flex items-start">
+                        <span>•</span>
+                        <div>
+                            <h5>Mejor visibilidad</h5>
+                            <p>Los demás usuarios podrán entender mejor tus intereses y cómo pueden colaborar contigo.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+}

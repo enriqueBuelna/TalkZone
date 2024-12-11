@@ -215,3 +215,90 @@
   color: #ffc107;
   font-size: 18px;
 }
+
+.user-info-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.user-info-btn i {
+  margin-right: 8px;
+}
+
+.mt-5 {
+  margin-top: 1rem;
+}
+
+.ranked-list {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
+  font-family: Arial, sans-serif;
+}
+
+.ranked-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.ranked-list li:hover {
+  background-color: #f5f5f5;
+}
+
+.topic-name {
+  flex-grow: 1;
+  margin-right: 10px;
+  color: #333;
+}
+
+.topic-name:first-child {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.topic-count {
+  font-weight: bold;
+  color: #3498db;
+  min-width: 60px;
+  text-align: right;
+}
+
+.list-header {
+  display: flex;
+  background-color: #f0f0f0;
+  font-weight: bold;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.header-tag {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.header-topic {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.header-count {
+  min-width: 120px;
+  text-align: right;
+}

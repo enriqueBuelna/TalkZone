@@ -8,7 +8,8 @@ export class User {
       public date_of_birth: string | null,
       public gender: string | null,
       public is_profile_complete: boolean,
-      public profile_pic : string | null
+      public profile_pic : string | null,
+      public is_banned: boolean
     ) {}
   }
   

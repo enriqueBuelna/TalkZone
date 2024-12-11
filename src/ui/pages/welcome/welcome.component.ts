@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnInit,
   signal,
 } from '@angular/core';
@@ -31,6 +32,9 @@ import { AuthService } from '../../../domain/services/auth.service';
 import { TopicsTagsService } from './services/topics-tags.service';
 import { UserPreferencesServices } from './services/userPreferenceService.service';
 import { Router } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
+import { uploadFile } from '../../../firestore/firestore';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -50,7 +54,6 @@ class TopicDOM {
   standalone: true,
   imports: [
     CommonModule,
-    AsideComponent,
     ButtonComponent,
     DialogModule,
     StepperModule,
@@ -60,6 +63,7 @@ class TopicDOM {
     ReactiveFormsModule,
     AutoCompleteModule,
     ChipModule,
+    TooltipModule
   ],
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css',
@@ -67,6 +71,7 @@ class TopicDOM {
 })
 export class WelcomeComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
+  formPicture!:FormGroup;
   stepOne: boolean = false; //aqui
   visible: boolean = false; //aqui
   activeStep = signal(0); //aqui
@@ -91,8 +96,12 @@ export class WelcomeComponent implements OnInit {
     private _authService: AuthService,
     private _TopicTagsService: TopicsTagsService,
     private _UserPreferenceService: UserPreferencesServices,
-    private _router: Router
+    private _router: Router,
+    private _destroyRef: DestroyRef
   ) {
+    this.formPicture = this.formBuilder.group({
+      profile_picture: ['']
+    })
     this.formTopics = this.formBuilder.group({
       firstTopic: ['', [Validators.required]],
       secondTopic: [''],
@@ -106,7 +115,7 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
     if (this._userService.isProfileComplete()) {
-      this._router.navigate(['home','posts']);
+      this._router.navigate(['home', 'posts']);
     } else {
       this.responseTopicPrincipal$ = this._topicService.getPrincipalTopic();
       this._authService
@@ -138,6 +147,28 @@ export class WelcomeComponent implements OnInit {
 
   close() {
     return true;
+  }
+  profilePhotoPreview: string = ''; // Ruta inicial
+  photoFile: File | null = null;
+  onImageSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        // Actualiza la URL de vista previa según el tipo
+          this.profilePhotoPreview = e.target?.result as string;
+          this.photoFile = file;
+      };
+
+      reader.readAsDataURL(file); // Convierte el archivo en Base64
+    }
+  }
+
+  saveChanges(){
+
   }
 
   next() {
@@ -296,41 +327,33 @@ export class WelcomeComponent implements OnInit {
     this.destroy$.complete();
   }
 
-  uploadedImage: string = '';
+  
 
-  onImageUpload(event: any) {
-    const file = event.files[0];
-    const reader = new FileReader();
+  
 
-    reader.onload = (e: any) => {
-      this.uploadedImage = e.target.result;
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  removeImage() {
-    this.uploadedImage = ''; // Elimina la imagen
-  }
-
-  uploadInformation() {
+  async uploadInformation() {
     //tengo que recojer mi descripcion, tengo que recojer mis preferencias, mi imagen , primero subir la imagen
     //a firestore, que eso me de la url y esa tenerla, luego conseguir mi usuario y mi token, lo voy a hacer
     //sin firestore de momento
     let { about_me } = this.formDescription.value;
     //llamar al servicio para que haga esta cosa
-
-    let id = this._userService.getUserId();
+    let profile_picture$;
+    if(about_me || this.photoFile){
+      if (this.photoFile) {
+        profile_picture$ = await uploadFile(this.photoFile);
+      }
+      let id = this._userService.getUserId();
     this.responseFinishProfile$ = this._authService.finishProfile(
       id,
       about_me,
-      this.uploadedImage,
+      profile_picture$ || '',
       this._UserPreferenceService.getUserPreferencesAll()
     );
 
-    this.responseFinishProfile$.subscribe((data) => {
-      console.log(data);
+    this.responseFinishProfile$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((data) => {
+      this._router.navigate(['home', 'posts']);
     });
+    }
   }
 
   getTopicTags() {
@@ -343,5 +366,10 @@ export class WelcomeComponent implements OnInit {
 
   deleteUserPreference(topic_name: string) {
     return this._UserPreferenceService.deleteUserPreference(topic_name);
+  }
+  openShow = signal(false);
+
+  openDial(){
+    this.openShow.set(!this.openShow());
   }
 }

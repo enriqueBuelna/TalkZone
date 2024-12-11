@@ -18,31 +18,55 @@ import { DetailGroup } from '../../domain/models/admin/DetailGroup.model';
 import { CuriosStats } from '../../domain/models/admin/CuriosStats.model';
 import { CountTopic } from '../../domain/models/admin/topicPost.model';
 import { TopHosts } from '../../domain/models/admin/TopHost.model';
+import { CountTag } from '../../domain/models/admin/tagPost.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RemoteAdminRepository extends AdminRepository {
+  override getTopTags(): Observable<CountTag[]> {
+    return this._http
+      .get<CountTag[]>(`${this.API_URL}/getTopTags`)
+      .pipe(
+        map((ele: any) =>
+          ele.map((el: any) => new CountTag(el.count, el.topic_name, el.tag_name))
+        )
+      );
+  }
+
+  override sendWarning(
+    message: string,
+    reported_user_id: string,
+    id: string
+  ): Observable<any> {
+    const payload = {
+      message,
+      reported_user_id,
+      id,
+    };
+
+    return this._http.post<any>(`${this.API_URL}/sendWarning`, payload);
+  }
 
   override unverifyUser(user_id: string): Observable<boolean> {
     const payload = {
-      user_id
-    }
+      user_id,
+    };
     return this._http.post<boolean>(`${this.API_URL}/unverifyUser`, payload);
   }
 
   override verifyUser(user_id: string): Observable<boolean> {
     const payload = {
-      user_id
-    }
+      user_id,
+    };
     return this._http.post<boolean>(`${this.API_URL}/verifyUser`, payload);
   }
 
   override deleteContent(type: string, report_id: string): Observable<boolean> {
     const payload = {
-      type, 
-      report_id
-    }
+      type,
+      report_id,
+    };
     return this._http.post<boolean>(`${this.API_URL}/deleteContent`, payload);
   }
   private readonly API_URL = 'http://localhost:3000/admin';
@@ -192,17 +216,52 @@ export class RemoteAdminRepository extends AdminRepository {
   override getModerationReportById(
     id: number,
     type: string
-  ): Observable<number | Post | Comment | VoiceRoom | Message> {
+  ): Observable<number | Post | Comment | VoiceRoom | Message | any> {
     const params = new HttpParams().set('id', id);
 
     return this._http
-      .get<number | Post | Comment | VoiceRoom | Message>(
+      .get<number | Post | Comment | VoiceRoom | Message | any>(
         `${this.API_URL}/moderationReports/getById`,
         { params }
       )
       .pipe(
         map((el: any) => {
-          if (type === 'post') {
+          if (el.type === 'ostia') {
+            return [
+              new Post(
+                el.id,
+                new UserDemo(
+                  el.post_user.id,
+                  el.post_user.username,
+                  el.post_user.gender,
+                  el.post_user.profile_picture,
+                  el.post_user.is_verified
+                ),
+                el.content,
+                0,
+                0,
+                'public',
+                new UserPreference(
+                  0,
+                  el.post_user_preference.topic_id,
+                  el.post_user_preference.type,
+                  el.post_user_preference.topic.topic_name,
+                  []
+                ),
+                '',
+                el?.post_tagss.map(
+                  (tag: any) =>
+                    new Tag(
+                      tag.post_tag_tag.tag_name,
+                      tag.post_tag_tag.id,
+                      tag.post_tag_tag.topic_id
+                    )
+                ),
+                el.created_at
+              ),
+              el.action,
+            ];
+          } else if (type === 'post') {
             return new Post(
               el.id,
               new UserDemo(
@@ -270,6 +329,8 @@ export class RemoteAdminRepository extends AdminRepository {
               el.medial_url,
               el.sent_at
             );
+          } else if (type === 'remove') {
+            return el;
           }
           return 0;
         })
@@ -290,7 +351,9 @@ export class RemoteAdminRepository extends AdminRepository {
               el.status,
               el.reason,
               el.created_at,
-              el.type
+              el.type,
+              el.reporter_id,
+              el.reported_user_id
             );
           });
         })

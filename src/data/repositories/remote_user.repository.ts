@@ -71,7 +71,8 @@ export class RemoteUserRepository extends UserRepository {
               response.date_of_birth,
               response.gender,
               response.is_profile_complete,
-              response.profile_picture
+              response.profile_picture,
+              response.is_banned
             )
         )
       );
@@ -162,7 +163,8 @@ export class RemoteUserRepository extends UserRepository {
                 null,
                 null,
                 false,
-                user.profile_picture
+                user.profile_picture,
+                false
               )
           );
         })

@@ -12,6 +12,7 @@ import { DetailGroup } from '../models/admin/DetailGroup.model';
 import { CuriosStats } from '../models/admin/CuriosStats.model';
 import { CountTopic } from '../models/admin/topicPost.model';
 import { TopHosts } from '../models/admin/TopHost.model';
+import { CountTag } from '../models/admin/tagPost.model';
 export abstract class AdminRepository {
   abstract getPrincipalStats(): Observable<PrincipalStats>;
   abstract getAllUsers(): Observable<DataUser[]>;
@@ -21,7 +22,7 @@ export abstract class AdminRepository {
   abstract getModerationReportById(
     id: number,
     type: string
-  ): Observable<number | Post | Comment | VoiceRoom | Message>;
+  ): Observable<number | Post | Comment | VoiceRoom | Message | any>;
   abstract getMostPopular(): Observable<GroupView[]>;
   abstract getAllGroups(): Observable<GroupView[]>;
   abstract getGroupStats(id: number): Observable<DetailGroup>;
@@ -35,4 +36,6 @@ export abstract class AdminRepository {
   ): Observable<boolean>;
   abstract verifyUser(user_id:string):Observable<boolean>;
   abstract unverifyUser(user_id:string):Observable<boolean>;
+  abstract sendWarning(message:string, reported_user_id:string, id:string):Observable<any>;
+  abstract getTopTags():Observable<CountTag[]>;
 }

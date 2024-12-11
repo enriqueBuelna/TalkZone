@@ -11,7 +11,7 @@ import { Comment } from '../../models/comment.model';
 export class GetModerationReportById {
   constructor(private adminRepository: AdminRepository) {}
 
-  execute(id: number, type: string): Observable<number | Post | Comment | VoiceRoom | Message > {
+  execute(id: number, type: string): Observable<number | Post | Comment | VoiceRoom | Message | any> {
     return this.adminRepository.getModerationReportById(id, type);
   }
 }

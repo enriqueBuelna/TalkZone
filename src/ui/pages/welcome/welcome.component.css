@@ -188,7 +188,7 @@
 
 .role-title {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   color: #333;
 }
 
@@ -198,4 +198,212 @@
 
 .right {
   margin-right: .1rem;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip-icon {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px;
+  position: absolute;
+  bottom: 125%; /* Ajusta la posición */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 1000000;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%; /* Flecha hacia abajo */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  max-width: 10rem;
+  height: 100%;
+}
+
+
+.tag-benefits-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}
+
+.tag-benefits-section h4 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.tag-benefits-section > p {
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.tag-benefits-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tag-benefits-section li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.tag-benefits-section li span {
+  margin-right: 0.75rem;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.tag-benefits-section li h5 {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.tag-benefits-section li p {
+  color: #4b5563;
+}
+
+/* Estilos base del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10111111111111111111111111111100;
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 500px;
+  padding: 2.5rem;
+  width: 90%;
+  max-height: 90vh;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.3s ease;
+}
+
+/* Estilos de beneficios de etiquetas */
+.tag-benefits-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}
+
+.tag-benefits-section h4 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.tag-benefits-section > p {
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.tag-benefits-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tag-benefits-section li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.tag-benefits-section li span {
+  margin-right: 0.75rem;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.tag-benefits-section li h5 {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.tag-benefits-section li p {
+  color: #4b5563;
+}
+
+.modal-footer-text {
+  text-align: center;
+  color: #4b5563;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.mt-3 {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-type{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
