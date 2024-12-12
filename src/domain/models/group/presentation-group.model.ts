@@ -5,20 +5,27 @@ export class GroupPresentation {
   private topic_name: string;
   private profile_picture: string;
   private cover_picture: string;
+  private type: string;
   constructor(
     id: number,
     group_name: string,
     privacy: boolean,
     topic_name: string,
     profile_picture: string,
-    cover_picture: string
+    cover_picture: string,
+    type: string
   ) {
+    this.type = type;
     this.id = id;
     this.group_name = group_name;
     this.privacy = privacy;
     this.topic_name = topic_name;
     this.profile_picture = profile_picture;
     this.cover_picture = cover_picture;
+  }
+
+  getType(){
+    return this.type;
   }
 
   getProfilePicture() {

@@ -33,7 +33,11 @@
     <div class="contenido">
         <h2>{{ group.getGroupName() }}</h2>
         <p class="tema">Tema: {{ group.getTopicName() }}</p>
-
+        @if (group.getType() === 'mentor') {
+        <p class="tema">Enseñanza y aprendizaje📚</p>
+        }@else {
+        <p class="tema">Foros de pasion🎆</p>
+        }
         <button (click)="goToGroup()" class="btn-ver-grupo">
             Ver Grupo
         </button>

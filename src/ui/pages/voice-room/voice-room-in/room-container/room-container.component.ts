@@ -271,11 +271,11 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       .subscribe(async (userLeft) => {
         this._voiceRoomUsers.userLeft(userLeft);
         this._raisedHand.userLeft(userLeft);
-        // if(userLeft === this._userService.getUserId()){
-        //   this.showExitDeleted = true;
-        //   await this._callService.leaveCall();
-        //   this.restartAll();
-        // }
+        if(userLeft === this._userService.getUserId()){
+          this.showExitDeleted = true;
+          await this._callService.leaveCall();
+          this.restartAll();
+        }
       });
 
     // Obtener el usuario actual en la sala

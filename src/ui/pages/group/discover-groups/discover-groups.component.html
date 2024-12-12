@@ -47,6 +47,9 @@
         </div>
         }@else {
         @if (myGroups.length > 0) {
+            <div class="btnFiltros">
+                <app-button buttonClass="small-button" text="Tipos de grupos" (clickEvent)="showDialogType()"></app-button>
+              </div>
         <div class="groups">
             @for (groups of myGroups; track $index) {
             <app-group-presentation [group]="groups"></app-group-presentation>
@@ -69,3 +72,40 @@
         }
     </div>
 </div>
+
+@if (showTypeGroup()) {
+    <div class="connection-preferences-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Tipos de Grupos: Enseñanza vs Pasión</h3>
+            <button class="close-button" (click)="showDialogType()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Descubre la diferencia entre nuestros dos tipos de grupos:</p>
+            <div class="connection-types">
+              <div class="connection-type">
+                <div class="preference-icon">📚</div>
+                <h4>Enseñanza y Aprendizaje</h4>
+                <p>Grupos diseñados con un propósito educativo claro. Aquí, los miembros interactúan con la intención específica de transmitir conocimientos o adquirir nuevas habilidades sobre un tema concreto.</p>
+                <ul>
+                  <li>Objetivo principal: Aprender o enseñar</li>
+                  <li>Estructura más formal y dirigida</li>
+                  <li>Intercambio estructurado de conocimientos</li>
+                </ul>
+              </div>
+              <div class="connection-type">
+                <div class="preference-icon">🎆</div>
+                <h4>Foro de Pasión</h4>
+                <p>Grupos enfocados en compartir y disfrutar de un tema de interés común, sin necesidad de una estructura de enseñanza formal.</p>
+                <ul>
+                  <li>Objetivo principal: Compartir y disfrutar</li>
+                  <li>Interacción más libre y espontánea</li>
+                  <li>Enfoque en la pasión y el disfrute del tema</li>
+                </ul>
+              </div>
+            </div>
+            <p>Elige el tipo de grupo que mejor se adapte a tu forma de conectar y compartir.</p>
+          </div>
+        </div>
+     </div>
+}

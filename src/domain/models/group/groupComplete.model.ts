@@ -8,7 +8,6 @@ export class GroupComplete extends GroupPresentation {
   private members_count: number;
   private all_member: CommunityMember[];
   private admin_user: string;
-  private type: string;
   private user_preference_id: string;
   private status: string;
   private tags!: Tag[];
@@ -31,12 +30,11 @@ export class GroupComplete extends GroupPresentation {
     topic_id: string
   ) {
     // Llama al constructor de la clase base
-    super(id, group_name, privacy, topic_name, profile_picture, cover_picture);
+    super(id, group_name, privacy, topic_name, profile_picture, cover_picture, type);
     this.description = description;
     this.members_count = members_count;
     this.all_member = all_member;
     this.admin_user = admin_user;
-    this.type = type;
     this.user_preference_id = user_preference_id;
     this.tags = tags;
     this.topic_id = topic_id;
@@ -81,10 +79,6 @@ export class GroupComplete extends GroupPresentation {
 
   setMembersCount(count: number) {
     this.members_count = count;
-  }
-
-  getType() {
-    return this.type;
   }
 
   deleteMember(id: string) {

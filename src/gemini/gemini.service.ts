@@ -41,4 +41,17 @@ export class GoogleGeminiProService {
       return 'An error has occurred. Please try again.';
     }
   }
+
+  async verifyIfQuestionsRight(topic: string, text: string): Promise<string> {
+    console.log(topic, text);
+    let prompt = `Tengo este texto ${text} y tiene que estar relacionado con este tema: ${topic}, pero TIENE QUE SER ALGO, QUE ESTE RELACIONADO CON PREGUNTAS Y RESPUESTAS, O SEA, EL CONTENIDO DE ${text} TIENE QUE COINCIDIR con ${topic} y aparte, ser algo relacionado con PREGUNTAS Y RESPUESTAS,  si eso es correcto, devuelve si, si es correcto, y si no devuelve no, SOLO DEVUELVER SI O NO`;
+
+    try {
+      const { response } = await this.#model.generateContent(prompt);
+      return response.text();
+    } catch (error) {
+      console.error(error);
+      return 'An error has occurred. Please try again.';
+    }
+  }
 }

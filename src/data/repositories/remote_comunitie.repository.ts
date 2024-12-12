@@ -34,7 +34,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                 group.is_private,
                 group.userPreference.topic.topic_name,
                 group.profile_picture,
-                group.cover_picture
+                group.cover_picture,
+                group.type
               )
           );
         })
@@ -161,7 +162,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                 group.is_private,
                 group.userPreference.topic.topic_name,
                 group.profile_picture,
-                group.cover_picture
+                group.cover_picture,
+                group.type
               )
           );
         })
@@ -216,7 +218,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                 group.is_private,
                 group.userPreference.topic.topic_name,
                 group.profile_picture,
-                group.cover_picture
+                group.cover_picture,
+                group.type
               )
           );
         })
@@ -247,7 +250,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                 group.is_private,
                 group.userPreference.topic.topic_name,
                 group.profile_picture,
-                group.cover_picture
+                group.cover_picture,
+                group.type
               )
           );
         })
@@ -341,7 +345,8 @@ export class RemoteComunitieRepository extends CommunitieRepository {
                 group.is_private,
                 group.userPreference.topic.topic_name,
                 group.profile_picture,
-                group.cover_picture
+                group.cover_picture,
+                group.type
               )
           );
         })

@@ -65,5 +65,9 @@ export class DiscoverGroupsComponent {
   goToCreate(){
     this._router.navigate(['/home/groups/my-groups'])
   }
-  //OCUPO DESCUBRIR LOS GRUPOS, CON RESPECTO A MIS USER_PREFERENCE
+  //OCUPO DESCUBRIR LOS GRUPOS, CON RESPECTO A MIS USER_PREFERENC
+  showTypeGroup = signal(false);
+  showDialogType(){
+    this.showTypeGroup.set(!this.showTypeGroup());
+  }
 }
