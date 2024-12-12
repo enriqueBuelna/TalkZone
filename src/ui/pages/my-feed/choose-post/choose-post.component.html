@@ -1,8 +1,16 @@
 <div class="choosePost">
-    <div class="for-you option" (click)="onClick(true)">
+    <!-- <div class="for-you option" (click)="onClick(true)">
         <h3>Para ti</h3>
-    </div>
-    <div class="friends option" (click)="onClick(false)">
+    </div> -->
+    <button class="tab" [ngClass]="{'active': this.rule === 'all'}" (click)="onClick(true)">
+        <p>Para ti</p>
+    </button>
+    <!-- <div class="friends option" (click)="onClick(false)">
         <h3>Amigos</h3>
-    </div>    
+    </div>    -->
+    <button class="tab" [ngClass]="{'active': this.rule === 'friends'}" (click)="onClick(false)">
+        <p>Amigos</p>
+    </button> 
 </div>
+
+
