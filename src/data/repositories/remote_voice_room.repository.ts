@@ -12,6 +12,38 @@ import { UserInVoiceRoom } from '../../domain/models/user_in_voice_room.model';
   providedIn: 'root',
 })
 export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
+
+  override inviteMessage(sender_id: string, receiver_id: string, room_id: string): Observable<any> {
+    console.log(sender_id, receiver_id, room_id)
+    const payload = {
+      sender_id, 
+      receiver_id,
+      room_id
+    }
+    return this._http.post<any>(
+      `${this.API_URL}/voice_rooms/inviteMessage`,
+      payload
+    );
+  }
+
+  createVoiceRoomPrivate(
+    room_name: string,
+    host_user_id: string,
+    topic_id: number,
+    type: string
+  ): Observable<any> {
+    const payload = {
+      room_name,
+      host_user_id,
+      topic_id,
+      type,
+    };
+    return this._http.post<any>(
+      `${this.API_URL}/voice_rooms/createVoiceRoomPrivate`,
+      payload
+    );
+  }
+
   override addRating(
     room_id: string,
     rating: number,

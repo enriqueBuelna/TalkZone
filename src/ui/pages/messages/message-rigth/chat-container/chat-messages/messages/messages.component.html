@@ -3,6 +3,21 @@
     <span class="timestamp">10:01 AM</span>
 </div> -->
 
+<!-- @if(contw) -->
+@if (yeah()) {
+<div class="message" [ngClass]="whosMessage">
+  <div class="chat-header">
+    Invitación a Sala de Voz
+  </div>
+  <div class="messages">
+    ¡Hola! 👋 Te invito a nuestra sala de voz. ¿Quieres unirte?
+  </div>
+  <div class="invite-buttons">
+    <a class="btn btn-accept" (click)="goToVoiceRoom()">Unirse</a>
+  </div>
+
+</div>
+}@else {
 <div class="message" [ngClass]="whosMessage">
   <div class="message-content">
     {{content}}
@@ -23,42 +38,47 @@
     }
   </div>
 </div>
+}
+
+
 
 
 @if (messageReport()) {
-  <div class="modal-overlay">
-      <div class="modal-container">
-          <div class="modal-header">
-              <h2>Reportar Publicación</h2>
-              <button class="modal-close" (click)="reportMessage()">&times;</button>
-          </div>
-          <form class="modal-form" [formGroup]="formReport">
-              <label for="reportReason">Motivo del Reporte</label>
-              <select id="reportReason" formControlName="reason">
-                <option value="Contenido inapropiado">Contenido inapropiado</option>
-                <option value="Acoso o intimidación">Acoso o intimidación</option>
-                <option value="Mensajes ofensivos o amenazantes">Mensajes ofensivos o amenazantes</option>
-                <option value="Spam o mensajes no deseados">Spam o mensajes no deseados</option>
-                <option value="Información personal compartida sin consentimiento">Información personal compartida sin consentimiento</option>
-                <option value="Otro">Otro</option>
-              </select>
+<div class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Reportar Publicación</h2>
+      <button class="modal-close" (click)="reportMessage()">&times;</button>
+    </div>
+    <form class="modal-form" [formGroup]="formReport">
+      <label for="reportReason">Motivo del Reporte</label>
+      <select id="reportReason" formControlName="reason">
+        <option value="Contenido inapropiado">Contenido inapropiado</option>
+        <option value="Acoso o intimidación">Acoso o intimidación</option>
+        <option value="Mensajes ofensivos o amenazantes">Mensajes ofensivos o amenazantes</option>
+        <option value="Spam o mensajes no deseados">Spam o mensajes no deseados</option>
+        <option value="Información personal compartida sin consentimiento">Información personal compartida sin
+          consentimiento</option>
+        <option value="Otro">Otro</option>
+      </select>
 
-              <label for="reportDetails">Detalles del Reporte</label>
-              <textarea id="reportDetails" placeholder="Describe el motivo de tu reporte..." formControlName="details"></textarea>
-              @if (submitEnter()) {
-                <div class="card">
-                    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
-                </div>
-            }
-              <div class="modal-actions">
-                  <button type="button" class="btn btn-cancel" (click)="reportMessage()">Cancelar</button>
-                  <button class="btn btn-report" (click)="sendReport()">Enviar Reporte</button>
-              </div>
-          </form>
+      <label for="reportDetails">Detalles del Reporte</label>
+      <textarea id="reportDetails" placeholder="Describe el motivo de tu reporte..."
+        formControlName="details"></textarea>
+      @if (submitEnter()) {
+      <div class="card">
+        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
       </div>
+      }
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" (click)="reportMessage()">Cancelar</button>
+        <button class="btn btn-report" (click)="sendReport()">Enviar Reporte</button>
+      </div>
+    </form>
   </div>
+</div>
 }
 
 <p-toast>
-  
+
 </p-toast>

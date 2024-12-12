@@ -1,33 +1,67 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, HostListener, Input, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  Component,
+  DestroyRef,
+  HostListener,
+  Input,
+  signal,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../../../../../auth/services/user.service';
 import { MessageService } from '../../../../../../../domain/services/message.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { MessageService as MS } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-message',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ProgressBarModule, ToastModule],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
-  providers: [MS]
+  providers: [MS],
 })
 export class MessagesComponent {
   @Input() content: string = '';
   @Input() whosMessage: string = '';
   @Input() sentAt!: Date;
-  @Input() senderId!:string;
-  @Input() id!:any;
+  @Input() senderId!: string;
+  @Input() id!: any;
   formReport!: FormGroup;
 
-  constructor(private _userService:UserService, private _formBuilder:FormBuilder, private _messageService:MessageService, private _destroyRef:DestroyRef, private _ms : MS){
+  constructor(
+    private _userService: UserService,
+    private _formBuilder: FormBuilder,
+    private _messageService: MessageService,
+    private _destroyRef: DestroyRef,
+    private _ms: MS,
+    private _router:Router
+  ) {
     this.formReport = this._formBuilder.group({
       reason: ['', [Validators.required]],
-      details: ['', []]
-    })
+      details: ['', []],
+    });
+  }
+  number = '';
+  yeah = signal(false);
+  ngOnInit() {
+    // Expresión regular para extraer el número
+    let regex = /Te invito a mi sala privada: (\d+)/;
+
+    // Usar `match` para buscar coincidencias
+    let resultado = this.content.match(regex);  
+
+    if(resultado){
+      let numero = resultado[1];
+      this.number = numero;
+      this.yeah.set(true);
+    }
   }
 
   toggleOptionsMenu(event: Event) {
@@ -59,30 +93,34 @@ export class MessagesComponent {
   }
 
   submitEnter = signal(false);
-  sendReport(){
-    if(this.formReport.valid){
+  sendReport() {
+    if (this.formReport.valid) {
       this.submitEnter.set(true);
-      let {reason, details} = this.formReport.value;
+      let { reason, details } = this.formReport.value;
       let reported_user_id = this.senderId;
       let reporter_id = this._userService.getUserId();
       let post_id = this.id;
       console.log(post_id, reported_user_id, reporter_id);
-      this._messageService.reportMessage(reason, details, reported_user_id, reporter_id, post_id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-        next: el => {
-          if(el){
-            this.reportMessage();
-            this._ms.add({
-              severity: 'success',
-              summary: 'Exito',
-              detail:
-                'Mensaje reportado correctamente',
-            });
-          }
-        }, 
-        error: error => {
-
-        }
-      })
+      this._messageService
+        .reportMessage(reason, details, reported_user_id, reporter_id, post_id)
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe({
+          next: (el) => {
+            if (el) {
+              this.reportMessage();
+              this._ms.add({
+                severity: 'success',
+                summary: 'Exito',
+                detail: 'Mensaje reportado correctamente',
+              });
+            }
+          },
+          error: (error) => {},
+        });
     }
+  }
+
+  goToVoiceRoom(){
+    this._router.navigate(['/voice_room', this.number])
   }
 }

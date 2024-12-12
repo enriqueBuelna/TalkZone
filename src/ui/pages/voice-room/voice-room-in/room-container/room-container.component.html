@@ -1,19 +1,8 @@
-<!-- <button (click)="goToHome()">Go to home</button>
-<main class="containerr">
-    <div id="room__container">
-        <div class="one-part">
-            <app-members-container></app-members-container>
-        </div>
-        <div class="two-part">
-            <app-stream-container></app-stream-container>
-        </div>
-        <div class="three-part">
-            <app-messages-container></app-messages-container>
-        </div>
-    </div>
-</main> -->
 <div class="title">
-    <h2>TalkZone</h2>
+    <h2 class="mr-5">TalkZone</h2>
+    <div class="button">
+        <app-button text="Invitar personas" (clickEvent)="showFriends()"></app-button>
+    </div>
 </div>
 <div class="voice-room-container">
     <div class="sidebar">
@@ -41,4 +30,33 @@
     <h2>Fuiste eliminado por el host</h2>
 
     <app-button text="Ir al inicio" (clickEvent)="goHome()"></app-button>
+</p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="showNoInvite" [style]="{ width: '20rem', height:'20rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
+    <h2>Esta sala es privada, y tu no cuentas con acceso a ella</h2>
+
+    <app-button text="Ir al inicio" (clickEvent)="goHome()"></app-button>
+</p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="showMessages" [style]="{ width: '20rem', height:'20rem' }" [closable]="false"
+    [dismissableMask]="true" [draggable]="false">
+    <h2>Invitar amigos:</h2>
+
+    <form [formGroup]="formFindUser">
+        <p-autoComplete formControlName="selectedUser" optionLabel="username" [style]='{width:"100%"}'
+            [inputStyle]="{width:'100%'}" (completeMethod)="filterUsers($event)" [suggestions]="filteredUsers"
+            [showEmptyMessage]="false">
+            <ng-template let-user pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <img [src]="user.profile_picture || '/images/user.webp'" style="width: 18px" />
+                    <div>{{ user.username }}</div>
+                </div>
+            </ng-template>
+        </p-autoComplete>
+    </form>
+
+    <div class="margin-top">
+        <app-button text="Siguiente" buttonClass="medium-button" (clickEvent)="sendMessageUser()"></app-button>
+    </div>
 </p-dialog>
