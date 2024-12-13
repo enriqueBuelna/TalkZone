@@ -201,6 +201,7 @@ export class StreamContainerComponent implements OnInit, OnDestroy {
       );
       this._voiceRoomSocket.amWent().subscribe((el) => {
         if (el) {
+          console.log("CHIVOOO");
           this.showModalRating.set(el);
         } else {
           this._router.navigate(['home/voice_room']);

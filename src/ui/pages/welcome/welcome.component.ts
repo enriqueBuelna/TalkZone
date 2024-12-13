@@ -338,7 +338,7 @@ export class WelcomeComponent implements OnInit {
     let { about_me } = this.formDescription.value;
     //llamar al servicio para que haga esta cosa
     let profile_picture$;
-    if(about_me || this.photoFile){
+    if(about_me || this.photoFile || this._UserPreferenceService.getUserPreferencesAll().length > 0){
       if (this.photoFile) {
         profile_picture$ = await uploadFile(this.photoFile);
       }

@@ -114,6 +114,8 @@
 .media-container {
   border-radius: 8px;
   overflow: hidden;
+  max-width: 500px;
+  max-height: 500px;
 }
 
 .post-media {

@@ -64,7 +64,6 @@ export class AdminReportsComponent implements OnInit {
       .subscribe({
         next: (el) => {
           this.yetNoStats.set(false);
-          console.log(el);
           this.allCuriosStats = el;
         },
         error: (error) => {},
@@ -94,9 +93,9 @@ export class AdminReportsComponent implements OnInit {
 
     this._adminService.getTopFiveHosts().pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: el => {
+        console.log(el);
         this.topFiveHost.set(false);
         this.topFiveHosts = el;
-        console.log(el);
       }, 
       error: error => {
         console.log(error);
@@ -115,6 +114,7 @@ export class AdminReportsComponent implements OnInit {
   }
 
   generateStars(stars: number): string[] {
+    console.log(stars);
     const fullStars = Array(stars).fill('★');
     const emptyStars = Array(5 - stars).fill('☆');
     return [...fullStars, ...emptyStars];

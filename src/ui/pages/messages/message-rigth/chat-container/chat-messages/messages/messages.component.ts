@@ -4,6 +4,8 @@ import {
   DestroyRef,
   HostListener,
   Input,
+  OnDestroy,
+  OnInit,
   signal,
 } from '@angular/core';
 import {
@@ -18,7 +20,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { MessageService as MS } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-message',
   standalone: true,
@@ -27,7 +29,7 @@ import { Router } from '@angular/router';
   styleUrl: './messages.component.css',
   providers: [MS],
 })
-export class MessagesComponent {
+export class MessagesComponent implements OnInit, OnDestroy {
   @Input() content: string = '';
   @Input() whosMessage: string = '';
   @Input() sentAt!: Date;
@@ -35,13 +37,20 @@ export class MessagesComponent {
   @Input() id!: any;
   formReport!: FormGroup;
 
+  ngOnDestroy(): void {
+    this.content = '';
+    this.whosMessage = '';;
+    this.senderId = '';
+  }
+
   constructor(
     private _userService: UserService,
     private _formBuilder: FormBuilder,
     private _messageService: MessageService,
     private _destroyRef: DestroyRef,
     private _ms: MS,
-    private _router:Router
+    private _router: Router,
+    private route: ActivatedRoute
   ) {
     this.formReport = this._formBuilder.group({
       reason: ['', [Validators.required]],
@@ -51,16 +60,30 @@ export class MessagesComponent {
   number = '';
   yeah = signal(false);
   ngOnInit() {
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((params) => {
+        this.change();
+      });
+  }
+
+  change() {
     // Expresión regular para extraer el número
-    let regex = /Te invito a mi sala privada: (\d+)/;
+    let regex =
+      /Te invito a mi sala , ven rapido, no te la puedes perder: (\d+)/;
 
     // Usar `match` para buscar coincidencias
-    let resultado = this.content.match(regex);  
+    console.log(this.content);
+    let resultado = this.content.match(regex);
 
-    if(resultado){
+    if (resultado) {
+      console.log('SOYYYY CHIVIIOO');
       let numero = resultado[1];
       this.number = numero;
       this.yeah.set(true);
+    } else {
+      console.log('HOLA');
+      this.yeah.set(false);
     }
   }
 
@@ -120,7 +143,7 @@ export class MessagesComponent {
     }
   }
 
-  goToVoiceRoom(){
-    this._router.navigate(['/voice_room', this.number])
+  goToVoiceRoom() {
+    this._router.navigate(['/voice_room', this.number]);
   }
 }

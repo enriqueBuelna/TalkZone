@@ -168,9 +168,10 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
       .userLeft()
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(async (userLeft) => {
-        this._voiceRoomUsers.userLeft(userLeft);
-        this._raisedHand.userLeft(userLeft);
-        if (userLeft === this._userService.getUserId()) {
+        let {user_id, is_remove} = userLeft;
+        this._voiceRoomUsers.userLeft(user_id);
+        this._raisedHand.userLeft(user_id);
+        if (user_id === this._userService.getUserId() && is_remove) {
           this.showExitDeleted = true;
           await this._callService.leaveCall();
           this.restartAll();

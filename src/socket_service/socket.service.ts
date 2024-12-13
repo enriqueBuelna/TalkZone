@@ -36,7 +36,6 @@ export class SocketService {
 
   // Método para desconectarse del socket
   // disconnect(): void {
-  //   console.log("HOLAAAAAAAA");
   //   this.socket.disconnect();
   // }
 

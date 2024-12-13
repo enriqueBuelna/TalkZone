@@ -1,8 +1,10 @@
 <div class="title">
     <h2 class="mr-5">TalkZone</h2>
+    @if (myUserInVoiceRoom().getType() === 'host'){
     <div class="button">
         <app-button text="Invitar personas" (clickEvent)="showFriends()"></app-button>
     </div>
+    }
 </div>
 <div class="voice-room-container">
     <div class="sidebar">
@@ -39,7 +41,7 @@
     <app-button text="Ir al inicio" (clickEvent)="goHome()"></app-button>
 </p-dialog>
 
-<p-dialog [modal]="true" [(visible)]="showMessages" [style]="{ width: '20rem', height:'20rem' }" [closable]="false"
+<p-dialog [modal]="true" [(visible)]="showMessages" [style]="{ width: '20rem', height:'20rem' }" [closable]="true"
     [dismissableMask]="true" [draggable]="false">
     <h2>Invitar amigos:</h2>
 

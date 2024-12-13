@@ -128,7 +128,6 @@ export class ModalUserPreferencesComponent {
     } else if (this.activeStep() === 2) {
       let { firstTopic, secondTopic } = this.formTopics.value;
       const chosenTopic = secondTopic || firstTopic;
-
       let userPreference = new UserPreference(
         0,
         chosenTopic.id,
@@ -136,12 +135,13 @@ export class ModalUserPreferencesComponent {
         chosenTopic.topic_name,
         this._TopicTagsService.getTagAdded()
       );
-
+      console.log(userPreference)
       this.activeStep.set(3);
 
       this._remoteUserPreferenceService
         .addUserPreferences(this._userService.getUserId(), userPreference)
         .subscribe((el) => {
+          console.log(el);
           this._userPreferencesSignal.createUserPreference(
             el.getId(),
             el.getTopicId(),
@@ -171,10 +171,8 @@ export class ModalUserPreferencesComponent {
     let filtered: Tag[] = [];
     let query = event.query;
     let tagList = this._TopicTagsService.getTagList();
-    console.log(tagList);
     for (let i = 0; i < tagList.length; i++) {
       let tag = tagList[i];
-      console.log(tag.getTagName());
       if (tag.getTagName().toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(tag);
       }
@@ -198,7 +196,6 @@ export class ModalUserPreferencesComponent {
       if (tag != '' && tag != null) {
         if (!existingTag && !(tag instanceof Object)) {
           //aqui es que no este
-          console.log(topicId);
           let newTag: Tag = new Tag(tag, 0, topicId);
           this.responseAddTag$ = this._tagService.addTag(newTag);
           this.responseAddTag$

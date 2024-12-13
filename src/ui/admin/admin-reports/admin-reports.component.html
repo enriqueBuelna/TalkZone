@@ -161,30 +161,32 @@
       <i class="fas fa-microphone-alt"></i>
     </div>
     <ul class="ranked-list">
-      @for (host of topFiveHosts; track $index) {
-      <li class="host-item">
-        <div class="host-avatar">
-          <img [src]="host.getUserDemo().getProfilePic()" [alt]="host.getUserDemo().getUsername()">
-        </div>
-        <div class="host-details">
-          <span class="host-name">{{ host.getUserDemo().getUsername() }}</span>
-          <div class="host-stats">
-            <span class="host-rank-count">
-              Rankeado {{ host.getCountRate() }} veces
-            </span>
-            <div class="host-stars">
-              <span *ngFor="let star of generateStars(host.getAverageRating())">
-                {{ star }}
-              </span>
+      @if (topFiveHosts) {
+        @for (host of topFiveHosts; track $index) {
+          <li class="host-item">
+            <div class="host-avatar">
+              <img [src]="host.getUserDemo().getProfilePic()" [alt]="host.getUserDemo().getUsername()">
             </div>
-          </div>
-          <div class="mt-5">
-            <app-button text="Información del Usuario" [buttonClass]="'btn-small'"
-              (clickEvent)="goToUser(host.getUserDemo().getUserId())"></app-button>
-          </div>
-        </div>
-      </li>
-
+            <div class="host-details">
+              <span class="host-name">{{ host.getUserDemo().getUsername() }}</span>
+              <div class="host-stats">
+                <span class="host-rank-count">
+                  Rankeado {{ host.getCountRate() }} veces
+                </span>
+                <div class="host-stars">
+                  <span *ngFor="let star of generateStars(host.getAverageRating())">
+                    {{ star }}
+                  </span>
+                </div>
+              </div>
+              <div class="mt-5">
+                <app-button text="Información del Usuario" [buttonClass]="'btn-small'"
+                  (clickEvent)="goToUser(host.getUserDemo().getUserId())"></app-button>
+              </div>
+            </div>
+          </li>
+    
+          }
       }
     </ul>
     }
