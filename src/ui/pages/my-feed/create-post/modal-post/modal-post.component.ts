@@ -36,7 +36,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { GoogleGeminiProService } from '../../../../../gemini/gemini.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { MessageSuccess} from '../../services/messageSucces.service';
+import { MessageSuccess } from '../../services/messageSucces.service';
 @Component({
   selector: 'app-modal-post',
   standalone: true,
@@ -135,6 +135,9 @@ export class ModalPostComponent implements OnInit {
 
     this.userPreferences$.subscribe((el) => {
       this.userPreferences = el;
+      this.userPreferences.forEach((ele) => {
+        ele.updateTopicNameWithEmoji();
+      });
     });
 
     if (this.postContent) {
@@ -280,6 +283,7 @@ export class ModalPostComponent implements OnInit {
                 response === 'si'
               ) {
                 this._postService.newPost(payload).subscribe((el) => {
+                  console.log(el);
                   this.submitEnter.set(false);
                   this._postCService.addNewPost(el);
                   this.onClick();

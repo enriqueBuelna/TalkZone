@@ -74,4 +74,18 @@ export class UserPreference {
       [];
 
   }
+
+  updateTopicNameWithEmoji(): void {
+    let emoji: string;
+
+    if (this.type === 'mentor') {
+      emoji = '🧠';
+    } else if (this.type === 'entusiasta') {
+      emoji = '💡';
+    } else {
+      emoji = '🔍';
+    }
+
+    this.topic_name = `${emoji} ${this.topic_name}`;
+  }
 }

@@ -1,46 +1,47 @@
 <div class="aside">
     @if (!userNotFound) {
-        <app-header>
-            <div class="information-user">
-                <div class="info-user">
-                    <div class="img">
-                        <img [src]="userDemoInfo?.getProfilePic() || '/images/user.webp'" alt="">
-                    </div>
-                    <div class="username">
-                        <p>{{userDemoInfo?.getUsername()}}</p>
-                        @if (userDemoInfo?.isVerify()) {
-                            <span class="twitter-verified"></span>
-                        }
-                    </div>
+    <app-header>
+        <div class="information-user">
+            <div class="info-user">
+                <div class="img">
+                    <img [src]="userDemoInfo?.getProfilePic() || '/images/user.webp'" alt="">
                 </div>
-                <div class="config-user">
-                    <div class="button">
-                        <i class="pi pi-cog" style="font-size: 2rem"></i>
-                    </div>
+                <div class="username">
+                    <p>{{userDemoInfo?.getUsername()}}</p>
+                    @if (userDemoInfo?.isVerify()) {
+                    <span class="twitter-verified"></span>
+                    }
                 </div>
-            </div><!-- Puede ser un componente -->
-        </app-header>
-        <app-chat-container class="chat-container"></app-chat-container>
-    }@else {
-        <div class="container">
-            <div class="message-icon">📭</div>
-            <h1>Usuario no encontrado</h1>
-            <p>No hemos podido encontrar al usuario que estás buscando. Esto puede deberse a que el usuario no existe, ha cambiado su nombre o te ha bloqueado.</p>
-            
-            <div class="search-suggestions">
-                <p>Sugerencias:</p>
-                <ul style="list-style-type: none; padding: 0;">
-                    <li>✅ Verifica que hayas escrito correctamente el nombre de usuario</li>
-                    <li>✅ Comprueba si el usuario sigue activo en la plataforma</li>
-                    <li>✅ Intenta buscar por su nombre completo</li>
-                </ul>
             </div>
-    
-            <!-- <div class="btn-group">
+            <div class="config-user">
+                <div class="button">
+                    <i class="pi pi-cog" style="font-size: 2rem"></i>
+                </div>
+            </div>
+        </div><!-- Puede ser un componente -->
+    </app-header>
+    <app-chat-container class="chat-container" [userDemo]="userDemoInfo"></app-chat-container>
+    }@else {
+    <div class="container">
+        <div class="message-icon">📭</div>
+        <h1>Usuario no encontrado</h1>
+        <p>No hemos podido encontrar al usuario que estás buscando. Esto puede deberse a que el usuario no existe, ha
+            cambiado su nombre o te ha bloqueado.</p>
+
+        <div class="search-suggestions">
+            <p>Sugerencias:</p>
+            <ul style="list-style-type: none; padding: 0;">
+                <li>✅ Verifica que hayas escrito correctamente el nombre de usuario</li>
+                <li>✅ Comprueba si el usuario sigue activo en la plataforma</li>
+                <li>✅ Intenta buscar por su nombre completo</li>
+            </ul>
+        </div>
+
+        <!-- <div class="btn-group">
                 <a href="/buscar" class="btn btn-primary">Buscar Usuarios</a>
                 <a href="/home" class="btn btn-secondary">Volver al Inicio</a>
             </div> -->
-        </div>
+    </div>
     }
 
 </div>

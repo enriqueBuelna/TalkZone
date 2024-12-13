@@ -67,26 +67,35 @@ export class MyProfileComponent implements OnInit {
   }
 
   loadProfileData() {
-    if (this.userId() === this._user.getUserId()) {
-      this.isPrimary.set(true);
-    }else{
-      this.isPrimary.set(false);
-    }
-
-    this.myObservable = this._userService.getCompleteInformation(this.userId());
-
-    this.myObservable.subscribe({
-      next: (el) => {
-        this.yetNo.set(false);
-        this._userInformation.setMyUserInformation(el);
-        this.myUser = this._userInformation.getMyUserInformation();
-        this._userPreference.setUserPreferences(
-          this.myUser().getUserPreferences()
-        );
-      },
-      error: (e) => {
-        this.profileNotFound = true;
+    if (
+      this.userId() !== 'dbb9d930-e338-40c2-9162-d7a04ab6851a' &&
+      this.userId() !== 'dbb9d930-e338-40c2-9162-d7a04ab685d5'
+    ) {
+      if (this.userId() === this._user.getUserId()) {
+        this.isPrimary.set(true);
+      } else {
+        this.isPrimary.set(false);
       }
-    });
+
+      this.myObservable = this._userService.getCompleteInformation(
+        this.userId()
+      );
+
+      this.myObservable.subscribe({
+        next: (el) => {
+          this.yetNo.set(false);
+          this._userInformation.setMyUserInformation(el);
+          this.myUser = this._userInformation.getMyUserInformation();
+          this._userPreference.setUserPreferences(
+            this.myUser().getUserPreferences()
+          );
+        },
+        error: (e) => {
+          this.profileNotFound = true;
+        },
+      });
+    } else {
+      this.profileNotFound = true;
+    }
   }
 }

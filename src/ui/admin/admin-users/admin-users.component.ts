@@ -16,18 +16,21 @@ export class AdminUsersComponent {
       icon: 'list',
       description: 'Vista completa de todos los usuarios registrados',
       where: 'all-users',
+      img: 'images/users.png'
     },
     {
       name: 'Información de usuario',
       icon: 'user',
       description: 'Detalles completos de cada perfil',
       where: 'detail-user',
+      img: 'images/user_detail.png'
     },
     {
       name: 'Usuarios problemáticos',
       icon: 'alert-triangle',
       description: 'Gestión de usuarios con reportes o incidencias',
       where: 'user-problems',
+      img: 'images/problem_user.png'
     },
   ];
 

@@ -44,10 +44,11 @@ export class GoogleGeminiProService {
 
   async verifyIfQuestionsRight(topic: string, text: string): Promise<string> {
     console.log(topic, text);
-    let prompt = `Tengo este texto ${text} y tiene que estar relacionado con este tema: ${topic}, pero TIENE QUE SER ALGO, QUE ESTE RELACIONADO CON PREGUNTAS Y RESPUESTAS, O SEA, EL CONTENIDO DE ${text} TIENE QUE COINCIDIR con ${topic} y aparte, ser algo relacionado con PREGUNTAS Y RESPUESTAS,  si eso es correcto, devuelve si, si es correcto, y si no devuelve no, SOLO DEVUELVER SI O NO`;
+    let prompt = `Tengo este texto: ${text}. Debe estar relacionado con este tema: ${topic} y además tiene que ser específicamente algo relacionado con preguntas y respuestas. Si cumple con estas condiciones, responde únicamente con 'sí'. Si no cumple, responde únicamente con 'no'.`;
 
     try {
       const { response } = await this.#model.generateContent(prompt);
+      console.log(response.text());
       return response.text();
     } catch (error) {
       console.error(error);

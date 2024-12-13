@@ -19,7 +19,8 @@
                     <div class="privacy">
                         @if (type === 'post') {
                         <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
-                            formControlName="topic_id" />
+                            formControlName="topic_id" class="mr-2">
+                        </p-dropdown>
                         <div class="privacy">
                             <!-- aqui -->
                             <p-dropdown [options]="paymentOptions" optionLabel="name" placeholder="Privacidad"
@@ -65,9 +66,9 @@
                 }
             </div>
             @if (submitEnter()) {
-                <div class="card">
-                    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
-                </div>
+            <div class="card">
+                <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+            </div>
             }
             <div class="post-footer">
                 <div class="post-actions">
@@ -117,7 +118,8 @@
                         <p-dropdown [options]="userPreferences" placeholder="Tema" optionLabel="topic_name"
                             formControlName="topic_id" />
                         <div class="privacy">
-                            <p-dropdown [options]="paymentOptions" placeholder="Privacidad" optionLabel="name" formControlName="visibility" />
+                            <p-dropdown [options]="paymentOptions" placeholder="Privacidad" optionLabel="name"
+                                formControlName="visibility" />
                         </div>
                         }
                     </div>
@@ -161,9 +163,9 @@
                 }
             </div>
             @if (submitEnter()) {
-                <div class="card">
-                    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
-                </div>
+            <div class="card">
+                <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+            </div>
             }
             <div class="post-footer">
 

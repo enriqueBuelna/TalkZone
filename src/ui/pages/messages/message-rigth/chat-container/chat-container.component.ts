@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ChatMessageComponent } from './chat-messages/chat-message.component';
 import { InputChatComponent } from './input-chat/input-chat.component';
+import { UserDemo } from '../../../../../domain/models/user-demo.model';
 
 
 @Component({
@@ -11,5 +12,5 @@ import { InputChatComponent } from './input-chat/input-chat.component';
   styleUrl: './chat-container.component.css'
 })
 export class ChatContainerComponent {
-
+  @Input() userDemo!:UserDemo | undefined;
 }

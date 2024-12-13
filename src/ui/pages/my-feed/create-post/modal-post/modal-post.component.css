@@ -313,3 +313,6 @@
     top: 10px;
     left: 10px;
   }
+  .mr-2 {
+    margin-right: .4rem;
+  }

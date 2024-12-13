@@ -128,7 +128,6 @@ export class ModalUserPreferencesComponent {
     } else if (this.activeStep() === 2) {
       let { firstTopic, secondTopic } = this.formTopics.value;
       const chosenTopic = secondTopic || firstTopic;
-      
 
       let userPreference = new UserPreference(
         0,
@@ -284,5 +283,10 @@ export class ModalUserPreferencesComponent {
 
   deleteUserPreference(topic_name: string) {
     return this._UserPreferenceService.deleteUserPreference(topic_name);
+  }
+
+  close() {
+    // this.clickEvent.emit();
+    return true;
   }
 }

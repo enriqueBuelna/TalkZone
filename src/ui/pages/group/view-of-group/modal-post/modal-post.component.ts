@@ -32,6 +32,9 @@ import { CommunitieService } from '../../../../../domain/services/communitie.ser
 import { ActivatedRoute } from '@angular/router';
 import { ApplyGroup } from '../../../../../domain/models/group/apply_group.model';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { GoogleGeminiProService } from '../../../../../gemini/gemini.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-modal-post-group',
@@ -42,10 +45,12 @@ import { ProgressBarModule } from 'primeng/progressbar';
     SelectButtonModule,
     ReactiveFormsModule,
     CommonModule,
-    ProgressBarModule
+    ProgressBarModule,
+    ToastModule
   ],
   templateUrl: './modal-post.component.html',
   styleUrl: './modal-post.component.css',
+  providers: [MessageService]
 })
 export class ModalPostGroupComponent implements OnInit {
   @Input() group!: GroupComplete;
@@ -69,7 +74,9 @@ export class ModalPostGroupComponent implements OnInit {
     private _userService: AuthService,
     private _user: UserService,
     private _communityService: CommunitieService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _geminiService: GoogleGeminiProService,
+        private _messageService: MessageService
   ) {
     this.formPost = this._formBuilder.group({
       content: ['', [Validators.required]],
@@ -145,7 +152,6 @@ export class ModalPostGroupComponent implements OnInit {
         } else {
           noMore = this.formPost.get('tags')?.value;
         }
-
         const rawTags = noMore; // Obtener el valor del campo
         const cleanedTags = rawTags
           .split(',') // Separar por comas
@@ -162,12 +168,42 @@ export class ModalPostGroupComponent implements OnInit {
         tags: cleanedTags,
       };
 
-      this._postService.newPost(payload).subscribe((el) => {
-        el.setNameCommunity(this.group.getGroupName());
-        el.setCoverPicture(this.group.getCoverPicture());
-        this._postCService.addNewPost(el);
-        this.onClick();
-      });
+      if(this.type === 'mentor' && aux2 === 'questions'){
+        this._geminiService
+        .verifyIfQuestionsRight(this.group.getTopicName(), content)
+        .then((response: any) => {
+          if (
+            response === 'Sí' ||
+            response === 'SÍ' ||
+            response === 'sí' ||
+            response === 'Si' ||
+            response === 'SI' ||
+            response === 'si'
+          ) {
+            this._postService.newPost(payload).subscribe((el) => {
+              el.setNameCommunity(this.group.getGroupName());
+              el.setCoverPicture(this.group.getCoverPicture());
+              this._postCService.addNewPost(el);
+              this.onClick();
+            });
+          } else {
+            this.submitEnter.set(false);
+            this._messageService.add({
+              severity: 'error',
+              summary: 'Algo salio mal',
+              detail:
+                'Verifica que la publicacion, tenga que ver con el tipo de publicacion que estas haciendo',
+            });
+          }
+        });
+      }else {
+        this._postService.newPost(payload).subscribe((el) => {
+          el.setNameCommunity(this.group.getGroupName());
+          el.setCoverPicture(this.group.getCoverPicture());
+          this._postCService.addNewPost(el);
+          this.onClick();
+        });
+      }
     }
   }
 

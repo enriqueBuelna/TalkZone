@@ -93,3 +93,16 @@
     border-top: 1px solid #e0e0e0;
     color: #777;
   }
+
+  .image-container {
+    max-width: 100px;  /* Limita el ancho máximo */
+    max-height: 100px; /* Limita la altura máxima */
+    overflow: hidden;  /* Oculta cualquier parte de la imagen que sobresalga */
+    margin: 0 auto;    /* Centra el contenedor */
+  }
+  
+  .responsive-image {
+    width: 100%;       /* Ocupa todo el ancho del contenedor */
+    height: auto;      /* Mantiene la proporción de aspecto */
+    object-fit: cover; /* Cubre el contenedor sin distorsionar */
+  }

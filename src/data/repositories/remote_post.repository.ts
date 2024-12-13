@@ -55,6 +55,7 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
+            console.log(post);
             return new Post(
               post.id,
               new UserDemo(
@@ -69,7 +70,7 @@ export class RemotePostRespository extends PostRepository {
               post.comments_count,
               post.visibility,
               new UserPreference(
-                post.user_preference_id, // Corregido
+                post.post_user_preference.id, // Corregido
                 post.post_user_preference.topic_id, // Accede usando el nombre completo
                 post.post_user_preference.type,
                 post.post_user_preference.topic.topic_name
@@ -289,14 +290,12 @@ export class RemotePostRespository extends PostRepository {
             post.likes_count,
             post.comments_count,
             post.visibility,
-            post.post_user_preference && post.post_user_preference.id
-              ? new UserPreference(
+             new UserPreference(
                   post.user_preference_id,
                   post.post_user_preference.topic_id,
                   post.post_user_preference.type,
                   post.post_user_preference.topic.topic_name
-                )
-              : null, // Si es null, se asigna null
+                ),
             post.media_url,
             post.post_tagss.map(
               (tag: any) =>

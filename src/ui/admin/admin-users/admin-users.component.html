@@ -2,8 +2,8 @@
   <main class="dashboard-modules">
     <div class="modules-grid">
       <div *ngFor="let module of modules" class="module-card">
-        <div class="module-icon">
-          <i class="feather-icon"></i>
+        <div class="image-container">
+          <img [src]="module.img" alt="Descripción de la imagen" class="responsive-image">
         </div>
         <div class="module-content">
           <h3>{{ module.name }}</h3>

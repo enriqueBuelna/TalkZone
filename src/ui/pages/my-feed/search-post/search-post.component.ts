@@ -52,6 +52,8 @@ export class SearchPostComponent implements OnInit {
     this.postObservableAll.subscribe((posts) => {
       if(posts.length === 0){
         this.notPosts.set(true);
+      }else{
+        this.notPosts.set(false);
       }
       if (posts.length > 0) {
         this._postCService.addPosts(posts);

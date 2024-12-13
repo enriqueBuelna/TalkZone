@@ -26,8 +26,13 @@
     <div class="message-time">
       {{sentAt | date:'HH:mm'}}
     </div>
+    @if (senderId !== 'dbb9d930-e338-40c2-9162-d7a04ab6851a') {
     <div *ngIf="whosMessage === 'received'" class="message-more-options" (click)="toggleOptionsMenu($event)"> <span
         class="more-options-dots">&#8230;</span> </div>
+    }@else{
+      
+    }
+
 
     @if (isOptionsMenuOpen) {
     <div class="options-dropdown" (click)="$event.stopPropagation()">
