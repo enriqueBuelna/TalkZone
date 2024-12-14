@@ -105,6 +105,16 @@
                             </svg>
                             {{item.getTopicName()}}
                         </span>
+                        <span class="tag up">
+                            @if (item.getType() === 'mentor'){
+                                🧠Mentor
+                            }@else if(item.getType() === 'entusiasta'){
+                                💡Entusiasta
+                            }@else {
+                                🔍Explorador
+                            }
+                            <!-- {{item.}} -->
+                        </span>
                     </div>
                 </div>
             </div>

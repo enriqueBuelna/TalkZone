@@ -318,7 +318,8 @@ export class RemoteAdminRepository extends AdminRepository {
               [],
               el.host_user,
               0,
-              0
+              0,
+              ''
             );
           } else if (type === 'message') {
             return new Message(

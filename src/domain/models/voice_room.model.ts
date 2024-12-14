@@ -104,7 +104,7 @@ export class VoiceRoom {
   private host_user: UserResponseInformation;
   private rating: number = 0;
   private total_rating:number = 0;
-
+  private type?:string;
   constructor(
     id: number,
     room_name: string,
@@ -114,8 +114,10 @@ export class VoiceRoom {
     voice_room_to_voice_room_tag: VoiceRoomToVoiceRoomTag[],
     host_user: UserResponseInformation,
     rating: number,
-    total_rating:number
+    total_rating:number,
+    type:string
   ) {
+    this.type = type;
     this.id = id;
     this.room_name = room_name;
     this.users_of_voice_room = users_of_voice_room;
@@ -125,6 +127,10 @@ export class VoiceRoom {
     this.host_user = host_user;
     this.rating = rating;
     this.total_rating = total_rating;
+  }
+
+  getType(){
+    return this.type;
   }
 
   getRatingValid(){

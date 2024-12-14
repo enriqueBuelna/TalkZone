@@ -124,7 +124,8 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
                 ),
                 room.host_user,
                 room?.host_user?.rating_?.[0]?.average_rating || 0,
-                room?.host_user?.rating_?.[0]?.total_ratings || 0
+                room?.host_user?.rating_?.[0]?.total_ratings || 0,
+                room.type
               )
           );
         })
