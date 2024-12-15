@@ -102,7 +102,7 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
 
     // Verificar si la sala está abierta
     this._voiceRoomService
-      .verifyOpenVoiceRoom(roomId, this._userService.getUserId())
+      .verifyOpenVoiceRoom(roomId, this._userService.getUserId()).pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (isOpen: any) => {
           let aux = false;

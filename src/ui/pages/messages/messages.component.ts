@@ -23,7 +23,7 @@ import { NotService } from '../notifications/services/notifications.service';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
 })
-export class MessagesComponent {
+export class MessagesComponent implements OnInit{
   observable!: Subscription;
   constructor(
     private _socketService: SocketService,
@@ -43,7 +43,7 @@ export class MessagesComponent {
       .subscribe((el) => {
         this.howMany++;
         let aux = false;
-        console.log(this._chatService.getAmHereId(), el[0].sender_id);
+        (this._chatService.getAmHereId(), el[0].sender_id);
         if (this._chatService.getAmHereId() === el[0].sender_id) {
           let payload = {
             id: el[0].id,
@@ -66,9 +66,9 @@ export class MessagesComponent {
           msg.media_url,
           msg.sent_at
         );
-        console.log(newMessage);
+        (newMessage);
         //tengo q cambiar el backend primero , para que me envie las dos cosas en el createMessage
-        // console.log(el);
+        // (el);
         //el tiene el nuevo mensaje, y la conversacion
         if (this._conversationService.findConversation(el[1].id)) {
           if (
@@ -119,7 +119,7 @@ export class MessagesComponent {
         }
         this._conversationService.reorderConversation();
         //SI LA ENCUENTRA, TENGO QUE CAMBIAR EL LAST_MESSAGE Y HACER UN CAMBIO DE COMO ESTAN ACOMODADOS LOS ELEMENTOS DE MI ARREGLO DE CHATS
-        console.log(this.howMany);
+        (this.howMany);
       });
   }
 }

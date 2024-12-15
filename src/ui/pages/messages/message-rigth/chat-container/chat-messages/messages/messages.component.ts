@@ -73,24 +73,22 @@ export class MessagesComponent implements OnInit, OnDestroy {
       /Te invito a mi sala , ven rapido, no te la puedes perder: (\d+)/;
 
     // Usar `match` para buscar coincidencias
-    console.log(this.content);
     let resultado = this.content.match(regex);
 
     if (resultado) {
-      console.log('SOYYYY CHIVIIOO');
       let numero = resultado[1];
       this.number = numero;
       this.yeah.set(true);
+      console.log(this.content, this.yeah());
     } else {
-      console.log('HOLA');
       this.yeah.set(false);
+      console.log(this.content, this.yeah());
     }
   }
 
   toggleOptionsMenu(event: Event) {
     event.stopPropagation(); // Prevenir propagación
     this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
-    console.log(this.isOptionsMenuOpen);
   }
   isOptionsMenuOpen = false;
 

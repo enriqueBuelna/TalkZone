@@ -35,15 +35,21 @@ export class SocketService {
   }
 
   // Método para desconectarse del socket
-  // disconnect(): void {
-  //   this.socket.disconnect();
-  // }
+  disconnect(): void {
+    if (this.socket) {
+      this.socket.disconnect();
+      console.log('Socket desconectado');
+      this.socket = null as any; // Limpia la referencia
+    }
+  }
 
   //modificacion
   connect(): void {
     if (!this.socket) {
-      console.log("HAY CONEXION")
+      console.log('HAY CONEXION');
       this.socket = io('http://localhost:3000'); // Cambia por la URL de tu backend
+    } else {
+      console.log('aji no eh');
     }
   }
 }

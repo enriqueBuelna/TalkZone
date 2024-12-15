@@ -23,6 +23,10 @@ export class MessageComponentService {
     this.myMessages.set(messages);
   }
 
+  messagesEmpty(){
+    this.myMessages.set([]);
+  }
+
   getMessages() {
     return this.myMessages();
   }

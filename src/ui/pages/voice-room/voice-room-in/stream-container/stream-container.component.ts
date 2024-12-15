@@ -199,7 +199,7 @@ export class StreamContainerComponent implements OnInit, OnDestroy {
         this._userService.getUserId(),
         this.roomLog
       );
-      this._voiceRoomSocket.amWent().subscribe((el) => {
+      this._voiceRoomSocket.amWent().pipe(takeUntilDestroyed(this._destroyRef)).subscribe((el) => {
         if (el) {
           console.log("CHIVOOO");
           this.showModalRating.set(el);

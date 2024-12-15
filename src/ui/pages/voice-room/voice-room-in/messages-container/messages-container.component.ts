@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,6 +9,7 @@ import { voiceRoomSocket } from '../../../../../socket_service/voice_room_socket
 import { MessageVoiceRoomComponent } from './message-voice-room/message-voice-room.component';
 import { UserService } from '../../../auth/services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 interface message {
   from: string;
   message: string;
@@ -27,7 +28,8 @@ export class MessagesContainerComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _voiceRoomSocket: voiceRoomSocket,
     private _userService: UserService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _destroyRef: DestroyRef
   ) {
     this.formMessage = this._formBuilder.group({
       message: ['', [Validators.required]],
@@ -35,7 +37,7 @@ export class MessagesContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._voiceRoomSocket.getNewMessage().subscribe((el) => {
+    this._voiceRoomSocket.getNewMessage().pipe(takeUntilDestroyed(this._destroyRef)).subscribe((el) => {
       console.log('mensaje recibido', el);
       let aux = {
         from: el.from,

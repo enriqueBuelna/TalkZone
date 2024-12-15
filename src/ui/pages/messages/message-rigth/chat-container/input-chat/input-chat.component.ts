@@ -35,7 +35,8 @@ export class InputChatComponent implements OnInit{
   
 
   ngOnInit(): void {
-    console.log(this.chatContainer);
+   
+    
   }
 
   sendMessage() {

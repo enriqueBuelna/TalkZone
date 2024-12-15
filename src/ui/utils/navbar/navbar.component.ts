@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../domain/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserDemo } from '../../../domain/models/user-demo.model';
+import { SocketService } from '../../../socket_service/socket.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -34,7 +35,8 @@ export class NavbarApp implements OnInit{
     private renderer: Renderer2,
     private _router: Router,
     private _authService : AuthService,
-    private _destroyRef: DestroyRef
+    private _destroyRef: DestroyRef,
+    private _socketService: SocketService
   ) {
     this.options = [
       {
@@ -118,6 +120,7 @@ export class NavbarApp implements OnInit{
 
   closeSesion() {
     this._userService.clearAuthData();
+    this._socketService.disconnect();
     this._router.navigate(['']);
   }
 }

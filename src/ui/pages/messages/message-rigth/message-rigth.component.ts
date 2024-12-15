@@ -41,6 +41,7 @@ export class MessageRigthComponent implements OnInit, OnDestroy {
   //ocupo encontrar el user_information
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
+      this._messageCService.messagesEmpty();
       const userId = params.get('user_id') || '';
       this._chatService.setAmHereId(userId);
       if(userId !== this._userrService.getUserId()){

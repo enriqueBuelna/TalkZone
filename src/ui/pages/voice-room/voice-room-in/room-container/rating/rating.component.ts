@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../../auth/services/user.service';
 import { VoiceRoomService } from '../../../../../../domain/services/voice_room.service';
 import { voiceRoomSocket } from '../../../../../../socket_service/voice_room_socket.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',
@@ -19,7 +20,8 @@ export class RatingComponent {
     private _router: Router,
     private _route: ActivatedRoute,
     private _userService: UserService,
-    private _voiceRoomService: VoiceRoomService
+    private _voiceRoomService: VoiceRoomService,
+    private _destroyRef: DestroyRef
   ) {}
   // Establece la calificación
   setRating(value: number): void {
@@ -38,7 +40,7 @@ export class RatingComponent {
       roomId,
       this.rating,
       this._userService.getUserId()
-    ).subscribe(el => {
+    ).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
       if(el){
         this.goToHome();
       }

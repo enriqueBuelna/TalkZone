@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class CallService {
     this.options.uid = uid;
   }
 
-  constructor() {
+  constructor(private _destroyRef:DestroyRef) {
     AgoraRTC.setLogLevel(4); // Opciones: "none", "error", "warning", "info", "debug"
     this.rtc.client = AgoraRTC.createClient({
       mode: 'rtc',
@@ -44,7 +45,7 @@ export class CallService {
       username
     );
     this.rtc.client.on('user-published', async (user: any, mediaType: any) => {
-      await this.rtc.client.subscribe(user, mediaType);
+      await this.rtc.client.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(user, mediaType);
       if (mediaType === 'audio') {
         user.audioTrack.play();
       }
