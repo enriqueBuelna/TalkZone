@@ -143,6 +143,7 @@ export class VoiceRoomComponent implements OnInit {
       this.responseAllVoiceRoom$
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((el) => {
+          console.log(el);
           this.yetNo.set(false);
           this.allVoiceRooms = el;
           if (this.allVoiceRooms.length === 0) {
@@ -173,6 +174,7 @@ export class VoiceRoomComponent implements OnInit {
     this.responseAllVoiceRoom$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
+        console.log(el);
         this.yetNo.set(false);
         if (el.length === 10) {
           this.hasMoreVr.set(true);
