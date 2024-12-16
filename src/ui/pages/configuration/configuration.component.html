@@ -7,28 +7,27 @@
                 </div>
             </app-header>
             <div class="settings-options">
-                <div class="option" (click)="go('your-account')">
+                <!-- <div class="option" (click)="go('your-account')">
                     <span>Tu cuenta</span>
                     <span class="arrow">›</span>
-                </div>
+                </div> -->
                 <!-- <div class="option">
                     <span>Privacidad y seguridad</span>
                     <span class="arrow">›</span>
                 </div> -->
                 <div class="option" (click)="go('access')">
-                    <span>Accesibilidad, pantalla e idiomas</span>
+                    <span>🔒Privacidad</span>
                     <span class="arrow">›</span>
                 </div>
             </div>
         </div>
     </div>
     <div id="aside">
-        <app-aside>
-            @if(where==='your-account'){
-            <app-account></app-account>
-            }@else if(where==='access'){
-            <app-accesibility></app-accesibility>
-            }
-        </app-aside>
+        <!-- @if(where==='your-account'){
+        <app-account></app-account>
+        } -->
+        @if(where==='access'){
+        <app-accesibility></app-accesibility>
+        }
     </div>
 </div>

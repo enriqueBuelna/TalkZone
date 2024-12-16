@@ -53,7 +53,7 @@ export class ViewOfGroupComponent implements OnInit {
   groupSuspended = signal(false);
   ngOnInit() {
     combineLatest([
-      this.userService.getCompleteInformation(this._userService.getUserId()),
+      this.userService.getCompleteInformation(this._userService.getUserId(), this._userService.getUserId()),
       this.route.paramMap.pipe(
         switchMap((params) => {
           this.id = params.get('id') || '';

@@ -78,7 +78,8 @@ export class MyProfileComponent implements OnInit {
       }
 
       this.myObservable = this._userService.getCompleteInformation(
-        this.userId()
+        this.userId(),
+        this._user.getUserId()
       );
 
       this.myObservable.subscribe({

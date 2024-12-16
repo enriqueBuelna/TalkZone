@@ -1,4 +1,4 @@
-<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="false" [dismissableMask]="true" [draggable]="false">
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="true" [dismissableMask]="true" [draggable]="false">
     <div class="flex justify-content-center">
         <form [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
             <p-stepper [linear]="true" [activeStep]="activeStep">

@@ -1,39 +1,47 @@
 <div class="contenedor">
     <app-header>
         <div class="header">
+            @if (active()) {
+            <i class="pi pi-arrow-left left" style="font-size: 1.5rem" (click)="goToHome()"></i>
+            }
             <h2>{{title}}</h2>
         </div>
     </app-header>
     <div class="in-side">
-        @if(title === 'Accesibilidad'){
+        @if(title === 'Privacidad'){
         <div class="account-options">
-            <div class="option" (click)="goTo('Apariencia')">
+            <div class="option" (click)="goTo('Cuentas bloqueadas')">
                 <span class="icon">🖌️</span>
-                <span>Apariencia</span>
-            </div>
-            <div class="option" (click)="goTo('Idiomas')">
-                <span class="icon">🌎</span>
-                <span>Cambiar idioma</span>
+                <span>🚫Cuentas bloqueadas</span>
             </div>
         </div>
         }
-        @if(title === 'Apariencia'){
-        <div class="fondo-selector-contenedor">
-            <h2 class="fondo-titulo">Imagen de fondo</h2>
-            <div class="fondo-opciones">
-                <label class="fondo-opcion fondo-seleccionada">
-                    <input type="radio" name="fondo" value="predeterminado" checked>
-                    <span class="blanco">Predet.</span>
-                </label>
-                <label class="fondo-opcion">
-                    <input type="radio" name="fondo" value="noche">
-                    <span class="fondo-texto">Noche clara</span>
-                </label>
-                <label class="fondo-opcion">
-                    <input type="radio" name="fondo" value="oscuro">
-                    <span class="fondo-texto">Oscuro</span>
-                </label>
+        @if(title === 'Cuentas bloqueadas'){
+        <div class="container">
+            @if (empty()) {
+            <div class="empty-state">
+
+                <div class="flex-type">
+                    <div class="empty-icon">🚫</div>
+                </div>
+                <h2 class="empty-title">No tienes usuarios bloqueados</h2>
+                <p class="empty-description">
+                    Parece que actualmente no has bloqueado a ningún usuario.
+                    Cuando bloquees a alguien, aparecerán en esta lista.
+                </p>
             </div>
+            }@else {
+            @for (item of blocked; track $index) {
+            <div class="blocked-user">
+                <img [src]="item.getProfilePic() || 'images/user.webp'">
+                <div class="user-info">
+                    <h3>{{item.getUsername()}}</h3>
+                </div>
+                <button class="btn unblock-btn" (click)="unblock(item.getUserId())">Desbloquear</button>
+            </div>
+            }
+            }
+
         </div>
         }@else if(title === 'Idiomas'){
         <div class="container">
@@ -49,3 +57,20 @@
         }
     </div>
 </div>
+
+@if (unblockUser()) {
+<div class="modal-overlay">
+    <div class="modal-content">
+        <h2>Bloquear usuario</h2>
+        <p>¿Estás seguro de que deseas bloquear a este usuario?</p>
+
+        <div class="modal-buttons">
+            <button class="btn btn-primary" (click)="unblock('')">Cancelar</button>
+            <button class="btn unblock-btn" (click)="unblockForReal()">Desbloquear</button>
+        </div>
+        @if (onGoing()) {
+        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+        }
+    </div>
+</div>
+}

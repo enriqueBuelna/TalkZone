@@ -62,7 +62,10 @@ export class DetailPostComponent implements OnInit {
           this.yetNo.set(false);
         }
       },
-      error: (error) => {},
+      error: (error) => {
+        this.postNotFound.set(true);
+        this.yetNo.set(false);
+      },
     });
   }
 

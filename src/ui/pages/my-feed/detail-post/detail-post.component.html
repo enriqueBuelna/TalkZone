@@ -21,13 +21,15 @@
 </div>
 }@else if(postNotFound()){
 <div class="post-not-found-container">
-    <div class="broken-post-icon">🕳️</div>
-    <h1 class="error-title">Publicación no encontrada</h1>
+    <div class="flex-type">
+        <div class="broken-post-icon">🕳️</div>
+        <h1 class="error-title">Publicación no encontrada</h1>
+
+    </div>
     <p class="error-description">Parece que la publicación que buscas ha sido eliminada, es privada o nunca existió.
         Puede que haya sido removida por el autor o no tengas permisos para verla.</p>
     <div class="action-buttons">
         <a href="/" class="btn btn-home">Ir al Inicio</a>
-        <a href="/feed" class="btn btn-feed">Ver Feed</a>
     </div>
 </div>
 }

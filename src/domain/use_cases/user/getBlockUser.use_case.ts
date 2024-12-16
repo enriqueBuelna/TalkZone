@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserRepository } from '../../repositories/user.repository';
 import { UserDemo } from '../../models/user-demo.model';
-import { UserComplete } from '../../models/user_complete_information.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GetCompleteInformation {
+export class GetBlockUser {
   constructor(private userRepository: UserRepository) {}
 
-  execute(user_id: string, myUserId: string):Observable<UserComplete> {
-    return this.userRepository.getCompleteInformation(user_id, myUserId);
+  execute(user_id: string): Observable<UserDemo[]> {
+    return this.userRepository.getBlockUser(user_id);
   }
 }

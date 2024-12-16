@@ -20,12 +20,55 @@ const headers = new HttpHeaders({
   providedIn: 'root',
 })
 export class RemoteUserRepository extends UserRepository {
+  override getBlockUser(user_id: string): Observable<UserDemo[]> {
+    const params = new HttpParams().set('user_id', user_id); // Convierte el ID a string
+    return this._http
+      .get<UserDemo[]>(`${this.API_URL}/getBlockedUser`, { params })
+      .pipe(
+        map((ele: any) =>
+          ele.map(
+            (el: any) =>
+              new UserDemo(
+                el.blocked.id,
+                el.blocked.username,
+                el.blocked.gender,
+                el.blocked.profile_picture,
+                false
+              )
+          )
+        )
+      );
+  }
 
-  override amFollowing(user_id: string, other_user_id: string): Observable<boolean> {
+  override blockUser(
+    blocker_user_id: string,
+    blocked_user_id: string
+  ): Observable<boolean> {
+    const payload = {
+      blocked_user_id,
+      blocker_user_id,
+    };
+    return this._http.post<boolean>(`${this.API_URL}/blockUser`, payload);
+  }
+  override unblockUser(
+    blocker_user_id: string,
+    blocked_user_id: string
+  ): Observable<boolean> {
+    const payload = {
+      blocked_user_id,
+      blocker_user_id,
+    };
+    return this._http.post<boolean>(`${this.API_URL}/unblockUser`, payload);
+  }
+
+  override amFollowing(
+    user_id: string,
+    other_user_id: string
+  ): Observable<boolean> {
     const payload = {
       user_id,
-      other_user_id
-    }
+      other_user_id,
+    };
     return this._http.post<boolean>(`${this.API_URL}/amFollowing`, payload);
   }
 
@@ -189,8 +232,13 @@ export class RemoteUserRepository extends UserRepository {
       );
   }
 
-  getCompleteInformation(user_id: string): Observable<UserComplete> {
-    const params = new HttpParams().set('user_id', user_id.toString());
+  getCompleteInformation(
+    user_id: string,
+    myUserId: string
+  ): Observable<UserComplete> {
+    const params = new HttpParams()
+      .set('user_id', user_id.toString())
+      .set('myUserId', myUserId);
     return this._http
       .get<UserComplete>(`${this.API_URL}/getCompleteProfile`, { params })
       .pipe(
@@ -223,8 +271,26 @@ export class RemoteUserRepository extends UserRepository {
             ),
             user.about_me,
             user.cover_picture,
-            user.followers.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture, f.is_verified)),
-            user.following.map((f:any) => new UserDemo(f.id, f.username, f.gender, f.profile_picture, f.is_verified))
+            user.followers.map(
+              (f: any) =>
+                new UserDemo(
+                  f.id,
+                  f.username,
+                  f.gender,
+                  f.profile_picture,
+                  f.is_verified
+                )
+            ),
+            user.following.map(
+              (f: any) =>
+                new UserDemo(
+                  f.id,
+                  f.username,
+                  f.gender,
+                  f.profile_picture,
+                  f.is_verified
+                )
+            )
           );
         })
       );

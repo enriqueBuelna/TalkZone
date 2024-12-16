@@ -19,6 +19,9 @@ import { UserComplete } from '../models/user_complete_information.model';
 import { EditProfile } from '../use_cases/user/editProfile.use_case';
 import { CompleteProfile } from '../use_cases/user/completeProfile.use_case';
 import { AmFollowing } from '../use_cases/user/amFollowing.use_case';
+import { BlockUser } from '../use_cases/user/blockUser.use_case';
+import { GetBlockUser } from '../use_cases/user/getBlockUser.use_case';
+import { UnblockUser } from '../use_cases/user/unblockUser.use_case';
 
 @Injectable({
   providedIn: 'root',
@@ -37,8 +40,23 @@ export class AuthService {
     private _getCompleteInformation: GetCompleteInformation,
     private _editProfile: EditProfile,
     private _completeProfile: CompleteProfile,
-    private _amFollowing: AmFollowing
+    private _amFollowing: AmFollowing,
+    private _blockUser:BlockUser,
+    private _getBlockUser:GetBlockUser,
+    private _unblockUser:UnblockUser
   ) {}
+
+  unblockUser(blocker_user_id:string, blocked_user_id:string):Observable<boolean>{
+    return this._unblockUser.execute(blocker_user_id, blocked_user_id);
+  }
+
+  getBlockUser(user_id:string):Observable<UserDemo[]>{
+    return this._getBlockUser.execute(user_id);
+  }
+
+  blockUser(blocker_user_id:string, blocked_user_id:string):Observable<boolean>{
+    return this._blockUser.execute(blocker_user_id, blocked_user_id);
+  }
 
   amFollowing(user_id: string, other_user_id: string): Observable<boolean> {
     return this._amFollowing.execute(user_id, other_user_id);
@@ -97,8 +115,8 @@ export class AuthService {
     return this._getBasicInfo.execute(user_id);
   }
 
-  getCompleteInformation(user_id: string): Observable<UserComplete> {
-    return this._getCompleteInformation.execute(user_id);
+  getCompleteInformation(user_id: string, myUserId: string): Observable<UserComplete> {
+    return this._getCompleteInformation.execute(user_id, myUserId);
   }
 
   editProfile(

@@ -53,6 +53,11 @@
             <button class="btn btn-secondary" (click)="editProfile()">Editar perfil</button>
             <button class="btn btn-secondary" (click)="editPreferences()">Editar preferencias</button>
         </div>
+        }@else {
+            <div class="group-actions">
+                <button class="btn btn-red" (click)="blockUser()">Bloquear usuario</button>
+                <button class="btn btn-primary" (click)="sendMessage()">Enviar mensaje</button>
+            </div>
         }
     </div>
     }@else if(type === 'group'){
@@ -165,6 +170,19 @@
         </div>
     </div>
 </div>
+}
+
+@if(blockerUser()){
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <h2>Bloquear usuario</h2>
+            <p>¿Estás seguro de que deseas bloquear a este usuario?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-cancel" (click)="blockUser()">Cancelar</button>
+                <button class="btn btn-delete" (click)="blockForReal()">Bloquear</button>
+            </div>
+        </div>
+    </div>
 }
 
 <!-- @if (noAccess()) {

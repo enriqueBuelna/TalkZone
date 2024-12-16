@@ -16,6 +16,7 @@ import { AuthService } from '../../../domain/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserDemo } from '../../../domain/models/user-demo.model';
 import { SocketService } from '../../../socket_service/socket.service';
+import { NotService } from '../../pages/notifications/services/notifications.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -36,7 +37,8 @@ export class NavbarApp implements OnInit{
     private _router: Router,
     private _authService : AuthService,
     private _destroyRef: DestroyRef,
-    private _socketService: SocketService
+    private _socketService: SocketService,
+    private _notService: NotService
   ) {
     this.options = [
       {
@@ -81,12 +83,12 @@ export class NavbarApp implements OnInit{
         icon: 'pi pi-user',
         badge: false,
       },
-      // {
-      //   name: 'Configuración',
-      //   where: '/home/configuration',
-      //   icon: 'pi pi-cog',
-      //   badge: false,
-      // },
+      {
+        name: 'Configuración',
+        where: '/home/configuration',
+        icon: 'pi pi-cog',
+        badge: false,
+      },
     ];
   }
   showTooltip = false;
@@ -122,5 +124,7 @@ export class NavbarApp implements OnInit{
     this._userService.clearAuthData();
     this._socketService.disconnect();
     this._router.navigate(['']);
+    this._notService.setUnreadNotifications(0);
+    this._notService.setUnreadMessages(0);
   }
 }

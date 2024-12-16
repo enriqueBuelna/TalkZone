@@ -45,7 +45,7 @@ export class CallService {
       username
     );
     this.rtc.client.on('user-published', async (user: any, mediaType: any) => {
-      await this.rtc.client.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(user, mediaType);
+      await this.rtc.client.subscribe(user, mediaType);
       if (mediaType === 'audio') {
         user.audioTrack.play();
       }

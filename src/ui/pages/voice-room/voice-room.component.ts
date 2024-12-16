@@ -122,12 +122,13 @@ export class VoiceRoomComponent implements OnInit {
 
   filterApply() {
     let { all_topics, type } = this.filterForm.value;
-    console.log(type);
+    console.log(all_topics, type);
     if (all_topics.length > 0 || type.length > 0) {
       let auxTopicId, auxType;
       if (all_topics.length > 0) {
         auxTopicId = all_topics.map((el: any) => el.topic_id);
       }
+      console.log(auxTopicId);
       const payload = {
         topicsId: auxTopicId,
         type,

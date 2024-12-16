@@ -30,7 +30,7 @@ export abstract class UserRepository {
   ): Observable<void>;
   abstract getFollowersFollowed(user_id: string): Observable<User[]>; //
   abstract getBasicInfo(user_id: string): Observable<UserDemo>;
-  abstract getCompleteInformation(user_id: string): Observable<UserComplete>;
+  abstract getCompleteInformation(user_id: string, myUserId: string): Observable<UserComplete>;
   abstract editProfile(
     user_id: string,
     username?: string,
@@ -40,4 +40,7 @@ export abstract class UserRepository {
   ): Observable<any>;
   abstract completeProfile(user_id:string):Observable<any>;
   abstract amFollowing(user_id:string, other_user_id:string):Observable<boolean>;
+  abstract blockUser(blocker_user_id:string, blocked_user_id:string):Observable<boolean>;
+  abstract unblockUser(blocker_user_id:string, blocked_user_id:string):Observable<boolean>;
+  abstract getBlockUser(user_id:string):Observable<UserDemo[]>;
 }

@@ -7,7 +7,7 @@ import { AccesibilityComponent } from './accesibility/accesibility.component';
 @Component({
   selector: 'app-configuration',
   standalone: true,
-  imports: [AsideComponent, HeaderComponent, AccountComponent, AccesibilityComponent],
+  imports: [ HeaderComponent, AccesibilityComponent],
   templateUrl: './configuration.component.html',
   styleUrl: './configuration.component.css',
 })

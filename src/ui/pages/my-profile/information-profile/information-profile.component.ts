@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, signal } from '@angular/core';
 import { ButtonComponent } from '../../../utils/button/button.component';
 import { UserPreference } from '../../../../domain/models/user_preference.model';
 import { ChipModule } from 'primeng/chip';
@@ -14,6 +14,9 @@ import { EditProfileGroupComponent } from '../../group/view-of-group/edit-profil
 import { ModalPostComponent } from '../../my-feed/create-post/modal-post/modal-post.component';
 import { EditPreferencesComponent } from '../edit-preferences/edit-preferences.component';
 import { TopicsTagsService } from '../../welcome/services/topics-tags.service';
+import { AuthService } from '../../../../domain/services/auth.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Route, Router } from '@angular/router';
 @Component({
   selector: 'app-information-profile',
   standalone: true,
@@ -66,7 +69,10 @@ export class InformationProfileComponent implements OnInit {
     private _userPreference: UserPreferenceSignalService,
     private _communityService: CommunitieService,
     private _userService: UserService,
-    public _TopicTagsService: TopicsTagsService
+    public _TopicTagsService: TopicsTagsService,
+    private _authService : AuthService,
+    private _destroyRef : DestroyRef,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -98,5 +104,26 @@ export class InformationProfileComponent implements OnInit {
           this.typeMember.set('no-member');
         }
       });
+  }
+  blockerUser = signal(false);
+  blockUser(){
+    this.blockerUser.set(!this.blockerUser());
+  }
+
+
+  blockForReal(){
+    this._authService.blockUser(this._userService.getUserId(), this.user.getUserDemo().getUserId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: el => {
+        this.blockUser();
+        this._router.navigate(['/home/profile', this._userService.getUserId()]);
+      },      
+      error : error => {
+
+      }   
+    })
+  }
+
+  sendMessage(){
+    this._router.navigate(['/home/messages', this.user.getUserDemo().getUserId()]);
   }
 }

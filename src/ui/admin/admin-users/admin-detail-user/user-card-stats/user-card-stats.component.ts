@@ -53,25 +53,43 @@ export class UserCardStatsComponent implements OnInit {
       });
   }
 
-  verifyUser(){
-    this._adminService.verifyUser(this.userId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: el => {
-        this.user.setVerify(true);
-      },
-      error: error => {
+  verifyUser() {
+    this._adminService
+      .verifyUser(this.userId())
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this._adminService
+            .sendWarning(
+              `¡Felicidades! 🎉
+Tu excelente desempeño y compromiso han sido reconocidos oficialmente. Acabas de ser verificado, lo que demuestra el alto nivel de calidad y confiabilidad que has demostrado constantemente.✅
 
-      }
-    })
+Ahora puedes hacer salas de voz privadas, proximamente tendras mas beneficios
+
+Gracias por seguir destacando y mantener los más altos estándares. ¡Sigue así! 💪✨`,
+              this.userId(),
+              ''
+            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+              next: (el) => {
+                this.user.setVerify(true);
+              },
+            });
+        },
+        error: (error) => {},
+      });
   }
 
-  unverifyUser(){
-    this._adminService.unverifyUser(this.userId()).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: el => {
-        this.user.setVerify(false);
-      },
-      error: error => {
-
-      }
-    })
+  unverifyUser() {
+    this._adminService
+      .unverifyUser(this.userId())
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (el) => {
+          this.user.setVerify(false);
+        },
+        error: (error) => {},
+      });
   }
 }
