@@ -11,7 +11,7 @@ import { Tag } from '../../domain/models/tag.model';
   providedIn: 'root',
 })
 export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
-  private readonly API_URL = 'http://localhost:3000/';
+  private readonly API_URL = 'https://api-talkzone.onrender.com/';
   private _http = inject(HttpClient);
 
   override searchConnect(

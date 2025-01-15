@@ -47,7 +47,7 @@ export class SocketService {
   connect(): void {
     if (!this.socket) {
       console.log('HAY CONEXION');
-      this.socket = io('http://localhost:3000'); // Cambia por la URL de tu backend
+      this.socket = io('https://api-talkzone.onrender.com'); // Cambia por la URL de tu backend
     } else {
       console.log('aji no eh');
     }

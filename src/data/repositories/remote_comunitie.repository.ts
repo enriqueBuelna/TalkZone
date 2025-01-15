@@ -302,7 +302,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
         })
       );
   }
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'https://api-talkzone.onrender.com';
   private _http = inject(HttpClient);
 
   override createGroup(

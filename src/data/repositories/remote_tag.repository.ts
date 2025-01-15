@@ -27,7 +27,7 @@ export class RemoteTagRespository extends TagRepository {
     }
     return this._http.post<any>(`${this.API_URL}/preferencesTags/createTags`, payload);
   }
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'https://api-talkzone.onrender.com';
   private _http = inject(HttpClient);
 
   getAllTag(id: number): Observable<Tag[]> {

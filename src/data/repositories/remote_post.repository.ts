@@ -268,7 +268,7 @@ export class RemotePostRespository extends PostRepository {
   // override getForYouPost(user_id: string): Observable<Post[]> {
   //   throw new Error('Method not implemented.');
   // }
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'https://api-talkzone.onrender.com';
   private _http = inject(HttpClient);
 
   newPost(infoPost: IPost): Observable<Post> {

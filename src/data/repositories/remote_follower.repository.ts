@@ -26,7 +26,7 @@ export class RemoteFollowerRepository extends FollowerRepository {
       .post<boolean>(`${this.API_URL}/followers/deleteFollower`, payload)
       .pipe(map((el) => el));
   }
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'https://api-talkzone.onrender.com';
   private _http = inject(HttpClient);
   override followUser(
     follower_id: string,

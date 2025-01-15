@@ -89,7 +89,7 @@ export class RemoteUserRepository extends UserRepository {
   override changePassword(password: string): Observable<void> {
     throw new Error('Method not implemented.');
   }
-  private readonly API_URL = 'http://localhost:3000/users';
+  private readonly API_URL = 'https://api-talkzone.onrender.com/users';
   private _http = inject(HttpClient);
 
   register(user: User): Observable<User> {

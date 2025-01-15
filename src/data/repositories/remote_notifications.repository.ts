@@ -17,7 +17,7 @@ export class RemoteNotificationRepository extends NotificationRepository {
       })
       .pipe(map((el) => el));
   }
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'https://api-talkzone.onrender.com';
   private _http = inject(HttpClient);
   getAllMyNotifications(user_id: string): Observable<Notification[]> {
     const params = new HttpParams().set('user_id', user_id);

@@ -8,7 +8,7 @@ import { Topic } from '../../domain/models/topic.model';
   providedIn: 'root',
 })
 export class RemoteTopicRepository extends TopicRepository {
-  private readonly API_URL = 'http://localhost:3000/topics';
+  private readonly API_URL = 'https://api-talkzone.onrender.com/topics';
   private _http = inject(HttpClient);
   getPrincipalTopic(): Observable<Topic[]> {
     return this._http

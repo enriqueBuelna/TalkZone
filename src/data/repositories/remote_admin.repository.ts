@@ -69,7 +69,7 @@ export class RemoteAdminRepository extends AdminRepository {
     };
     return this._http.post<boolean>(`${this.API_URL}/deleteContent`, payload);
   }
-  private readonly API_URL = 'http://localhost:3000/admin';
+  private readonly API_URL = 'https://api-talkzone.onrender.com/admin';
   private _http = inject(HttpClient);
 
   override getTopFiveHosts(): Observable<TopHosts[]> {

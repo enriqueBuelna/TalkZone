@@ -75,7 +75,7 @@ export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
   override getInVoiceRoom(user_id: string): Observable<void> {
     throw new Error('Method not implemented.');
   }
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'https://api-talkzone.onrender.com';
   private _http = inject(HttpClient);
 
   getVoiceRoom(

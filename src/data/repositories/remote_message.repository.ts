@@ -10,7 +10,7 @@ import { UserDemo } from '../../domain/models/user-demo.model';
   providedIn: 'root',
 })
 export class RemoteMessageRepository extends MessageRepository {
-  private readonly API_URL = 'http://localhost:3000/messages';
+  private readonly API_URL = 'https://api-talkzone.onrender.com/messages';
   private _http = inject(HttpClient);
 
   override reportMessage(reason: string, details: string, reported_user_id: string, reporter_id: string, message_id: string): Observable<boolean> {
