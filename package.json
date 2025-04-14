@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
     "@ctrl/ngx-emoji-mart": "^9.2.0",
+    "@google/genai": "^0.8.0",
     "@google/generative-ai": "^0.21.0",
     "agora-rtc-sdk-ng": "^4.22.2",
     "bootstrap": "^5.3.3",

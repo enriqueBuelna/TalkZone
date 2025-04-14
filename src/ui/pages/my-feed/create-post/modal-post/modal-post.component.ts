@@ -273,15 +273,10 @@ export class ModalPostComponent implements OnInit {
         } else {
           this._geminiService
             .verifyIfTopicCorrect(topic_id.topic_name, content)
-            .then((response: any) => {
-              if (
-                response === 'Sí' ||
-                response === 'SÍ' ||
-                response === 'sí' ||
-                response === 'Si' ||
-                response === 'SI' ||
-                response === 'si'
-              ) {
+            .then((response: string) => {
+              const validResponses = ['sí', 'si'];
+              const normalizedResponse = response.trim().toLowerCase();
+              if (validResponses.includes(normalizedResponse)) {
                 this._postService.newPost(payload).subscribe((el) => {
                   console.log(el);
                   this.submitEnter.set(false);
