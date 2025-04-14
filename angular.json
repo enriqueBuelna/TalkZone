@@ -83,6 +83,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
+              "src/_redirect",
               {
                 "glob": "**/*",
                 "input": "public"
