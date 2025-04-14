@@ -25,7 +25,7 @@ export class GoogleGeminiProService {
   readonly #API_KEY = 'AIzaSyDrFMvd5Z1TFrXLnzZ8uX_NctKsUtGaFko';
   readonly #genAI = new GoogleGenerativeAI(this.#API_KEY);
   readonly #model = this.#genAI.getGenerativeModel({
-    model: 'gemini-pro',
+    model: 'gemini',
     ...this.generationConfig,
   });
 
