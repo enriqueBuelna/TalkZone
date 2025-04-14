@@ -1,3 +1,15 @@
-<button class="custom-btn" [disabled]="isDisabled" [class]="buttonClass" type="{{ type }}" (click)="onClick()">
-    {{ text }}
+<button class="custom-btn" 
+        [disabled]="isDisabled || isLoading"
+        [class]="buttonClass"
+        type="{{ type }}" 
+        (click)="onClick()">
+  <div class="button-content">
+    @if (isLoading) {
+      <div class="loader-container">
+        <div class="loader" [ngStyle]="{ borderTopColor: loaderColor }"></div>
+      </div>
+    } @else {
+      {{ text }}
+    }
+  </div>
 </button>

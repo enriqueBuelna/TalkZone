@@ -8,7 +8,7 @@ import { UserDemo } from '../models/user-demo.model';
 import { UserComplete } from '../models/user_complete_information.model';
 
 export abstract class UserRepository {
-  abstract register(user: User): Observable<User>;
+  abstract register(user: User): Observable<LoginResponse>;
   abstract login(username: string, password: string): Observable<LoginResponse>;
   abstract checkAvailability(
     username: string,

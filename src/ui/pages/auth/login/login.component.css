@@ -1,8 +1,71 @@
 .forgotPassword {
-    cursor: pointer;
-    color: #23B5D3;
+  cursor: pointer;
+  color: #23b5d3;
 }
 
 .mb-3 {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.margin-b {
+  margin-bottom: 1rem;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.password {
+  margin-left: 3.5rem;
+  width: 75%;
+}
+
+/* Personalización del stepper */
+.stepper-custom .p-stepper-nav {
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.stepper-custom .p-stepper-item .p-stepper-number {
+  background-color: #e9ecef;
+  color: #6c757d;
+  border: 2px solid #dee2e6;
+}
+
+.stepper-custom .p-stepper-item.p-highlight .p-stepper-number {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+/* Mejora de inputs */
+.p-inputtext,
+.p-password-input {
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-inputtext:enabled:hover,
+.p-password-input:hover {
+  border-color: #86b7fe !important;
+}
+
+.p-inputtext:enabled:focus,
+.p-password-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  border-color: #86b7fe !important;
+}
+
+/* OTP Input */
+.p-inputotp-input {
+  border-radius: 8px !important;
+  font-size: 1.2rem !important;
+  text-align: center !important;
 }

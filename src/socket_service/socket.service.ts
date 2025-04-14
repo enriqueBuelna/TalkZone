@@ -11,6 +11,7 @@ export class SocketService {
   constructor() {
     // Conectar al servidor de socket.io (modifica la URL por la de tu servidor)
     // this.socket = io('http://localhost:3000'); // Cambia por la URL de tu backend
+    window.addEventListener('beforeunload', () => this.disconnect());
   }
 
   // Método para emitir eventos (enviar datos)
@@ -46,10 +47,18 @@ export class SocketService {
   //modificacion
   connect(): void {
     if (!this.socket) {
-      console.log('HAY CONEXION');
-      this.socket = io('https://api-talkzone.onrender.com'); // Cambia por la URL de tu backend
-    } else {
-      console.log('aji no eh');
+      console.log('Conectando al servidor Socket.IO');
+      this.socket = io('https://api-talkzone.onrender.com', {
+        // Opciones para evitar conexiones duplicadas
+        autoConnect: true,
+        reconnection: false, // Desactiva la reconexión automática
+      });
+
+      // Manejar reconexiones manualmente si es necesario
+      this.socket.on('disconnect', () => {
+        console.log('Desconectado. Intentando reconectar...');
+        // this.connect(); // Opcional: reactivar si se desea reconexión
+      });
     }
   }
 }

@@ -104,6 +104,20 @@ export class UserService {
     }
   }
 
+  setProfileComplete(complete: boolean): void {
+    this.currentUser.is_profile_complete = complete;
+
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      decodedToken.is_profile_complete = complete;
+
+      // Re-encode the token with the updated value
+      const updatedToken = btoa(JSON.stringify(decodedToken)); // Simulating token encoding
+      this.setToken(updatedToken);
+    }
+  }
+
   getUserId(): string {
     return this.user_id;
   }

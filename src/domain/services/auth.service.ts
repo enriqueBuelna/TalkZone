@@ -66,7 +66,7 @@ export class AuthService {
     return this._completeProfile.execute(user_id);
   }
 
-  register(user: User): Observable<User> {
+  register(user: User): Observable<LoginResponse> {
     return this._registerUser.execute(user);
   }
 

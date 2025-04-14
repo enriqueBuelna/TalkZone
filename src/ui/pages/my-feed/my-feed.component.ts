@@ -57,6 +57,7 @@ export class MyFeedComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("UPPPPP")
     this._messageSuccess.setFalse();
     this.success = this._messageSuccess.getSuccess();
     this.myObservable = this._userService.getBasicInfo(this._user.getUserId());

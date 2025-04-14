@@ -1,96 +1,113 @@
-<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40rem', height:'40rem' }" [closable]="true" [dismissableMask]="true" [draggable]="false">
-    <div class="flex justify-content-center">
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '90vw', maxWidth: '600px' }" [closable]="modalClose"
+    [dismissableMask]="false" [draggable]="false" (onHide)="closeModal()" [closeOnEscape]="false">
+    <div class="container py-4">
         <form [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
-            <p-stepper [linear]="true" [activeStep]="activeStep">
+            <p-stepper [linear]="true" [activeStep]="activeStep" class="stepper-custom">
+                <!-- Paso 1 - Información básica -->
                 <p-stepperPanel>
                     <ng-template pTemplate="content">
-                        <div class="container">
-                            <div class="title">
-                                <h2>Crea tu cuenta</h2>
-                            </div>
-                            <div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="username" formControlName="username"
-                                        [ngClass]="{'is-invalid': hasErrors('username','required') || hasErrors('username','minlength')}"
-                                        placeholder="Ingresa un nombre de usuario">
-                                    @if (hasErrors('username','required')) {
-                                    <span class="text-danger">Llena el campo correctamente</span>
-                                    }
-                                    <!-- @else if(hasErrors('username','minlength')){
-                                        <span class="text-awa">El nombre de usuario debe ser mayor a 8 caracteres</span>
-                                    } -->
-                                </div>
-
-                                <div class="mb-3">
-                                    <input type="email" class="form-control" id="email"
-                                        placeholder="Ingresa tu correo electrónico" formControlName="email"
-                                        [ngClass]="{'is-invalid': hasErrors('email','required') || hasErrors('email','email')}">
-                                    @if (hasErrors('email','required')) {
-                                    <span class="text-danger">Llena el campo correctamente</span>
-                                    }@else if (hasErrors('email','email')) {
-                                    <span class="text-danger">Debe ser un email correcto</span>
-                                    }
-                                </div>
-
-                                <div class="mb-5">
-                                    <label for="fecha" class="form-label d-flex">Género</label>
-                                    <p-dropdown formControlName="selectedGenre" [options]="genre" optionLabel="text"
-                                        placeholder="Selecciona"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="fecha" class="form-label d-flex">Selecciona una Fecha</label>
-                                    <p-calendar id="fecha" [minDate]="minDate" [maxDate]="maxDate"
-                                        [readonlyInput]="true" formControlName="date_of_birth"
-                                        [style]="{ height:'2.5rem' }" />
-                                </div>
-
-                            </div>
-
+                        <div class="text-center mb-3 cc">
+                            <i class="pi pi-user-plus text-primary" style="font-size: 2.5rem"></i>
+                            <h2 class="title">Crea tu cuenta</h2>
+                            <p class="text-muted">Comencemos con información básica</p>
                         </div>
 
-                        <div class="mt-3">
-                            <app-button text="Siguiente" (clickEvent)="register()" />
+                        <div class="form-group mb-4">
+                            <label class="form-label text-secondary mb-2">Nombre de usuario</label>
+                            <input type="text" class="form-control py-2" id="username" formControlName="username"
+                                placeholder="Ej: usuario123"
+                                [ngClass]="{'is-invalid': hasErrors('username','required') || hasErrors('username','minlength')}">
+                            @if (hasErrors('username','required')) {
+                            <div class="invalid-feedback">Este campo es requerido</div>
+                            }
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label text-secondary mb-2">Correo electrónico</label>
+                            <input type="email" class="form-control py-2" id="email" placeholder="tucorreo@ejemplo.com"
+                                formControlName="email"
+                                [ngClass]="{'is-invalid': hasErrors('email','required') || hasErrors('email','email')}">
+                            @if (hasErrors('email','required')) {
+                            <div class="invalid-feedback">Este campo es requerido</div>
+                            }
+                            @if (hasErrors('email','email')) {
+                            <div class="invalid-feedback">Ingresa un email válido</div>
+                            }
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label text-secondary mb-2">Género</label>
+                            <p-dropdown formControlName="selectedGenre" [options]="genre" optionLabel="text"
+                                class="w-100" [style]="{ padding: '0.375rem' }" placeholder="Selecciona tu género" />
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <label class="form-label text-secondary mb-2">Fecha de nacimiento</label>
+                            <p-calendar id="fecha" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true"
+                                formControlName="date_of_birth" [showIcon]="true" inputStyleClass="w-100 py-2"
+                                class="h-100" placeholder="Selecciona una fecha" />
+                        </div>
+
+                        <div class="cc">
+                            <app-button text="Continuar" buttonClass="small-button" [isLoading]="isLoading"
+                                (clickEvent)="register()" />
                         </div>
                     </ng-template>
                 </p-stepperPanel>
+
+                <!-- Paso 2 - Verificación -->
                 <p-stepperPanel>
                     <ng-template pTemplate="content">
-                        <div class="container text-center">
-                            <h2>Hemos enviado un codigo de verificación</h2>
+                        <div class="cc">
+                            <i class="pi pi-shield text-primary" style="font-size: 2.5rem"></i>
+                            <h2 class="mt-3 fw-bold">Verificación requerida</h2>
+                            <p class="text-muted">Hemos enviado un código a tu correo electrónico</p>
                         </div>
-                        <div class="form">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <p-inputOtp formControlName="code" [length]="6" />
-                            </div>
 
+                        <div class="mb-5">
+                            <div class="d-flex justify-content-center">
+                                <p-inputOtp formControlName="code" [length]="6"
+                                    [style]="{ width: '100%', padding: '0.75rem' }" class="gap-2" />
+                            </div>
                         </div>
-                        <div class="mt-3">
-                            <app-button text="Siguiente" (clickEvent)="register()" />
+
+                        <div class="cc">
+                            <app-button text="Verificar código" (clickEvent)="register()" buttonClass="small-button"
+                                [isLoading]="isLoading" />
                         </div>
                     </ng-template>
                 </p-stepperPanel>
+
+                <!-- Paso 3 - Contraseña -->
                 <p-stepperPanel>
                     <ng-template pTemplate="content">
-                        <div class="container text-center">
-                            <h2>Ultimos pasos</h2>
+                        <div class="cc">
+                            <i class="pi pi-lock text-primary" style="font-size: 2.5rem"></i>
+                            <h2 class="mt-3 fw-bold">Protege tu cuenta</h2>
+                            <p class="text-muted">Crea una contraseña segura</p>
                         </div>
-                        <div class="form">
-                            <div class="mb-3">
-                                <p-password type="text" id="password" placeholder="Contraseña"
-                                     formControlName="password" [feedback]="false" [toggleMask]="true" [inputStyle]="{width:'100%'}" [style]='{width:"100%"}'/>
-                            </div>
-                            <div class="mb-3">
-                                <p-password type="text" id="repeatPassword"
-                                    placeholder="Repetir contraseña" formControlName="repeatPassword" [feedback]="false" [toggleMask]="true" [inputStyle]="{width:'100%'}" [style]='{width:"100%"}'/>
-                            </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label text-secondary mb-2">Contraseña</label>
+                            <p-password formControlName="password" placeholder="••••••••" [feedback]="false"
+                                [toggleMask]="true" [inputStyle]="{width: '100%', padding: '0.75rem'}"
+                                styleClass="w-100" />
                         </div>
-                        <div class="mt-3">
-                            <app-button text="Siguiente" (clickEvent)="register()" />
+
+                        <div class="form-group mb-5">
+                            <label class="form-label text-secondary mb-2">Repetir contraseña</label>
+                            <p-password formControlName="repeatPassword" placeholder="••••••••" [feedback]="false"
+                                [toggleMask]="true" [inputStyle]="{width: '100%', padding: '0.75rem'}"
+                                styleClass="w-100" />
+                        </div>
+
+                        <div class="cc">
+                            <app-button text="Completar registro" (clickEvent)="register()" buttonClass="small-button"
+                                [isLoading]="isLoading" />
                         </div>
                     </ng-template>
                 </p-stepperPanel>
             </p-stepper>
         </form>
-
     </div>
 </p-dialog>

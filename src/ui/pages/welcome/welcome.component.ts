@@ -114,6 +114,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this._userService.isProfileComplete());
     if (this._userService.isProfileComplete()) {
       this._router.navigate(['home', 'posts']);
     } else {
@@ -351,6 +352,7 @@ export class WelcomeComponent implements OnInit {
     );
 
     this.responseFinishProfile$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((data) => {
+      this._userService.setProfileComplete(true);
       this._router.navigate(['home', 'posts']);
     });
     }

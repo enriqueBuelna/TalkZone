@@ -20,6 +20,8 @@ import { MessageResponse } from '../../../../domain/entities/users/MessageRespon
 import { ValidationPassword } from './validators/password.validator';
 import { User } from '../../../../domain/models/user.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 interface Genre {
   text: string;
   typeBD: string;
@@ -54,11 +56,14 @@ export class RegisterApp {
   minDate: Date = new Date(1940, 0, 1);
   today?: Date;
   maxDate?: Date;
+  isLoading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private _authService: AuthService,
-    private _destroyRef: DestroyRef
+    private _destroyRef: DestroyRef,
+    private _userService: UserService,
+    private _router: Router
   ) {
     this.today = new Date();
     this.maxDate = new Date(
@@ -101,19 +106,38 @@ export class RegisterApp {
         password,
         is_profile_complete: false,
         profile_pic: null,
-        is_banned: false
+        is_banned: false,
       };
+      this.isLoading = true;
       this._authService
         .register(user)
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((response) => {
           console.log(response);
+          this._userService.setToken(response.token);
+          this._userService.setUser(response.user);
+          if (
+            response.user.is_banned &&
+            this._userService.getUserId() !==
+              'dbb9d930-e338-40c2-9162-d7a04ab685d5'
+          ) {
+            this._router.navigate(['/banned']);
+          } else {
+            if (
+              this._userService.getUserId() ===
+              'dbb9d930-e338-40c2-9162-d7a04ab685d5'
+            ) {
+              this._router.navigate(['/admin']); // Redirigir a la página de bienvenida
+            } else {
+              this._router.navigate(['/home/posts']); // Redirigir a la página de bienvenida
+            }
+          }
+          this.isLoading = false;
+          this.visible = false;
         });
     } else {
       alert('invalido');
     }
-    this.visible = false;
-    console.log('putos');
   }
 
   hasErrors(field: string, typeError: string) {
@@ -149,6 +173,7 @@ export class RegisterApp {
       if (
         firstStepFields.every((field) => this.registerForm.get(field)?.valid)
       ) {
+        this.isLoading = true;
         //VERIFICAR SI YA ESTAN AGARRADOS ESE USERNAME O ESE EMAIL
         const { username, email } = this.registerForm.value;
         this._authService
@@ -158,6 +183,7 @@ export class RegisterApp {
             let { message } = response;
             if (message === 'Todo bien') {
               this.activeStep++;
+              this.isLoading = false;
             }
           });
       } else {
@@ -177,6 +203,7 @@ export class RegisterApp {
       if (
         secondStepFields.every((field) => this.registerForm.get(field)?.valid)
       ) {
+        this.isLoading = true;
         const { code, email } = this.registerForm.value;
         this._authService
           .verifyCode(code, email)
@@ -185,6 +212,7 @@ export class RegisterApp {
             let { message } = response;
             if (message === 'Verificación exitosa') {
               this.activeStep++;
+              this.isLoading = false;
             }
           });
       }
@@ -196,10 +224,12 @@ export class RegisterApp {
         control?.markAsTouched();
         control?.updateValueAndValidity();
       });
+      this.isLoading = true;
       if (
         this.comparePassword() &&
         thirdStepFields.every((field) => this.registerForm.get(field)?.valid)
       ) {
+        this.isLoading = false;
         this.submit();
       }
     }
@@ -222,6 +252,8 @@ export class RegisterApp {
   }
 
   @Output() close = new EventEmitter<void>();
+
+  modalClose = true;
 
   closeModal() {
     this.close.emit();

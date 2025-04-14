@@ -92,7 +92,7 @@ export class RemoteUserRepository extends UserRepository {
   private readonly API_URL = 'https://api-talkzone.onrender.com/users';
   private _http = inject(HttpClient);
 
-  register(user: User): Observable<User> {
+  register(user: User): Observable<LoginResponse> {
     const payload = {
       username: user.username,
       email: user.email,
@@ -102,22 +102,11 @@ export class RemoteUserRepository extends UserRepository {
     };
 
     return this._http
-      .post<User>(`${this.API_URL}/register`, payload)
+      .post<LoginResponse>(`${this.API_URL}/register`, payload)
       .pipe(
-        map(
-          (response: any) =>
-            new User(
-              response.id,
-              response.username,
-              response.email,
-              response.password,
-              response.date_of_birth,
-              response.gender,
-              response.is_profile_complete,
-              response.profile_picture,
-              response.is_banned
-            )
-        )
+        map((response: any) => {
+          return response; // Retorna la respuesta tal cual o manipula si lo necesitas.
+        })
       );
   }
 
@@ -216,6 +205,7 @@ export class RemoteUserRepository extends UserRepository {
 
   getBasicInfo(user_id: string): Observable<UserDemo> {
     const params = new HttpParams().set('user_id', user_id.toString());
+    console.log('user_id', user_id);
     return this._http
       .get<UserDemo>(`${this.API_URL}/getBasicInfo`, { params })
       .pipe(

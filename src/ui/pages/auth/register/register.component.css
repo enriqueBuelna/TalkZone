@@ -34,6 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
 }
 
 .hola {
@@ -42,23 +43,19 @@
 
 /* Container styles */
 .container {
-  padding: 2rem;
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
 }
-
+/* 
 /* Title styles */
-.title {
-  margin-bottom: 2rem;
-  text-align: center;
-}
 
+/* 
 .title h2 {
   font-size: 1.5rem;
   font-weight: 600;
   color: #333;
-}
+} */
 
 /* Form styles */
 .form-control {
@@ -152,11 +149,205 @@
 
 /* Modal custom styles */
 :host ::ng-deep .p-dialog {
-  border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 :host ::ng-deep .p-dialog .p-dialog-content {
   padding: 0;
-  border-radius: 0.5rem;
+}
+
+/* Estilos específicos para el formulario de registro */
+.p-calendar .p-inputtext {
+  border-radius: 8px !important;
+  width: 100% !important;
+  height: 2.5rem !important;
+}
+
+.p-dropdown {
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-dropdown:hover {
+  border-color: #86b7fe !important;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  border-color: #86b7fe !important;
+}
+
+/* Ajustes para mensajes de validación */
+.invalid-feedback {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.is-invalid.p-inputtext:enabled:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.cc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos generales del diálogo */
+.p-dialog .p-dialog-content {
+  border-radius: 15px !important;
+}
+
+/* Personalización del stepper */
+.stepper-custom .p-stepper-nav {
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.stepper-custom .p-stepper-item .p-stepper-number {
+  background-color: #e9ecef;
+  color: #6c757d;
+  border: 2px solid #dee2e6;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.stepper-custom .p-stepper-item.p-highlight .p-stepper-number {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+.stepper-custom .p-stepper-title {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Contenedor centrado */
+.cc {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Títulos */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+/* Formularios */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #495057;
+}
+
+/* Inputs personalizados */
+.p-inputtext, 
+.p-password-input, 
+.p-dropdown, 
+.p-calendar .p-inputtext {
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.p-inputtext:enabled:hover, 
+.p-password-input:hover,
+.p-dropdown:hover {
+  border-color: #86b7fe !important;
+}
+
+.p-inputtext:enabled:focus, 
+.p-password-input:focus,
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  border-color: #86b7fe !important;
+}
+
+/* Componente OTP */
+.p-inputotp-input {
+  border-radius: 8px !important;
+  font-size: 1.2rem !important;
+  height: 3.5rem !important;
+  width: 3rem !important;
+}
+
+/* Dropdown */
+.p-dropdown-panel .p-dropdown-items {
+  padding: 0.5rem !important;
+}
+
+.p-dropdown-item {
+  padding: 0.5rem 1rem !important;
+  border-radius: 6px !important;
+}
+
+/* Calendar */
+.p-datepicker {
+  border-radius: 12px !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Validaciones */
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.is-invalid.p-inputtext:enabled:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545;
+}
+
+/* Botones personalizados */
+.btn-primary {
+  background: #0d6efd;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+.rounded-pill {
+  border-radius: 50rem !important;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+  .p-dialog {
+    width: 95vw !important;
+    margin: 0.5rem !important;
+  }
+  
+  .p-inputotp-input {
+    width: 2.5rem !important;
+    height: 3rem !important;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
 }

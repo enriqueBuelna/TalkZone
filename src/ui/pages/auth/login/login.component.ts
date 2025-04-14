@@ -37,7 +37,8 @@ export class LoginApp {
   loginForm!: FormGroup;
   passwordForm!: FormGroup;
   activeStep: number = 0;
-
+  isLoading = false;
+  loginError = '';
   constructor(
     private formBuilder: FormBuilder,
     private _authService: AuthService,
@@ -75,19 +76,34 @@ export class LoginApp {
     );
 
     if (allFieldsValid) {
+      this.loginError = ''; // Cambia el estado de error a falso
       //api prendida
+      this.isLoading = true; // Cambia el estado de carga a verdadero
       let { username, password } = this.loginForm.value;
-      this._authService.login(username, password).pipe().subscribe((response) => {
-        console.log(response);
-        this._userService.setToken(response.token);
-        this._userService.setUser(response.user);
-        if(response.user.is_banned && this._userService.getUserId() !== 'dbb9d930-e338-40c2-9162-d7a04ab685d5'){
-          this._router.navigate(['/banned']);
-        }else{
-          if(this._userService.getUserId() === 'dbb9d930-e338-40c2-9162-d7a04ab685d5'){
-            this._router.navigate(['/admin']); // Redirigir a la página de bienvenida
-          }else{
-            this._router.navigate(['/home/posts']); // Redirigir a la página de bienvenida
+      this._authService.login(username, password).pipe().subscribe({
+        next: (response) => {
+          this._userService.setToken(response.token);
+          this._userService.setUser(response.user);
+          this.isLoading = false; // Cambia el estado de carga a falso
+          if (response.user.is_banned && this._userService.getUserId() !== 'dbb9d930-e338-40c2-9162-d7a04ab685d5') {
+            this._router.navigate(['/banned']);
+          } else {
+            if (this._userService.getUserId() === 'dbb9d930-e338-40c2-9162-d7a04ab685d5') {
+              this._router.navigate(['/admin']); // Redirigir a la página de bienvenida
+            } else {
+              this._router.navigate(['/home/posts']); // Redirigir a la página de bienvenida
+            }
+          }
+        },
+        error: (error) => {
+          this.isLoading = false; // Cambia el estado de carga a falso
+          if(error.error.message === 'Credenciales inválidas') {
+            this.loginForm.get('password')?.setErrors({ invalidCredentials: true });
+            this.loginError = 'invalida'; // Cambia el estado de error a verdadero
+          }
+          if(error.error.message === 'Usuario no encontrado') {
+            this.loginError = 'no-encontrado'; // Cambia el estado de error a verdadero
+            this.loginForm.get('username')?.setErrors({ userNotFound: true });
           }
         }
       });
@@ -114,5 +130,13 @@ export class LoginApp {
 
     // Retorna true si todos los campos son válidos
     return fields.every((field) => form.get(field)?.valid);
+  }
+
+  @Output() close = new EventEmitter<void>();
+
+  modalClose = true;
+
+  closeModal() {
+    this.close.emit();
   }
 }
