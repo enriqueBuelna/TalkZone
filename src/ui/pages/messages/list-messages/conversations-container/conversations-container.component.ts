@@ -11,10 +11,13 @@ import { ConversationCService } from '../services/conversation.service';
   styleUrl: './conversations-container.component.css',
 })
 export class ConversationsContainerComponent implements OnInit {
+  isLoading = signal(true);
   myConversations = signal<Conversation[]>([]);
 
   constructor(private _conversationService: ConversationCService) {}
   ngOnInit() {
+    this.isLoading.set(true);
     this.myConversations = this._conversationService.getMyConversations();
+    this.isLoading.set(false);
   }
 }

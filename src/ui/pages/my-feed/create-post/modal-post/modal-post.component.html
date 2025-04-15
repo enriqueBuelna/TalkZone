@@ -174,11 +174,11 @@
                         <input type="file" id="imageInput" accept="image/*" (change)="onImageSelected($event)" />
                         <span class="btn-content">📷</span>
                     </label>
-                    <button class="action-btn" (click)="toggleEmojiPicker()">😊</button>
+                    <!-- <button class="action-btn" (click)="toggleEmojiPicker()">😊</button>
                     <div class="emoji-picker-container" *ngIf="showEmojiPicker">
                         <emoji-mart class="emoji-mart" set="twitter" title="Pick your emoji…"
                             (emojiSelect)="addEmoji($event)"></emoji-mart>
-                    </div>
+                    </div> -->
                 </div>
                 <button class="post-button" (click)="addPost()">
                     @if (type==='post') {

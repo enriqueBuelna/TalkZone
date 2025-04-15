@@ -17,6 +17,9 @@
 .header {
     height: 7%;
     border-bottom: 1px solid #d3d3d3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .profile-information {
@@ -27,9 +30,15 @@
 
 
 .title {
-    margin: 0;
+  margin: 0;
+  font-size: 2rem; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Negrita para destacar */
+  color: #333; /* Color oscuro para buena legibilidad */
+  text-align: center; /* Centrar el texto */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin-bottom: 1rem; /* Espaciado inferior */
+  text-align: center;
 }
-
 
 /* defectos */
 /* Estilo general para el modal */
@@ -286,4 +295,47 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card-container {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 100%;
+  /* margin: auto; */
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+
+.container-power {
+  padding: 2rem;
+}
+
+.spinner-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

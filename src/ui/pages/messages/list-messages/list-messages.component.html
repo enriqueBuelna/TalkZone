@@ -15,7 +15,7 @@
     }@else {
     <div class="search">
         <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-search"/>
+            <p-inputIcon styleClass="pi pi-search" />
             <input type="text" pInputText placeholder="Buscar compañeros" [style]='{width:"100%"}' />
         </p-iconField>
         <div class="add-message" (click)="showDialog()">
@@ -28,15 +28,25 @@
             
         </div>
     </div> -->
+    @if(isLoading){
+        <div class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+        
+    }@else {
+
     <app-conversations-container></app-conversations-container>
-    
-        <!-- Chat individual -->
-        
-    
-        
-    
-        <!-- Agrega más chats si lo necesitas -->
-        <!-- <div class="inbox-container">
+
+    }
+
+
+    <!-- Chat individual -->
+
+
+
+
+    <!-- Agrega más chats si lo necesitas -->
+    <!-- <div class="inbox-container">
             <div class="chat-item">
                 <div class="profile-pic"></div>
                 <div class="chat-info">
@@ -65,8 +75,8 @@
             </div>
         
         </div> -->
-        
-    
+
+
     }
 
 </div>

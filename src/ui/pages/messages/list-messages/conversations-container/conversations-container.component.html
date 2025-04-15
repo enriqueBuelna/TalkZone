@@ -1,6 +1,14 @@
+@if(isLoading()){
+
+<div class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Cargando...</p>
+</div>
+}@else {
 <div class="inbox-container">
     @for (conversation of myConversations(); track $index) {
-    <app-conversation [last_message]="conversation.getLastMessage()"
-        [userDemo]="conversation.getUserInfo()" [unread]="conversation.getUnreadCount()" [id]="conversation.getConversationId().toString()"></app-conversation>
+    <app-conversation [last_message]="conversation.getLastMessage()" [userDemo]="conversation.getUserInfo()"
+        [unread]="conversation.getUnreadCount()" [id]="conversation.getConversationId().toString()"></app-conversation>
     }
 </div>
+}

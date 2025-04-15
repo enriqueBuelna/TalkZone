@@ -87,7 +87,9 @@ export class ListMessagesComponent implements OnInit {
   }
 
   //
+  isLoading = true;
   ngOnInit() {
+    
     this.resposnseGetConversations$ = this._messageService.getMyConversation(
       this._userService.getUserId()
     );
@@ -95,6 +97,7 @@ export class ListMessagesComponent implements OnInit {
     this.resposnseGetConversations$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
+        this.isLoading = false;
         this._conversationService.setMyConversations(el);
         this.conversations = this._conversationService.getMyConversations();
         this.emptyBucket = this._conversationService.hasConversations();
