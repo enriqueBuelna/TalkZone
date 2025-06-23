@@ -19,6 +19,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-my-profile',
@@ -56,7 +57,8 @@ export class MyProfileComponent implements OnInit {
     private _user: UserService,
     private _userInformation: UserCompleteProfile,
     private _userPreference: UserPreferenceSignalService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _http: HttpClient,
   ) {}
 
   ngOnInit() {
@@ -67,6 +69,9 @@ export class MyProfileComponent implements OnInit {
   }
 
   loadProfileData() {
+    this._http.get('https://jsonplaceholder.typicode.com/posts').subscribe((data) => {
+      console.log(data);  
+    });
     if (
       this.userId() !== 'dbb9d930-e338-40c2-9162-d7a04ab6851a' &&
       this.userId() !== 'dbb9d930-e338-40c2-9162-d7a04ab685d5'

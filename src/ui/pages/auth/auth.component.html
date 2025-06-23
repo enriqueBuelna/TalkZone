@@ -1,23 +1,68 @@
 <div class="container-login">
+    <!-- Efectos de fondo -->
+    <div class="background-effects">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <!-- Sección del logo -->
     <div class="logo">
-        <h1 class="talk">Talk<span class="zone">Zone</span></h1>
+        <div class="logo-content">
+            <div class="brand-wrapper">
+                <h1 class="brand-title">
+                    <span class="talk">Talk</span><span class="zone">Zone</span>
+                </h1>
+                <div class="brand-accent-line"></div>
+                <p class="brand-subtitle">Conecta • Aprende • Comparte</p>
+            </div>
+
+            <div class="feature-highlights">
+                <div class="feature-item">
+                    <div class="feature-icon">💬</div>
+                    <span>Conversaciones</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎓</div>
+                    <span>Aprendizaje</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌟</div>
+                    <span>Comunidad</span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Sección de login -->
     <div class="login">
-        <div class="frase">
-            <h2>Aprende algo nuevo, <span class="block">enseña algo valioso</span></h2>
-        </div>
-        <div class="buttons">
-            <app-button buttonClass="medium-button" text="Crear cuenta" (clickEvent)="onRegister()" />
-            <app-button buttonClass="medium-button" text="Iniciar sesión" (clickEvent)="onLogin()" />
+        <div class="login-content">
+            <div class="welcome-section">
+                <div class="welcome-badge">¡Bienvenido!</div>
+                <div class="frase">
+                    <h2>Aprende algo nuevo, <span class="block">enseña algo valioso</span></h2>
+                    <p class="frase-description">Únete a nuestra comunidad de aprendizaje colaborativo</p>
+                </div>
+            </div>
+
+            <div class="buttons">
+
+                <button class="primary-button" (click)="onRegister()">
+                    Crear cuenta
+                </button>
+                <button class="secondary-button" (click)="onLogin()">
+                    Iniciar sesión
+                </button>
+            </div>
         </div>
     </div>
-    
+
     @if(register){
     <!-- <app-modal (close)="closeModal()"> -->
-        <app-register (close)="closeModal()"></app-register>
+    <app-register (close)="closeModal()"></app-register>
     <!-- </app-modal> -->
     }@else if (login) {
-        <app-login (close)="closeModal()"></app-login>
+    <app-login (close)="closeModal()"></app-login>
     }
-    
 </div>
