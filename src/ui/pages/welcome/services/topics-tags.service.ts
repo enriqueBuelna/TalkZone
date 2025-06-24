@@ -54,7 +54,6 @@ export class TopicsTagsService {
   }
 
   tagInList(tag:string){
-    console.log(tag);
     return this.tagList.find(el => el.getTagName().toLowerCase() === tag.toLowerCase())
   }
 

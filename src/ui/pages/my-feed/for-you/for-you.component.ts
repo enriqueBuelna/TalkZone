@@ -64,7 +64,6 @@ export class ForYouComponent implements OnInit {
       );
 
       this.postObservableAll.subscribe((posts) => {
-        console.log(posts.length);
         this.yetNo.set(false);
         if (posts.length > 0) {
           if(posts.length === 10){

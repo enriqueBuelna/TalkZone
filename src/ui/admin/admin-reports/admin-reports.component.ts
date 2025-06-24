@@ -93,12 +93,10 @@ export class AdminReportsComponent implements OnInit {
 
     this._adminService.getTopFiveHosts().pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: el => {
-        console.log(el);
         this.topFiveHost.set(false);
         this.topFiveHosts = el;
       }, 
       error: error => {
-        console.log(error);
       }
     })
 
@@ -108,13 +106,11 @@ export class AdminReportsComponent implements OnInit {
         this.topTags = el;
       },
       error: error => {
-        console.log(error);
       }
     })
   }
 
   generateStars(stars: number): string[] {
-    console.log(stars);
     const fullStars = Array(stars).fill('★');
     const emptyStars = Array(5 - stars).fill('☆');
     return [...fullStars, ...emptyStars];

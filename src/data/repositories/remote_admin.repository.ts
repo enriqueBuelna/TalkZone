@@ -343,7 +343,6 @@ export class RemoteAdminRepository extends AdminRepository {
       .get<ModerationReport[]>(`${this.API_URL}/moderationReports`)
       .pipe(
         map((ele: any) => {
-          console.log(ele);
           return ele.map((el: any) => {
             return new ModerationReport(
               el.id,

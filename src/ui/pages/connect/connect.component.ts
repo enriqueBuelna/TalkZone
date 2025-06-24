@@ -129,7 +129,6 @@ export class ConnectComponent implements OnInit {
   }
 
   isCorrect() {
-    console.log('chivooo');
     this.filterForm.get('topicsMentores')?.valueChanges.subscribe((value) => {
       if (value.length > 0) {
         this.isTopicsMentor.set(true);
@@ -176,7 +175,6 @@ export class ConnectComponent implements OnInit {
     this.responseMyUserPreferences$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
-        console.log(el);
         this.myUserPreference = el;
         el.forEach((ele) => {
           const topic: FilterTopic = {
@@ -223,8 +221,6 @@ export class ConnectComponent implements OnInit {
       onlyEntusiastas,
       onlyExploradores,
     } = this.filterForm.value;
-
-    console.log(topicsMentores, topicsEntusiastas, topicsExploradores);
     this.responseUserPreference$ =
       this._userPreferenceService.getUserByPreferencesFiltered(
         this._userService.getUserId(),
@@ -248,7 +244,6 @@ export class ConnectComponent implements OnInit {
   }
 
   onBlur() {
-    console.log('El campo de entrada ha perdido el foco');
     // Aquí puedes agregar la lógica de validación que necesites
   }
 
@@ -334,6 +329,5 @@ export class ConnectComponent implements OnInit {
   goToHome(){
     this.searchContent.set(false);
     this.isCorrect();
-    console.log('chivo');
   }
 }

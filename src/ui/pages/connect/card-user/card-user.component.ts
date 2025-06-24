@@ -22,7 +22,6 @@ export class CardUserComponent {
     if (!this.myPreferences || !this.userPreference?.userPreference) {
       return [];
     }
-    console.log(this.myPreferences, this.userPreference?.userPreference);
     return this.myPreferences.filter((myPref) =>
       this.userPreference.userPreference.some(
         (userPref) => userPref.getTopicName() === myPref.getTopicName()
@@ -31,6 +30,5 @@ export class CardUserComponent {
   }
   ngOnInit(): void {
     this.filteredPreferences = this.filterMatchingPreferences();
-    console.log(this.filteredPreferences);
   }
 }

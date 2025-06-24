@@ -36,7 +36,6 @@ export class DiscoverGroupsComponent {
           }else{
             this.hasMoreGroups.set(false);
           }
-          console.log("CHIVON")
           if (this.myGroups.length > 0) {
             this.yetNo.set(false);
             el.forEach((ele) => {
@@ -49,7 +48,6 @@ export class DiscoverGroupsComponent {
           }
         },
         error: (error) => {
-          console.log(error);
         },
       });
   }

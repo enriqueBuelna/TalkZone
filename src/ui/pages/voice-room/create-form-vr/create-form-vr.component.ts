@@ -81,7 +81,6 @@ export class CreateFormVRComponent {
       if (form) {
         this.progressBar.set(true);
         let { name, topic_id, type } = this.formCreateGroup.value;
-        console.log(topic_id);
         this._voiceRoomService
           .createVoiceRoom(
             name,

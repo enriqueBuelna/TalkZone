@@ -70,7 +70,6 @@ export class MyProfileComponent implements OnInit {
 
   loadProfileData() {
     this._http.get('https://jsonplaceholder.typicode.com/posts').subscribe((data) => {
-      console.log(data);  
     });
     if (
       this.userId() !== 'dbb9d930-e338-40c2-9162-d7a04ab6851a' &&

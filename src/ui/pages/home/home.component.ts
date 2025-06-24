@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     // this.googleGeminiPro.initialize('AIzaSyDrFMvd5Z1TFrXLnzZ8uX_NctKsUtGaFko');
   }
   ngOnInit(): void {
-    console.log(this._authService.whatType());
     this._notificationService
       .getCantNotifications(this._authService.getUserId())
       .pipe(takeUntilDestroyed(this._destroyRef))

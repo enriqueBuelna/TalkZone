@@ -79,10 +79,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
       let numero = resultado[1];
       this.number = numero;
       this.yeah.set(true);
-      console.log(this.content, this.yeah());
     } else {
       this.yeah.set(false);
-      console.log(this.content, this.yeah());
     }
   }
 
@@ -121,7 +119,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
       let reported_user_id = this.senderId;
       let reporter_id = this._userService.getUserId();
       let post_id = this.id;
-      console.log(post_id, reported_user_id, reporter_id);
       this._messageService
         .reportMessage(reason, details, reported_user_id, reporter_id, post_id)
         .pipe(takeUntilDestroyed(this._destroyRef))

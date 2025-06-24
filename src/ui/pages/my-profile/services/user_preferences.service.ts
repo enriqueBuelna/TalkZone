@@ -35,7 +35,6 @@ export class UserPreferenceSignalService {
 }
 
   verifyNotExist(id: number) {
-    console.log(id);
     return this.userPreferences().some((el) => el.getTopicId() === id);
   }
 

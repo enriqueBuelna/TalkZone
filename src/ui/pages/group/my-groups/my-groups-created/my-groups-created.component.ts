@@ -22,23 +22,19 @@ export class MyGroupsCreatedComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log(this.option());
     if (this.option() == 1) {
-      console.log('RATA');
       this._groupService
         .getMyGroupsCreated(this._userService.getUserId())
         .subscribe((el) => {
           this.myGroups = el;
         });
     } else if (this.option() == 2) {
-      console.log('rata_de_sercho');
       this._groupService
         .getGroupsFollowed(this._userService.getUserId())
         .subscribe((el) => {
           this.myGroups = el;
         });
     } else if (this.option() == 3) {
-      console.log("YOOOOOOOOODDDDOOOO BIEN")
       this._groupService
         .getPendingGroups(this._userService.getUserId())
         .subscribe((el) => {

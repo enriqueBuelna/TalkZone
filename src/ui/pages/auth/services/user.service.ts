@@ -43,7 +43,6 @@ export class UserService {
     const token = this.getToken();
     if (token) {
       const decodedToken: any = jwtDecode(token);
-      console.log(decodedToken);
       if (decodedToken.is_banned) {
         return true;
       }
@@ -100,7 +99,6 @@ export class UserService {
       const decodedToken: any = jwtDecode(token);
       this.user_id = decodedToken.id;
     } else {
-      console.log('hola');
     }
   }
 

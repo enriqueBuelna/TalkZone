@@ -38,7 +38,6 @@ export class MessagesContainerComponent implements OnInit {
 
   ngOnInit() {
     this._voiceRoomSocket.getNewMessage().pipe(takeUntilDestroyed(this._destroyRef)).subscribe((el) => {
-      console.log('mensaje recibido', el);
       let aux = {
         from: el.from,
         message: el.message,

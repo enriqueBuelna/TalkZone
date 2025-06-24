@@ -22,7 +22,7 @@ export class GoogleGeminiProService {
     maxOutputTokens: 100, // limit output
   };
 
-  readonly #API_KEY = 'AIzaSyDrFMvd5Z1TFrXLnzZ8uX_NctKsUtGaFko';
+  readonly #API_KEY = 'AIzaSyC8m9LnYgvF3sQ6yDTfqyyqX7M4UKTimvM';
   readonly #genAI = new GoogleGenerativeAI(this.#API_KEY);
   readonly #model = this.#genAI.getGenerativeModel({
     model: 'gemini-2.0-flash',
@@ -49,7 +49,6 @@ export class GoogleGeminiProService {
   }
 
   async verifyIfQuestionsRight(topic: string, text: string): Promise<string> {
-    console.log(topic, text);
     let prompt = `Tengo este texto: ${text}. Debe estar relacionado con este tema: ${topic} y además tiene que ser específicamente algo relacionado con preguntas y respuestas. Si cumple con estas condiciones, responde únicamente con 'sí'. Si no cumple, responde únicamente con 'no'.`;
 
     try {
@@ -57,7 +56,6 @@ export class GoogleGeminiProService {
         model: 'gemini-2.0-flash',
         contents: [prompt],
       });
-      console.log(response.candidates?.[0]?.content?.parts?.[0]?.text);
       return response.candidates?.[0]?.content?.parts?.[0]?.text ?? 'No';
     } catch (error) {
       console.error(error);

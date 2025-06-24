@@ -135,13 +135,11 @@ export class ModalUserPreferencesComponent {
         chosenTopic.topic_name,
         this._TopicTagsService.getTagAdded()
       );
-      console.log(userPreference)
       this.activeStep.set(3);
 
       this._remoteUserPreferenceService
         .addUserPreferences(this._userService.getUserId(), userPreference)
         .subscribe((el) => {
-          console.log(el);
           this._userPreferencesSignal.createUserPreference(
             el.getId(),
             el.getTopicId(),

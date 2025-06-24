@@ -1,0 +1,16 @@
+.margin-top-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mt {
+    margin-top: 1rem;
+}

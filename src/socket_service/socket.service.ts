@@ -39,7 +39,6 @@ export class SocketService {
   disconnect(): void {
     if (this.socket) {
       this.socket.disconnect();
-      console.log('Socket desconectado');
       this.socket = null as any; // Limpia la referencia
     }
   }
@@ -47,7 +46,6 @@ export class SocketService {
   //modificacion
   connect(): void {
     if (!this.socket) {
-      console.log('Conectando al servidor Socket.IO');
       this.socket = io('https://api-talkzone.onrender.com', {
         // Opciones para evitar conexiones duplicadas
         autoConnect: true,
@@ -56,7 +54,6 @@ export class SocketService {
 
       // Manejar reconexiones manualmente si es necesario
       this.socket.on('disconnect', () => {
-        console.log('Desconectado. Intentando reconectar...');
         // this.connect(); // Opcional: reactivar si se desea reconexión
       });
     }

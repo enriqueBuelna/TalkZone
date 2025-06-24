@@ -21,7 +21,7 @@ export class RemoteMessageRepository extends MessageRepository {
       reporter_id,
       message_id,
     };
-    console.log(message_id);
+    (message_id);
     return this._http.post<boolean>(
       `${this.API_URL}/reportMessage`,
       payload

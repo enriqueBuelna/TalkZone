@@ -205,7 +205,6 @@ export class RemoteUserRepository extends UserRepository {
 
   getBasicInfo(user_id: string): Observable<UserDemo> {
     const params = new HttpParams().set('user_id', user_id.toString());
-    console.log('user_id', user_id);
     return this._http
       .get<UserDemo>(`${this.API_URL}/getBasicInfo`, { params })
       .pipe(
@@ -233,7 +232,7 @@ export class RemoteUserRepository extends UserRepository {
       .get<UserComplete>(`${this.API_URL}/getCompleteProfile`, { params })
       .pipe(
         map((user: any) => {
-          console.log(user);
+          (user);
           return new UserComplete(
             new UserDemo(
               user.id,

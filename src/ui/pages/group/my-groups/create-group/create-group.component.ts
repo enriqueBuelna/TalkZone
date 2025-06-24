@@ -63,7 +63,6 @@ export class CreateGroupComponent implements OnInit {
       if (type === 'other') {
         type = 'entusiasta';
       }
-      console.log(type);
       let privacyB = privacy === 'public' ? false : true;
       this._comunitieService
         .createGroup(

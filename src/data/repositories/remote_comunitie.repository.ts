@@ -25,7 +25,6 @@ export class RemoteComunitieRepository extends CommunitieRepository {
           if (!Array.isArray(groups) || groups.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }
-          console.log(groups);
           return groups.map(
             (group: any) =>
               new GroupPresentation(
@@ -209,7 +208,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
           if (!Array.isArray(groups) || groups.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }
-          console.log(groups);
+          (groups);
           return groups.map(
             (group: any) =>
               new GroupPresentation(
@@ -241,7 +240,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
           if (!Array.isArray(groups) || groups.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }
-          console.log(groups);
+          (groups);
           return groups.map(
             (group: any) =>
               new GroupPresentation(
@@ -266,7 +265,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
       })
       .pipe(
         map((group: any) => {
-          console.log(group);
+          (group);
           return new GroupComplete(
             group.id,
             group.status,
@@ -333,7 +332,7 @@ export class RemoteComunitieRepository extends CommunitieRepository {
       .pipe(
         map((groups: any[]) => {
           // Verifica si conversations es un array vacío
-          console.log(groups);
+          (groups);
           if (!Array.isArray(groups) || groups.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }

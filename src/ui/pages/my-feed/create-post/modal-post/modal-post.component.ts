@@ -141,10 +141,6 @@ export class ModalPostComponent implements OnInit {
     });
 
     if (this.postContent) {
-      // console.log(this.postContent.getPrivacy());
-      // this.formPost.patchValue({
-
-      // });
 
       let option = {
         name: '',
@@ -278,7 +274,6 @@ export class ModalPostComponent implements OnInit {
               const normalizedResponse = response.trim().toLowerCase();
               if (validResponses.includes(normalizedResponse)) {
                 this._postService.newPost(payload).subscribe((el) => {
-                  console.log(el);
                   this.submitEnter.set(false);
                   this._postCService.addNewPost(el);
                   this.onClick();
@@ -443,10 +438,7 @@ export class ModalPostComponent implements OnInit {
   }
   message = '';
   addEmoji(event: any) {
-    console.log(this.message);
     const { message } = this;
-    console.log(message);
-    console.log(`${event.emoji.native}`);
     const text = `${message}${event.emoji.native}`;
 
     this.message = text;

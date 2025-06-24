@@ -107,7 +107,6 @@ export class ListMessagesComponent implements OnInit {
   filterUsers(event: AutoCompleteCompleteEvent) {
     let filtered: any[] = [];
     let query = event.query;
-    console.log(this.followersFollowed);
     let userList = this.followersFollowed.map((user) => ({
       id: user.id,
       username: user.username,
@@ -146,6 +145,5 @@ export class ListMessagesComponent implements OnInit {
   }
 
   verCosas() {
-    console.log(this.emptyBucket());
   }
 }

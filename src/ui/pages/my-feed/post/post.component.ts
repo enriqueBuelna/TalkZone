@@ -58,7 +58,6 @@ export class PostComponent implements OnInit {
   }
 
   giveComment() {
-    console.log('LIKE');
   }
 
   goProfile() {

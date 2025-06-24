@@ -69,7 +69,6 @@ export class ModerationReportsComponent implements OnInit {
           this.applyFilters();
         },
         error: (error) => {
-          console.log(error);
         },
       });
   }
@@ -132,7 +131,6 @@ export class ModerationReportsComponent implements OnInit {
         next: (el) => {
           if (el.length === 2) {
             this.messageRead.set(true);
-            console.log(el[0]);
             this.contentRemove.set(true);
             this.publicationReported = el[0];
             this.publicationReported
@@ -149,7 +147,6 @@ export class ModerationReportsComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.log(error);
         },
       });
   }

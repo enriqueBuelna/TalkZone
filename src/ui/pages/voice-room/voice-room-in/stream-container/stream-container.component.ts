@@ -90,7 +90,6 @@ export class StreamContainerComponent implements OnInit, OnDestroy {
           this.closeVoiceRoom
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((el) => {
-              console.log(el);
               this._router.navigate(['home/voice_room']);
             });
           this._voiceRoomSocket.leaveRoom(
@@ -185,7 +184,6 @@ export class StreamContainerComponent implements OnInit, OnDestroy {
       this.closeVoiceRoom
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((el) => {
-          console.log(el);
           this._router.navigate(['home/voice_room']);
         });
       this._voiceRoomSocket.leaveRoom(
@@ -201,7 +199,6 @@ export class StreamContainerComponent implements OnInit, OnDestroy {
       );
       this._voiceRoomSocket.amWent().pipe(takeUntilDestroyed(this._destroyRef)).subscribe((el) => {
         if (el) {
-          console.log("CHIVOOO");
           this.showModalRating.set(el);
         } else {
           this._router.navigate(['home/voice_room']);
@@ -222,7 +219,6 @@ export class StreamContainerComponent implements OnInit, OnDestroy {
       this._userService.getUserId(),
       this.roomLog
     );
-    console.log('chivo');
   }
 
   ngOnDestroy() {}

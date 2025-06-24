@@ -45,8 +45,6 @@ export class UserComplete {
   }
 
   getAux() {
-    console.log(this.followers);
-    console.log(this.following);
   }
 
   getUserDemo() {

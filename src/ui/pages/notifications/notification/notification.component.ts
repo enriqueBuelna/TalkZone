@@ -16,7 +16,6 @@ export class NotificationComponent {
 
   goToRoot() {
     if (this.notification.getFollower()) {
-      console.log("chivo")
       this._router.navigate(['home','profile', this.notification.getFollower()]);
     }
     if (this.notification.getVoiceRoom()) {

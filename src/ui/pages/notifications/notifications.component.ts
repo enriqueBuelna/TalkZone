@@ -36,7 +36,6 @@ export class NotificationsComponent implements OnInit {
     this._notificationService
       .getAllMyNotifications(this._userService.getUserId())
       .subscribe((el) => {
-        console.log(el);
         this.allNotifications = el;
         this.notifications = el;
         this.read();
@@ -49,11 +48,9 @@ export class NotificationsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (el) => {
-          console.log('soy chivo');
           this._notService.setUnreadNotifications(0);
         },
         error: (error) => {
-          console.log(error);
         },
       });
   }

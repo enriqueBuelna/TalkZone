@@ -14,7 +14,7 @@ import { UserInVoiceRoom } from '../../domain/models/user_in_voice_room.model';
 export class RemoteVoiceRoomRepository extends VoiceRoomRepository {
 
   override inviteMessage(sender_id: string, receiver_id: string, room_id: string): Observable<any> {
-    console.log(sender_id, receiver_id, room_id)
+    
     const payload = {
       sender_id, 
       receiver_id,

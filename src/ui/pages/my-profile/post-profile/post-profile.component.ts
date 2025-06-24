@@ -69,7 +69,6 @@ export class PostProfileComponent {
       );
 
       this.postObservableAll.subscribe((posts) => {
-        console.log(posts);
         this.yetNo.set(false);
         if (posts.length === 10) {
           this.hasMorePosts = true;

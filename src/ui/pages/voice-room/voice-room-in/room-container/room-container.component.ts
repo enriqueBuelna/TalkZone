@@ -114,10 +114,8 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
 
             if (isOpen !== 'deleted') {
               if (isOpen !== 'closed') {
-                console.log('AJIEH');
                 this.initializeVoiceRoom(roomId);
               } else {
-                console.log('ESTO ESTA CERRADO');
                 this.voiceRoomClosedModal.set(true);
               }
             } else {
@@ -303,7 +301,6 @@ export class RoomContainerComponent implements OnInit, OnDestroy {
   filterUsers(event: AutoCompleteCompleteEvent) {
     let filtered: any[] = [];
     let query = event.query;
-    console.log(this.followersFollowed);
     let userList = this.followersFollowed.map((user) => ({
       id: user.id,
       username: user.username,

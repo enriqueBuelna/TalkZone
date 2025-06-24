@@ -246,7 +246,6 @@ export class EditPreferencesComponent {
   }
 
   ngOnDestroy() {
-    console.log('HOLAAAAAAA');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -258,11 +257,9 @@ export class EditPreferencesComponent {
 
   userPreferenceEdit!: UserPreference;
   editPreference(userPreference: UserPreference | null) {
-    console.log(userPreference);
     if (userPreference) {
       if (userPreference.getTags()) {
         userPreference.getTags()?.forEach((el) => {
-          console.log(el);
           this._TopicTagsService.addTagAdded(el);
         });
       }
@@ -286,7 +283,6 @@ export class EditPreferencesComponent {
     let filtered: Tag[] = [];
     let query = event.query;
     let tagList = this._TopicTagsService.getTagList();
-    console.log(tagList);
     for (let i = 0; i < tagList.length; i++) {
       let tag = tagList[i];
       if (tag.getTagName().toLowerCase().indexOf(query.toLowerCase()) == 0) {
@@ -312,7 +308,6 @@ export class EditPreferencesComponent {
       if (tag != '' && tag != null) {
         if (!existingTag && !(tag instanceof Object)) {
           //aqui es que no este
-          console.log(topicId);
           let newTag: Tag = new Tag(tag, 0, topicId);
           this.responseAddTag$ = this._tagService.addTag(newTag);
           this.responseAddTag$
@@ -384,6 +379,5 @@ export class EditPreferencesComponent {
     if (idEliminated?.getId() !== 0) {
       this.tagsEliminated.push(idEliminated?.getId() || 0);
     }
-    console.log(this.tagsEliminated);
   }
 }

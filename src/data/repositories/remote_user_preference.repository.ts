@@ -189,7 +189,6 @@ export class RemoteUserPreferenceRespository extends UserPreferenceRepository {
       tags: userPreferences.getTags(),
     };
 
-    console.log(userPreferences.getType());
 
     return this._http
       .post<UserPreference>(`${this.API_URL}preferences`, payload)

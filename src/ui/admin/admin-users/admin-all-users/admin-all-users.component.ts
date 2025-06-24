@@ -40,7 +40,6 @@ export class AdminAllUsersComponent implements OnInit {
             this.users = el;
           },
           error: (err) => {
-            console.log(err);
           },
         });
     } else {
@@ -53,7 +52,6 @@ export class AdminAllUsersComponent implements OnInit {
             this.users = el;
           },
           error: (err) => {
-            console.log(err);
           },
         });
     }

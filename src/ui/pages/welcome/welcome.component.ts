@@ -114,7 +114,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this._userService.isProfileComplete());
     if (this._userService.isProfileComplete()) {
       this._router.navigate(['home', 'posts']);
     } else {
@@ -207,12 +206,6 @@ export class WelcomeComponent implements OnInit {
     } else if (this.activeStep() === 2) {
       let { firstTopic, secondTopic } = this.formTopics.value;
       const chosenTopic = secondTopic || firstTopic;
-      console.log(
-        chosenTopic.id,
-        this._TopicTagsService.getTagAdded(),
-        this.type,
-        chosenTopic.topic_name
-      );
       this._UserPreferenceService.createUserPreference(
         0,
         chosenTopic.id,
@@ -243,10 +236,8 @@ export class WelcomeComponent implements OnInit {
     let filtered: Tag[] = [];
     let query = event.query;
     let tagList = this._TopicTagsService.getTagList();
-    console.log(tagList);
     for (let i = 0; i < tagList.length; i++) {
       let tag = tagList[i];
-      console.log(tag.getTagName());
       if (tag.getTagName().toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(tag);
       }
@@ -267,11 +258,9 @@ export class WelcomeComponent implements OnInit {
       if (!(tag instanceof Object) && tag != '' && tag != null) {
         existingTag = this._TopicTagsService.findTag(tag);
       }
-      console.log(tag);
       if (tag != '' && tag != null) {
         if (!existingTag && !(tag instanceof Object)) {
           //aqui es que no este
-          console.log(topicId);
           let newTag: Tag = new Tag(tag, 0, topicId);
           this.responseAddTag$ = this._tagService.addTag(newTag);
           this.responseAddTag$

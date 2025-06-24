@@ -55,7 +55,7 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
-            console.log(post);
+            (post);
             return new Post(
               post.id,
               new UserDemo(
@@ -166,7 +166,7 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
-            console.log(post);
+            (post);
             return new Post(
               post.id,
               new UserDemo(
@@ -224,7 +224,7 @@ export class RemotePostRespository extends PostRepository {
             return []; // Devuelve un array vacío si no hay publicaciones
           }
           return posts.map((post) => {
-            console.log(post);
+            (post);
             return new Post(
               post.id,
               new UserDemo(
@@ -276,7 +276,7 @@ export class RemotePostRespository extends PostRepository {
       .post<Post>(`${this.API_URL}/posts/newPost`, infoPost)
       .pipe(
         map((post: any) => {
-          console.log(post);
+          (post);
           return new Post(
             post.id,
             new UserDemo(
@@ -377,7 +377,7 @@ export class RemotePostRespository extends PostRepository {
       .get<any>(`${this.API_URL}/posts/getPostById`, { params })
       .pipe(
         map((post) => {
-          console.log(post);
+          (post);
           return new Post(
             post.id,
             new UserDemo(

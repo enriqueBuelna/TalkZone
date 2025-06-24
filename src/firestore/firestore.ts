@@ -18,16 +18,15 @@ interface FirebaseConfig {
   measurementId?: string; // measurementId es opcional
 }
 
-// Tu configuración de Firebase
-const firebaseConfig = {
-  apiKey: 'AIzaSyDwkhwJW0W63BLCik72IRqAL9EOhIsmoko',
-  authDomain: 'fir-df1ec.firebaseapp.com',
-  projectId: 'fir-df1ec',
-  storageBucket: 'fir-df1ec.appspot.com',
-  messagingSenderId: '775054586512',
-  appId: '1:775054586512:web:cf8bc09020c2f184a95e15',
-};
 
+const firebaseConfig = {
+  apiKey: 'AIzaSyCK7zVWPLge96q_bkh1gvPJJNqeCnqslfE',
+  authDomain: 'carrito-compras-1367a.firebaseapp.com',
+  projectId: 'carrito-compras-1367a',
+  storageBucket: 'carrito-compras-1367a.appspot.com',
+  messagingSenderId: '1094106728627',
+  appId: '1:1094106728627:web:9855e103bb9b178c2648c6',
+};
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 

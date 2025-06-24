@@ -217,7 +217,6 @@ export class ModalPostGroupComponent implements OnInit {
 
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const previewUrl = e.target?.result as string;
-        console.log('Vista previa de la imagen:', previewUrl); // Para mostrar una previsualización si lo deseas
       };
 
       reader.readAsDataURL(file); // Convierte el archivo a Base64 para la previsualización (opcional)
@@ -244,7 +243,6 @@ export class ModalPostGroupComponent implements OnInit {
   responseApply(option: string, id: string) {
     const roomId = this._route.snapshot.paramMap.get('id') ?? '';
     this._communityService.responseApply(id, roomId, option).subscribe((el) => {
-      console.log(el, 'hola');
       this.applyGroups.set(
         this.applyGroups().filter((el) => el.getUserDemo().getUserId() !== id)
       );

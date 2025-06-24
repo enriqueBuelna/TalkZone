@@ -122,13 +122,11 @@ export class VoiceRoomComponent implements OnInit {
 
   filterApply() {
     let { all_topics, type } = this.filterForm.value;
-    console.log(all_topics, type);
     if (all_topics.length > 0 || type.length > 0) {
       let auxTopicId, auxType;
       if (all_topics.length > 0) {
         auxTopicId = all_topics.map((el: any) => el.topic_id);
       }
-      console.log(auxTopicId);
       const payload = {
         topicsId: auxTopicId,
         type,
@@ -143,7 +141,6 @@ export class VoiceRoomComponent implements OnInit {
       this.responseAllVoiceRoom$
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((el) => {
-          console.log(el);
           this.yetNo.set(false);
           this.allVoiceRooms = el;
           if (this.allVoiceRooms.length === 0) {
@@ -160,7 +157,6 @@ export class VoiceRoomComponent implements OnInit {
 
   loadMoreVr() {
     this.page.update((el) => el + 1);
-    console.log(this.page());
     this.loadVr();
   }
 
@@ -174,7 +170,6 @@ export class VoiceRoomComponent implements OnInit {
     this.responseAllVoiceRoom$
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((el) => {
-        console.log(el);
         this.yetNo.set(false);
         if (el.length === 10) {
           this.hasMoreVr.set(true);

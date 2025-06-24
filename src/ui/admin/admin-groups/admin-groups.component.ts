@@ -144,12 +144,10 @@ export class AdminGroupsComponent {
   ngOnInit() {
     this.checkRoute();
     this._adminService.getMostPopular().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
-      console.log(el);
       this.mostPopularSpiner.set(false);
       this.mostPopular = el;
     })
     this._adminService.getAllGroups().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(el => {
-      console.log(el);
       this.allGroups = el;
       this.filteredCommunities = this.allGroups;
     })

@@ -63,7 +63,6 @@ export class CallService {
 
     // Verifica si ya estamos conectados
     if (this.rtc.client.localUid) {
-      console.log('Ya estás conectado');
       return; // Ya estamos conectados, no hacemos nada
     }
 
@@ -89,9 +88,7 @@ export class CallService {
 
   toggleAudio(micOn: boolean) {
     if (micOn) {
-      console.log('Se prendio');
     } else {
-      console.log('Se apago');
     }
     this.rtc.localAudioTrack.setEnabled(micOn);
   }

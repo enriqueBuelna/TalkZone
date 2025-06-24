@@ -113,7 +113,6 @@ export class RegisterApp {
         .register(user)
         .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((response) => {
-          console.log(response);
           this._userService.setToken(response.token);
           this._userService.setUser(response.user);
           if (
@@ -188,9 +187,6 @@ export class RegisterApp {
           });
       } else {
         //OCUPARIA NOTIFICAR AL SIGUEINTE WEY
-        console.log(
-          'Por favor, completa todos los campos obligatorios del primer paso.'
-        );
       }
     } else if (this.activeStep === 1) {
       const secondStepFields = ['code'];

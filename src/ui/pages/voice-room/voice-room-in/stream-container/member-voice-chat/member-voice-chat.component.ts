@@ -33,7 +33,6 @@ export class MemberVoiceChatComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("chivonnnnnn")
   }
 
   muteUser() {

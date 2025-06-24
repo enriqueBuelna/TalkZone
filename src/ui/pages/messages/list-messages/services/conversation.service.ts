@@ -23,7 +23,6 @@ export class ConversationCService {
 
   addNewConversation(conversation: Conversation) {
     this.myConversations.update((el) => [...el, conversation]); //aqui va cambiar
-    console.log(this.myConversations);
     if (this.emptyBucket()) {
       this.emptyBucket.set(false);
     }

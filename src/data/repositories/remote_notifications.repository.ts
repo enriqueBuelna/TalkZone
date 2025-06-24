@@ -28,7 +28,7 @@ export class RemoteNotificationRepository extends NotificationRepository {
       .pipe(
         map((notifications: any[]) => {
           // Verifica si conversations es un array vacío
-          console.log(notifications);
+          (notifications);
           if (!Array.isArray(notifications) || notifications.length === 0) {
             return []; // Devuelve un array vacío si no hay conversaciones
           }

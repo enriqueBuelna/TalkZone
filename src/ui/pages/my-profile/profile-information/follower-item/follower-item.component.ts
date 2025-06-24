@@ -58,7 +58,6 @@ export class FollowerItemComponent implements OnDestroy, OnInit {
       this._followerService
         .followUser(this._userService.getUserId(), this.follower.getUserId())
         .subscribe((el) => {
-          console.log(el);
           this.text = 'Dejar de seguir';
         });
     }

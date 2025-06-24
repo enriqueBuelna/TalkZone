@@ -109,7 +109,6 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.group.getStatus());
     this.profilePhotoPreview = this.group.getProfilePicture();
     this.coverPhotoPreview = this.group.getCoverPicture();
     this.formEditProfile = this._formBuilder.group({
@@ -189,7 +188,6 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    console.log('HOLAAAAAAA');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -212,7 +210,6 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       userPreference.forEach((el) => {
         this._TopicTagsService.addTagAdded(el);
       });
-      console.log('HOLA', this.group.getTopicId());
       this.responseTags$ = this._tagService.getAllTag(
         parseInt(this.group.getTopicId())
       );
@@ -234,7 +231,6 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
     let filtered: Tag[] = [];
     let query = event.query;
     let tagList = this._TopicTagsService.getTagList();
-    console.log(tagList);
     for (let i = 0; i < tagList.length; i++) {
       let tag = tagList[i];
       if (tag.getTagName().toLowerCase().indexOf(query.toLowerCase()) == 0) {
@@ -260,7 +256,6 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
       if (tag != '' && tag != null) {
         if (!existingTag && !(tag instanceof Object)) {
           //aqui es que no este
-          console.log(topicId);
           let newTag: Tag = new Tag(tag, 0, topicId);
           this.responseAddTag$ = this._tagService.addTag(newTag);
           this.responseAddTag$
@@ -332,7 +327,6 @@ export class EditProfileGroupComponent implements OnInit, OnDestroy, OnChanges {
     if (idEliminated?.getId() !== 0) {
       this.tagsEliminated.push(idEliminated?.getId() || 0);
     }
-    console.log(this.tagsEliminated);
   }
 
   closeModal() {
